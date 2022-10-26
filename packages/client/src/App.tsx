@@ -14,6 +14,7 @@ import { Forum } from './pages/Forum'
 import { GameStart } from './pages/GameDesk/GameStart'
 import { GameDesk } from './pages/GameDesk'
 import { GameResult } from './pages/GameDesk/GameResult'
+import { AppRoute } from './typings'
 import './App.css'
 
 function App() {
@@ -32,20 +33,22 @@ function App() {
     <div className="App">
       <Header />
       <Routes>
-        <Route path="/" element={<About />} />
-        <Route path="signin" element={<SignIn />} />
-        <Route path="signup" element={<SignUp />} />
-        <Route path="briefing" element={<Briefing />} />
-        <Route path="home" element={<Home />} />
-        <Route path="upgrade" element={<Upgrade />} />
-        <Route path="deck" element={<Deck />} />
-        <Route path="leaderboard" element={<LeaderBoard />} />
-        <Route path="forum" element={<Forum />} />
+        <Route path={AppRoute.Index} element={<About />} />
+        <Route path={AppRoute.SignIn} element={<SignIn />} />
+        <Route path={AppRoute.SignUp} element={<SignUp />} />
+        <Route path={AppRoute.Briefing} element={<Briefing />} />
+        <Route path={AppRoute.Home} element={<Home />} />
+        <Route path={AppRoute.Upgrade} element={<Upgrade />} />
+        <Route path={AppRoute.Deck} element={<Deck />} />
+        <Route path={AppRoute.Leaderboard} element={<LeaderBoard />} />
+        <Route path={AppRoute.Forum} element={<Forum />} />
 
-        <Route path="game">
-          <Route path="start" element={<GameStart />} />
-          <Route path=":gameId" element={<GameDesk />} />
-          <Route path="result/:gameId" element={<GameResult />} />
+        <Route path={AppRoute.Game}>
+          <Route path={AppRoute.StartGame} element={<GameStart />} />
+          <Route path={AppRoute.GameId} element={<GameDesk />} />
+          <Route path={AppRoute.ResultGame}>
+            <Route path={AppRoute.GameId} element={<GameResult />} />
+          </Route>
         </Route>
 
         <Route path="*" element={<Error404 />} />

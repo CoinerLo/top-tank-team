@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { AppRoute } from '../../typings'
 import './header.css'
 
 export const Header = () => {
@@ -7,27 +8,27 @@ export const Header = () => {
   const navigate = useNavigate()
 
   const toGoGame = () => {
-    navigate(`game/${gameId}`)
+    navigate(`${AppRoute.Game}/${gameId}`)
   }
 
   const goOutGame = () => {
-    navigate(`game/result/${gameId}`)
+    navigate(`${AppRoute.Game}/${AppRoute.ResultGame}/${gameId}`)
   }
 
   return (
-    <div className="header">
+    <header className="header">
       <nav className="header_nav">
-        <Link to="signin">Вход</Link>
-        <Link to="signup">Регистрация</Link>
+        <Link to={AppRoute.SignIn}>Вход</Link>
+        <Link to={AppRoute.SignUp}>Регистрация</Link>
 
-        <Link to="/">Главная</Link>
-        <Link to="briefing">Правила</Link>
-        <Link to="home">Личное дело</Link>
-        <Link to="upgrade">Исследования</Link>
-        <Link to="deck">Мой отряд</Link>
-        <Link to="leaderboard">Лучшие из лучших</Link>
-        <Link to="forum">Форум</Link>
-        <Link to="game/start">В бой</Link>
+        <Link to={AppRoute.Index}>Главная</Link>
+        <Link to={AppRoute.Briefing}>Правила</Link>
+        <Link to={AppRoute.Home}>Личное дело</Link>
+        <Link to={AppRoute.Upgrade}>Исследования</Link>
+        <Link to={AppRoute.Deck}>Мой отряд</Link>
+        <Link to={AppRoute.Leaderboard}>Лучшие из лучших</Link>
+        <Link to={AppRoute.Forum}>Форум</Link>
+        <Link to={`${AppRoute.Game}/${AppRoute.StartGame}`}>В бой</Link>
       </nav>
       <div>
         <input
@@ -39,6 +40,6 @@ export const Header = () => {
         <button onClick={toGoGame}>go</button>
         <button onClick={goOutGame}>esc</button>
       </div>
-    </div>
+    </header>
   )
 }
