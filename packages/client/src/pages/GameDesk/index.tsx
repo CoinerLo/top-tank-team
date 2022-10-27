@@ -1,8 +1,3 @@
-
 export const GameDesk = () => {
-  return (
-    <div>
-      This is GameDesk!
-    </div>
-  )
+  return <div>This is GameDesk!</div>
 }
