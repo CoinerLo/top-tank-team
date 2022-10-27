@@ -1,4 +1,7 @@
 import { useEffect } from 'react'
+import CssBaseline from '@mui/material/CssBaseline'
+import ThemeProvider from '@mui/material/styles/ThemeProvider'
+import { mainTheme } from './assets/mainTheme'
 import './App.css'
 
 function App() {
@@ -12,7 +15,12 @@ function App() {
 
     fetchServerData()
   }, [])
-  return <div className="App">Вот тут будет жить ваше приложение :)</div>
+  return (
+    <ThemeProvider theme={mainTheme}>
+      <CssBaseline />
+      <div className="App">Вот тут будет жить ваше приложение :)</div>
+    </ThemeProvider>
+  )
 }
 
 export default App
