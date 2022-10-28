@@ -11,7 +11,7 @@ import {
 export const Home = () => {
   return (
     <Container
-      style={{
+      sx={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -57,7 +57,7 @@ export const Home = () => {
           </ListItem>
         </List>
       </Box>
-      <Button variant="outlined">В бой!</Button>
+      <Button variant="outlined">Зарегестрироваться</Button>
     </Container>
   )
 }

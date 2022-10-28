@@ -12,7 +12,7 @@ export enum AppRoute {
   Game = 'game',
   StartGame = 'start',
   ResultGame = 'result',
-  GameId = ':gameId'
+  GameId = ':gameId',
 }
 
 export interface UserI {
