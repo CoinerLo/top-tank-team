@@ -1,8 +1,3 @@
-
 export const SignUp = () => {
-  return (
-    <div>
-      This is leaderboard!
-    </div>
-  )
+  return <div>This is leaderboard!</div>
 }

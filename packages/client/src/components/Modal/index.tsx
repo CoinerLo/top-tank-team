@@ -1,8 +1,3 @@
-
 export const Modal = () => {
-  return (
-    <div>
-      This is Modal!
-    </div>
-  )
+  return <div>This is Modal!</div>
 }

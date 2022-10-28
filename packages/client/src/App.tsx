@@ -1,4 +1,7 @@
 import { useEffect } from 'react'
+import CssBaseline from '@mui/material/CssBaseline'
+import ThemeProvider from '@mui/material/styles/ThemeProvider'
+import { mainTheme } from './assets/mainTheme'
 import { Routes, Route } from 'react-router-dom'
 import { Header } from './components/Header'
 import { About } from './pages/About'
@@ -30,30 +33,33 @@ function App() {
   }, [])
 
   return (
-    <div className="App">
-      <Header />
-      <Routes>
-        <Route path={AppRoute.Index} element={<About />} />
-        <Route path={AppRoute.SignIn} element={<SignIn />} />
-        <Route path={AppRoute.SignUp} element={<SignUp />} />
-        <Route path={AppRoute.Briefing} element={<Briefing />} />
-        <Route path={AppRoute.Home} element={<Home />} />
-        <Route path={AppRoute.Upgrade} element={<Upgrade />} />
-        <Route path={AppRoute.Deck} element={<Deck />} />
-        <Route path={AppRoute.Leaderboard} element={<LeaderBoard />} />
-        <Route path={AppRoute.Forum} element={<Forum />} />
+    <ThemeProvider theme={mainTheme}>
+      <CssBaseline />
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route path={AppRoute.Index} element={<About />} />
+          <Route path={AppRoute.SignIn} element={<SignIn />} />
+          <Route path={AppRoute.SignUp} element={<SignUp />} />
+          <Route path={AppRoute.Briefing} element={<Briefing />} />
+          <Route path={AppRoute.Home} element={<Home />} />
+          <Route path={AppRoute.Upgrade} element={<Upgrade />} />
+          <Route path={AppRoute.Deck} element={<Deck />} />
+          <Route path={AppRoute.Leaderboard} element={<LeaderBoard />} />
+          <Route path={AppRoute.Forum} element={<Forum />} />
 
-        <Route path={AppRoute.Game}>
-          <Route path={AppRoute.StartGame} element={<GameStart />} />
-          <Route path={AppRoute.GameId} element={<GameDesk />} />
-          <Route path={AppRoute.ResultGame}>
-            <Route path={AppRoute.GameId} element={<GameResult />} />
+          <Route path={AppRoute.Game}>
+            <Route path={AppRoute.StartGame} element={<GameStart />} />
+            <Route path={AppRoute.GameId} element={<GameDesk />} />
+            <Route path={AppRoute.ResultGame}>
+              <Route path={AppRoute.GameId} element={<GameResult />} />
+            </Route>
           </Route>
-        </Route>
 
-        <Route path="*" element={<Error404 />} />
-      </Routes>
-    </div>
+          <Route path="*" element={<Error404 />} />
+        </Routes>
+      </div>
+    </ThemeProvider>
   )
 }
 
