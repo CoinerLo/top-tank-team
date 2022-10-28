@@ -1,0 +1,11 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+}
+
+.header_nav {
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
+}
