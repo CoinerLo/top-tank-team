@@ -1,8 +1,3 @@
-
 export const Forum = () => {
-  return (
-    <div>
-      This is forum!
-    </div>
-  )
+  return <div>This is forum!</div>
 }

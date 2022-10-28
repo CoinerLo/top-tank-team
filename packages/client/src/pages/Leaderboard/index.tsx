@@ -1,8 +1,3 @@
-
 export const LeaderBoard = () => {
-  return (
-    <div>
-      This is leaderboard!
-    </div>
-  )
+  return <div>This is leaderboard!</div>
 }

@@ -12,16 +12,16 @@ export enum AppRoute {
   Game = 'game',
   StartGame = 'start',
   ResultGame = 'result',
-  GameId = ':gameId'
+  GameId = ':gameId',
 }
 
 export interface UserI {
-  id: number;
-  first_name: string;
-  second_name: string;
-  display_name: string;
-  login: string;
-  email: string;
-  phone: string;
-  avatar: string | null;
+  id: number
+  first_name: string
+  second_name: string
+  display_name: string
+  login: string
+  email: string
+  phone: string
+  avatar: string | null
 }
