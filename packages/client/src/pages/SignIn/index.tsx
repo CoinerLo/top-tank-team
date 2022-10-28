@@ -1,75 +1,87 @@
-import { SubmitHandler, useForm } from 'react-hook-form'
-import './signIn.scss' 
-
-export interface ISignInData {
-  login: string
-  password: string
-}
+import { Box, Button, Container, TextField, Typography } from '@mui/material'
+import {
+  Controller,
+  SubmitHandler,
+  useForm,
+  useFormState,
+} from 'react-hook-form'
+import { NavLink } from 'react-router-dom'
+import { ISignInData } from '../../typings'
+import { loginValidation, passwordValidation } from './validation'
 
 export const SignIn = () => {
+  const { handleSubmit, control } = useForm<ISignInData>()
+  const { errors } = useFormState({
+    control,
+  })
 
-  const title = 'Вход'
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<ISignInData>()
-
-  const onSubmit: SubmitHandler<ISignInData> = data => {
-    console.log(data)
-    reset()
-  }
+  const onSubmit: SubmitHandler<ISignInData> = data => console.log(data)
 
   return (
-      <form className='ya-form' onSubmit={handleSubmit(onSubmit)}>
-        <div className='ya-form__container ya-form__container_shadow'>
-          <div className="ya-form__title">
-            {title}
-          </div>
-          <div className="ya-form__fields">
-            <div className=" ya-form__field ya-field">
-              <input 
-                className='ya-field__input'
-                id='idInput'
-                {...register('login', {
-                  required: 'Это обязательное поле',
-                  pattern: {
-                    value: /^(?=.*[a-z])[a-zA-Z0-9_-]{3,20}$/,
-                    message:
-                      'Логин должен содержать от 3 до 20 символов, латиница, может содержать цифры, но не состоять из них, без пробелов, без спецсимволов (допустимы дефис и нижнее подчеркивание',
-                  },
-                })}
-                type="text"
+    <>
+      <Container>
+        <Typography variant="h4">Вход</Typography>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+            control={control}
+            name="login"
+            rules={loginValidation}
+            render={({ field }) => (
+              <TextField
+                label="Логин"
+                onChange={e => field.onChange(e)}
+                value={field.value}
+                fullWidth={true}
+                size="small"
+                margin="normal"
+                className="auth-form__input"
+                error={!!errors.login?.message}
+                helperText={errors?.login?.message}
               />
-              <label className='ya-field__label' htmlFor='idInput'>
-                Логин
-              </label>
-              {errors?.login && (
-                <div className='ya-field__error'>{errors.login.message}</div>
-              )}
-            </div>
-            <div className="ya-field ya-form__field">
-              <input className='ya-field__input'
-                {...register('password', {
-                  required: 'Это обязательное поле',
-                })}
+            )}
+          />
+          <Controller
+            control={control}
+            name="password"
+            rules={passwordValidation}
+            render={({ field }) => (
+              <TextField
+                label="Пароль"
+                onChange={e => field.onChange(e)}
+                value={field.value}
+                fullWidth={true}
+                size="small"
+                margin="normal"
                 type="password"
+                className="auth-form__input"
+                error={!!errors?.password?.message}
+                helperText={errors?.password?.message}
               />
-              <label className='ya-field__label' htmlFor='idInput'>
-                Пароль
-              </label>
-              {errors?.password && (
-                <div className='ya-field__error'>{errors.password.message}</div>
-              )}
-            </div>
-          </div>
-          <div className='ya-form__footer'>
-            <button className='ya-btn ya-btn_main ya-form__btn'>Войти</button>
-            <button className='ya-btn ya-form__btn'>Регистрация</button>
-          </div>
-        </div>
-      </form>
+            )}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth={true}
+            disableElevation={true}
+            sx={{
+              marginTop: 2,
+            }}>
+            Войти
+          </Button>
+        </form>
+        <Box>
+          <Typography variant="subtitle1" component="span">
+            Нету аккаунта?{' '}
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            component="span"
+            sx={{ color: 'blue' }}>
+            <NavLink to="/signup">Зарегистрируйтесь</NavLink>
+          </Typography>
+        </Box>
+      </Container>
+    </>
   )
 }

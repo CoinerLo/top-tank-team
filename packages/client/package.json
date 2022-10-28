@@ -37,7 +37,6 @@
     "lefthook": "1.1.1",
     "prettier": "2.7.1",
     "react-hook-form": "7.38.0",
-    "sass": "1.55.0",
     "ts-jest": "29.0.3",
     "typescript": "4.8.2",
     "vite": "3.0.7"

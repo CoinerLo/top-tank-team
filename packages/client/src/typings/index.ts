@@ -25,3 +25,8 @@ export interface UserI {
   phone: string
   avatar: string | null
 }
+
+export interface ISignInData {
+  login: string
+  password: string
+}
