@@ -1,8 +1,7 @@
+import { useParams } from 'react-router-dom'
 
 export const GameResult = () => {
-  return (
-    <div>
-      This is GameResult!
-    </div>
-  )
+  const params = useParams()
+
+  return <div>This is GameResult! Number {params.gameId}</div>
 }
