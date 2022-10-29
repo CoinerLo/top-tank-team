@@ -1,21 +1,4 @@
-export enum AppRoute {
-  Index = '/',
-  SignIn = 'signin',
-  SignUp = 'signup',
-  Briefing = 'briefing',
-  Home = 'home',
-  Upgrade = 'upgrade',
-  Deck = 'deck',
-  Leaderboard = 'leaderboard',
-  Forum = 'forum',
-  Error4 = 'error404',
-  Game = 'game',
-  StartGame = 'start',
-  ResultGame = 'result',
-  GameId = ':gameId',
-}
-
-export interface UserI {
+export interface IUser {
   id: number
   first_name: string
   second_name: string
@@ -24,4 +7,9 @@ export interface UserI {
   email: string
   phone: string
   avatar: string | null
+}
+
+export interface ISignInData {
+  login: string
+  password: string
 }

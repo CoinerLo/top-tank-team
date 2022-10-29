@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { AppRoute } from '../../typings'
+import { AppRoute } from '../../utils/consts'
 import './header.css'
 
 export const Header = () => {

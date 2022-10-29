@@ -17,7 +17,7 @@ import { Forum } from './pages/Forum'
 import { GameStart } from './pages/GameDesk/GameStart'
 import { GameDesk } from './pages/GameDesk'
 import { GameResult } from './pages/GameDesk/GameResult'
-import { AppRoute } from './typings'
+import { AppRoute } from './utils/consts'
 import './App.css'
 
 function App() {
