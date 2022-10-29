@@ -1,4 +1,4 @@
-import { RegExpValidation, RequiredField } from "./consts"
+import { RegExpValidation, RequiredField } from './consts'
 
 export const loginValidation = {
   required: RequiredField.Default,

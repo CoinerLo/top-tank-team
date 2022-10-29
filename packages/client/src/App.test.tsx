@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 const appContent = 'Главная'
 
+// eslint-disable-next-line
 // @ts-ignore
 global.fetch = jest.fn(() =>
   Promise.resolve({ json: () => Promise.resolve('hey') })
