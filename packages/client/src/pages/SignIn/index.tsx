@@ -18,7 +18,6 @@ export const SignIn = () => {
   const onSubmit: SubmitHandler<ISignInData> = data => console.log(data)
 
   return (
-    <>
       <Container>
         <Typography variant="h4">Вход</Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -62,8 +61,8 @@ export const SignIn = () => {
           <Button
             type="submit"
             variant="contained"
-            fullWidth={true}
-            disableElevation={true}
+            fullWidth
+            disableElevation
             sx={{
               marginTop: 2,
             }}>
@@ -82,6 +81,5 @@ export const SignIn = () => {
           </Typography>
         </Box>
       </Container>
-    </>
   )
 }
