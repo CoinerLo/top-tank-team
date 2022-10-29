@@ -7,7 +7,7 @@ import {
 } from 'react-hook-form'
 import { NavLink } from 'react-router-dom'
 import { ISignInData } from '../../typings'
-import { loginValidation, passwordValidation } from './validation'
+import { loginValidation, passwordValidation } from '../../utils/validation'
 
 export const SignIn = () => {
   const { handleSubmit, control } = useForm<ISignInData>()
