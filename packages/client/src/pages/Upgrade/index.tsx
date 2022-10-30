@@ -1,3 +1,5 @@
+import { Container } from '@mui/material'
+
 export const Upgrade = () => {
-  return <div>This is Upgrade!</div>
+  return <Container disableGutters>This is Upgrade!</Container>
 }

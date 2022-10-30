@@ -19,13 +19,13 @@ export const MuiButton = {
       padding: '3px 16px',
     },
     primary: {
-      color: '#FFFFFF',
+      color: '#eae3cc',
       backgroundColor: '#00B956',
       ':hover': {
         backgroundColor: '#10A064',
       },
       [`&.${buttonClasses.disabled}`]: {
-        color: '#FFFFFF',
+        color: '#eae3cc',
         backgroundColor: '#9DA6B0',
       },
       [`& .${buttonClasses.endIcon}`]: {
@@ -34,15 +34,18 @@ export const MuiButton = {
       },
     },
     secondary: {
-      color: '#10A064',
-      backgroundColor: '#EDFCF4',
+      color: '#eae3cc',
+      backgroundColor: '#CB7007',
       ':hover': {
-        backgroundColor: '#CBF2DE',
+        backgroundColor: '#E8AA00',
       },
       [`&.${buttonClasses.disabled}`]: {
-        color: '#9DA6B0',
-        backgroundColor: '#F6F6F6',
+        backgroundColor: '#974201',
       },
+    },
+    sub: {
+      color: '#eae3cc',
+      backgroundColor: '#584C34',
     },
     cancel: {
       color: '#333333',
@@ -63,5 +66,6 @@ declare module '@mui/material/Button' {
     secondary: true
     primary: true
     cancel: true
+    sub: true
   }
 }
