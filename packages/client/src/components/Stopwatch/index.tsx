@@ -4,11 +4,26 @@ import { useStopwatch } from 'react-timer-hook'
 interface MyStopwatchProps {
   title: string
   subTitle: string
+  runningMsg: Array<string>
+  BtnStart?: [boolean, string]
+  BtnPause?: [boolean, string]
+  BtnReset?: [boolean, string]
 }
 
-export const MyStopwatch: FC<MyStopwatchProps> = ({ title, subTitle }) => {
+export const MyStopwatch: FC<MyStopwatchProps> = ({
+  title,
+  subTitle,
+  runningMsg,
+  BtnStart = [false, 'Start'],
+  BtnPause = [false, 'Pause'],
+  BtnReset = [false, 'Reset'],
+}) => {
   const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
     useStopwatch({ autoStart: true })
+
+  const [isBtnStart, BtnStartTxt] = BtnStart
+  const [isBtnPause, BtnPauseTxt] = BtnPause
+  const [isBtnReset, BtnResetTxt] = BtnReset
 
   return (
     <>
@@ -19,15 +34,17 @@ export const MyStopwatch: FC<MyStopwatchProps> = ({ title, subTitle }) => {
           <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:
           <span>{seconds}</span>
         </div>
-        <p>{isRunning ? 'Идет поиск' : 'Поиск прерван'}</p>
-        <button onClick={start}>Start</button>
-        <button onClick={pause}>Pause</button>
-        <button
-          onClick={() => {
-            reset()
-          }}>
-          Reset
-        </button>
+        <p>{isRunning ? runningMsg[0] : runningMsg[1]}</p>
+        {isBtnStart && <button onClick={start}>{BtnStartTxt}</button>}
+        {isBtnPause && <button onClick={pause}>{BtnPauseTxt}</button>}
+        {isBtnReset && (
+          <button
+            onClick={() => {
+              reset()
+            }}>
+            {BtnResetTxt}
+          </button>
+        )}
       </div>
     </>
   )
