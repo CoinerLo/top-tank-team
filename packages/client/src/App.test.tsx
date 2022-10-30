@@ -1,8 +1,7 @@
-import App from './App'
 import { render, screen } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
+import { About } from './pages/About'
 
-const appContent = 'Главная'
+const appContent = 'This is about!'
 
 // eslint-disable-next-line
 // @ts-ignore
@@ -11,10 +10,6 @@ global.fetch = jest.fn(() =>
 )
 
 test('Example test', async () => {
-  render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  )
+  render(<About />)
   expect(screen.getByText(appContent)).toBeDefined()
 })
