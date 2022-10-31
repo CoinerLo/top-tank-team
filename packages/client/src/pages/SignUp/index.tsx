@@ -4,7 +4,15 @@ import {
   SubmitHandler,
   useFormState,
 } from 'react-hook-form'
-import { Typography, Button, Container, TextField } from '@mui/material'
+import {
+  Typography,
+  Button,
+  Container,
+  TextField,
+  FormControl,
+  Box,
+  Link,
+} from '@mui/material'
 import { NavLink } from 'react-router-dom'
 import {
   loginValidation,
@@ -15,6 +23,7 @@ import {
   phoneValidation,
 } from '../../utils/validation'
 import { ISingUpForm } from '../../typings'
+import { AppRoute } from '../../utils/consts'
 
 export const SignUp = () => {
   const { handleSubmit, reset, control } = useForm<ISingUpForm>({
@@ -40,16 +49,27 @@ export const SignUp = () => {
   }
 
   return (
-    <Container maxWidth="sm">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Typography variant="h4" align="center">
-          Регистрация
-        </Typography>
+    <Container
+      disableGutters
+      sx={{
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <Typography
+        variant="h4"
+        sx={{ alignSelf: 'center', marginBottom: '25px' }}>
+        Регистрация
+      </Typography>
 
+      <FormControl
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{ width: '30ch' }}>
         <Controller
           control={control}
-          rules={firstNameValidation}
           name="first_name"
+          rules={firstNameValidation}
           render={({ field }) => (
             <TextField
               label="Имя"
@@ -166,19 +186,26 @@ export const SignUp = () => {
             />
           )}
         />
-
         <Button
           type="submit"
-          variant={'contained'}
+          variant={'sub'}
+          fullWidth
+          disableElevation
           disabled={!isValid}
-          sx={{ mt: '10px' }}>
+          sx={{
+            alignSelf: 'center',
+            marginTop: '1rem',
+          }}>
           Зарегистрироваться
         </Button>
-
-        <Typography variant="subtitle1" component="span" sx={{ ml: '10px' }}>
-          <NavLink to="/signin">Войти</NavLink>
+      </FormControl>
+      <Box sx={{ mt: '10px' }}>
+        <Typography variant="subtitle1" component="span">
+          <Link component={NavLink} to={`/${AppRoute.SignIn}`}>
+            Войти
+          </Link>
         </Typography>
-      </form>
+      </Box>
     </Container>
   )
 }
