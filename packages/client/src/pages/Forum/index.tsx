@@ -1,3 +1,5 @@
+import { Container } from '@mui/material'
+
 export const Forum = () => {
-  return <div>This is forum!</div>
+  return <Container disableGutters>This is forum!</Container>
 }

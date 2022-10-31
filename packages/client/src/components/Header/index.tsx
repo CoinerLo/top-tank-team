@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppRoute } from '../../utils/consts'
-import './header.css'
+import { Box, Container, Link as MuiLink } from '@mui/material'
 
 export const Header = () => {
   const [gameId, setGameId] = useState('0')
@@ -16,20 +16,48 @@ export const Header = () => {
   }
 
   return (
-    <header className="header">
-      <nav className="header_nav">
-        <Link to={AppRoute.SignIn}>Вход</Link>
-        <Link to={AppRoute.SignUp}>Регистрация</Link>
+    <Container
+      maxWidth="xl"
+      component="header"
+      sx={{
+        position: 'absolute',
+        display: 'flex',
+        justifyContent: 'space-between',
+        paddingY: '7px',
+        backgroundColor: '#000',
+      }}>
+      <Box
+        component="nav"
+        sx={{ display: 'flex', flex: 1, justifyContent: 'space-around' }}>
+        <MuiLink component={Link} to={AppRoute.SignIn}>
+          Вход
+        </MuiLink>
+        <MuiLink component={Link} to={AppRoute.SignUp}>
+          Регистрация
+        </MuiLink>
 
-        <Link to={AppRoute.Index}>Главная</Link>
-        <Link to={AppRoute.Briefing}>Правила</Link>
-        <Link to={AppRoute.Home}>Личное дело</Link>
-        <Link to={AppRoute.Upgrade}>Исследования</Link>
-        <Link to={AppRoute.Deck}>Мой отряд</Link>
-        <Link to={AppRoute.Leaderboard}>Лучшие из лучших</Link>
-        <Link to={AppRoute.Forum}>Форум</Link>
-        <Link to={`${AppRoute.Game}/${AppRoute.StartGame}`}>В бой</Link>
-      </nav>
+        <MuiLink component={Link} to={AppRoute.Index}>
+          Главная
+        </MuiLink>
+        <MuiLink component={Link} to={AppRoute.Briefing}>
+          Правила
+        </MuiLink>
+        <MuiLink component={Link} to={AppRoute.Headquarters}>
+          Штаб
+        </MuiLink>
+        <MuiLink component={Link} to={AppRoute.Upgrade}>
+          Исследования
+        </MuiLink>
+        <MuiLink component={Link} to={AppRoute.Deck}>
+          Мой отряд
+        </MuiLink>
+        <MuiLink component={Link} to={AppRoute.Leaderboard}>
+          Лучшие из лучших
+        </MuiLink>
+        <MuiLink component={Link} to={AppRoute.Forum}>
+          Форум
+        </MuiLink>
+      </Box>
       <div>
         <input
           type="text"
@@ -40,6 +68,6 @@ export const Header = () => {
         <button onClick={toGoGame}>go</button>
         <button onClick={goOutGame}>esc</button>
       </div>
-    </header>
+    </Container>
   )
 }

@@ -1,3 +1,5 @@
+import { Container } from '@mui/material'
+
 export const GameStart = () => {
-  return <div>This is GameStart!</div>
+  return <Container disableGutters>This is GameStart!</Container>
 }
