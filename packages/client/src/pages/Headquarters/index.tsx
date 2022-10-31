@@ -37,15 +37,7 @@ const styles = {
   mainBtn: {
     marginX: '40px',
     padding: '20px 80px',
-    borderRadius: '5px',
-    textTransform: 'uppercase',
     fontSize: '2rem',
-    letterSpacing: '0.1px',
-  },
-  subBtn: {
-    padding: '15px 25px',
-    borderRadius: '5px',
-    textTransform: 'uppercase',
   },
 }
 
@@ -78,16 +70,13 @@ export const Headquarters = () => {
         </div>
       </Box>
       <Box sx={{}}>
-        <Button onClick={navigateToDeck} variant="sub" sx={styles.subBtn}>
+        <Button onClick={navigateToDeck} variant="sub">
           Редактировать
         </Button>
         <Button onClick={startGame} variant="secondary" sx={styles.mainBtn}>
           В бой!
         </Button>
-        <Button
-          onClick={navigateToUpgradeRoom}
-          variant="sub"
-          sx={styles.subBtn}>
+        <Button onClick={navigateToUpgradeRoom} variant="sub">
           Исследования
         </Button>
       </Box>

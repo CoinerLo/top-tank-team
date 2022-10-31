@@ -3,15 +3,15 @@ import { buttonClasses } from '@mui/material/Button'
 export const MuiButton = {
   styleOverrides: {
     root: {
-      fontSize: '16px',
+      fontSize: '1rem',
       fontWeight: 700,
       fontStyle: 'normal',
-      lineHeight: '20px',
+      lineHeight: '1.25rem',
       width: 'max-content',
-      padding: '10px 16px',
+      padding: '15px 25px',
       boxShadow: 'none',
-      textTransform: 'none',
-      borderRadius: '20px',
+      borderRadius: '4px',
+      letterSpacing: '0.1px',
     },
     sizeSmall: {
       fontSize: '14px',
@@ -19,13 +19,13 @@ export const MuiButton = {
       padding: '3px 16px',
     },
     primary: {
-      color: '#eae3cc',
+      color: '#EAE3CC',
       backgroundColor: '#00B956',
       ':hover': {
         backgroundColor: '#10A064',
       },
       [`&.${buttonClasses.disabled}`]: {
-        color: '#eae3cc',
+        color: '#EAE3CC',
         backgroundColor: '#9DA6B0',
       },
       [`& .${buttonClasses.endIcon}`]: {
@@ -34,7 +34,7 @@ export const MuiButton = {
       },
     },
     secondary: {
-      color: '#eae3cc',
+      color: '#EAE3CC',
       backgroundColor: '#CB7007',
       ':hover': {
         backgroundColor: '#E8AA00',
@@ -44,7 +44,7 @@ export const MuiButton = {
       },
     },
     sub: {
-      color: '#eae3cc',
+      color: '#EAE3CC',
       backgroundColor: '#584C34',
     },
     cancel: {
