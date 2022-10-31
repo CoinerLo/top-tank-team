@@ -1,3 +1,5 @@
+import { Container } from '@mui/material'
+
 export const Briefing = () => {
-  return <div>This is Briefing!</div>
+  return <Container disableGutters>This is Briefing!</Container>
 }

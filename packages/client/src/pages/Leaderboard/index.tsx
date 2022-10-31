@@ -1,3 +1,5 @@
+import { Container } from '@mui/material'
+
 export const LeaderBoard = () => {
-  return <div>This is leaderboard!</div>
+  return <Container disableGutters>This is leaderboard!</Container>
 }

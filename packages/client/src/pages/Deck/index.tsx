@@ -1,3 +1,5 @@
+import { Container } from '@mui/material'
+
 export const Deck = () => {
-  return <div>This is Deck!</div>
+  return <Container disableGutters>This is Deck!</Container>
 }

@@ -1,6 +1,7 @@
 import { Button, Typography } from '@mui/material'
 import { textAlign } from '@mui/system'
 import { MyStopwatch } from '../../../components/Stopwatch'
+import { Container } from '@mui/material'
 
 export const GameStart = () => {
   const time = new Date()
@@ -9,7 +10,7 @@ export const GameStart = () => {
   const helpInfo = 'В затянувшемся бою следите за временем!'
 
   return (
-    <>
+    <Container disableGutters>
       <Typography variant="h6" sx={{ textAlign: 'center' }}>
         Случайный бой
       </Typography>
@@ -22,6 +23,6 @@ export const GameStart = () => {
       <Typography variant="h6" sx={{ textAlign: 'center' }}>
         {helpInfo}
       </Typography>
-    </>
+    </Container>
   )
 }

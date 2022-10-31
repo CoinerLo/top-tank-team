@@ -1,4 +1,12 @@
-import { Box, Button, Container, TextField, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  Link,
+  TextField,
+  Typography,
+} from '@mui/material'
 import {
   Controller,
   SubmitHandler,
@@ -7,6 +15,7 @@ import {
 } from 'react-hook-form'
 import { NavLink } from 'react-router-dom'
 import { ISignInData } from '../../typings'
+import { AppRoute } from '../../utils/consts'
 import { loginValidation, passwordValidation } from '../../utils/validation'
 
 export const SignIn = () => {
@@ -18,9 +27,19 @@ export const SignIn = () => {
   const onSubmit: SubmitHandler<ISignInData> = data => console.log(data)
 
   return (
-    <Container>
-      <Typography variant="h4">Вход</Typography>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <Container
+      disableGutters
+      sx={{
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <Typography
+        variant="h4"
+        sx={{ alignSelf: 'center', marginBottom: '25px' }}>
+        Вход
+      </Typography>
+      <FormControl onSubmit={handleSubmit(onSubmit)}>
         <Controller
           control={control}
           name="login"
@@ -60,21 +79,24 @@ export const SignIn = () => {
         />
         <Button
           type="submit"
-          variant="contained"
+          variant="sub"
           fullWidth
           disableElevation
           sx={{
-            marginTop: 2,
+            alignSelf: 'center',
+            marginTop: '1rem',
           }}>
           Войти
         </Button>
-      </form>
+      </FormControl>
       <Box>
         <Typography variant="subtitle1" component="span">
           Нету аккаунта?{' '}
         </Typography>
         <Typography variant="subtitle1" component="span" sx={{ color: 'blue' }}>
-          <NavLink to="/signup">Зарегистрируйтесь</NavLink>
+          <Link component={NavLink} to={`/${AppRoute.SignUp}`}>
+            Зарегистрируйтесь
+          </Link>
         </Typography>
       </Box>
     </Container>

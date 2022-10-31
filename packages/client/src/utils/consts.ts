@@ -3,7 +3,7 @@ export enum AppRoute {
   SignIn = 'signin',
   SignUp = 'signup',
   Briefing = 'briefing',
-  Home = 'home',
+  Headquarters = 'headquarters',
   Upgrade = 'upgrade',
   Deck = 'deck',
   Leaderboard = 'leaderboard',
