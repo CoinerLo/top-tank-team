@@ -1,7 +1,12 @@
+import { Container } from '@mui/material'
 import { useParams } from 'react-router-dom'
 
 export const GameResult = () => {
   const params = useParams()
 
-  return <div>This is GameResult! Number {params.gameId}</div>
+  return (
+    <Container disableGutters>
+      This is GameResult! Number {params.gameId}
+    </Container>
+  )
 }

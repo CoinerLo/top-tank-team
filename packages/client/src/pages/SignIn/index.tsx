@@ -1,4 +1,12 @@
-import { Box, Button, Container, TextField, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Container,
+  TextField,
+  Typography,
+  FormControl,
+  Link,
+} from '@mui/material'
 import {
   Controller,
   SubmitHandler,
@@ -8,10 +16,14 @@ import {
 import { NavLink, useNavigate } from 'react-router-dom'
 import AuthController from '../../controllers/AuthController'
 import { ISignInData } from '../../typings'
+import { AppRoute } from '../../utils/consts'
 import { loginValidation, passwordValidation } from '../../utils/validation'
 
 export const SignIn = () => {
-  const { handleSubmit, control } = useForm<ISignInData>()
+  const { handleSubmit, control } = useForm<ISignInData>({
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+  })
   const { errors } = useFormState({
     control,
   })
@@ -26,9 +38,22 @@ export const SignIn = () => {
   }
 
   return (
-    <Container>
-      <Typography variant="h4">Вход</Typography>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <Container
+      disableGutters
+      sx={{
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <Typography
+        variant="h4"
+        sx={{ alignSelf: 'center', marginBottom: '25px' }}>
+        Вход
+      </Typography>
+      <FormControl
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{ width: '30ch' }}>
         <Controller
           control={control}
           name="login"
@@ -37,6 +62,7 @@ export const SignIn = () => {
             <TextField
               label="Логин"
               onChange={e => field.onChange(e)}
+              onBlur={() => field.onBlur()}
               value={field.value}
               fullWidth={true}
               size="small"
@@ -55,6 +81,7 @@ export const SignIn = () => {
             <TextField
               label="Пароль"
               onChange={e => field.onChange(e)}
+              onBlur={() => field.onBlur()}
               value={field.value}
               fullWidth={true}
               size="small"
@@ -68,21 +95,24 @@ export const SignIn = () => {
         />
         <Button
           type="submit"
-          variant="contained"
+          variant="sub"
           fullWidth
           disableElevation
           sx={{
-            marginTop: 2,
+            alignSelf: 'center',
+            marginTop: '1rem',
           }}>
           Войти
         </Button>
-      </form>
-      <Box>
+      </FormControl>
+      <Box sx={{ mt: '10px' }}>
         <Typography variant="subtitle1" component="span">
           Нету аккаунта?{' '}
         </Typography>
-        <Typography variant="subtitle1" component="span" sx={{ color: 'blue' }}>
-          <NavLink to="/signup">Зарегистрируйтесь</NavLink>
+        <Typography variant="subtitle1" component="span">
+          <Link component={NavLink} to={`/${AppRoute.SignUp}`}>
+            Зарегистрируйтесь
+          </Link>
         </Typography>
       </Box>
     </Container>

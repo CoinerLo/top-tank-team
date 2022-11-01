@@ -1,7 +1,12 @@
+import { Container } from '@mui/material'
 import { useParams } from 'react-router-dom'
 
 export const GameDesk = () => {
   const params = useParams()
 
-  return <div>This is GameDesk! Number {params.gameId}</div>
+  return (
+    <Container disableGutters>
+      This is GameDesk! Number {params.gameId}
+    </Container>
+  )
 }

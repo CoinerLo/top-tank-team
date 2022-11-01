@@ -1,75 +1,79 @@
 import { createTheme, Theme, ThemeOptions } from '@mui/material/styles'
+import { MuiContainer } from './components/MuiContainer'
 import { MuiButton } from './components/MuiButton'
+import { MuiLink } from './components/MuiLink'
+import { MuiTextField } from './components/MuiTextField'
 
 export const mainTheme: Theme = createTheme(<ThemeOptions>{
   palette: {
-    primary: {
-      darkest: '#0A824F',
-      dark: '#10A064',
-      main: '#00B956',
-      light: '#CBF2DE',
-      lightest: '#EDFCF4',
-    },
-    secondary: {
-      dark: '#6D736D',
-      main: '#6C6C6C',
-      light: '#9DA6B0',
-      lightest: '#F6F6F6',
-    },
-    customGray: {
-      gray1: '#EDEDED',
-      gray2: '#AFAFAF',
-    },
-    error: {
-      main: '#F62434',
-      light: '#FFE6E7',
-    },
-    success: {
-      main: '#00B956',
-      light: '#EDFCF4',
-    },
-    warning: {
-      main: '#FFA717',
-      light: '#FFF8EC',
-    },
-    info: {
-      main: '#1991AB',
-      light: '#E5F2FF',
-    },
-    common: {
-      black: '#000000',
-      white: '#FFFFFF',
+    type: 'dark',
+    background: {
+      default: '#24252A',
+      paper: '#545358',
     },
     text: {
-      primary: '#333333',
-      secondary: '#6C6C6C',
+      primary: '#EAE3CC',
+      secondary: 'rgba(255,255,255,0.8)',
+    },
+    primary: {
+      main: '#373936',
+      dark: '#2A2A2A',
+      light: '#313330',
+    },
+    secondary: {
+      main: '#CB7007',
+      light: '#E8AA00',
+      dark: '#974201',
+    },
+    info: {
+      main: '#ED6204',
+      light: '#FFAC37',
+      dark: '#D44502',
+    },
+    error: {
+      main: '#FF020A',
+    },
+    success: {
+      main: '#64CB3E',
+      dark: '#334D0C',
+    },
+    warning: {
+      main: '#584C34',
+      light: '#7D7056',
+      dark: '#37301B',
     },
   },
+
   typography: {
     h1: {
-      fontSize: '24px',
+      fontSize: '1.5rem',
       fontStyle: 'normal',
       fontWeight: 800,
-      lineHeight: '28px',
-      color: '#333333',
+      lineHeight: 1.167,
     },
     h2: {
-      fontSize: '20px',
+      fontSize: '1.25rem',
       fontStyle: 'normal',
       fontWeight: 700,
-      lineHeight: '24px',
-      color: '#333333',
+      lineHeight: 1.2,
     },
     h3: {
-      fontSize: '12px',
+      fontSize: '1.125rem',
       fontStyle: 'normal',
-      fontWeight: 700,
-      lineHeight: '20px',
-      color: '#6C6C6C',
+      fontWeight: 600,
+      lineHeight: 1.2,
+    },
+    body1: {
+      fontWeight: 500,
+      lineHeight: 1.25,
+      color: '#eae3cc',
     },
   },
   // Global style overrides
   components: {
+    MuiContainer,
     MuiButton,
+    MuiLink,
+    MuiTextField,
   },
 })
