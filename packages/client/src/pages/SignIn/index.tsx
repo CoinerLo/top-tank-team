@@ -2,10 +2,10 @@ import {
   Box,
   Button,
   Container,
-  FormControl,
-  Link,
   TextField,
   Typography,
+  FormControl,
+  Link,
 } from '@mui/material'
 import {
   Controller,
@@ -19,7 +19,10 @@ import { AppRoute } from '../../utils/consts'
 import { loginValidation, passwordValidation } from '../../utils/validation'
 
 export const SignIn = () => {
-  const { handleSubmit, control } = useForm<ISignInData>()
+  const { handleSubmit, control } = useForm<ISignInData>({
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+  })
   const { errors } = useFormState({
     control,
   })
@@ -39,7 +42,10 @@ export const SignIn = () => {
         sx={{ alignSelf: 'center', marginBottom: '25px' }}>
         Вход
       </Typography>
-      <FormControl onSubmit={handleSubmit(onSubmit)}>
+      <FormControl
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{ width: '30ch' }}>
         <Controller
           control={control}
           name="login"
@@ -48,6 +54,7 @@ export const SignIn = () => {
             <TextField
               label="Логин"
               onChange={e => field.onChange(e)}
+              onBlur={() => field.onBlur()}
               value={field.value}
               fullWidth={true}
               size="small"
@@ -66,6 +73,7 @@ export const SignIn = () => {
             <TextField
               label="Пароль"
               onChange={e => field.onChange(e)}
+              onBlur={() => field.onBlur()}
               value={field.value}
               fullWidth={true}
               size="small"
@@ -89,11 +97,11 @@ export const SignIn = () => {
           Войти
         </Button>
       </FormControl>
-      <Box>
+      <Box sx={{ mt: '10px' }}>
         <Typography variant="subtitle1" component="span">
           Нету аккаунта?{' '}
         </Typography>
-        <Typography variant="subtitle1" component="span" sx={{ color: 'blue' }}>
+        <Typography variant="subtitle1" component="span">
           <Link component={NavLink} to={`/${AppRoute.SignUp}`}>
             Зарегистрируйтесь
           </Link>
