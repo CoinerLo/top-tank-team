@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Button,
   Box,
@@ -7,6 +6,7 @@ import {
   ListItem,
   Container,
 } from '@mui/material'
+import { UserProfile } from '../../components/UserProfile/UserProfile'
 
 export const Home = () => {
   return (
@@ -34,6 +34,13 @@ export const Home = () => {
           карты танков понижают очки прочности карты штаба противника до нуля.
         </Typography>
       </Box>
+      <UserProfile
+        containerStyle={{
+          position: 'absolute',
+          bottom: '40px',
+          left: '10px',
+        }}
+      />
       <Box mb="10px" width="100%">
         <Typography variant="h2">Небольшой инструктаж по механике.</Typography>
         <Typography>
