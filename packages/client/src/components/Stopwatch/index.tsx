@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { FC } from 'react'
 import { useStopwatch } from 'react-timer-hook'
 
@@ -8,6 +9,7 @@ interface MyStopwatchProps {
   BtnStart?: [boolean, string]
   BtnPause?: [boolean, string]
   BtnReset?: [boolean, string]
+  valReset: boolean
 }
 
 export const MyStopwatch: FC<MyStopwatchProps> = ({
@@ -17,6 +19,7 @@ export const MyStopwatch: FC<MyStopwatchProps> = ({
   BtnStart = [false, 'Start'],
   BtnPause = [false, 'Pause'],
   BtnReset = [false, 'Reset'],
+  valReset,
 }) => {
   const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
     useStopwatch({ autoStart: true })
@@ -24,6 +27,10 @@ export const MyStopwatch: FC<MyStopwatchProps> = ({
   const [isBtnStart, BtnStartTxt] = BtnStart
   const [isBtnPause, BtnPauseTxt] = BtnPause
   const [isBtnReset, BtnResetTxt] = BtnReset
+
+  useEffect(() => {
+    reset()
+  }, [valReset])
 
   return (
     <>
