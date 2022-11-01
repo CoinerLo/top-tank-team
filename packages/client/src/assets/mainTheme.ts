@@ -2,6 +2,7 @@ import { createTheme, Theme, ThemeOptions } from '@mui/material/styles'
 import { MuiContainer } from './components/MuiContainer'
 import { MuiButton } from './components/MuiButton'
 import { MuiLink } from './components/MuiLink'
+import { MuiTextField } from './components/MuiTextField'
 
 export const mainTheme: Theme = createTheme(<ThemeOptions>{
   palette: {
@@ -42,6 +43,7 @@ export const mainTheme: Theme = createTheme(<ThemeOptions>{
       dark: '#37301B',
     },
   },
+
   typography: {
     h1: {
       fontSize: '1.5rem',
@@ -72,5 +74,6 @@ export const mainTheme: Theme = createTheme(<ThemeOptions>{
     MuiContainer,
     MuiButton,
     MuiLink,
+    MuiTextField,
   },
 })
