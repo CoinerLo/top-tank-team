@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
-import { About } from './pages/About'
+import { Briefing } from './pages/Briefing'
 
-const appContent = 'This is about!'
+const appContent = 'This is Briefing!'
 
 // eslint-disable-next-line
 // @ts-ignore
@@ -10,6 +10,6 @@ global.fetch = jest.fn(() =>
 )
 
 test('Example test', async () => {
-  render(<About />)
+  render(<Briefing />)
   expect(screen.getByText(appContent)).toBeDefined()
 })

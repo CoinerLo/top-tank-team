@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ISignInData } from '../typings'
+import { ISignInData, ISingUpForm } from '../typings'
 
 export class AuthAPI {
   static API_URL = 'https://ya-praktikum.tech/api/v2/auth'
@@ -17,7 +17,7 @@ export class AuthAPI {
     })
   }
 
-  signUp(data: ISignInData): Promise<XMLHttpRequest> {
+  signUp(data: ISingUpForm): Promise<XMLHttpRequest> {
     const headers = {
       accept: 'application/json',
       'Content-Type': 'application/json',

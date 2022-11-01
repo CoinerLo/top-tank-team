@@ -1,5 +1,5 @@
 import API, { AuthAPI } from '../api/AuthAPI'
-import { ISignInData } from '../typings'
+import { ISignInData, ISingUpForm } from '../typings'
 
 export class AuthController {
   private readonly api: AuthAPI
@@ -18,14 +18,15 @@ export class AuthController {
     }
   }
 
-  // async signup(data: ISignUpData) {
-  //   try {
-  //     const response = await this.api.signUp(data);
-  //     await this.fetchUser();
-  //   } catch (e: any) {
-  //     console.error(e.message);
-  //   }
-  // }
+  async signup(data: ISingUpForm) {
+    try {
+      const response = await this.api.signUp(data)
+      await this.fetchUser()
+      return response
+    } catch (e: unknown) {
+      console.error((e as Error).message)
+    }
+  }
 
   async fetchUser() {
     let response = await this.api.read()
@@ -38,7 +39,8 @@ export class AuthController {
 
   async logout() {
     try {
-      await this.api.logout()
+      const response = await this.api.logout()
+      return response
     } catch (e: unknown) {
       console.error((e as Error).message)
     }

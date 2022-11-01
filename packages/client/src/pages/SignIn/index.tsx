@@ -33,7 +33,7 @@ export const SignIn = () => {
   const onSubmit: SubmitHandler<ISignInData> = async data => {
     const res = await AuthController.signin(data)
     if (res?.status == 200) {
-      navigate('/deck')
+      navigate('/headquarters')
     }
   }
 
