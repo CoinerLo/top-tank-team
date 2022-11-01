@@ -60,7 +60,7 @@ const styles = {
     marginBottom: '15px',
     padding: '10px 15px',
     fontSize: '0.88rem',
-  }
+  },
 }
 
 type DataGameResult = Record<string, string | number>
@@ -154,9 +154,9 @@ export const GameResult = () => {
                       {data[0][2]}
                     </TableCell>
                   </TableRow>
-                  
+
                   {data.slice(1, 3).map(formater)}
-                  
+
                   <TableRow sx={styles.row}>
                     <TableCell sx={styles.head}>{data[3][0]}</TableCell>
                     <TableCell sx={styles.head} align="center">
@@ -166,15 +166,12 @@ export const GameResult = () => {
                       {data[3][2]}
                     </TableCell>
                   </TableRow>
-                  
+
                   {data.slice(4).map(formater)}
-                
                 </TableBody>
               </Table>
             </TableContainer>
-            <Box sx={styles.rating}>
-              Рейтинг +0
-            </Box>
+            <Box sx={styles.rating}>Рейтинг +0</Box>
           </Box>
           <Button
             onClick={navigateToHeadquarters}
