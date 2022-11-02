@@ -20,10 +20,7 @@ export const MuiButton = {
     },
     primary: {
       color: '#EAE3CC',
-      backgroundColor: '#00B956',
-      ':hover': {
-        backgroundColor: '#10A064',
-      },
+      backgroundColor: '#343A43',
       [`&.${buttonClasses.disabled}`]: {
         color: '#EAE3CC',
         backgroundColor: '#9DA6B0',

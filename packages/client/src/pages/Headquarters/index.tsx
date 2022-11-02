@@ -1,5 +1,6 @@
 import { Box, Button, Container } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { SubMenu } from '../../components/SubMenu'
 import { AppRoute } from '../../utils/consts'
 
 const styles = {
@@ -18,13 +19,6 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  statistic: {
-    display: 'flex',
-    padding: '20px 80px',
-    border: '1px solid #373936',
-    borderRadius: '5px',
-    backgroundColor: '#373936',
   },
   cardCarusel: {
     width: '280px',
@@ -59,10 +53,7 @@ export const Headquarters = () => {
   return (
     <Container disableGutters sx={styles.container}>
       <Box sx={styles.avatar}>Аватар</Box>
-      <Box sx={styles.statistic}>
-        <Box marginRight="40px">монеты</Box>
-        <Box marginLeft="40px">опыт</Box>
-      </Box>
+      <SubMenu />
       <Box sx={styles.cardCarusel}>
         <div>
           Здесь будет карусель с колодами карт игрока, с дополнительной
