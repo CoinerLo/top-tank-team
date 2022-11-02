@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { PasswordTab } from './Tabs/PasswordTab'
 import { ProfileTab } from './Tabs/ProfileTab'
 import { DropZone } from '../DropZone/DropZone'
-
+import CloseIcon from '@mui/icons-material/Close'
 interface IUserAvatar {
   avatar?: string
   containerStyle?: SxProps
@@ -28,7 +28,6 @@ const modalStyle = {
 export const UserProfile = ({ avatar, containerStyle }: IUserAvatar) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isChangeAvatarOpen, setIsChangeAvatarOpen] = useState(false)
-  const { control } = useForm()
 
   const [tabIndex, setTabIndex] = useState(0)
 
@@ -54,6 +53,8 @@ export const UserProfile = ({ avatar, containerStyle }: IUserAvatar) => {
           src={avatar}
           sx={{
             cursor: 'pointer',
+            width: '70px',
+            height: '70px',
           }}
         />
         <Box>
@@ -62,7 +63,7 @@ export const UserProfile = ({ avatar, containerStyle }: IUserAvatar) => {
           </Typography>
         </Box>
       </Box>
-      <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+      <Modal disableAutoFocus open={isOpen} onClose={() => setIsOpen(false)}>
         <Box sx={modalStyle}>
           <Typography alignSelf="center" marginBottom="20px" variant="h2">
             Профиль
@@ -74,15 +75,23 @@ export const UserProfile = ({ avatar, containerStyle }: IUserAvatar) => {
               cursor: 'pointer',
               alignSelf: 'center',
               marginBottom: '10px',
+              width: '90px',
+              height: '90px',
             }}
           />
-          <Tabs variant="fullWidth" value={tabIndex} onChange={handleChangeTab}>
+          <Tabs
+            indicatorColor="secondary"
+            textColor="secondary"
+            variant="fullWidth"
+            value={tabIndex}
+            onChange={handleChangeTab}>
             <Tab label="Профиль" />
             <Tab label="Пароль" />
           </Tabs>
-          <ProfileTab tabIndex={tabIndex} index={0} control={control} />
-          <PasswordTab tabIndex={tabIndex} index={1} control={control} />
+          <ProfileTab tabIndex={tabIndex} index={0} />
+          <PasswordTab tabIndex={tabIndex} index={1} />
           <Modal
+            disableAutoFocus
             open={isChangeAvatarOpen}
             onClose={() => setIsChangeAvatarOpen(false)}>
             <Box
@@ -90,6 +99,17 @@ export const UserProfile = ({ avatar, containerStyle }: IUserAvatar) => {
                 ...modalStyle,
                 minHeight: '500px',
               }}>
+              <Typography
+                onClick={() => setIsChangeAvatarOpen(false)}
+                component="span"
+                sx={{
+                  cursor: 'pointer',
+                  position: 'absolute',
+                  right: '10px',
+                  top: '10px',
+                }}>
+                <CloseIcon />
+              </Typography>
               <Typography alignSelf="center" marginBottom="20px" variant="h3">
                 Изменение аватара
               </Typography>

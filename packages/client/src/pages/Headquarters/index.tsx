@@ -1,5 +1,6 @@
 import { Box, Button, Container } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { UserProfile } from '../../components/UserProfile/UserProfile'
 import { AppRoute } from '../../utils/consts'
 
 const styles = {
@@ -11,12 +12,6 @@ const styles = {
   avatar: {
     position: 'absolute',
     left: 0,
-    width: '150px',
-    height: '150px',
-    borderRadius: '50%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   statistic: {
@@ -58,7 +53,7 @@ export const Headquarters = () => {
 
   return (
     <Container disableGutters sx={styles.container}>
-      <Box sx={styles.avatar}>Аватар</Box>
+      <UserProfile containerStyle={styles.avatar} />
       <Box sx={styles.statistic}>
         <Box marginRight="40px">монеты</Box>
         <Box marginLeft="40px">опыт</Box>
