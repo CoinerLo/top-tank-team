@@ -10,10 +10,8 @@ import { TabPanel } from '../../TabPanel/TabPanel'
 import {
   emailValidation,
   loginValidation,
-  passwordValidation,
   phoneValidation,
 } from '../../../utils/validation'
-import { RequiredField } from '../../../utils/consts'
 
 interface IChangeDataForm {
   login: string
@@ -118,6 +116,7 @@ export const ProfileTab = ({ tabIndex, index }: IProfileTab) => {
           variant="contained"
           type="submit"
           disableElevation
+          disabled={!isValid && isEditProfileMode}
           onClick={e => {
             if (isEditProfileMode) {
               setIsEditProfileMode(!isEditProfileMode)

@@ -1,6 +1,5 @@
 import Avatar from '@mui/material/Avatar'
 import { Box, Modal, SxProps, Tab, Tabs, Typography } from '@mui/material'
-import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { PasswordTab } from './Tabs/PasswordTab'
 import { ProfileTab } from './Tabs/ProfileTab'
