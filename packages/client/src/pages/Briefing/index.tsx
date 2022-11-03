@@ -26,7 +26,7 @@ export const Briefing = () => {
         <Typography variant="h2">Ангар</Typography>
         <Box
           component="img"
-          src="/Briefing-1.png"
+          src="/Briefing-01.png"
           alt="Hangar"
           sx={{
             width: '50%',
@@ -36,7 +36,9 @@ export const Briefing = () => {
           }}
         />
         <List>
-          <ListItem>1 - Панель выбора колоды</ListItem>
+          <ListItem sx={{ position: 'relative', zIndex: 'auto' }}>
+            1 - Панель выбора колоды
+          </ListItem>
           <ListItem>2 - В БОЙ!</ListItem>
           <ListItem>3 - Переключатель режима игры</ListItem>
           <ListItem>4 - Редактировать</ListItem>
@@ -52,7 +54,7 @@ export const Briefing = () => {
           </Typography>
           <Box
             component="img"
-            src="/Briefing-2.png"
+            src="/Briefing-02.png"
             alt="Battle Screen"
             sx={{
               width: '50%',
@@ -83,7 +85,7 @@ export const Briefing = () => {
           </Typography>
           <Box
             component="img"
-            src="/Briefing-3.png"
+            src="/Briefing-03.png"
             alt="Battlefield"
             sx={{
               width: '50%',
@@ -116,7 +118,7 @@ export const Briefing = () => {
           </Typography>
           <Box
             component="img"
-            src="/Briefing-4.png"
+            src="/Briefing-04.png"
             alt="Player hand and loss"
             sx={{
               width: '50%',
@@ -154,7 +156,7 @@ export const Briefing = () => {
 
           <Box
             component="img"
-            src="/Briefing-5.png"
+            src="/Briefing-05.png"
             alt="Resources and resource growth"
             sx={{
               width: '50%',
@@ -186,7 +188,7 @@ export const Briefing = () => {
           <Typography variant="h2">Ход игрока</Typography>
           <Box
             component="img"
-            src="/Briefing-6.png"
+            src="/Briefing-06.png"
             alt="Player turn"
             sx={{
               width: '50%',
@@ -222,7 +224,7 @@ export const Briefing = () => {
           <Typography variant="h2">Розыгрыш карт</Typography>
           <Box
             component="img"
-            src="/Briefing-7.png"
+            src="/Briefing-07.png"
             alt="Card draw"
             sx={{
               width: '50%',
@@ -248,7 +250,7 @@ export const Briefing = () => {
           <Typography variant="h2">Перемещение техники</Typography>
           <Box
             component="img"
-            src="/Briefing-8.png"
+            src="/Briefing-08.png"
             alt="Moving equipment"
             sx={{
               width: '50%',
@@ -272,7 +274,7 @@ export const Briefing = () => {
           <Typography variant="h2">Атаки и контратаки</Typography>
           <Box
             component="img"
-            src="/Briefing-9.png"
+            src="/Briefing-09.png"
             alt="Attacks and counterattacks"
             sx={{
               width: '50%',
