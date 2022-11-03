@@ -48,65 +48,40 @@ export const Header = () => {
             backgroundColor: '#E8AA00',
           },
           textTransform: 'none',
+          padding: '0px 16px',
+          height: '23px',
         }}>
         Выход
       </Button>
       <Box
         component="nav"
         sx={{ display: 'flex', flex: 1, justifyContent: 'space-around' }}>
-        <MuiLink
-          component={Link}
-          sx={{ lineHeight: '1.9rem' }}
-          to={AppRoute.SignIn}>
+        <MuiLink component={Link} to={AppRoute.SignIn}>
           Вход
         </MuiLink>
-        <MuiLink
-          component={Link}
-          sx={{ lineHeight: '1.9rem' }}
-          to={AppRoute.SignUp}>
+        <MuiLink component={Link} to={AppRoute.SignUp}>
           Регистрация
         </MuiLink>
 
-        <MuiLink
-          component={Link}
-          sx={{ lineHeight: '1.9rem' }}
-          to={AppRoute.Index}>
+        <MuiLink component={Link} to={AppRoute.Index}>
           Главная
         </MuiLink>
-        <MuiLink
-          component={Link}
-          sx={{ lineHeight: '1.9rem' }}
-          to={AppRoute.Briefing}>
+        <MuiLink component={Link} to={AppRoute.Briefing}>
           Правила
         </MuiLink>
-        <MuiLink
-          component={Link}
-          sx={{ lineHeight: '1.9rem' }}
-          to={AppRoute.Headquarters}>
+        <MuiLink component={Link} to={AppRoute.Headquarters}>
           Штаб
         </MuiLink>
-        <MuiLink
-          component={Link}
-          sx={{ lineHeight: '1.9rem' }}
-          to={AppRoute.Upgrade}>
+        <MuiLink component={Link} to={AppRoute.Upgrade}>
           Исследования
         </MuiLink>
-        <MuiLink
-          component={Link}
-          sx={{ lineHeight: '1.9rem' }}
-          to={AppRoute.Deck}>
+        <MuiLink component={Link} to={AppRoute.Deck}>
           Мой отряд
         </MuiLink>
-        <MuiLink
-          component={Link}
-          sx={{ lineHeight: '1.9rem' }}
-          to={AppRoute.Leaderboard}>
+        <MuiLink component={Link} to={AppRoute.Leaderboard}>
           Лучшие из лучших
         </MuiLink>
-        <MuiLink
-          component={Link}
-          sx={{ lineHeight: '1.9rem' }}
-          to={AppRoute.Forum}>
+        <MuiLink component={Link} to={AppRoute.Forum}>
           Форум
         </MuiLink>
       </Box>
