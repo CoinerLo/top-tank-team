@@ -47,6 +47,7 @@ export const Header = () => {
           ':hover': {
             backgroundColor: '#E8AA00',
           },
+          textTransform: 'none',
         }}>
         Выход
       </Button>
