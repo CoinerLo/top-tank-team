@@ -2,11 +2,18 @@ import { Box, Button, CardMedia, Typography } from '@mui/material'
 import { MyStopwatch } from '../../../components/Stopwatch'
 import { Container } from '@mui/material'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export const GameStart = () => {
   const [valResetTimer, setvalResetTimer] = useState(false)
+  const navigate = useNavigate()
 
   const helpInfo = 'В затянувшемся бою следите за временем!'
+
+  const resetTimer = () => {
+    setvalResetTimer(!valResetTimer)
+    navigate('/headquarters')
+  }
 
   return (
     <Container
@@ -20,9 +27,9 @@ export const GameStart = () => {
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          // alignItems: 'center',
           height: '280px',
           width: '100%',
+          mt: '40px',
         }}>
         <Box
           sx={{
@@ -103,7 +110,7 @@ export const GameStart = () => {
       />
       <Button
         onClick={() => {
-          setvalResetTimer(!valResetTimer)
+          resetTimer()
         }}
         variant="sub"
         fullWidth

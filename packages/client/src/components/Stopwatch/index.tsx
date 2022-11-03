@@ -1,5 +1,4 @@
-import { useEffect } from 'react'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useStopwatch } from 'react-timer-hook'
 import fist from '../../assets/img/fist.png'
 
@@ -22,8 +21,9 @@ export const MyStopwatch: FC<MyStopwatchProps> = ({
   BtnReset = [false, 'Reset'],
   valReset,
 }) => {
-  const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
-    useStopwatch({ autoStart: true })
+  const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({
+    autoStart: true,
+  })
 
   const [isBtnStart, BtnStartTxt] = BtnStart
   const [isBtnPause, BtnPauseTxt] = BtnPause
@@ -34,28 +34,26 @@ export const MyStopwatch: FC<MyStopwatchProps> = ({
   }, [valReset])
 
   return (
-    <>
-      <div style={{ textAlign: 'center' }}>
-        <h1>{title}</h1>
-        <p>
-          <img src={fist}></img>
-          {subTitle}
-        </p>
-        <div style={{ fontSize: '50px' }}>
-          <span>{minutes}</span>:<span>{seconds}</span>
-        </div>
-        <p>{isRunning ? runningMsg[0] : runningMsg[1]}</p>
-        {isBtnStart && <button onClick={start}>{BtnStartTxt}</button>}
-        {isBtnPause && <button onClick={pause}>{BtnPauseTxt}</button>}
-        {isBtnReset && (
-          <button
-            onClick={() => {
-              reset()
-            }}>
-            {BtnResetTxt}
-          </button>
-        )}
+    <div style={{ textAlign: 'center' }}>
+      <h1>{title}</h1>
+      <p>
+        <img src={fist}></img>
+        {subTitle}
+      </p>
+      <div style={{ fontSize: '50px' }}>
+        <span>{minutes}</span>:<span>{seconds}</span>
       </div>
-    </>
+      <p>{isRunning ? runningMsg[0] : runningMsg[1]}</p>
+      {isBtnStart && <button onClick={start}>{BtnStartTxt}</button>}
+      {isBtnPause && <button onClick={pause}>{BtnPauseTxt}</button>}
+      {isBtnReset && (
+        <button
+          onClick={() => {
+            reset()
+          }}>
+          {BtnResetTxt}
+        </button>
+      )}
+    </div>
   )
 }
