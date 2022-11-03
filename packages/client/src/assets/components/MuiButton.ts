@@ -67,5 +67,6 @@ declare module '@mui/material/Button' {
     primary: true
     cancel: true
     sub: true
+    sizeSmall: true
   }
 }
