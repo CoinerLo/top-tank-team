@@ -7,7 +7,7 @@ export const MuiContainer = {
       padding: 0,
       marginRight: 0,
       marginLeft: 0,
-      paddingTop: '36px',
+      paddingTop: '45px',
       backgroundImage: `url(${'background.png'})`,
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
