@@ -35,14 +35,18 @@ export const Header = () => {
         backgroundColor: '#000',
       }}>
       <Button
-        variant="sub"
+        variant="sizeSmall"
         onClick={() => {
           logout()
         }}
         fullWidth
         disableElevation
         sx={{
-          alignSelf: 'center',
+          fontSize: '1rem',
+          fontWeight: 500,
+          ':hover': {
+            backgroundColor: '#E8AA00',
+          },
         }}>
         Выход
       </Button>
@@ -51,56 +55,56 @@ export const Header = () => {
         sx={{ display: 'flex', flex: 1, justifyContent: 'space-around' }}>
         <MuiLink
           component={Link}
-          sx={{ lineHeight: '50px' }}
+          sx={{ lineHeight: '1.9rem' }}
           to={AppRoute.SignIn}>
           Вход
         </MuiLink>
         <MuiLink
           component={Link}
-          sx={{ lineHeight: '50px' }}
+          sx={{ lineHeight: '1.9rem' }}
           to={AppRoute.SignUp}>
           Регистрация
         </MuiLink>
 
         <MuiLink
           component={Link}
-          sx={{ lineHeight: '50px' }}
+          sx={{ lineHeight: '1.9rem' }}
           to={AppRoute.Index}>
           Главная
         </MuiLink>
         <MuiLink
           component={Link}
-          sx={{ lineHeight: '50px' }}
+          sx={{ lineHeight: '1.9rem' }}
           to={AppRoute.Briefing}>
           Правила
         </MuiLink>
         <MuiLink
           component={Link}
-          sx={{ lineHeight: '50px' }}
+          sx={{ lineHeight: '1.9rem' }}
           to={AppRoute.Headquarters}>
           Штаб
         </MuiLink>
         <MuiLink
           component={Link}
-          sx={{ lineHeight: '50px' }}
+          sx={{ lineHeight: '1.9rem' }}
           to={AppRoute.Upgrade}>
           Исследования
         </MuiLink>
         <MuiLink
           component={Link}
-          sx={{ lineHeight: '50px' }}
+          sx={{ lineHeight: '1.9rem' }}
           to={AppRoute.Deck}>
           Мой отряд
         </MuiLink>
         <MuiLink
           component={Link}
-          sx={{ lineHeight: '50px' }}
+          sx={{ lineHeight: '1.9rem' }}
           to={AppRoute.Leaderboard}>
           Лучшие из лучших
         </MuiLink>
         <MuiLink
           component={Link}
-          sx={{ lineHeight: '50px' }}
+          sx={{ lineHeight: '1.9rem' }}
           to={AppRoute.Forum}>
           Форум
         </MuiLink>

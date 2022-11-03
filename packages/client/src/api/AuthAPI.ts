@@ -13,7 +13,7 @@ export class AuthAPI {
       'Content-Type': 'application/json',
     }
     return axios.post(`${AuthAPI.API_URL}/signin`, data, {
-      headers: headers,
+      headers,
     })
   }
 
@@ -23,7 +23,7 @@ export class AuthAPI {
       'Content-Type': 'application/json',
     }
     return axios.post(`${AuthAPI.API_URL}/signup`, data, {
-      headers: headers,
+      headers,
     })
   }
 
