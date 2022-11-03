@@ -13,7 +13,8 @@ import {
   useForm,
   useFormState,
 } from 'react-hook-form'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import AuthController from '../../controllers/AuthController'
 import { ISignInData } from '../../typings'
 import { AppRoute } from '../../utils/consts'
 import { loginValidation, passwordValidation } from '../../utils/validation'
@@ -27,7 +28,14 @@ export const SignIn = () => {
     control,
   })
 
-  const onSubmit: SubmitHandler<ISignInData> = data => console.log(data)
+  const navigate = useNavigate()
+
+  const onSubmit: SubmitHandler<ISignInData> = async data => {
+    const res = await AuthController.signin(data)
+    if (res?.status == 200) {
+      navigate('/headquarters')
+    }
+  }
 
   return (
     <Container
