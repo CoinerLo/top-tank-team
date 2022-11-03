@@ -9,9 +9,10 @@ import { useState } from 'react'
 import { TabPanel } from '../../TabPanel/TabPanel'
 import { passwordValidation } from '../../../utils/validation'
 import { RequiredField } from '../../../utils/consts'
+import UserController from '../../../controllers/UserController'
 
-interface IChangePasswordForm {
-  password: string
+export interface IChangePasswordForm {
+  newPassword: string
   repeatPassword: string
   oldPassword: string
 }
@@ -39,8 +40,13 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
   const { errors, isValid } = useFormState({
     control,
   })
-  const onSubmit: SubmitHandler<IChangePasswordForm> = data => {
-    console.log(data)
+  const onSubmit: SubmitHandler<IChangePasswordForm> = async data => {
+    const noRepeat = ({ repeatPassword, ...rest }: IChangePasswordForm) => rest
+    const dataSend = noRepeat(data)
+    const res = await UserController.updatePassword(dataSend)
+    if (res?.status == 200) {
+      alert('Пароль успешно изменен')
+    }
   }
 
   return (
@@ -72,7 +78,7 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
         />
         <Controller
           control={control}
-          name="password"
+          name="newPassword"
           rules={passwordValidation}
           render={({ field }) => (
             <TextField
@@ -87,8 +93,8 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
               margin="normal"
               type="password"
               disabled={!isEditPasswordMode}
-              error={!!errors.password?.message}
-              helperText={errors?.password?.message}
+              error={!!errors.newPassword?.message}
+              helperText={errors?.newPassword?.message}
             />
           )}
         />
@@ -97,7 +103,7 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
           name="repeatPassword"
           rules={{
             validate: () => {
-              if (getValues('password') !== getValues('repeatPassword')) {
+              if (getValues('newPassword') !== getValues('repeatPassword')) {
                 return RequiredField.EqualPassword
               }
             },

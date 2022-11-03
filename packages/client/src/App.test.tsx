@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
-import { Briefing } from './pages/Briefing'
+import { Error404 } from './pages/Error404'
 
-const appContent = 'This is Briefing!'
+const appContent = 'This is Error404!'
 
 // eslint-disable-next-line
 // @ts-ignore
@@ -10,6 +10,6 @@ global.fetch = jest.fn(() =>
 )
 
 test('Example test', async () => {
-  render(<Briefing />)
+  render(<Error404 />)
   expect(screen.getByText(appContent)).toBeDefined()
 })
