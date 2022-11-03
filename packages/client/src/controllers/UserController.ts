@@ -26,14 +26,14 @@ export class UserController {
     }
   }
 
-  // async updateAvatar(data: FormData) {
-  //   try {
-  //     await this.api.updateAvatar(data);
-  //     AuthController.fetchUser();
-  //   } catch (e: any) {
-  //     console.error(e);
-  //   }
-  // }
+  async updateAvatar(data: FormData) {
+    try {
+      await this.api.updateAvatar(data)
+      AuthController.fetchUser()
+    } catch (e: unknown) {
+      console.error(e as Error)
+    }
+  }
 }
 
 export default new UserController()
