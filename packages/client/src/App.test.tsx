@@ -1,19 +1,15 @@
-import App from './App'
 import { render, screen } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
+import { Briefing } from './pages/Briefing'
 
-const appContent = 'Главная'
+const appContent = 'This is Briefing!'
 
+// eslint-disable-next-line
 // @ts-ignore
 global.fetch = jest.fn(() =>
   Promise.resolve({ json: () => Promise.resolve('hey') })
 )
 
 test('Example test', async () => {
-  render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  )
+  render(<Briefing />)
   expect(screen.getByText(appContent)).toBeDefined()
 })

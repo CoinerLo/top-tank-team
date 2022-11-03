@@ -27,7 +27,7 @@ export enum RequiredField {
 }
 
 export enum RegExpValidation {
-  Login = '^(?=.*[a-z])[a-zA-Z0-9_-]{3,20}$',
+  Login = '^(?=.*[a-zA-Z])[a-zA-Z0-9_-]{3,20}$',
   Password = '^(?=.*[A-Z])(?=.*[0-9]).{8,40}$',
   Email = '^[a-zA-Z0-9._%$#+-]+@[a-z0-9]*[a-z]+\\.+[a-z]+$',
   FirstName = '^[А-ЯA-Z][а-яА-ЯёЁa-zA-Z-]+$',
