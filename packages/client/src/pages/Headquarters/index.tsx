@@ -48,7 +48,7 @@ export const Headquarters = () => {
     <Container disableGutters sx={styles.container}>
       <UserProfile containerStyle={styles.avatar} />
       <SubMenu />
-      <Box sx={styles.cardCarusel}>
+      <Box sx={styles.cardCarousel}>
         <div>
           Здесь будет карусель с колодами карт игрока, с дополнительной
           информацией о колоде
