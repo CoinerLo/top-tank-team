@@ -5,9 +5,6 @@ import UserController from '../../controllers/UserController'
 
 export const DropZone = () => {
   const [wasChanged, setWasChanged] = useState(false)
-  const getUploadParams: IDropzoneProps['getUploadParams'] = () => {
-    return { url: 'https://httpbin.org/post' }
-  }
 
   const handleChangeStatus: IDropzoneProps['onChangeStatus'] = (
     { meta, file },
@@ -26,7 +23,6 @@ export const DropZone = () => {
 
   return (
     <Dropzone
-      getUploadParams={getUploadParams}
       onChangeStatus={handleChangeStatus}
       maxFiles={1}
       onSubmit={handleSubmit}
