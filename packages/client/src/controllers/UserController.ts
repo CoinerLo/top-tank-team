@@ -11,7 +11,10 @@ export class UserController {
     try {
       const response = await this.api.updatePassword(data)
       AuthController.fetchUser()
-      return response
+      if (response?.status == 200) {
+        return true
+      }
+      return false
     } catch (e: unknown) {
       console.error(e as Error)
     }

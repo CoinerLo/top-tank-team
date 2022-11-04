@@ -1,4 +1,10 @@
-import { Button, FormControl, TextField } from '@mui/material'
+import {
+  Button,
+  FormControl,
+  IconButton,
+  Snackbar,
+  TextField,
+} from '@mui/material'
 import {
   Controller,
   useFormState,
@@ -10,6 +16,7 @@ import { TabPanel } from '../../TabPanel/TabPanel'
 import { passwordValidation } from '../../../utils/validation'
 import { RequiredField } from '../../../utils/consts'
 import UserController from '../../../controllers/UserController'
+import CloseIcon from '@mui/icons-material/Close'
 
 export interface IChangePasswordForm {
   newPassword: string
@@ -38,10 +45,13 @@ const disabledFieldStyle = {
 
 export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
   const [isEditPasswordMode, setIsEditPasswordMode] = useState(false)
-  const { handleSubmit, control, getValues } = useForm<IChangePasswordForm>({
-    mode: 'onBlur',
-    reValidateMode: 'onChange',
-  })
+  const [openMsg, setOpenMsg] = useState(false)
+  const [message, setMessage] = useState('')
+  const { handleSubmit, control, getValues, reset } =
+    useForm<IChangePasswordForm>({
+      mode: 'onBlur',
+      reValidateMode: 'onChange',
+    })
   const { errors, isValid } = useFormState({
     control,
   })
@@ -49,10 +59,41 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
     const noRepeat = ({ repeatPassword, ...rest }: IChangePasswordForm) => rest
     const dataSend = noRepeat(data)
     const res = await UserController.updatePassword(dataSend)
-    if (res?.status == 200) {
-      alert('Пароль успешно изменен')
+    if (res) {
+      setMessage('Пароль успешно изменен')
+      setOpenMsg(res)
+    } else {
+      setMessage('Ошибка, пароль не изменен')
+      setOpenMsg(!res)
     }
+    reset({
+      oldPassword: '',
+      newPassword: '',
+      repeatPassword: '',
+    })
   }
+
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setOpenMsg(false)
+  }
+
+  const action = (
+    <>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}>
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </>
+  )
 
   return (
     <TabPanel value={tabIndex} index={index}>
@@ -151,6 +192,13 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
           {!isEditPasswordMode ? 'Редактировать пароль' : 'Сохранить'}
         </Button>
       </FormControl>
+      <Snackbar
+        open={openMsg}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={message}
+        action={action}
+      />
     </TabPanel>
   )
 }
