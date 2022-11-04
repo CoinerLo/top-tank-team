@@ -22,3 +22,7 @@ export interface ISingUpForm {
   password: string
   phone: string
 }
+
+export interface ICardUpgrade {
+  name: string
+}
