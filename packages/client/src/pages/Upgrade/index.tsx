@@ -8,7 +8,7 @@ import {
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SubMenu } from '../../components/SubMenu'
-import { Ger } from '../../components/upgrade/Ger'
+import { German } from '../../components/upgrade/German'
 import { Usa } from '../../components/upgrade/Usa/inex'
 import { Ussr } from '../../components/upgrade/Ussr'
 import { AppRoute } from '../../utils/consts'
@@ -33,12 +33,12 @@ const styles = {
 const nations = {
   ussr: <Ussr />,
   usa: <Usa />,
-  ger: <Ger />,
+  ger: <German />,
 } as Record<string, JSX.Element>
 
 export const Upgrade = () => {
   const navigate = useNavigate()
-  const [nation, setNation] = useState('ussr')
+  const [currentNation, setCurrentNation] = useState('ussr')
 
   const goHeadquarters = () => navigate(`/${AppRoute.Headquarters}`)
 
@@ -47,7 +47,7 @@ export const Upgrade = () => {
     newAlignment: string
   ) => {
     if (newAlignment) {
-      setNation(newAlignment)
+      setCurrentNation(newAlignment)
     }
   }
 
@@ -62,7 +62,7 @@ export const Upgrade = () => {
           <Box component="img" src="/home.svg" alt="Go home" width="25px" />
         </Button>
         <ToggleButtonGroup
-          value={nation}
+          value={currentNation}
           exclusive
           onChange={handleChange}
           orientation="vertical"
@@ -80,7 +80,7 @@ export const Upgrade = () => {
         </ToggleButtonGroup>
       </Box>
       <Box width="70%" sx={{ paddingTop: '150px' }}>
-        {nations[nation]}
+        {nations[currentNation]}
       </Box>
     </Container>
   )

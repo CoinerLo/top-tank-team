@@ -20,7 +20,7 @@ const styles = {
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
-  cardCarusel: {
+  cardCarousel: {
     width: '280px',
     height: '360px',
     marginTop: '150px',
@@ -54,7 +54,7 @@ export const Headquarters = () => {
     <Container disableGutters sx={styles.container}>
       <Box sx={styles.avatar}>Аватар</Box>
       <SubMenu />
-      <Box sx={styles.cardCarusel}>
+      <Box sx={styles.cardCarousel}>
         <div>
           Здесь будет карусель с колодами карт игрока, с дополнительной
           информацией о колоде
