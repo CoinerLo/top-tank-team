@@ -12,7 +12,6 @@ const styles = {
   avatar: {
     position: 'absolute',
     left: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   statistic: {
     display: 'flex',

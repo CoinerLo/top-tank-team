@@ -11,7 +11,7 @@ import { passwordValidation } from '../../../utils/validation'
 import { RequiredField } from '../../../utils/consts'
 
 interface IChangePasswordForm {
-  password: string
+  newPassword: string
   repeatPassword: string
   oldPassword: string
 }
@@ -21,9 +21,14 @@ interface IPasswordTab {
 }
 
 const disabledFieldStyle = {
-  '& .Mui-disabled': {
+  '& label.Mui-disabled': {
     color: 'white',
     opacity: '.7',
+  },
+  '& input.Mui-disabled': {
+    color: 'white',
+    opacity: '.7',
+    '-webkit-text-fill-color': 'white',
   },
   '& .Mui-disabled:before': {
     borderColor: 'white',
@@ -72,7 +77,7 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
         />
         <Controller
           control={control}
-          name="password"
+          name="newPassword"
           rules={passwordValidation}
           render={({ field }) => (
             <TextField
@@ -87,8 +92,8 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
               margin="normal"
               type="password"
               disabled={!isEditPasswordMode}
-              error={!!errors.password?.message}
-              helperText={errors?.password?.message}
+              error={!!errors.newPassword?.message}
+              helperText={errors?.newPassword?.message}
             />
           )}
         />
@@ -97,7 +102,7 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
           name="repeatPassword"
           rules={{
             validate: () => {
-              if (getValues('password') !== getValues('repeatPassword')) {
+              if (getValues('newPassword') !== getValues('repeatPassword')) {
                 return RequiredField.EqualPassword
               }
             },
