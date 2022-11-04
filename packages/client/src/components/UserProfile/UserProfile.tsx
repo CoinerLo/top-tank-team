@@ -39,12 +39,9 @@ export const UserProfile = ({ avatar, containerStyle }: IUserAvatar) => {
       <Box
         sx={{
           display: 'flex',
-          padding: '15px',
+          flexDirection: 'column',
           boxShadow: 3,
-          borderRadius: '6px',
           alignItems: 'center',
-          border: '1px solid #fff',
-          background: 'rgba(22, 56, 5, 0.8)',
           ...containerStyle,
         }}>
         <Avatar
@@ -52,12 +49,16 @@ export const UserProfile = ({ avatar, containerStyle }: IUserAvatar) => {
           src={avatar}
           sx={{
             cursor: 'pointer',
-            width: '70px',
-            height: '70px',
+            width: '150px',
+            height: '150px',
           }}
         />
         <Box>
-          <Typography marginLeft="10px">
+          <Typography
+            maxWidth="150px"
+            marginLeft="10px"
+            marginTop="10px"
+            textAlign="center">
             Константин Константинопольский
           </Typography>
         </Box>
