@@ -24,9 +24,14 @@ interface IProfileTab {
 }
 
 const disabledFieldStyle = {
-  '& .Mui-disabled': {
+  '& label.Mui-disabled': {
     color: 'white',
     opacity: '.7',
+  },
+  '& input.Mui-disabled': {
+    color: 'white',
+    opacity: '.7',
+    '-webkit-text-fill-color': 'white',
   },
   '& .Mui-disabled:before': {
     borderColor: 'white',
