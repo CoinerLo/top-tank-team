@@ -1,6 +1,7 @@
 import { Box, Button, Container } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { SubMenu } from '../../components/SubMenu'
+import { UserProfile } from '../../components/UserProfile/UserProfile'
 import { AppRoute } from '../../utils/consts'
 
 const styles = {
@@ -12,13 +13,6 @@ const styles = {
   avatar: {
     position: 'absolute',
     left: 0,
-    width: '150px',
-    height: '150px',
-    borderRadius: '50%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   cardCarousel: {
     width: '280px',
@@ -52,9 +46,9 @@ export const Headquarters = () => {
 
   return (
     <Container disableGutters sx={styles.container}>
-      <Box sx={styles.avatar}>Аватар</Box>
+      <UserProfile containerStyle={styles.avatar} />
       <SubMenu />
-      <Box sx={styles.cardCarousel}>
+      <Box sx={styles.cardCarusel}>
         <div>
           Здесь будет карусель с колодами карт игрока, с дополнительной
           информацией о колоде
