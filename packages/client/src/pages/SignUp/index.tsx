@@ -13,7 +13,7 @@ import {
   Box,
   Link,
 } from '@mui/material'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import {
   loginValidation,
   passwordValidation,
@@ -24,6 +24,7 @@ import {
 } from '../../utils/validation'
 import { ISingUpForm } from '../../typings'
 import { AppRoute } from '../../utils/consts'
+import AuthController from '../../controllers/AuthController'
 
 export const SignUp = () => {
   const { handleSubmit, reset, control } = useForm<ISingUpForm>({
@@ -33,9 +34,12 @@ export const SignUp = () => {
   const { errors, isValid } = useFormState({
     control,
   })
-  const onSubmit: SubmitHandler<ISingUpForm> = data => {
-    //Для проверки (знать что выводится, потом сделаю логику)
-    console.log(data)
+  const navigate = useNavigate()
+  const onSubmit: SubmitHandler<ISingUpForm> = async data => {
+    const res = await AuthController.signup(data)
+    if (res?.status == 200) {
+      navigate('/headquarters')
+    }
 
     //Понимаю, что здесь это выглядит лишним, но не знаю как отдельно и куда.
     reset({
