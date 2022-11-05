@@ -26,3 +26,7 @@ export interface ISingUpForm {
 export interface ICardUpgrade {
   name: string
 }
+
+export interface ICard {
+  name: string
+}
