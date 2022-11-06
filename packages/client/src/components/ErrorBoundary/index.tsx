@@ -1,5 +1,4 @@
 import { Component, ErrorInfo, ReactNode } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 interface Props {
   children: ReactNode
@@ -14,6 +13,7 @@ class ErrorBoundary extends Component<Props, State> {
     hasError: false,
   }
 
+  // eslint-disable-next-line
   public static getDerivedStateFromError(_: Error): State {
     // Обновляем состояние для отображения резервного контента при следующем рендеринге
     return { hasError: true }
