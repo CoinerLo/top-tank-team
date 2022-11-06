@@ -2,20 +2,23 @@ import { Container, Box, Typography } from '@mui/material'
 import { BasicTable } from '../../components/leaderboard/table/index'
 
 export const LeaderBoard = () => {
-  return <Container disableGutters
-  sx={{
-    flexDirection: 'column',
-    justifyContent: 'top',
-    alignItems: 'center',
-    overflowY: 'scroll',
-  }}>
-    <Box sx={{ width: '80%', height: '70%', marginTop: '20px' }}>
-      <Box mb={1} ml={2}>
-        <Typography variant="h5" fontWeight="medium">
-          Лучшие из лучших
-        </Typography>
+  return (
+    <Container
+      disableGutters
+      sx={{
+        flexDirection: 'column',
+        justifyContent: 'top',
+        alignItems: 'center',
+        overflowY: 'scroll',
+      }}>
+      <Box sx={{ width: '80%', height: '70%', marginTop: '20px' }}>
+        <Box mb={1} ml={2}>
+          <Typography variant="h5" fontWeight="medium">
+            Лучшие из лучших
+          </Typography>
+        </Box>
+        <BasicTable />
       </Box>
-      <BasicTable />
-    </Box>
-  </Container>
+    </Container>
+  )
 }
