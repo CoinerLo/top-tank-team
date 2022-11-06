@@ -19,6 +19,16 @@ export class UserController {
       console.error(e as Error)
     }
   }
+
+  async updateAvatar(data: FormData) {
+    try {
+      await this.api.updateAvatar(data)
+      AuthController.fetchUser()
+      alert('Аватар успешно изменен') // после добавления RTK заменить на Snackbar (UserProfile, DropZone)
+    } catch (e: unknown) {
+      console.error(e as Error)
+    }
+  }
 }
 
 export default new UserController()

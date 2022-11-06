@@ -1,13 +1,10 @@
 import 'react-dropzone-uploader/dist/styles.css'
 import Dropzone, { IDropzoneProps } from 'react-dropzone-uploader'
 import { useState } from 'react'
+import UserController from '../../controllers/UserController'
 
 export const DropZone = () => {
   const [wasChanged, setWasChanged] = useState(false)
-  const getUploadParams: IDropzoneProps['getUploadParams'] = ({ meta }) => {
-    console.log(meta)
-    return { url: 'https://httpbin.org/post' }
-  }
 
   const handleChangeStatus: IDropzoneProps['onChangeStatus'] = (
     { meta, file },
@@ -18,13 +15,14 @@ export const DropZone = () => {
   }
 
   const handleSubmit: IDropzoneProps['onSubmit'] = (files, allFiles) => {
-    console.log(files.map(f => f.meta))
+    const body = new FormData()
+    body.append('avatar', files[0].file)
+    UserController.updateAvatar(body)
     allFiles.forEach(f => f.remove())
   }
 
   return (
     <Dropzone
-      getUploadParams={getUploadParams}
       onChangeStatus={handleChangeStatus}
       maxFiles={1}
       onSubmit={handleSubmit}
