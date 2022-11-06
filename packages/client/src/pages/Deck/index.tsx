@@ -32,11 +32,11 @@ const styles = {
     left: '50%',
     justifyContent: 'space-between',
     transform: 'translate(-50%, -50%)',
-    width: 600,
+    width: '600px',
     bgcolor: 'background.paper',
     border: '2px solid #000',
-    boxShadow: 24,
-    padding: 3,
+    boxShadow: '24px',
+    padding: '25px',
   },
 }
 
@@ -90,7 +90,7 @@ export const Deck = () => {
           <Swiper
             width={200}
             spaceBetween={20}
-            centeredSlides={true}
+            centeredSlides={false}
             modules={[Pagination]}
             className="mySwiper">
             {collectionState.map(item => (
@@ -114,7 +114,7 @@ export const Deck = () => {
             <Swiper
               width={200}
               spaceBetween={20}
-              centeredSlides={true}
+              centeredSlides={false}
               modules={[Pagination]}
               className="mySwiper">
               {deckState.map(item => (
