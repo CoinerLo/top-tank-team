@@ -24,6 +24,7 @@ export class UserController {
     try {
       await this.api.updateAvatar(data)
       AuthController.fetchUser()
+      alert('Аватар успешно изменен') // после добавления RTK заменить на Snackbar (UserProfile, DropZone)
     } catch (e: unknown) {
       console.error(e as Error)
     }

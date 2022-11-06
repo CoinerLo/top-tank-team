@@ -56,12 +56,11 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
     control,
   })
   const onSubmit: SubmitHandler<IChangePasswordForm> = async data => {
-    // const noRepeat = ({ repeatPassword, ...rest }: IChangePasswordForm) => rest
-    // const dataSend = noRepeat(data)
-    const dataSend = {
-      oldPassword: data.oldPassword,
-      newPassword: data.newPassword,
-    }
+    const checkNoRepeat = ({
+      newPassword,
+      oldPassword,
+    }: IChangePasswordForm) => ({ newPassword, oldPassword })
+    const dataSend = checkNoRepeat(data)
     const res = await UserController.updatePassword(dataSend)
     if (res) {
       setMessage('Пароль успешно изменен')
