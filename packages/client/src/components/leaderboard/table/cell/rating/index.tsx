@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Typography, Box } from '@mui/material'
+import { Typography } from '@mui/material'
 import { StarRate, StarHalf, StarOutline } from '@mui/icons-material'
 
 export interface RatingCellProps {
