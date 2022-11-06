@@ -5,7 +5,6 @@ import React, { useCallback, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
-import { Pagination } from 'swiper'
 import { AppRoute } from '../../utils/consts'
 import { useNavigate } from 'react-router-dom'
 import { deck, collection } from './data'
@@ -86,13 +85,8 @@ export const Deck = () => {
         <Box sx={{ flex: 1 }}>
           <Typography>Коллекция:</Typography>
         </Box>
-        <Box sx={{ display: 'flex', height: '300px', marginTop: '10px' }}>
-          <Swiper
-            width={200}
-            spaceBetween={20}
-            centeredSlides={false}
-            modules={[Pagination]}
-            className="mySwiper">
+        <Box sx={{ flex: 1, height: '300px', marginTop: '10px' }}>
+          <Swiper width={200} spaceBetween={20} className="mySwiper">
             {collectionState.map(item => (
               <SwiperSlide key={item.id}>
                 <Card
@@ -106,17 +100,19 @@ export const Deck = () => {
         </Box>
         <Box>
           <Box sx={{ display: 'flex', marginTop: '20px' }}>
-            <Typography>Колода</Typography>
-            <Typography>Название штаба:</Typography>
-            <Typography>{`${deckState.length}/40`}</Typography>
+            <Box sx={{ display: 'grid' }}>
+              <Typography>Колода</Typography>
+              <Box sx={{ display: 'flex' }}>
+                <Typography>Название штаба:</Typography>
+                <Typography
+                  sx={{
+                    marginLeft: '5px',
+                  }}>{`${deckState.length}/40`}</Typography>
+              </Box>
+            </Box>
           </Box>
-          <Box sx={{ display: 'flex', height: '300px', marginTop: '10px' }}>
-            <Swiper
-              width={200}
-              spaceBetween={20}
-              centeredSlides={false}
-              modules={[Pagination]}
-              className="mySwiper">
+          <Box sx={{ flex: 1, height: '300px', marginTop: '10px' }}>
+            <Swiper width={200} spaceBetween={20} className="mySwiper">
               {deckState.map(item => (
                 <SwiperSlide key={item.id}>
                   <Card
