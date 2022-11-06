@@ -139,10 +139,7 @@ export const Deck = () => {
             sx={{
               display: 'flex',
             }}>
-            <Card
-              item={cardItem}
-              onClick={handleOnClickCardDeck}
-              onClickInfo={handleOnClickCardInfo}></Card>
+            <Card item={cardItem}></Card>
             <Box sx={{ ml: '15px', width: '350px' }}>
               <Typography variant={'h6'} sx={{ textAlign: 'center' }}>
                 Особенность:

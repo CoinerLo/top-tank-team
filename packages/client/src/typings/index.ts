@@ -33,7 +33,7 @@ export interface ICollectionCardItem {
 }
 
 export interface ICardItem {
-  onClick: (item: ICollectionCardItem) => void
-  onClickInfo: (item: ICollectionCardItem) => void
+  onClick?: (item: ICollectionCardItem) => void
+  onClickInfo?: (item: ICollectionCardItem) => void
   item: ICollectionCardItem
 }

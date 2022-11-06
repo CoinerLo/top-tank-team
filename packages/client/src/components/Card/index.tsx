@@ -25,12 +25,12 @@ const styles = {
 
 export const Card: React.FunctionComponent<ICardItem> = memo(props => {
   const handleOnClick = useCallback(
-    () => props.onClick(props.item),
+    () => props.onClick && props.onClick(props.item),
     [props.item, props.onClick]
   )
 
   const handleOnClickInfo = useCallback(
-    () => props.onClickInfo(props.item),
+    () => props.onClickInfo && props.onClickInfo(props.item),
     [props.item, props.onClickInfo]
   )
 
