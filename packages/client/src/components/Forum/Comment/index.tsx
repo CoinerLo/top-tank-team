@@ -46,7 +46,7 @@ export const PostComment = ({
         {parentId && reply?.length && (
           <Box
             sx={{
-              border: '1px solid yellow',
+              border: '1px solid #ED6204',
               mb: '15px',
               p: '10px',
               borderRadius: '6px',
