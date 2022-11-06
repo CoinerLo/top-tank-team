@@ -1,4 +1,11 @@
-import { Box, Button, Container, FormControl, TextField } from '@mui/material'
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  Link,
+  TextField,
+} from '@mui/material'
 import { PostComment } from '../../../components/Forum/Comment'
 import {
   Controller,
@@ -6,6 +13,9 @@ import {
   useForm,
   useFormState,
 } from 'react-hook-form'
+import { comments } from './mockData'
+import { AppRoute } from '../../../utils/consts'
+import { NavLink } from 'react-router-dom'
 
 const containerStyles = {
   display: 'flex',
@@ -32,47 +42,26 @@ export const PostPage = () => {
     console.log(data)
   }
 
-  const comments = [
-    {
-      id: 'sjf21',
-      author: 'StalonoiVolk',
-      postDate: 'August 29, 2018',
-      comment: `Добрый день, уважаемые абитуриенты WGA!
-
-        Вступление в ряды студентов Академии происходит на конкурсной основе. 
-        
-        1 этап: выполнение тестового задания. Вам необходимо выбрать направление, за которое Вы хотите быть ответственными в процессе разработки игры (во время учебного года роли могут меняться), и выполнить тестовое задание по нему. Готовое тестовое задание необходимо будет прислать на почту wga_spb@wargaming.net c темой письма "Тестовое задание для поступления". 
-        
-        2 этап: личная встреча с представителями Wargaming St Petersburg`,
-      parentId: null,
-    },
-    {
-      id: 'fqfe1',
-      author: 'StalonoiVolk',
-      postDate: 'August 29, 2018',
-      comment: `Добрый день, уважаемые абитуриенты WGA!
-
-        Вступление в ряды студентов Академии происходит на конкурсной основе. 
-        
-        1 этап: выполнение тестового задания. Вам необходимо выбрать направление, за которое Вы хотите быть ответственными в процессе разработки игры (во время учебного года роли могут меняться), и выполнить тестовое задание по нему. Готовое тестовое задание необходимо будет прислать на почту wga_spb@wargaming.net c темой письма "Тестовое задание для поступления". 
-        
-        2 этап: личная встреча с представителями Wargaming St Petersburg`,
-      parentId: 'sjf21',
-    },
-  ]
-
   return (
     <Container disableGutters sx={containerStyles}>
-      <Box width="90%" padding="30px">
-        {/* post - {id} */}
+      <Link
+        component={NavLink}
+        to={`/${AppRoute.Forum}`}
+        width="max-content"
+        sx={{
+          color: '#ED6204',
+          marginTop: '15px',
+          marginBottom: '15px',
+        }}>
+        К списку постов
+      </Link>
+      <Box width="90%" padding="30px" paddingTop={0}>
         {comments.map(el => (
           <Box key={el.id} mb="10px">
             <PostComment
               {...el}
               replyCb={commentId => {
                 console.log(commentId)
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                //@ts-ignore --- временно, проп comments будет удален. Сейчас нужен для наглядности
               }}
               comments={comments}
             />

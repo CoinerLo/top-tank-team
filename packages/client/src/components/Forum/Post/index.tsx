@@ -23,7 +23,7 @@ export const ForumPost = ({
       <Box display="flex" flexDirection="column" width="100%">
         <Link
           component={NavLink}
-          to={`${id}`}
+          to={id}
           marginBottom="5px"
           width="max-content"
           sx={{

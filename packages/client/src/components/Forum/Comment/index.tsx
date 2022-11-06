@@ -8,7 +8,7 @@ interface PostCommentProps {
   author: string
   parentId: string | null
   replyCb: (commentId: string) => void
-  comments?: PostCommentProps[] // - временно, после добавления апи, будем получать не массив, а отдельно комментарий по parentId для размещения в блоке reply
+  comments?: Omit<PostCommentProps, 'replyCb'>[] // - временно, после добавления апи, будем получать не массив, а отдельно комментарий по parentId для размещения в блоке reply
 }
 
 export const PostComment = ({
