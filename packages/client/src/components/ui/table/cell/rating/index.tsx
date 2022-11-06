@@ -1,8 +1,8 @@
 import { FC } from 'react'
-import { Icon, Typography, Box } from "@mui/material";
+import { Icon, Typography, Box } from '@mui/material'
 
 export interface RatingCellProps {
-    rating: 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5
+  rating: 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5
 }
 
 export const RatingCell: FC<RatingCellProps> = ({ rating }) => {
@@ -77,17 +77,13 @@ export const RatingCell: FC<RatingCellProps> = ({ rating }) => {
       <Icon key={4}>star</Icon>,
       <Icon key={5}>star</Icon>,
     ],
-  };
+  }
 
   return (
-    <Box
-        component="td"
-        py={1.5}
-        px={3}
-    >
-        <Typography variant="h4" color="text">
-            {ratings[rating]}
-        </Typography>
+    <Box component="td" py={1.5} px={3}>
+      <Typography variant="h4" color="text">
+        {ratings[rating]}
+      </Typography>
     </Box>
-  );
-};
+  )
+}
