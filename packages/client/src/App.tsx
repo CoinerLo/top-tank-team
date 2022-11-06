@@ -18,6 +18,7 @@ import { GameStart } from './pages/GameDesk/GameStart'
 import { GameDesk } from './pages/GameDesk'
 import { GameResult } from './pages/GameDesk/GameResult'
 import { AppRoute } from './utils/consts'
+import { PostPage } from './pages/Forum/Post'
 
 function App() {
   useEffect(() => {
@@ -44,7 +45,10 @@ function App() {
         <Route path={AppRoute.Upgrade} element={<Upgrade />} />
         <Route path={AppRoute.Deck} element={<Deck />} />
         <Route path={AppRoute.Leaderboard} element={<LeaderBoard />} />
-        <Route path={AppRoute.Forum} element={<Forum />} />
+        <Route path={AppRoute.Forum}>
+          <Route index element={<Forum />} />
+          <Route path={AppRoute.ForumPost} element={<PostPage />} />
+        </Route>
 
         <Route path={AppRoute.Game}>
           <Route path={AppRoute.StartGame} element={<GameStart />} />

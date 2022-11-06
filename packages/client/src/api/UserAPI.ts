@@ -16,6 +16,10 @@ export class UserAPI {
     }
     return axios.put(`${UserAPI.API_URL}/password`, data, { headers })
   }
+
+  public updateAvatar(data: FormData): Promise<XMLHttpRequest> {
+    return axios.put(`${UserAPI.API_URL}/profile/avatar`, data)
+  }
 }
 
 export default new UserAPI()

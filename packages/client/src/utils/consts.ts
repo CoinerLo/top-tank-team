@@ -8,6 +8,7 @@ export enum AppRoute {
   Deck = 'deck',
   Leaderboard = 'leaderboard',
   Forum = 'forum',
+  ForumPost = ':postId',
   Error4 = 'error404',
   Game = 'game',
   StartGame = 'start',
