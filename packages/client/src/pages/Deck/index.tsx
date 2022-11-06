@@ -1,62 +1,16 @@
 import { Button, Container, Modal, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { SubMenu } from '../../components/SubMenu'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
-import { Pagination, Navigation } from 'swiper'
+import { Pagination } from 'swiper'
 import { AppRoute } from '../../utils/consts'
 import { useNavigate } from 'react-router-dom'
-import { ICard } from '../../typings'
-
-const collection = [
-  {
-    name: 'M46 Patton',
-  },
-  {
-    name: 'ИС-7',
-  },
-  {
-    name: 'Panther II',
-  },
-  {
-    name: 'ИС-7',
-  },
-  {
-    name: 'T110E5',
-  },
-  {
-    name: 'Maus',
-  },
-  {
-    name: 'Объект 268',
-  },
-]
-
-const deck = [
-  {
-    name: 'Т-54',
-  },
-  {
-    name: 'T-30',
-  },
-  {
-    name: 'Объект 261',
-  },
-  {
-    name: 'Объект 212',
-  },
-  {
-    name: 'Т-34-85',
-  },
-  {
-    name: 'Телефонисты',
-  },
-  {
-    name: 'T110E4',
-  },
-]
+import { deck, collection } from './data'
+import { Card } from '../../components/Card'
+import { ICollectionCardItem } from '../../typings'
 
 const styles = {
   container: {
@@ -72,22 +26,6 @@ const styles = {
     flexDirection: 'column',
     left: 0,
   },
-  card: {
-    display: 'grid',
-    height: '280px',
-    backgroundColor: '#c03f3f',
-    borderRadius: '5px 5px 0 0',
-    textAlign: 'center',
-  },
-  cardButtonInfo: {
-    background: 'grey',
-    width: '100%',
-    height: '20px',
-    fontSize: '10px',
-    pt: '5px',
-    pb: '5px',
-    borderRadius: '0 0 5px 5px',
-  },
   modalWindow: {
     position: 'absolute',
     top: '50%',
@@ -102,46 +40,37 @@ const styles = {
   },
 }
 
-export const Card = (props: any) => {
-  return (
-    <Box>
-      <Box
-        onClick={function () {
-          console.log('Click on: ')
-          props.setCollectionState([
-            ...props.collectionState.slice(0, props.idx),
-            ...props.collectionState.slice(props.idx + 1),
-          ])
-          props.deckState.unshift(props.item)
-          props.setDeckState([...props.deckState])
-        }}
-        sx={styles.card}>
-        <Typography sx={{ alignSelf: 'center' }}>{props.item.name}</Typography>
-      </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Button
-          variant="primary"
-          onClick={() => {
-            props.setIsOpen(true)
-            props.setCardItem(props.item)
-          }}
-          sx={styles.cardButtonInfo}>
-          Информация
-        </Button>
-      </Box>
-    </Box>
-  )
-}
-
 export const Deck = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [collectionState, setCollectionState] = useState(collection)
   const [deckState, setDeckState] = useState(deck)
   const [cardItem, setCardItem] = useState({
-    name: 'Заглушка',
+    name: '',
+    id: '',
   })
 
   const navigate = useNavigate()
+
+  const handleOnClickCardCollection = useCallback(
+    (item: ICollectionCardItem) => {
+      setCollectionState(collectionState.filter(i => i.id !== item.id))
+      setDeckState([item, ...deckState])
+    },
+    [deckState]
+  )
+
+  const handleOnClickCardDeck = useCallback(
+    (item: ICollectionCardItem) => {
+      setDeckState(deckState.filter(i => i.id !== item.id))
+      setCollectionState([item, ...collectionState])
+    },
+    [collectionState]
+  )
+
+  const handleOnClickCardInfo = useCallback((item: ICollectionCardItem) => {
+    setIsOpen(true)
+    setCardItem(item)
+  }, [])
 
   const goHeadquarters = () => navigate(`/${AppRoute.Headquarters}`)
 
@@ -157,24 +86,19 @@ export const Deck = () => {
         <Box sx={{ flex: 1 }}>
           <Typography>Коллекция:</Typography>
         </Box>
-        <Box sx={{ flex: 1, height: '300px', marginTop: '10px' }}>
+        <Box sx={{ display: 'flex', height: '300px', marginTop: '10px' }}>
           <Swiper
-            spaceBetween={20}
             width={200}
-            navigation={true}
-            modules={[Pagination, Navigation]}
+            spaceBetween={20}
+            centeredSlides={true}
+            modules={[Pagination]}
             className="mySwiper">
-            {collectionState.map((item, idx) => (
-              <SwiperSlide key={idx}>
+            {collectionState.map(item => (
+              <SwiperSlide key={item.id}>
                 <Card
-                  collectionState={collectionState}
-                  setCollectionState={setCollectionState}
-                  deckState={deckState}
-                  setDeckState={setDeckState}
-                  setIsOpen={setIsOpen}
-                  setCardItem={setCardItem}
+                  onClick={handleOnClickCardCollection}
+                  onClickInfo={handleOnClickCardInfo}
                   item={item}
-                  idx={idx}
                 />
               </SwiperSlide>
             ))}
@@ -193,17 +117,12 @@ export const Deck = () => {
               centeredSlides={true}
               modules={[Pagination]}
               className="mySwiper">
-              {deckState.map((item, idx) => (
-                <SwiperSlide key={idx}>
+              {deckState.map(item => (
+                <SwiperSlide key={item.id}>
                   <Card
-                    collectionState={collectionState}
-                    setCollectionState={setCollectionState}
-                    deckState={deckState}
-                    setDeckState={setDeckState}
-                    setIsOpen={setIsOpen}
-                    setCardItem={setCardItem}
+                    onClick={handleOnClickCardDeck}
+                    onClickInfo={handleOnClickCardInfo}
                     item={item}
-                    idx={idx}
                   />
                 </SwiperSlide>
               ))}
@@ -220,19 +139,10 @@ export const Deck = () => {
             sx={{
               display: 'flex',
             }}>
-            <Box
-              sx={{
-                display: 'grid',
-                height: '280px',
-                width: '200px',
-                backgroundColor: '#c03f3f',
-                borderRadius: '5px',
-                textAlign: 'center',
-              }}>
-              <Typography sx={{ alignSelf: 'center' }}>
-                {cardItem.name}
-              </Typography>
-            </Box>
+            <Card
+              item={cardItem}
+              onClick={handleOnClickCardDeck}
+              onClickInfo={handleOnClickCardInfo}></Card>
             <Box sx={{ ml: '15px', width: '350px' }}>
               <Typography variant={'h6'} sx={{ textAlign: 'center' }}>
                 Особенность:

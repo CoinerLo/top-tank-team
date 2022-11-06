@@ -27,6 +27,13 @@ export interface ICardUpgrade {
   name: string
 }
 
-export interface ICard {
+export interface ICollectionCardItem {
   name: string
+  id: string
+}
+
+export interface ICardItem {
+  onClick: (item: ICollectionCardItem) => void
+  onClickInfo: (item: ICollectionCardItem) => void
+  item: ICollectionCardItem
 }
