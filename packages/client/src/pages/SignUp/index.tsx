@@ -83,7 +83,7 @@ export const SignUp = () => {
               className="auth-form__input"
               onChange={e => field.onChange(e)}
               onBlur={() => field.onBlur()}
-              value={field.value}
+              value={field.value ?? ''}
               error={!!errors.first_name?.message}
               helperText={errors?.first_name?.message}
             />
@@ -103,7 +103,7 @@ export const SignUp = () => {
               className="auth-form__input"
               onChange={e => field.onChange(e)}
               onBlur={() => field.onBlur()}
-              value={field.value}
+              value={field.value ?? ''}
               error={!!errors.second_name?.message}
               helperText={errors?.second_name?.message}
             />
@@ -123,7 +123,7 @@ export const SignUp = () => {
               className="auth-form__input"
               onChange={e => field.onChange(e)}
               onBlur={() => field.onBlur()}
-              value={field.value}
+              value={field.value ?? ''}
               error={!!errors.login?.message}
               helperText={errors?.login?.message}
             />
@@ -143,7 +143,7 @@ export const SignUp = () => {
               className="auth-form__input"
               onChange={e => field.onChange(e)}
               onBlur={() => field.onBlur()}
-              value={field.value}
+              value={field.value ?? ''}
               error={!!errors.email?.message}
               helperText={errors?.email?.message}
             />
@@ -164,7 +164,7 @@ export const SignUp = () => {
               className="auth-form__input"
               onChange={e => field.onChange(e)}
               onBlur={() => field.onBlur()}
-              value={field.value}
+              value={field.value ?? ''}
               error={!!errors.password?.message}
               helperText={errors?.password?.message}
             />
@@ -184,7 +184,7 @@ export const SignUp = () => {
               className="auth-form__input"
               onChange={e => field.onChange(e)}
               onBlur={() => field.onBlur()}
-              value={field.value}
+              value={field.value ?? ''}
               error={!!errors.phone?.message}
               helperText={errors?.phone?.message}
             />

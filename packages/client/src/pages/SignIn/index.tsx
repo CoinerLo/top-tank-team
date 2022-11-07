@@ -63,7 +63,7 @@ export const SignIn = () => {
               label="Логин"
               onChange={e => field.onChange(e)}
               onBlur={() => field.onBlur()}
-              value={field.value}
+              value={field.value ?? ''}
               fullWidth={true}
               size="small"
               margin="normal"
@@ -82,7 +82,7 @@ export const SignIn = () => {
               label="Пароль"
               onChange={e => field.onChange(e)}
               onBlur={() => field.onBlur()}
-              value={field.value}
+              value={field.value ?? ''}
               fullWidth={true}
               size="small"
               margin="normal"
