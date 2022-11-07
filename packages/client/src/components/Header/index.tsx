@@ -32,6 +32,7 @@ export const Header = () => {
         display: 'flex',
         justifyContent: 'space-between',
         paddingY: '7px',
+        zIndex: 100,
         backgroundColor: '#000',
       }}>
       <Button
