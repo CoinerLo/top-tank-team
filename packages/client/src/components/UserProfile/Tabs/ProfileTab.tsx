@@ -31,7 +31,7 @@ const disabledFieldStyle = {
   '& input.Mui-disabled': {
     color: 'white',
     opacity: '.7',
-    'WebkitTextFillColor': 'white',
+    WebkitTextFillColor: 'white',
   },
   '& .Mui-disabled:before': {
     borderColor: 'white',

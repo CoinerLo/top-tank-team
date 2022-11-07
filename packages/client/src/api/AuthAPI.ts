@@ -1,38 +1,23 @@
-import axios from 'axios'
 import { ISignInData, ISingUpForm } from '../typings'
+import { DefaultPraktikumClient, PraktikumClient } from './PraktikumClient'
 
 export class AuthAPI {
-  static API_URL = 'https://ya-praktikum.tech/api/v2/auth'
-  constructor() {
-    axios.defaults.withCredentials = true
-  }
+  static API_URL = 'auth'
 
   signIn(data: ISignInData): Promise<XMLHttpRequest> {
-    const headers = {
-      accept: 'application/json',
-      'Content-Type': 'application/json',
-    }
-    return axios.post(`${AuthAPI.API_URL}/signin`, data, {
-      headers,
-    })
+    return PraktikumClient.post(`${AuthAPI.API_URL}/signin`, data)
   }
 
   signUp(data: ISingUpForm): Promise<XMLHttpRequest> {
-    const headers = {
-      accept: 'application/json',
-      'Content-Type': 'application/json',
-    }
-    return axios.post(`${AuthAPI.API_URL}/signup`, data, {
-      headers,
-    })
+    return PraktikumClient.post(`${AuthAPI.API_URL}/signup`, data)
   }
 
   read(): Promise<XMLHttpRequest> {
-    return axios.get(`${AuthAPI.API_URL}/user`)
+    return DefaultPraktikumClient.get(`${AuthAPI.API_URL}/user`)
   }
 
   logout(): Promise<XMLHttpRequest> {
-    return axios.post(`${AuthAPI.API_URL}/logout`)
+    return DefaultPraktikumClient.post(`${AuthAPI.API_URL}/logout`)
   }
 }
 

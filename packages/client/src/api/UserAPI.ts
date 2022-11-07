@@ -1,24 +1,17 @@
-import axios from 'axios'
 import { IChangePasswordForm } from '../components/UserProfile/Tabs/PasswordTab'
+import { DefaultPraktikumClient, PraktikumClient } from './PraktikumClient'
 
 export type UserAPIUpdatePassword = Omit<IChangePasswordForm, 'repeatPassword'>
 
 export class UserAPI {
-  static API_URL = 'https://ya-praktikum.tech/api/v2/user'
-  constructor() {
-    axios.defaults.withCredentials = true
-  }
+  static API_URL = 'user'
 
   public updatePassword(data: UserAPIUpdatePassword): Promise<XMLHttpRequest> {
-    const headers = {
-      accept: 'application/json',
-      'Content-Type': 'application/json',
-    }
-    return axios.put(`${UserAPI.API_URL}/password`, data, { headers })
+    return PraktikumClient.put(`${UserAPI.API_URL}/password`, data)
   }
 
   public updateAvatar(data: FormData): Promise<XMLHttpRequest> {
-    return axios.put(`${UserAPI.API_URL}/profile/avatar`, data)
+    return DefaultPraktikumClient.put(`${UserAPI.API_URL}/profile/avatar`, data)
   }
 }
 
