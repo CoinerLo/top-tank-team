@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Typography } from '@mui/material'
+import { Typography, Box } from '@mui/material'
 import { StarRate, StarHalf, StarOutline } from '@mui/icons-material'
 
 export interface RatingCellProps {
@@ -81,8 +81,10 @@ export const RatingCell: FC<RatingCellProps> = ({ rating }) => {
   }
 
   return (
-    <Typography variant="h4" color="text" align="center">
-      {ratings[rating]}
-    </Typography>
+    <Box component="td">
+      <Typography variant="h4" color="text" align="center">
+        {ratings[rating]}
+      </Typography>
+    </Box>
   )
 }
