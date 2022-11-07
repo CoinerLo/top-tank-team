@@ -1,7 +1,5 @@
 import { Box } from '@mui/system'
-import { Key } from 'react'
-import { ICardUpgrade } from '../../../typings'
-import { CardUpgrade } from '../CardUpgrade'
+import { RenderCards } from '../CardUpgrade/RenderCards'
 import { HeadquartersCard } from '../HeadquartersCard'
 
 const TrainingHeadquarters = {
@@ -48,19 +46,15 @@ const styles = {
 }
 
 export const Usa = () => {
-  const renderCards = (card: ICardUpgrade, idx: Key) => (
-    <CardUpgrade key={idx} name={card.name} />
-  )
-
   return (
     <Box
       sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <HeadquartersCard name={TrainingHeadquarters.name} />
       <Box sx={styles.row}>
-        {TrainingHeadquartersTechnicsFirstStage.map(renderCards)}
+        {TrainingHeadquartersTechnicsFirstStage.map(RenderCards)}
       </Box>
       <Box sx={styles.row}>
-        {TrainingHeadquartersTechnicsSecondStage.map(renderCards)}
+        {TrainingHeadquartersTechnicsSecondStage.map(RenderCards)}
       </Box>
     </Box>
   )
