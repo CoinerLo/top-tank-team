@@ -1,0 +1,35 @@
+import BaseCard from '../BaseCard'
+import { TanksData } from '../../content/Tanks'
+import { ISpecialProperties, TanksDataType } from '../../types'
+import { decksOfCardsByTier } from '../../utils'
+
+export class Tank extends BaseCard {
+  bringsResources: number
+  type: string
+  damage: number
+  health: number
+  specialProperties: ISpecialProperties | undefined
+
+  constructor({
+    name,
+    damage,
+    health,
+    nation,
+    resourceСost,
+    bringsResources,
+    tier,
+    type,
+    specialProperties,
+  }: TanksDataType) {
+    super({ name, nation, resourceСost, tier })
+    this.bringsResources = bringsResources
+    this.type = type
+    this.damage = damage
+    this.health = health
+    this.specialProperties = specialProperties
+  }
+}
+
+export const fullTanksDeck = TanksData.map(tankData => new Tank(tankData))
+
+export const decksOfTanksByTier = decksOfCardsByTier(fullTanksDeck)
