@@ -62,8 +62,8 @@ export const ProfileTab = ({ tabIndex, index }: IProfileTab) => {
             <TextField
               sx={disabledFieldStyle}
               label="Логин"
-              onChange={e => field.onChange(e)}
-              onBlur={() => field.onBlur()}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
               value={field.value || ''}
               fullWidth={true}
               size="small"
@@ -83,8 +83,8 @@ export const ProfileTab = ({ tabIndex, index }: IProfileTab) => {
             <TextField
               sx={disabledFieldStyle}
               label="Почта"
-              onChange={e => field.onChange(e)}
-              onBlur={() => field.onBlur()}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
               value={field.value || ''}
               fullWidth={true}
               size="small"
@@ -104,8 +104,8 @@ export const ProfileTab = ({ tabIndex, index }: IProfileTab) => {
             <TextField
               sx={disabledFieldStyle}
               label="Телефон"
-              onChange={e => field.onChange(e)}
-              onBlur={() => field.onBlur()}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
               value={field.value || ''}
               fullWidth={true}
               size="small"

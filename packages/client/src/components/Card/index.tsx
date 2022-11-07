@@ -1,7 +1,7 @@
-import React, { memo, useCallback } from 'react'
+import { FC, memo } from 'react'
 import { Box } from '@mui/system'
-import { Button, Typography } from '@mui/material'
-import { ICardItem } from '../../typings'
+import { Typography } from '@mui/material'
+import { ICollectionCardItem } from '../../typings'
 
 const styles = {
   card: {
@@ -23,30 +23,15 @@ const styles = {
   },
 }
 
-export const Card: React.FunctionComponent<ICardItem> = memo(props => {
-  const handleOnClick = useCallback(
-    () => props.onClick && props.onClick(props.item),
-    [props.item, props.onClick]
-  )
+export interface ICardProps {
+  onClick: (item: ICollectionCardItem) => void
+  item: ICollectionCardItem
+}
 
-  const handleOnClickInfo = useCallback(
-    () => props.onClickInfo && props.onClickInfo(props.item),
-    [props.item, props.onClickInfo]
-  )
-
+export const Card: FC<ICardProps> = memo(({ item, onClick }) => {
   return (
-    <Box>
-      <Box onClick={handleOnClick} sx={styles.card}>
-        <Typography sx={{ alignSelf: 'center' }}>{props.item.name}</Typography>
-      </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Button
-          variant="primary"
-          onClick={handleOnClickInfo}
-          sx={styles.cardButtonInfo}>
-          Информация
-        </Button>
-      </Box>
+    <Box onClick={() => onClick(item)} sx={styles.card}>
+      <Typography sx={{ alignSelf: 'center' }}>{item.name}</Typography>
     </Box>
   )
 })

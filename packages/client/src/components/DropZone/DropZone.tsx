@@ -4,14 +4,14 @@ import { useState } from 'react'
 import UserController from '../../controllers/UserController'
 
 export const DropZone = () => {
-  const [wasChanged, setWasChanged] = useState(false)
+  const [isChanged, setISChanged] = useState(false)
 
   const handleChangeStatus: IDropzoneProps['onChangeStatus'] = (
     { meta, file },
     status
   ) => {
     console.log(status, meta, file)
-    setWasChanged(!wasChanged)
+    setISChanged(!isChanged)
   }
 
   const handleSubmit: IDropzoneProps['onSubmit'] = (files, allFiles) => {

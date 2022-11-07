@@ -45,7 +45,7 @@ const disabledFieldStyle = {
 
 export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
   const [isEditPasswordMode, setIsEditPasswordMode] = useState(false)
-  const [openMsg, setOpenMsg] = useState(false)
+  const [isOpenMsg, setIsOpenMsg] = useState(false)
   const [message, setMessage] = useState('')
   const { handleSubmit, control, getValues, reset } =
     useForm<IChangePasswordForm>({
@@ -64,10 +64,10 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
     const res = await UserController.updatePassword(dataSend)
     if (res) {
       setMessage('Пароль успешно изменен')
-      setOpenMsg(res)
+      setIsOpenMsg(res)
     } else {
       setMessage('Ошибка, пароль не изменен')
-      setOpenMsg(!res)
+      setIsOpenMsg(!res)
     }
     reset({
       oldPassword: '',
@@ -83,7 +83,7 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
     if (reason === 'clickaway') {
       return
     }
-    setOpenMsg(false)
+    setIsOpenMsg(false)
   }
 
   const action = (
@@ -111,8 +111,8 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
             <TextField
               sx={disabledFieldStyle}
               label="Старый пароль"
-              onChange={e => field.onChange(e)}
-              onBlur={() => field.onBlur()}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
               value={field.value || ''}
               fullWidth={true}
               size="small"
@@ -133,8 +133,8 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
             <TextField
               sx={disabledFieldStyle}
               label="Новый пароль"
-              onChange={e => field.onChange(e)}
-              onBlur={() => field.onBlur()}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
               value={field.value || ''}
               fullWidth={true}
               size="small"
@@ -161,8 +161,8 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
             <TextField
               sx={disabledFieldStyle}
               label="Повторите пароль"
-              onChange={e => field.onChange(e)}
-              onBlur={() => field.onBlur()}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
               value={field.value || ''}
               fullWidth={true}
               size="small"
@@ -196,7 +196,7 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
         </Button>
       </FormControl>
       <Snackbar
-        open={openMsg}
+        open={isOpenMsg}
         autoHideDuration={6000}
         onClose={handleClose}
         message={message}

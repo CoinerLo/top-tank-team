@@ -1,15 +1,15 @@
 import { Button, Container, Modal, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { SubMenu } from '../../components/SubMenu'
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/css'
-import 'swiper/css/pagination'
 import { AppRoute } from '../../utils/consts'
 import { useNavigate } from 'react-router-dom'
 import { deck, collection } from './data'
 import { Card } from '../../components/Card'
 import { ICollectionCardItem } from '../../typings'
+import 'swiper/css'
+import 'swiper/css/pagination'
 
 const styles = {
   container: {
@@ -36,6 +36,17 @@ const styles = {
     border: '2px solid #000',
     boxShadow: '24px',
     padding: '25px',
+  },
+  cardButtonInfo: {
+    display: 'flex',
+    justifyContent: 'center',
+    background: 'grey',
+    width: '100%',
+    height: '20px',
+    fontSize: '10px',
+    pt: '5px',
+    pb: '5px',
+    borderRadius: '0 0 5px 5px',
   },
 }
 
@@ -89,11 +100,13 @@ export const Deck = () => {
           <Swiper width={200} spaceBetween={20} className="mySwiper">
             {collectionState.map(item => (
               <SwiperSlide key={item.id}>
-                <Card
-                  onClick={handleOnClickCardCollection}
-                  onClickInfo={handleOnClickCardInfo}
-                  item={item}
-                />
+                <Card onClick={handleOnClickCardCollection} item={item} />
+                <Button
+                  variant="primary"
+                  onClick={() => handleOnClickCardInfo(item)}
+                  sx={styles.cardButtonInfo}>
+                  Информация
+                </Button>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -115,11 +128,13 @@ export const Deck = () => {
             <Swiper width={200} spaceBetween={20} className="mySwiper">
               {deckState.map(item => (
                 <SwiperSlide key={item.id}>
-                  <Card
-                    onClick={handleOnClickCardDeck}
-                    onClickInfo={handleOnClickCardInfo}
-                    item={item}
-                  />
+                  <Card onClick={handleOnClickCardDeck} item={item} />
+                  <Button
+                    variant="primary"
+                    onClick={() => handleOnClickCardInfo(item)}
+                    sx={styles.cardButtonInfo}>
+                    Информация
+                  </Button>
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -135,7 +150,7 @@ export const Deck = () => {
             sx={{
               display: 'flex',
             }}>
-            <Card item={cardItem}></Card>
+            <Card item={cardItem} onClick={handleOnClickCardDeck}></Card>
             <Box sx={{ ml: '15px', width: '350px' }}>
               <Typography variant={'h6'} sx={{ textAlign: 'center' }}>
                 Особенность:
