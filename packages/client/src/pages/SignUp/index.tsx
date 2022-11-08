@@ -31,8 +31,7 @@ interface ISignUp {
 }
 
 export const SignUp: FC<ISignUp> = ({ handleSubmitSignUpData }) => {
-  const { handleSubmit, reset, control } = useForm<ISingUpForm>({
-    // Убедиться в необъодимости reset и настроить или убрать
+  const { handleSubmit, control } = useForm<ISingUpForm>({
     mode: 'onBlur',
     reValidateMode: 'onChange',
   })

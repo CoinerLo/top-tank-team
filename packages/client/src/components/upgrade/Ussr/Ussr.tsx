@@ -1,38 +1,38 @@
 import { Box } from '@mui/system'
 import { RenderCards } from '../CardUpgrade/RenderCards'
-import { HeadquartersCard } from '../HeadquartersCard'
+import { HeadquartersCard } from '../HeadquartersCard/HeadquartersCard'
 
 const TrainingHeadquarters = {
-  name: 'Training Camp',
+  name: 'Учебная часть',
 }
 
 const TrainingHeadquartersTechnicsFirstStage = [
   {
-    name: 'Telephonists EF',
+    name: 'БТ-2',
   },
   {
-    name: 'M2 LT',
+    name: 'Артиллеристы 17',
   },
   {
-    name: 'Signalers CA',
+    name: 'Обеспечение 8А',
   },
   {
-    name: 'Together We Win',
+    name: 'СУ-26',
+  },
+  {
+    name: 'Отстоим!',
   },
 ]
 
 const TrainingHeadquartersTechnicsSecondStage = [
   {
-    name: 'T57',
+    name: 'Т-26',
   },
   {
-    name: 'T2 MT',
+    name: 'АТ-1',
   },
   {
-    name: 'M3 Stuart',
-  },
-  {
-    name: 'T82',
+    name: 'Болтун',
   },
 ]
 
@@ -45,7 +45,7 @@ const styles = {
   },
 }
 
-export const Usa = () => {
+export const Ussr = () => {
   return (
     <Box
       sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

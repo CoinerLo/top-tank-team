@@ -1,6 +1,6 @@
 import { Box } from '@mui/system'
 import { RenderCards } from '../CardUpgrade/RenderCards'
-import { HeadquartersCard } from '../HeadquartersCard'
+import { HeadquartersCard } from '../HeadquartersCard/HeadquartersCard'
 
 const TrainingHeadquarters = {
   name: 'Trainingslager',

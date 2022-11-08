@@ -6,7 +6,7 @@ import {
   Link,
   TextField,
 } from '@mui/material'
-import { PostComment } from '../../../components/Forum/Comment'
+import { PostComment } from '../../../components/Forum/Comment/PostComment'
 import {
   Controller,
   SubmitHandler,

@@ -7,7 +7,7 @@ import {
   TableRow,
   Paper,
 } from '@mui/material'
-import { RatingCell, RatingCellProps } from './cell/rating'
+import { RatingCell, RatingCellProps } from './cell/rating/RatingCell'
 
 function createData(
   name: string,

@@ -1,6 +1,6 @@
 import { Box, Button, Container } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { SubMenu } from '../../components/SubMenu'
+import { SubMenu } from '../../components/SubMenu/SubMenu'
 import { UserProfile } from '../../components/UserProfile/UserProfile'
 import { AppRoute } from '../../utils/consts'
 

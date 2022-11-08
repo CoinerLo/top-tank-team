@@ -3,7 +3,6 @@ import CssBaseline from '@mui/material/CssBaseline'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import { mainTheme } from './assets/mainTheme'
 import { Routes, Route } from 'react-router-dom'
-import { Header } from './components/Header'
 import { Headquarters } from './pages/Headquarters'
 import { Error404 } from './pages/Error404'
 import { Briefing } from './pages/Briefing'
@@ -19,6 +18,7 @@ import { AppRoute } from './utils/consts'
 import { PostPage } from './pages/Forum/Post'
 import { SignInContainer } from './containers/SignInContainer'
 import { SignUpContainer } from './containers/SignUpContainer'
+import { HeaderContainer } from './containers/HeaderContainer'
 
 function App() {
   useEffect(() => {
@@ -35,7 +35,7 @@ function App() {
   return (
     <ThemeProvider theme={mainTheme}>
       <CssBaseline />
-      <Header />
+      <HeaderContainer />
       <Routes>
         <Route path={AppRoute.Index} element={<Home />} />
         <Route path={AppRoute.SignIn} element={<SignInContainer />} />

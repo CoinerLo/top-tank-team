@@ -1,5 +1,5 @@
 import { Box, Container, Typography } from '@mui/material'
-import { ForumPost } from '../../components/Forum/Post'
+import { ForumPost } from '../../components/Forum/Post/ForumPost'
 
 const containerStyles = {
   display: 'flex',

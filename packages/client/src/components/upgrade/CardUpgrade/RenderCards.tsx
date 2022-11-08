@@ -1,5 +1,5 @@
 import { Key } from 'react'
-import { CardUpgrade } from '.'
+import { CardUpgrade } from './CardUpgrade'
 import { ICardUpgrade } from '../../../typings'
 
 export const RenderCards = (card: ICardUpgrade, idx: Key) => (

@@ -1,5 +1,5 @@
 import { Box, Button, CardMedia, Typography } from '@mui/material'
-import { MyStopwatch } from '../../../components/Stopwatch'
+import { MyStopwatch } from '../../../components/Stopwatch/MyStopwatch'
 import { Container } from '@mui/material'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'

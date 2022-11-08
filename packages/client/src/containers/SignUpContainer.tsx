@@ -6,9 +6,10 @@ import { SignUp } from '../pages/SignUp'
 import { ISingUpForm } from '../typings'
 
 export const SignUpContainer = () => {
+  const navigate = useNavigate()
+
   const handleSubmitSignUp: SubmitHandler<ISingUpForm> = useCallback(
     async data => {
-      const navigate = useNavigate()
       const res = await AuthController.signup(data)
       if (res?.status == 200) {
         navigate('/headquarters')
@@ -17,5 +18,5 @@ export const SignUpContainer = () => {
     []
   )
 
-  return <SignUp handleSubmitSignUp={handleSubmitSignUp} />
+  return <SignUp handleSubmitSignUpData={handleSubmitSignUp} />
 }

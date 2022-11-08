@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppRoute } from '../../utils/consts'
 import { Box, Button, Container, Link as MuiLink } from '@mui/material'
-import AuthController from '../../controllers/AuthController'
 
-export const Header = () => {
+interface HeaderProps {
+  handleLogout: () => void
+}
+
+export const Header: FC<HeaderProps> = ({ handleLogout }) => {
   const [gameId, setGameId] = useState('0')
   const navigate = useNavigate()
 
@@ -14,13 +17,6 @@ export const Header = () => {
 
   const goOutGame = () => {
     navigate(`${AppRoute.Game}/${AppRoute.ResultGame}/${gameId}`)
-  }
-
-  const logout = async () => {
-    const res = await AuthController.logout()
-    if (res?.status == 200) {
-      navigate('/')
-    }
   }
 
   return (
@@ -37,9 +33,7 @@ export const Header = () => {
       }}>
       <Button
         variant="sizeSmall"
-        onClick={() => {
-          logout()
-        }}
+        onClick={handleLogout}
         fullWidth
         disableElevation
         sx={{

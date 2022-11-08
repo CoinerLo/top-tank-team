@@ -7,10 +7,10 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { SubMenu } from '../../components/SubMenu'
-import { German } from '../../components/upgrade/German'
-import { Usa } from '../../components/upgrade/Usa/inex'
-import { Ussr } from '../../components/upgrade/Ussr'
+import { SubMenu } from '../../components/SubMenu/SubMenu'
+import { German } from '../../components/upgrade/German/German'
+import { Usa } from '../../components/upgrade/Usa/Usa'
+import { Ussr } from '../../components/upgrade/Ussr/Ussr'
 import { AppRoute } from '../../utils/consts'
 
 const styles = {
