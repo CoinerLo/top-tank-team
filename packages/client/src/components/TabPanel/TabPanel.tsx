@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 
 export type ITabPanelProps = {
   index: number
@@ -7,7 +7,7 @@ export type ITabPanelProps = {
   children: ReactNode
 }
 
-export const TabPanel = ({ index, value, children }: ITabPanelProps) => {
+export const TabPanel: FC<ITabPanelProps> = ({ index, value, children }) => {
   return (
     <Box
       role="tabpanel"

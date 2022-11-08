@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from '@mui/material'
 import ReplyIcon from '@mui/icons-material/Reply'
+import { FC } from 'react'
 
 interface PostCommentProps {
   id: string
@@ -11,7 +12,7 @@ interface PostCommentProps {
   comments?: Omit<PostCommentProps, 'replyCb'>[] // - временно, после добавления апи, будем получать не массив, а отдельно комментарий по parentId для размещения в блоке reply
 }
 
-export const PostComment = ({
+export const PostComment: FC<PostCommentProps> = ({
   id,
   comment,
   postDate,
@@ -19,7 +20,7 @@ export const PostComment = ({
   parentId,
   replyCb,
   comments,
-}: PostCommentProps) => {
+}) => {
   const reply = parentId ? comments?.filter(el => el.id === parentId) : []
 
   return (

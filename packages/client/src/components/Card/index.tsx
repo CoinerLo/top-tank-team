@@ -24,13 +24,13 @@ const styles = {
 }
 
 export interface ICardProps {
-  onClick: (item: ICollectionCardItem) => void
+  handleClick: (item: ICollectionCardItem) => void
   item: ICollectionCardItem
 }
 
-export const Card: FC<ICardProps> = memo(({ item, onClick }) => {
+export const Card: FC<ICardProps> = memo(({ item, handleClick }) => {
   return (
-    <Box onClick={() => onClick(item)} sx={styles.card}>
+    <Box onClick={() => handleClick(item)} sx={styles.card}>
       <Typography sx={{ alignSelf: 'center' }}>{item.name}</Typography>
     </Box>
   )

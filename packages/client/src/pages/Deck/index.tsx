@@ -61,7 +61,7 @@ export const Deck = () => {
 
   const navigate = useNavigate()
 
-  const handleOnClickCardCollection = useCallback(
+  const handleClickCardCollection = useCallback(
     (item: ICollectionCardItem) => {
       setCollectionState(collectionState.filter(i => i.id !== item.id))
       setDeckState([item, ...deckState])
@@ -69,7 +69,7 @@ export const Deck = () => {
     [deckState]
   )
 
-  const handleOnClickCardDeck = useCallback(
+  const handleClickCardDeck = useCallback(
     (item: ICollectionCardItem) => {
       setDeckState(deckState.filter(i => i.id !== item.id))
       setCollectionState([item, ...collectionState])
@@ -77,7 +77,7 @@ export const Deck = () => {
     [collectionState]
   )
 
-  const handleOnClickCardInfo = useCallback((item: ICollectionCardItem) => {
+  const handleClickCardInfo = useCallback((item: ICollectionCardItem) => {
     setIsOpen(true)
     setCardItem(item)
   }, [])
@@ -100,10 +100,10 @@ export const Deck = () => {
           <Swiper width={200} spaceBetween={20} className="mySwiper">
             {collectionState.map(item => (
               <SwiperSlide key={item.id}>
-                <Card onClick={handleOnClickCardCollection} item={item} />
+                <Card handleClick={handleClickCardCollection} item={item} />
                 <Button
                   variant="primary"
-                  onClick={() => handleOnClickCardInfo(item)}
+                  onClick={() => handleClickCardInfo(item)}
                   sx={styles.cardButtonInfo}>
                   Информация
                 </Button>
@@ -128,10 +128,10 @@ export const Deck = () => {
             <Swiper width={200} spaceBetween={20} className="mySwiper">
               {deckState.map(item => (
                 <SwiperSlide key={item.id}>
-                  <Card onClick={handleOnClickCardDeck} item={item} />
+                  <Card handleClick={handleClickCardDeck} item={item} />
                   <Button
                     variant="primary"
-                    onClick={() => handleOnClickCardInfo(item)}
+                    onClick={() => handleClickCardInfo(item)}
                     sx={styles.cardButtonInfo}>
                     Информация
                   </Button>
@@ -150,7 +150,7 @@ export const Deck = () => {
             sx={{
               display: 'flex',
             }}>
-            <Card item={cardItem} onClick={handleOnClickCardDeck}></Card>
+            <Card item={cardItem} handleClick={() => null}></Card>
             <Box sx={{ ml: '15px', width: '350px' }}>
               <Typography variant={'h6'} sx={{ textAlign: 'center' }}>
                 Особенность:

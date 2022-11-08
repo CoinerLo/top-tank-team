@@ -1,4 +1,5 @@
 import { Box, Link, Typography } from '@mui/material'
+import { FC } from 'react'
 import { NavLink } from 'react-router-dom'
 
 interface ForumThemeProps {
@@ -10,14 +11,14 @@ interface ForumThemeProps {
   lastRepliedDate: string
 }
 
-export const ForumPost = ({
+export const ForumPost: FC<ForumThemeProps> = ({
   title,
   repliesCount,
   authorName,
   lastReplied,
   lastRepliedDate,
   id,
-}: ForumThemeProps) => {
+}) => {
   return (
     <Box display="flex" borderBottom="1px solid grey" padding="10px">
       <Box display="flex" flexDirection="column" width="100%">

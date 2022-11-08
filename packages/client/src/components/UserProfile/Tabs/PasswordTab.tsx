@@ -11,7 +11,7 @@ import {
   useForm,
   SubmitHandler,
 } from 'react-hook-form'
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import { TabPanel } from '../../TabPanel/TabPanel'
 import { passwordValidation } from '../../../utils/validation'
 import { RequiredField } from '../../../utils/consts'
@@ -43,7 +43,7 @@ const disabledFieldStyle = {
   },
 }
 
-export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
+export const PasswordTab: FC<IPasswordTab> = ({ tabIndex, index }) => {
   const [isEditPasswordMode, setIsEditPasswordMode] = useState(false)
   const [isOpenMsg, setIsOpenMsg] = useState(false)
   const [message, setMessage] = useState('')
@@ -55,7 +55,9 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
   const { errors, isValid } = useFormState({
     control,
   })
-  const onSubmit: SubmitHandler<IChangePasswordForm> = async data => {
+  const handleSubmitPasswordData: SubmitHandler<
+    IChangePasswordForm
+  > = async data => {
     const checkNoRepeat = ({
       newPassword,
       oldPassword,
@@ -100,7 +102,10 @@ export const PasswordTab = ({ tabIndex, index }: IPasswordTab) => {
 
   return (
     <TabPanel value={tabIndex} index={index}>
-      <FormControl component="form" fullWidth onSubmit={handleSubmit(onSubmit)}>
+      <FormControl
+        component="form"
+        fullWidth
+        onSubmit={handleSubmit(handleSubmitPasswordData)}>
         <Controller
           control={control}
           name="oldPassword"

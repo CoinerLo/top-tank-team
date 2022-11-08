@@ -38,7 +38,7 @@ export const PostPage = () => {
     control,
   })
 
-  const onSubmit: SubmitHandler<ICommentData> = async data => {
+  const handleSubmitCommentData: SubmitHandler<ICommentData> = async data => {
     console.log(data)
   }
 
@@ -69,7 +69,7 @@ export const PostPage = () => {
         ))}
         <FormControl
           component="form"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(handleSubmitCommentData)}
           sx={{
             width: '100%',
             display: 'flex',

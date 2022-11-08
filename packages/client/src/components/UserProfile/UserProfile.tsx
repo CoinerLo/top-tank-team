@@ -1,6 +1,6 @@
 import Avatar from '@mui/material/Avatar'
 import { Box, Modal, SxProps, Tab, Tabs, Typography } from '@mui/material'
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import { PasswordTab } from './Tabs/PasswordTab'
 import { ProfileTab } from './Tabs/ProfileTab'
 import { DropZone } from '../DropZone/DropZone'
@@ -24,7 +24,7 @@ const modalStyle = {
   p: 4,
 }
 
-export const UserProfile = ({ avatar, containerStyle }: IUserAvatar) => {
+export const UserProfile: FC<IUserAvatar> = ({ avatar, containerStyle }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isChangeAvatarOpen, setIsChangeAvatarOpen] = useState(false)
 

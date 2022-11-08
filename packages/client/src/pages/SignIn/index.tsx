@@ -30,7 +30,7 @@ export const SignIn = () => {
 
   const navigate = useNavigate()
 
-  const onSubmit: SubmitHandler<ISignInData> = async data => {
+  const handleSubmitSignInData: SubmitHandler<ISignInData> = async data => {
     const res = await AuthController.signin(data)
     if (res?.status == 200) {
       navigate('/headquarters')
@@ -52,7 +52,7 @@ export const SignIn = () => {
       </Typography>
       <FormControl
         component="form"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(handleSubmitSignInData)}
         sx={{ width: '30ch' }}>
         <Controller
           control={control}

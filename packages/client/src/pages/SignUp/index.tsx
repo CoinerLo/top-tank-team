@@ -35,21 +35,21 @@ export const SignUp = () => {
     control,
   })
   const navigate = useNavigate()
-  const onSubmit: SubmitHandler<ISingUpForm> = async data => {
+  const formBaseData = {
+    first_name: '',
+    second_name: '',
+    login: '',
+    email: '',
+    password: '',
+    phone: '',
+  }
+  const handleSubmitSignUpData: SubmitHandler<ISingUpForm> = async data => {
     const res = await AuthController.signup(data)
     if (res?.status == 200) {
       navigate('/headquarters')
     }
 
-    //Понимаю, что здесь это выглядит лишним, но не знаю как отдельно и куда.
-    reset({
-      first_name: '',
-      second_name: '',
-      login: '',
-      email: '',
-      password: '',
-      phone: '',
-    })
+    reset(formBaseData)
   }
 
   return (
@@ -68,7 +68,7 @@ export const SignUp = () => {
 
       <FormControl
         component="form"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(handleSubmitSignUpData)}
         sx={{ width: '30ch' }}>
         <Controller
           control={control}

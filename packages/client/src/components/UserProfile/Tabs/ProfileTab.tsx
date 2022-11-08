@@ -5,7 +5,7 @@ import {
   useForm,
   SubmitHandler,
 } from 'react-hook-form'
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import { TabPanel } from '../../TabPanel/TabPanel'
 import {
   emailValidation,
@@ -38,7 +38,7 @@ const disabledFieldStyle = {
   },
 }
 
-export const ProfileTab = ({ tabIndex, index }: IProfileTab) => {
+export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
   const [isEditProfileMode, setIsEditProfileMode] = useState(false)
   const { handleSubmit, control } = useForm<IChangeDataForm>({
     mode: 'onBlur',
@@ -47,13 +47,16 @@ export const ProfileTab = ({ tabIndex, index }: IProfileTab) => {
   const { errors, isValid } = useFormState({
     control,
   })
-  const onSubmit: SubmitHandler<IChangeDataForm> = data => {
+  const handleSubmitProfileData: SubmitHandler<IChangeDataForm> = data => {
     console.log(data)
   }
 
   return (
     <TabPanel value={tabIndex} index={index}>
-      <FormControl component="form" fullWidth onSubmit={handleSubmit(onSubmit)}>
+      <FormControl
+        component="form"
+        fullWidth
+        onSubmit={handleSubmit(handleSubmitProfileData)}>
         <Controller
           control={control}
           name="login"
