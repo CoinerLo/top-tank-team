@@ -7,19 +7,23 @@ import {
   FormControl,
   Link,
 } from '@mui/material'
+import { FC } from 'react'
 import {
   Controller,
   SubmitHandler,
   useForm,
   useFormState,
 } from 'react-hook-form'
-import { NavLink, useNavigate } from 'react-router-dom'
-import AuthController from '../../controllers/AuthController'
+import { NavLink } from 'react-router-dom'
 import { ISignInData } from '../../typings'
 import { AppRoute } from '../../utils/consts'
 import { loginValidation, passwordValidation } from '../../utils/validation'
 
-export const SignIn = () => {
+interface ISignIn {
+  handleSubmitSignInData: SubmitHandler<ISignInData>
+}
+
+export const SignIn: FC<ISignIn> = ({ handleSubmitSignInData }) => {
   const { handleSubmit, control } = useForm<ISignInData>({
     mode: 'onBlur',
     reValidateMode: 'onChange',
@@ -27,15 +31,6 @@ export const SignIn = () => {
   const { errors } = useFormState({
     control,
   })
-
-  const navigate = useNavigate()
-
-  const handleSubmitSignInData: SubmitHandler<ISignInData> = async data => {
-    const res = await AuthController.signin(data)
-    if (res?.status == 200) {
-      navigate('/headquarters')
-    }
-  }
 
   return (
     <Container

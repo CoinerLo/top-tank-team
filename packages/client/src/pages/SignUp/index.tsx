@@ -13,7 +13,7 @@ import {
   Box,
   Link,
 } from '@mui/material'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import {
   loginValidation,
   passwordValidation,
@@ -24,33 +24,21 @@ import {
 } from '../../utils/validation'
 import { ISingUpForm } from '../../typings'
 import { AppRoute } from '../../utils/consts'
-import AuthController from '../../controllers/AuthController'
+import { FC } from 'react'
 
-export const SignUp = () => {
+interface ISignUp {
+  handleSubmitSignUpData: SubmitHandler<ISingUpForm>
+}
+
+export const SignUp: FC<ISignUp> = ({ handleSubmitSignUpData }) => {
   const { handleSubmit, reset, control } = useForm<ISingUpForm>({
+    // Убедиться в необъодимости reset и настроить или убрать
     mode: 'onBlur',
     reValidateMode: 'onChange',
   })
   const { errors, isValid } = useFormState({
     control,
   })
-  const navigate = useNavigate()
-  const formBaseData = {
-    first_name: '',
-    second_name: '',
-    login: '',
-    email: '',
-    password: '',
-    phone: '',
-  }
-  const handleSubmitSignUpData: SubmitHandler<ISingUpForm> = async data => {
-    const res = await AuthController.signup(data)
-    if (res?.status == 200) {
-      navigate('/headquarters')
-    }
-
-    reset(formBaseData)
-  }
 
   return (
     <Container

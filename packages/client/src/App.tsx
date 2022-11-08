@@ -8,8 +8,6 @@ import { Headquarters } from './pages/Headquarters'
 import { Error404 } from './pages/Error404'
 import { Briefing } from './pages/Briefing'
 import { Home } from './pages/Home'
-import { SignIn } from './pages/SignIn'
-import { SignUp } from './pages/SignUp'
 import { LeaderBoard } from './pages/Leaderboard'
 import { Upgrade } from './pages/Upgrade'
 import { Deck } from './pages/Deck'
@@ -19,6 +17,8 @@ import { GameDesk } from './pages/GameDesk'
 import { GameResult } from './pages/GameDesk/GameResult'
 import { AppRoute } from './utils/consts'
 import { PostPage } from './pages/Forum/Post'
+import { SignInContainer } from './containers/SignInContainer'
+import { SignUpContainer } from './containers/SignUpContainer'
 
 function App() {
   useEffect(() => {
@@ -38,8 +38,8 @@ function App() {
       <Header />
       <Routes>
         <Route path={AppRoute.Index} element={<Home />} />
-        <Route path={AppRoute.SignIn} element={<SignIn />} />
-        <Route path={AppRoute.SignUp} element={<SignUp />} />
+        <Route path={AppRoute.SignIn} element={<SignInContainer />} />
+        <Route path={AppRoute.SignUp} element={<SignUpContainer />} />
         <Route path={AppRoute.Briefing} element={<Briefing />} />
         <Route path={AppRoute.Headquarters} element={<Headquarters />} />
         <Route path={AppRoute.Upgrade} element={<Upgrade />} />
