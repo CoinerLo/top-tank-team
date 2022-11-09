@@ -100,7 +100,7 @@ export const Deck = () => {
           <Swiper width={200} spaceBetween={20} className="mySwiper">
             {collectionState.map(item => (
               <SwiperSlide key={item.id}>
-                <Card handleClick={handleClickCardCollection} item={item} />
+                <Card handleCardClick={handleClickCardCollection} item={item} />
                 <Button
                   variant="primary"
                   onClick={() => handleClickCardInfo(item)}
@@ -128,7 +128,7 @@ export const Deck = () => {
             <Swiper width={200} spaceBetween={20} className="mySwiper">
               {deckState.map(item => (
                 <SwiperSlide key={item.id}>
-                  <Card handleClick={handleClickCardDeck} item={item} />
+                  <Card handleCardClick={handleClickCardDeck} item={item} />
                   <Button
                     variant="primary"
                     onClick={() => handleClickCardInfo(item)}
@@ -150,7 +150,7 @@ export const Deck = () => {
             sx={{
               display: 'flex',
             }}>
-            <Card item={cardItem} handleClick={() => null}></Card>
+            <Card item={cardItem} handleCardClick={() => null}></Card>
             <Box sx={{ ml: '15px', width: '350px' }}>
               <Typography variant={'h6'} sx={{ textAlign: 'center' }}>
                 Особенность:
