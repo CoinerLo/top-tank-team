@@ -1,4 +1,4 @@
-import { OredersData } from '../../content/Orders'
+import { OrdersData } from '../../content/Orders'
 import { ISpecialProperties, OredersDataType } from '../../types'
 import { decksOfCardsByTier } from '../../utils'
 import BaseCard from '../BaseCard'
@@ -18,6 +18,6 @@ export class Order extends BaseCard {
   }
 }
 
-export const fullOrderDeck = OredersData.map(orderData => new Order(orderData))
+export const fullOrderDeck = OrdersData.map(orderData => new Order(orderData))
 
 export const decksOfOredersByTier = decksOfCardsByTier(fullOrderDeck)

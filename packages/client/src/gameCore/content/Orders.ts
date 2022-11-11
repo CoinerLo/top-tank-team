@@ -1,6 +1,6 @@
 import { OredersDataType } from '../types'
 
-export const OredersData: OredersDataType[] = [
+export const OrdersData: OredersDataType[] = [
   {
     name: 'Бдительным',
     resourceСost: 2,
