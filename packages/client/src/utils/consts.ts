@@ -37,3 +37,13 @@ export enum RegExpValidation {
   DisplayName = '^[А-ЯA-Z][а-яА-ЯёЁa-zA-Z-]+$',
   Phone = '^[0-9+][0-9]{9,14}$',
 }
+
+const path = '/cards/images/fields/'
+
+export const fields = [
+  `${path}scouts-1-field.png`,
+  `${path}signalers-2-field.png`,
+  `${path}artillerymen-3-field.png`,
+  `${path}doctors-4-field.png`,
+  `${path}engineers-5-field.png`,
+]

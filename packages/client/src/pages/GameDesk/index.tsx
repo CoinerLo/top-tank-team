@@ -1,89 +1,116 @@
-import { Box, Container, Typography } from '@mui/material'
+import { Box, Button, Container } from '@mui/material'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { Deck } from '../../components/game/Deck/Deck'
+import { Field } from '../../components/game/Field/Field'
+import { Hand } from '../../components/game/Hand/Hand'
+import { ResourceСounter } from '../../components/game/ResourceСounter/ResourceСounter'
+import { TimerBox } from '../../components/game/TimerBox/TimerBox'
+import { fields } from '../../utils/consts'
 
-const opponentCardsInHand = [ {}, {}, {}, {} ]
+const opponentCardsInHand = [{}, {}, {}, {}]
+const userCardsInHand = [{}, {}, {}, {}, {}, {}]
 
-const path = '/cards/images/fields/'
-
-const fields = [
-  `${path}scouts-1-field.png`,
-  `${path}signalers-2-field.png`,
-  `${path}artillerymen-3-field.png`,
-  `${path}doctors-4-field.png`,
-  `${path}engineers-5-field.png`,
-]
-
-const Field = ({ url }) => {
-  return (
-    <Box sx={{ width: '74px', height: '67px', background: `url("${url}")`, backgroundSize: 'cover' }}>
-
-    </Box>
-  )
-}
-
-const Card = () => {
-  return (
-    <Box sx={{ width: '105px', height: '148px', background: 'url("/cards/card-face.png")', backgroundSize: 'cover' }}>
-
-    </Box>
-  )
-}
-
-const Deck = () => {
-  return (
-    <Box sx={{ width: '105px', height: '148px', display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'url("/cards/card-face.png")', backgroundSize: 'cover' }}>
-      <Typography fontSize='36px' >{opponentCardsInHand.length}</Typography>
-    </Box>
-  )
-}
-
-const OpponentHand = () => {
-  return (
-    <Box sx={{ display: 'flex' }}>
-      {opponentCardsInHand.map((item, idx) => <Card key={idx} />)}
-    </Box>
-  )
+const styles = {
+  userLine: {
+    position: 'relative',
+    justifyContent: 'center',
+    display: 'flex',
+    paddingX: '90px',
+  },
+  playingField: {
+    width: '856px',
+    height: '514px',
+    border: '1px solid #fff',
+  },
+  endOfTurnButton: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: '64px',
+    height: '60px',
+    padding: '10px',
+    flexWrap: 'wrap',
+    fontSize: '14px',
+  },
 }
 
 export const GameDesk = () => {
-  const [opponentDeck, setOpponentDeck] = useState(34);
+  const [opponentDeck] = useState(34)
+  const [opponentThrowDeck] = useState(2)
+  const [userDeck] = useState(34)
+  const [userThrowDeck] = useState(0)
+
+  const [opponentNowCountResource] = useState(4)
+  const [opponentFutureСountResource] = useState(4)
+  const [userNowCountResource] = useState(5)
+  const [userFutureСountResource] = useState(5)
+
   const params = useParams()
   console.log(params.gameId)
+
+  const handlerEndOfTurn = () => {
+    console.log('Переход хода!')
+  }
+
   return (
     <Container disableGutters>
       <Box sx={{ my: '10px', mx: 'auto' }}>
-        <Box sx={{ display: 'flex', ml: '20px' }}>
-          <Box>
-            <OpponentHand />
-          </Box>
-          <Box sx={{ ml: '20px' }}>
-            <Deck />
+        <Box sx={styles.userLine}>
+          <Hand cardsInHand={opponentCardsInHand} />
+          <Box sx={{ position: 'absolute', right: -30 }}>
+            <Deck
+              userName="opponent"
+              cardCountInDeck={opponentDeck}
+              cardCountThrown={opponentThrowDeck}
+            />
           </Box>
         </Box>
         <Box sx={{ display: 'flex', my: '10px' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', mr: '10px' }}>
-            {fields.map((field, idx) => <Field url={field} key={idx} />)}
-            Timer
+            {fields.map((field, idx) => (
+              <Field url={field} key={idx} />
+            ))}
+            <TimerBox />
+            <Box sx={{ mt: '15px' }}>
+              <ResourceСounter
+                nowCount={userNowCountResource}
+                futureСount={userFutureСountResource}
+              />
+            </Box>
           </Box>
-          <Box sx={{ width: '850px', height: '510px', border: '1px solid #fff' }}>
 
-          </Box>
+          <Box sx={styles.playingField}></Box>
+
           <Box sx={{ display: 'flex', flexDirection: 'column', ml: '10px' }}>
-            Timer
-            {fields.map((field, idx) => <Field url={field} key={idx} />)}
-
+            <TimerBox />
+            <Box mb="15px">
+              <ResourceСounter
+                nowCount={opponentNowCountResource}
+                futureСount={opponentFutureСountResource}
+              />
+            </Box>
+            {fields.map((field, idx) => (
+              <Field url={field} key={idx} />
+            ))}
           </Box>
         </Box>
-        <Box>
-          <Box sx={{ display: 'flex', ml: '20px' }}>
-            <Box>
-              <OpponentHand />
-            </Box>
-            <Box sx={{ ml: '20px' }}>
-              <Deck />
-            </Box>
+        <Box sx={styles.userLine}>
+          <Box sx={{ position: 'absolute', left: -30 }}>
+            <Deck
+              userName="user name"
+              cardCountInDeck={userDeck}
+              cardCountThrown={userThrowDeck}
+            />
           </Box>
+          <Hand cardsInHand={userCardsInHand} />
+          <Button
+            variant="sub"
+            type="button"
+            onClick={handlerEndOfTurn}
+            sx={styles.endOfTurnButton}>
+            Конец хода
+          </Button>
         </Box>
       </Box>
     </Container>
