@@ -1,12 +1,14 @@
 import { Box, Button, Container } from '@mui/material'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { BattleCard } from '../../components/game/BattleCard/BattleCard'
 import { Deck } from '../../components/game/Deck/Deck'
 import { Field } from '../../components/game/Field/Field'
 import { Hand } from '../../components/game/Hand/Hand'
 import { ResourceСounter } from '../../components/game/ResourceСounter/ResourceСounter'
 import { TimerBox } from '../../components/game/TimerBox/TimerBox'
-import { fields } from '../../utils/consts'
+import { fullHeadquartersDeck } from '../../gameCore/models/HeadquartersDeck'
+import { fieldsIcons } from '../../utils/consts'
 
 const opponentCardsInHand = [{}, {}, {}, {}]
 const userCardsInHand = [{}, {}, {}, {}, {}, {}]
@@ -68,7 +70,7 @@ export const GameDesk = () => {
         </Box>
         <Box sx={{ display: 'flex', my: '10px' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', mr: '10px' }}>
-            {fields.map((field, idx) => (
+            {fieldsIcons.map((field, idx) => (
               <Field url={field} key={idx} />
             ))}
             <TimerBox />
@@ -80,7 +82,104 @@ export const GameDesk = () => {
             </Box>
           </Box>
 
-          <Box sx={styles.playingField}></Box>
+          <Box sx={styles.playingField}>
+            <Box
+              sx={{
+                display: 'flex',
+                height: '171px',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.3)',
+              }}>
+              <Box
+                sx={{
+                  width: '171px',
+                  height: '170px',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+                }}></Box>
+              <Box
+                sx={{
+                  width: '171px',
+                  height: '170px',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+                }}></Box>
+              <Box
+                sx={{
+                  width: '171px',
+                  height: '170px',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+                }}></Box>
+              <Box
+                sx={{
+                  width: '171px',
+                  height: '170px',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+                }}></Box>
+              <Box sx={{ width: '170px', height: '170px' }}></Box>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                height: '171px',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.3)',
+              }}>
+              <Box
+                sx={{
+                  width: '171px',
+                  height: '170px',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+                }}></Box>
+              <Box
+                sx={{
+                  width: '171px',
+                  height: '170px',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+                }}></Box>
+              <Box
+                sx={{
+                  width: '171px',
+                  height: '170px',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+                }}></Box>
+              <Box
+                sx={{
+                  width: '171px',
+                  height: '170px',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+                }}></Box>
+              <Box sx={{ width: '170px', height: '170px' }}></Box>
+            </Box>
+            <Box sx={{ display: 'flex', height: '170px' }}>
+              <Box
+                sx={{
+                  width: '171px',
+                  height: '170px',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+                }}>
+                <BattleCard
+                  card={fullHeadquartersDeck[2]}
+                  battleCardType="training"
+                />
+              </Box>
+              <Box
+                sx={{
+                  width: '171px',
+                  height: '170px',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+                }}></Box>
+              <Box
+                sx={{
+                  width: '171px',
+                  height: '170px',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+                }}></Box>
+              <Box
+                sx={{
+                  width: '171px',
+                  height: '170px',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+                }}></Box>
+              <Box sx={{ width: '170px', height: '170px' }}></Box>
+            </Box>
+          </Box>
 
           <Box sx={{ display: 'flex', flexDirection: 'column', ml: '10px' }}>
             <TimerBox />
@@ -90,7 +189,7 @@ export const GameDesk = () => {
                 futureСount={opponentFutureСountResource}
               />
             </Box>
-            {fields.map((field, idx) => (
+            {fieldsIcons.map((field, idx) => (
               <Field url={field} key={idx} />
             ))}
           </Box>

@@ -74,6 +74,7 @@ export interface IHeadquarters {
   damage: number
   health: number
   specialProperties?: ISpecialProperties
+  icon: string
 }
 
-export type HeadquartersDataType = Omit<IHeadquarters, 'id'>
+export type HeadquartersDataType = Omit<IHeadquarters, 'id' | 'icon'>
