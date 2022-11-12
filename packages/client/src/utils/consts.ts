@@ -37,3 +37,13 @@ export enum RegExpValidation {
   DisplayName = '^[А-ЯA-Z][а-яА-ЯёЁa-zA-Z-]+$',
   Phone = '^[0-9+][0-9]{9,14}$',
 }
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
+export enum NameSpace {
+  User = 'USER',
+}
