@@ -19,3 +19,22 @@ export const loginAction = createAsyncThunk(
     }
   }
 )
+
+export const getUserAction = createAsyncThunk('user/getUser', async () => {
+  try {
+    await AuthController.fetchUser()
+    store.dispatch(requireAuthorization(AuthorizationStatus.Auth))
+  } catch (error) {
+    console.error(error)
+    store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth))
+  }
+})
+
+export const logoutAction = createAsyncThunk('user/logout', async () => {
+  try {
+    await AuthController.logout()
+    store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth))
+  } catch (error) {
+    console.error(error)
+  }
+})
