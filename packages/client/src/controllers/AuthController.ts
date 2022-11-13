@@ -30,10 +30,11 @@ export class AuthController {
 
   async fetchUser() {
     let response = await this.api.read()
-    if (response.status < 400) {
+    try {
       response = response.response
-    } else {
-      throw new Error(`Ошибка: ${response.status}`)
+      return response
+    } catch (e) {
+      console.error(`Ошибка: ${response.status}`)
     }
   }
 

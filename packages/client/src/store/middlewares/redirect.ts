@@ -8,6 +8,8 @@ export const redirect: Middleware<unknown, Reducer> =
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _store => next => action => {
     if (action.type === 'redirectToRoute') {
+      console.log('aaaaaaaaa')
+
       browserHistory.push(action.payload)
     }
 

@@ -1,4 +1,4 @@
-import { ISignInData, ISingUpForm } from '../typings'
+import { ISignInData, ISingUpForm, IUser } from '../typings'
 import { DefaultPraktikumClient, PraktikumClient } from './PraktikumClient'
 
 export class AuthAPI {

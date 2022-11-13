@@ -6,7 +6,7 @@ import { logoutAction } from '../store/api-actions'
 export const HeaderContainer = () => {
   const dispatch = useAppDispatch()
 
-  const handleLogout = useCallback(async () => {
+  const handleLogout = useCallback(() => {
     dispatch(logoutAction())
   }, [])
 
