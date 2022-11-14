@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { SubmitHandler } from 'react-hook-form/dist/types/form'
 import { useAppDispatch } from '../hooks'
 import { SignIn } from '../pages/SignIn'
-import { loginAction } from '../store/api-actions'
+import { loginThunk } from '../store/api-thunks'
 import { ISignInData } from '../typings'
 
 export const SignInContainer = () => {
@@ -10,7 +10,7 @@ export const SignInContainer = () => {
 
   const handleSubmitSignInData: SubmitHandler<ISignInData> = useCallback(
     data => {
-      dispatch(loginAction(data))
+      dispatch(loginThunk(data))
     },
     []
   )

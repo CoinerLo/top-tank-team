@@ -34,6 +34,6 @@ export interface ICollectionCardItem {
   id: string
 }
 
-export interface UserProcess {
+export interface UserSlice {
   authorizationStatus: AuthorizationStatus
 }

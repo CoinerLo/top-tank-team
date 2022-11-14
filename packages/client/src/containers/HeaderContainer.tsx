@@ -1,13 +1,13 @@
 import { useCallback } from 'react'
 import { Header } from '../components/Header/Header'
 import { useAppDispatch } from '../hooks'
-import { logoutAction } from '../store/api-actions'
+import { logoutThunk } from '../store/api-thunks'
 
 export const HeaderContainer = () => {
   const dispatch = useAppDispatch()
 
   const handleLogout = useCallback(() => {
-    dispatch(logoutAction())
+    dispatch(logoutThunk())
   }, [])
 
   return <Header handleLogout={handleLogout} />

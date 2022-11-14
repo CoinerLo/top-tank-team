@@ -8,9 +8,9 @@ import { HistoryRouter } from './components/HistoryRouter/HistoryRouter'
 import './index.css'
 import { store } from './store'
 
-import { getUserAction } from './store/api-actions'
+import { getUserThunk } from './store/api-thunks'
 
-store.dispatch(getUserAction())
+store.dispatch(getUserThunk())
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

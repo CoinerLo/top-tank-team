@@ -1,30 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { UserProcess } from '../../typings'
-import { AuthorizationStatus, NameSpace } from '../../utils/consts'
-import { getUserAction, loginAction, logoutAction } from '../api-actions'
+import { UserSlice } from '../../../typings'
+import { AuthorizationStatus, NameSpace } from '../../../utils/consts'
+import { getUserThunk, loginThunk, logoutThunk } from '../../api-thunks'
 
-const initialState: UserProcess = {
+const initialState: UserSlice = {
   authorizationStatus: AuthorizationStatus.Unknown,
 }
 
-export const userProcess = createSlice({
+export const userSlice = createSlice({
   name: NameSpace.User,
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(loginAction.fulfilled, state => {
+    builder.addCase(loginThunk.fulfilled, state => {
       state.authorizationStatus = AuthorizationStatus.Auth
     }),
-      builder.addCase(loginAction.rejected, state => {
+      builder.addCase(loginThunk.rejected, state => {
         state.authorizationStatus = AuthorizationStatus.NoAuth
       }),
-      builder.addCase(getUserAction.fulfilled, state => {
+      builder.addCase(getUserThunk.fulfilled, state => {
         state.authorizationStatus = AuthorizationStatus.Auth
       }),
-      builder.addCase(getUserAction.rejected, state => {
+      builder.addCase(getUserThunk.rejected, state => {
         state.authorizationStatus = AuthorizationStatus.NoAuth
       }),
-      builder.addCase(logoutAction.fulfilled, state => {
+      builder.addCase(logoutThunk.fulfilled, state => {
         state.authorizationStatus = AuthorizationStatus.NoAuth
       })
   },
