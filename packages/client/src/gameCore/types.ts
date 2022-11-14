@@ -62,7 +62,7 @@ export interface IOrder {
   specialProperties: ISpecialProperties
 }
 
-export type OredersDataType = Omit<IOrder, 'id'>
+export type OrdersDataType = Omit<IOrder, 'id'>
 
 export interface IHeadquarters {
   id: number
@@ -74,6 +74,7 @@ export interface IHeadquarters {
   damage: number
   health: number
   specialProperties?: ISpecialProperties
+  icon: string
 }
 
-export type HeadquartersDataType = Omit<IHeadquarters, 'id'>
+export type HeadquartersDataType = Omit<IHeadquarters, 'id' | 'icon'>

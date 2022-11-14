@@ -37,3 +37,44 @@ export enum RegExpValidation {
   DisplayName = '^[А-ЯA-Z][а-яА-ЯёЁa-zA-Z-]+$',
   Phone = '^[0-9+][0-9]{9,14}$',
 }
+
+const fieldsIconPath = '/cards/images/fields/'
+
+export const fieldsIcons = [
+  `${fieldsIconPath}scouts-1-field.png`,
+  `${fieldsIconPath}signalers-2-field.png`,
+  `${fieldsIconPath}artillerymen-3-field.png`,
+  `${fieldsIconPath}doctors-4-field.png`,
+  `${fieldsIconPath}engineers-5-field.png`,
+]
+
+export enum BattleCardIcons {
+  training = '/cards/icons/head-icon.png',
+  tt = '/cards/icons/tt-icon.png',
+  pt = '/cards/icons/pt-icon.png',
+  lt = '/cards/icons/lt-icon.png',
+  st = '/cards/icons/st-icon.png',
+  say = '/cards/icons/say-icon.png',
+}
+
+const tankIconPath = '/cards/images/tanks/'
+const headquartersIconPath = '/cards/images/headquarters/'
+
+export enum IconsByName {
+  'Trainingslager' = `${headquartersIconPath}german-image.png`,
+  'Training Camp' = `${headquartersIconPath}usa-image.png`,
+  'Учебная часть' = `${headquartersIconPath}ussr-image.png`,
+  'Liberty' = `${tankIconPath}liberty-image.png`,
+  'T6' = `${tankIconPath}t6-image.png`,
+  'T-24' = `${tankIconPath}t-24-image.png`,
+  'T-35-1' = `${tankIconPath}t-35-1-image.png`,
+  'T-21' = `${tankIconPath}t-21-image.png`,
+  'A7V' = `${tankIconPath}a7v-image.png`,
+  'СУ-18' = `${tankIconPath}su-18-image.png`,
+  'Panzerjager I' = `${tankIconPath}panzerjagerI-image.png`,
+  'T18' = `${tankIconPath}t-18-image.png`,
+  'Leichttraktor' = `${tankIconPath}Leichttraktor-image.png`,
+  'T1 LT' = `${tankIconPath}t1-lt-image.png`,
+  'T7 Combat Car' = `${tankIconPath}t7-Combat-Car-image.png`,
+  'МС-1' = `${tankIconPath}ms-1-image.png`,
+}
