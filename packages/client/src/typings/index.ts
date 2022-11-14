@@ -1,3 +1,5 @@
+import { AuthorizationStatus } from '../utils/consts'
+
 export interface IUser {
   id: number
   first_name: string
@@ -30,4 +32,8 @@ export interface ICardUpgrade {
 export interface ICollectionCardItem {
   name: string
   id: string
+}
+
+export interface UserSlice {
+  authorizationStatus: AuthorizationStatus
 }

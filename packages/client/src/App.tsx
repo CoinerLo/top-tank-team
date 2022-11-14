@@ -14,11 +14,12 @@ import { Forum } from './pages/Forum'
 import { GameStart } from './pages/GameDesk/GameStart'
 import { GameDesk } from './pages/GameDesk'
 import { GameResult } from './pages/GameDesk/GameResult'
-import { AppRoute } from './utils/consts'
+import { AppRoute, AuthorizationStatus } from './utils/consts'
 import { PostPage } from './pages/Forum/Post'
 import { SignInContainer } from './containers/SignInContainer'
 import { SignUpContainer } from './containers/SignUpContainer'
 import { HeaderContainer } from './containers/HeaderContainer'
+import { useAppselector } from './hooks'
 
 function App() {
   useEffect(() => {
@@ -31,6 +32,12 @@ function App() {
 
     fetchServerData()
   }, [])
+
+  const { authorizationStatus } = useAppselector(({ USER }) => USER)
+
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
+    console.log('Unauthorized')
+  }
 
   return (
     <ThemeProvider theme={mainTheme}>

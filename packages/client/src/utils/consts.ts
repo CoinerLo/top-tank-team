@@ -38,6 +38,16 @@ export enum RegExpValidation {
   Phone = '^[0-9+][0-9]{9,14}$',
 }
 
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
+export enum NameSpace {
+  User = 'USER',
+}
+
 const fieldsIconPath = '/cards/images/fields/'
 
 export const fieldsIcons = [
@@ -58,6 +68,7 @@ export enum BattleCardIcons {
 }
 
 const tankIconPath = '/cards/images/tanks/'
+
 const headquartersIconPath = '/cards/images/headquarters/'
 
 export enum IconsByName {
