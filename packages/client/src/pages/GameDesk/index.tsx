@@ -5,7 +5,7 @@ import { BattleCard } from '../../components/game/BattleCard/BattleCard'
 import { Deck } from '../../components/game/Deck/Deck'
 import { Field } from '../../components/game/Field/Field'
 import { Hand } from '../../components/game/Hand/Hand'
-import { ResourceСounter } from '../../components/game/ResourceСounter/ResourceСounter'
+import { ResourceCounter } from '../../components/game/ResourceCounter/ResourceCounter'
 import { TimerBox } from '../../components/game/TimerBox/TimerBox'
 import { fullHeadquartersDeck } from '../../gameCore/models/HeadquartersDeck'
 import { fieldsIcons } from '../../utils/consts'
@@ -43,9 +43,9 @@ export const GameDesk = () => {
   const [userDeck] = useState(34)
   const [userThrowDeck] = useState(0)
 
-  const [opponentNowCountResource] = useState(4)
+  const [opponentCurrentCountResource] = useState(4)
   const [opponentFutureСountResource] = useState(4)
-  const [userNowCountResource] = useState(5)
+  const [userCurrentCountResource] = useState(5)
   const [userFutureСountResource] = useState(5)
 
   const params = useParams()
@@ -75,8 +75,8 @@ export const GameDesk = () => {
             ))}
             <TimerBox />
             <Box sx={{ mt: '15px' }}>
-              <ResourceСounter
-                nowCount={userNowCountResource}
+              <ResourceCounter
+                currentCount={userCurrentCountResource}
                 futureСount={userFutureСountResource}
               />
             </Box>
@@ -184,8 +184,8 @@ export const GameDesk = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column', ml: '10px' }}>
             <TimerBox />
             <Box mb="15px">
-              <ResourceСounter
-                nowCount={opponentNowCountResource}
+              <ResourceCounter
+                currentCount={opponentCurrentCountResource}
                 futureСount={opponentFutureСountResource}
               />
             </Box>

@@ -24,8 +24,7 @@ export const Deck: FC<IDeck> = ({
         background: 'url("/cards/card-face.png")',
         backgroundSize: 'cover',
       }}>
-      <Typography
-        sx={{ mb: '30px', fontSize: '13px' }}>{`${userName}`}</Typography>
+      <Typography sx={{ mb: '30px', fontSize: '13px' }}>{userName}</Typography>
       <Typography fontSize="36px">{cardCountInDeck}</Typography>
       <Typography sx={{ mt: '10px', fontSize: '12px' }}>
         {cardCountThrown}

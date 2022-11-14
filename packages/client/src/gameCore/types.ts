@@ -62,7 +62,7 @@ export interface IOrder {
   specialProperties: ISpecialProperties
 }
 
-export type OredersDataType = Omit<IOrder, 'id'>
+export type OrdersDataType = Omit<IOrder, 'id'>
 
 export interface IHeadquarters {
   id: number
