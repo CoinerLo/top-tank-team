@@ -6,8 +6,6 @@ import { ProfileTab } from './Tabs/ProfileTab'
 import { DropZone } from '../DropZone/DropZone'
 import CloseIcon from '@mui/icons-material/Close'
 import { useAppselector } from '../../hooks'
-import { IUser } from '../../typings'
-import { BASE_URL } from '../../utils/consts'
 interface IUserAvatar {
   containerStyle?: SxProps
 }
@@ -31,9 +29,8 @@ export const UserProfile: FC<IUserAvatar> = ({ containerStyle }) => {
   const [isChangeAvatarOpen, setIsChangeAvatarOpen] = useState(false)
 
   const { currentUser } = useAppselector(({ USER }) => USER)
-  const { first_name, second_name, avatar } = currentUser as IUser
+  const { display_name, avatar } = currentUser
 
-  const avatarSrc = avatar ? `${BASE_URL}resources/${avatar}` : undefined
   const [tabIndex, setTabIndex] = useState(0)
 
   const handleChangeTab = (event: React.SyntheticEvent, value: number) => {
@@ -52,7 +49,7 @@ export const UserProfile: FC<IUserAvatar> = ({ containerStyle }) => {
         }}>
         <Avatar
           onClick={() => setIsOpen(true)}
-          src={avatarSrc}
+          src={avatar}
           sx={{
             cursor: 'pointer',
             width: '150px',
@@ -65,7 +62,7 @@ export const UserProfile: FC<IUserAvatar> = ({ containerStyle }) => {
             marginLeft="10px"
             marginTop="10px"
             textAlign="center">
-            {first_name} {second_name}
+            {display_name}
           </Typography>
         </Box>
       </Box>
@@ -76,7 +73,7 @@ export const UserProfile: FC<IUserAvatar> = ({ containerStyle }) => {
           </Typography>
           <Avatar
             onClick={() => setIsChangeAvatarOpen(true)}
-            src={avatarSrc}
+            src={avatar}
             sx={{
               cursor: 'pointer',
               alignSelf: 'center',
