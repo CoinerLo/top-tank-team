@@ -1,5 +1,5 @@
 import { Box, Button, Container } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { BattleCard } from '../../components/game/BattleCard/BattleCard'
 import { Deck } from '../../components/game/Deck/Deck'
@@ -9,6 +9,7 @@ import { ResourceCounter } from '../../components/game/ResourceCounter/ResourceC
 import { TimerBox } from '../../components/game/TimerBox/TimerBox'
 import { fullHeadquartersDeck } from '../../gameCore/models/HeadquartersDeck'
 import { fieldsIcons } from '../../utils/consts'
+import { icanvas } from './gameDeskCanvas'
 
 const opponentCardsInHand = [{}, {}, {}, {}]
 const userCardsInHand = [{}, {}, {}, {}, {}, {}]
@@ -55,6 +56,14 @@ export const GameDesk = () => {
     console.log('Переход хода!')
   }
 
+  useEffect(() => {
+    const canvas = document.getElementById('icanvas') as HTMLCanvasElement
+    const canvasT = document.getElementById('icanvasT') as HTMLCanvasElement
+    // let icanvasRender = icanvas.bind(this)
+    // icanvasRender(canvas)
+    icanvas(canvas, canvasT)
+  }, [])
+
   return (
     <Container disableGutters>
       <Box sx={{ my: '10px', mx: 'auto' }}>
@@ -82,7 +91,7 @@ export const GameDesk = () => {
             </Box>
           </Box>
 
-          <Box sx={styles.playingField}>
+          {/* <Box sx={styles.playingField}>
             <Box
               sx={{
                 display: 'flex',
@@ -179,7 +188,9 @@ export const GameDesk = () => {
                 }}></Box>
               <Box sx={{ width: '170px', height: '170px' }}></Box>
             </Box>
-          </Box>
+          </Box> */}
+          <canvas id="icanvas" style={{ border: '2px solid white' }}></canvas>
+          <canvas id="icanvasT" width={200} height={200}></canvas>
 
           <Box sx={{ display: 'flex', flexDirection: 'column', ml: '10px' }}>
             <TimerBox />
