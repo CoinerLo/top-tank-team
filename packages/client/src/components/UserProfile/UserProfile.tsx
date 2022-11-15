@@ -5,8 +5,10 @@ import { PasswordTab } from './Tabs/PasswordTab'
 import { ProfileTab } from './Tabs/ProfileTab'
 import { DropZone } from '../DropZone/DropZone'
 import CloseIcon from '@mui/icons-material/Close'
+import { useAppselector } from '../../hooks'
+import { IUser } from '../../typings'
+import { BASE_URL } from '../../utils/consts'
 interface IUserAvatar {
-  avatar?: string
   containerStyle?: SxProps
 }
 
@@ -24,10 +26,14 @@ const modalStyle = {
   p: 4,
 }
 
-export const UserProfile: FC<IUserAvatar> = ({ avatar, containerStyle }) => {
+export const UserProfile: FC<IUserAvatar> = ({ containerStyle }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isChangeAvatarOpen, setIsChangeAvatarOpen] = useState(false)
 
+  const { currentUser } = useAppselector(({ USER }) => USER)
+  const { first_name, second_name, avatar } = currentUser as IUser
+
+  const avatarSrc = avatar ? `${BASE_URL}resources/${avatar}` : undefined
   const [tabIndex, setTabIndex] = useState(0)
 
   const handleChangeTab = (event: React.SyntheticEvent, value: number) => {
@@ -46,7 +52,7 @@ export const UserProfile: FC<IUserAvatar> = ({ avatar, containerStyle }) => {
         }}>
         <Avatar
           onClick={() => setIsOpen(true)}
-          src={avatar}
+          src={avatarSrc}
           sx={{
             cursor: 'pointer',
             width: '150px',
@@ -59,7 +65,7 @@ export const UserProfile: FC<IUserAvatar> = ({ avatar, containerStyle }) => {
             marginLeft="10px"
             marginTop="10px"
             textAlign="center">
-            Константин Константинопольский
+            {first_name} {second_name}
           </Typography>
         </Box>
       </Box>
@@ -70,7 +76,7 @@ export const UserProfile: FC<IUserAvatar> = ({ avatar, containerStyle }) => {
           </Typography>
           <Avatar
             onClick={() => setIsChangeAvatarOpen(true)}
-            src={avatar}
+            src={avatarSrc}
             sx={{
               cursor: 'pointer',
               alignSelf: 'center',

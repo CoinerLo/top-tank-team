@@ -12,6 +12,8 @@ import {
   loginValidation,
   phoneValidation,
 } from '../../../utils/validation'
+import { IUser } from '../../../typings'
+import { useAppselector } from '../../../hooks'
 
 interface IChangeDataForm {
   login: string
@@ -44,6 +46,8 @@ export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
     mode: 'onBlur',
     reValidateMode: 'onChange',
   })
+  const { currentUser } = useAppselector(({ USER }) => USER)
+  const { login, email, phone } = currentUser as IUser
   const { errors, isValid } = useFormState({
     control,
   })

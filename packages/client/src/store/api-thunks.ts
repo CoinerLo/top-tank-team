@@ -11,7 +11,9 @@ export const loginThunk = createAsyncThunk(
 
 export const getUserThunk = createAsyncThunk('user/getUser', async () => {
   const res = await AuthController.fetchUser()
-  return res
+  console.log(res)
+
+  return res?.data
 })
 
 export const logoutThunk = createAsyncThunk('user/logout', async () => {

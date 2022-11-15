@@ -36,4 +36,5 @@ export interface ICollectionCardItem {
 
 export interface UserSlice {
   authorizationStatus: AuthorizationStatus
+  currentUser: IUser
 }
