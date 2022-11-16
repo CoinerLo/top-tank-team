@@ -1,11 +1,7 @@
-import { BASE_COUNT_OF_CARDS_IN_HAND } from '../../consts'
+import { BASE_COUNT_OF_CARDS_IN_HAND, endGameMessage } from '../../consts'
 import { CardsDeckType, IUserData } from '../../types'
 import { shuffleArray } from '../../utils'
 import { Headquarters, headquartersByName } from '../HeadquartersDeck'
-
-const endGame = {
-  noCardsInDeck: 'Карты в вашей колоде закончились! Вы проиграли!',
-}
 
 export class UserState {
   private name: string
@@ -31,7 +27,7 @@ export class UserState {
     if (card) {
       return card
     }
-    this.theEndGame(endGame.noCardsInDeck)
+    this.theEndGame(endGameMessage.noCardsInDeck)
   }
 
   public getCountOfDiscardedCards() {
