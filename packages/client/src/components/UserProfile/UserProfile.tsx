@@ -100,7 +100,7 @@ export const UserProfile: FC<IUserAvatar> = ({ containerStyle }) => {
             <Box
               sx={{
                 ...modalStyle,
-                minHeight: '500px',
+                minHeight: '200px',
               }}>
               <Typography
                 onClick={() => setIsChangeAvatarOpen(false)}
