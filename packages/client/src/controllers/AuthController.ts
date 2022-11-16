@@ -11,7 +11,7 @@ export class AuthController {
   async signin(data: ISignInData) {
     try {
       const response = await this.api.signIn(data)
-      await this.fetchUser()
+      // await this.fetchUser()
       return response
     } catch (e: unknown) {
       console.error((e as Error).message)
@@ -29,12 +29,11 @@ export class AuthController {
   }
 
   async fetchUser() {
-    let response = await this.api.read()
     try {
-      response = response.response
+      const response = await this.api.read()
       return response
     } catch (e) {
-      console.error(`Ошибка: ${response.status}`)
+      console.error(`Ошибка: ${e}`)
     }
   }
 

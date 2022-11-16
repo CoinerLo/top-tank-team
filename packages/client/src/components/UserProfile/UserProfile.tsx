@@ -5,8 +5,8 @@ import { PasswordTab } from './Tabs/PasswordTab'
 import { ProfileTab } from './Tabs/ProfileTab'
 import { DropZone } from '../DropZone/DropZone'
 import CloseIcon from '@mui/icons-material/Close'
+import { useAppselector } from '../../hooks'
 interface IUserAvatar {
-  avatar?: string
   containerStyle?: SxProps
 }
 
@@ -24,9 +24,12 @@ const modalStyle = {
   p: 4,
 }
 
-export const UserProfile: FC<IUserAvatar> = ({ avatar, containerStyle }) => {
+export const UserProfile: FC<IUserAvatar> = ({ containerStyle }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isChangeAvatarOpen, setIsChangeAvatarOpen] = useState(false)
+
+  const { currentUser } = useAppselector(({ USER }) => USER)
+  const { display_name, avatar } = currentUser
 
   const [tabIndex, setTabIndex] = useState(0)
 
@@ -59,7 +62,7 @@ export const UserProfile: FC<IUserAvatar> = ({ avatar, containerStyle }) => {
             marginLeft="10px"
             marginTop="10px"
             textAlign="center">
-            Константин Константинопольский
+            {display_name}
           </Typography>
         </Box>
       </Box>

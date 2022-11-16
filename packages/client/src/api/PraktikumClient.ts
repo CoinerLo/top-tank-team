@@ -1,14 +1,13 @@
 import axios from 'axios'
-
-const baseURL = 'https://ya-praktikum.tech/api/v2/'
+import { BASE_URL } from '../utils/consts'
 
 export const DefaultPraktikumClient = axios.create({
-  baseURL,
+  baseURL: BASE_URL,
   withCredentials: true,
 })
 
 export const PraktikumClient = axios.create({
-  baseURL,
+  baseURL: BASE_URL,
   withCredentials: true,
   headers: {
     accept: 'application/json',

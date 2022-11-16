@@ -8,7 +8,7 @@ export interface IUser {
   login: string
   email: string
   phone: string
-  avatar: string | null
+  avatar: string | undefined
 }
 
 export interface ISignInData {
@@ -36,4 +36,5 @@ export interface ICollectionCardItem {
 
 export interface UserSlice {
   authorizationStatus: AuthorizationStatus
+  currentUser: IUser
 }
