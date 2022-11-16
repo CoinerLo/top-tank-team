@@ -60,21 +60,21 @@ export enum BattleCardIcons {
 const tankIconPath = '/cards/images/tanks/'
 const headquartersIconPath = '/cards/images/headquarters/'
 
-export enum IconsByName {
-  'Trainingslager' = `${headquartersIconPath}german-image.png`,
-  'Training Camp' = `${headquartersIconPath}usa-image.png`,
-  'Учебная часть' = `${headquartersIconPath}ussr-image.png`,
-  'Liberty' = `${tankIconPath}liberty-image.png`,
-  'T6' = `${tankIconPath}t6-image.png`,
-  'T-24' = `${tankIconPath}t-24-image.png`,
-  'T-35-1' = `${tankIconPath}t-35-1-image.png`,
-  'T-21' = `${tankIconPath}t-21-image.png`,
-  'A7V' = `${tankIconPath}a7v-image.png`,
-  'СУ-18' = `${tankIconPath}su-18-image.png`,
-  'Panzerjager I' = `${tankIconPath}panzerjagerI-image.png`,
-  'T18' = `${tankIconPath}t-18-image.png`,
-  'Leichttraktor' = `${tankIconPath}Leichttraktor-image.png`,
-  'T1 LT' = `${tankIconPath}t1-lt-image.png`,
-  'T7 Combat Car' = `${tankIconPath}t7-Combat-Car-image.png`,
-  'МС-1' = `${tankIconPath}ms-1-image.png`,
+export const IconsByName: Record<string, string> = {
+  Trainingslager: `${headquartersIconPath}german-image.png`,
+  'Training Camp': `${headquartersIconPath}usa-image.png`,
+  'Учебная часть': `${headquartersIconPath}ussr-image.png`,
+  Liberty: `${tankIconPath}liberty-image.png`,
+  T6: `${tankIconPath}t6-image.png`,
+  'T-24': `${tankIconPath}t-24-image.png`,
+  'T-35-1': `${tankIconPath}t-35-1-image.png`,
+  'T-21': `${tankIconPath}t-21-image.png`,
+  A7V: `${tankIconPath}a7v-image.png`,
+  'СУ-18': `${tankIconPath}su-18-image.png`,
+  'Panzerjager I': `${tankIconPath}panzerjagerI-image.png`,
+  T18: `${tankIconPath}t-18-image.png`,
+  Leichttraktor: `${tankIconPath}Leichttraktor-image.png`,
+  'T1 LT': `${tankIconPath}t1-lt-image.png`,
+  'T7 Combat Car': `${tankIconPath}t7-Combat-Car-image.png`,
+  'МС-1': `${tankIconPath}ms-1-image.png`,
 }

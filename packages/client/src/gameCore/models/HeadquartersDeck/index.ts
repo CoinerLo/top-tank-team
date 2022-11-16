@@ -27,10 +27,24 @@ export class Headquarters extends BaseCard {
     this.health = health
     this.type = type
     this.bringsResources = bringsResources
-    this.icon = (IconsByName as Record<string, string>)[name]
+    this.icon = IconsByName[name]
   }
 }
 
 export const fullHeadquartersDeck = HeadquartersData.map(
   headquarters => new Headquarters(headquarters)
 )
+
+export const headquartersByName = fullHeadquartersDeck.reduce(
+  (acc, headquarters) => {
+    acc[headquarters.name] = headquarters
+    return acc
+  },
+  {} as Record<string, Headquarters>
+)
+
+export enum HeadquartersNames {
+  german = 'Trainingslager',
+  usa = 'Training Camp',
+  ussr = 'Учебная часть',
+}

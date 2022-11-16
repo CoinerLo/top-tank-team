@@ -1,3 +1,8 @@
+import { Headquarters } from './models/HeadquartersDeck'
+import { Order } from './models/OrdersDeck'
+import { Platoon } from './models/PlatoonsDeck'
+import { Tank } from './models/TanksDeck'
+
 export type TankType = 'тяжёлый' | 'средний' | 'лёгкий' | 'ПТ-САУ' | 'САУ'
 export type PlatoonsType =
   | 'Артиллеристы'
@@ -19,11 +24,11 @@ export interface ISpecialProperties {
 
 export type BaseCardType = Omit<
   ITank,
-  'id' | 'bringsResources' | 'type' | 'damage' | 'health' | 'specialProperties'
+  'bringsResources' | 'type' | 'damage' | 'health' | 'specialProperties'
 >
 
 export interface ITank {
-  id: number
+  id?: string
   name: string
   resourceСost: number // Кол-во ресурсов необходимых для вывовда карты на поле
   bringsResources: number // Кол-во ресурсов которые приносит карта пока находится на поле
@@ -78,3 +83,36 @@ export interface IHeadquarters {
 }
 
 export type HeadquartersDataType = Omit<IHeadquarters, 'id' | 'icon'>
+
+export type CardsDeckType = Tank | Order | Platoon
+
+export interface IUserData {
+  userName: string
+  headquartersName: string
+  deck: CardsDeckType[]
+}
+
+export interface IDesk {
+  userHeadquarters: Headquarters
+  opponentHeadquarters: Headquarters
+}
+
+export type GameDeskSegmentType = Tank | null
+
+export interface IGamingDesk {
+  a1: GameDeskSegmentType
+  a2: GameDeskSegmentType
+  a3: GameDeskSegmentType
+  a4: GameDeskSegmentType
+  a5: Headquarters
+  b1: GameDeskSegmentType
+  b2: GameDeskSegmentType
+  b3: GameDeskSegmentType
+  b4: GameDeskSegmentType
+  b5: GameDeskSegmentType
+  c1: Headquarters
+  c2: GameDeskSegmentType
+  c3: GameDeskSegmentType
+  c4: GameDeskSegmentType
+  c5: GameDeskSegmentType
+}
