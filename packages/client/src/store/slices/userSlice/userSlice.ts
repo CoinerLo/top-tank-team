@@ -1,7 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { UserSlice } from '../../../typings'
 import { AuthorizationStatus, BASE_URL, NameSpace } from '../../../utils/consts'
-import { getUserThunk, loginThunk, logoutThunk } from '../../api-thunks'
+import {
+  getUserThunk,
+  loginThunk,
+  logoutThunk,
+  updateAvatarThunk,
+  updateProfileThunk,
+} from '../../api-thunks'
 
 const initialState: UserSlice = {
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -38,6 +44,20 @@ export const userSlice = createSlice({
           state.authorizationStatus = AuthorizationStatus.Auth
         } else {
           state.currentUser = initialState.currentUser
+        }
+      }),
+      builder.addCase(updateProfileThunk.fulfilled, (state, action) => {
+        if (action.payload) {
+          const avatar = state.currentUser.avatar
+          state.currentUser = action.payload
+          state.currentUser.avatar = avatar
+        }
+      }),
+      builder.addCase(updateAvatarThunk.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.currentUser.avatar = action.payload.avatar
+            ? `${BASE_URL}resources/${action.payload.avatar}`
+            : undefined
         }
       }),
       builder.addCase(getUserThunk.rejected, state => {
