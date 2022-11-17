@@ -1,5 +1,5 @@
-import { nanoid } from 'nanoid'
 import { BaseCardType } from '../../types'
+import { nanoid } from '../../utils'
 
 class BaseCard {
   name: string
@@ -8,13 +8,13 @@ class BaseCard {
   tier: number
   id: string
 
-  constructor({ name, nation, resourceСost, tier }: BaseCardType) {
+  constructor({ name, nation, resourceСost, tier, id }: BaseCardType) {
     this.name = name
     this.resourceСost = resourceСost
     this.tier = tier
     this.nation = nation
 
-    this.id = nanoid()
+    this.id = id ?? nanoid()
   }
 }
 
