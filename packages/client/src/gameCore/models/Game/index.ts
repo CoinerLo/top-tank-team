@@ -15,7 +15,7 @@ interface IGame {
 }
 
 export class Game {
-  private id: string
+  public id: string
   private UserState: UserState
   private OpponentState: UserState
   public Desk: Desk
