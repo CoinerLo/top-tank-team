@@ -1,12 +1,4 @@
-import {
-  Button,
-  Box,
-  Typography,
-  List,
-  ListItem,
-  Container,
-  Link,
-} from '@mui/material'
+import { Button, Box, Typography, Container, Link } from '@mui/material'
 import React from 'react'
 import { AppRoute } from '../../utils/consts'
 import { NavLink, useNavigate } from 'react-router-dom'
@@ -49,9 +41,9 @@ export const Home = () => {
           padding: '20px',
         }}>
         <Typography variant="body1">
-          <Typography component="span" variant="h3">
+          <Typography component="span" variant="h3" marginRight="5px">
             Headquarters Tank Battles
-          </Typography>{' '}
+          </Typography>
           – бесплатная браузерная коллекционная карточная онлайн-игра,
           разработанная в жанре пошаговой стратегии. В основу игрового процесса
           заложены события Второй мировой войны. В ваше распоряжение поступает
@@ -60,17 +52,17 @@ export const Home = () => {
         </Typography>
 
         <Typography variant="body1" marginTop="20px">
-          <Typography component="span" variant="h3">
+          <Typography component="span" variant="h3" marginRight="5px">
             Ваша задача
-          </Typography>{' '}
+          </Typography>
           – стать во главе воинского подразделения, в составе которого танки,
           пехота, артиллерия, представленные отдельными коллекционными картами.
         </Typography>
 
         <Typography variant="body1" marginTop="20px">
-          <Typography component="span" variant="h3">
+          <Typography component="span" variant="h3" marginRight="5px">
             Ваша цель
-          </Typography>{' '}
+          </Typography>
           – уничтожение штаба противника. Дальнейшая прокачка техники и
           улучшений вашей армии. Развитие качественной стратегии боя.
           Восхождение к вершине в таблице лидеров среди остальных участников
@@ -84,7 +76,6 @@ export const Home = () => {
           стратегия с верными тактическими ходами.
         </Typography>
       </Box>
-      <Box mb="10px" width="100%"></Box>
       <Button onClick={signIn} variant="secondary" sx={styles.mainBtn}>
         Войти
       </Button>
