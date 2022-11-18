@@ -95,34 +95,46 @@ export const GameDesk = () => {
         },
       },
       {
+        type: 'card',
+        position: { x: 0, y: DPI_HEIGHT - 170 },
+        cardImg: { w: 170, h: 170, src: './../cards/battleCard.png'},
+        baseImg: {w: 150, h: 125, dx: 10, dy: 36, src: './../cards/images/headquarters/ussr-image.png'},
+        bringsResourcesIconImg: {w: 39, h: 39, dx: 129, dy: 2, src: './../cards/bringsResources.png'},
+        headIconImg: {w: 20, h: 18, dx: 3, dy: 10, src: './../cards/icons/head-icon.png'},
+        headText: {text: 'Учебная часть', dx:25, dy:25, font: '10pt Arial', fillStyle: 'gray'},
+        bringsResourcesText: {text: '5', dx:143, dy:31, font: 'bold 16pt Arial', fillStyle: '#000'},
+      },
+      {
         position: { x: 0, y: 0 },
         setka: {c: 'white', lineWidth: 1,}
       },
-      {
-        position: { x: 0, y: DPI_HEIGHT - 170 },
-        img: {src: './../cards/battleCard.png'}
-      },
-      {
-        position: { x: 0 + 14, y: DPI_HEIGHT - 170 + 36, dw: 145, dh: 127 },
-        img: {src: './../cards/images/headquarters/ussr-image.png'}
-      },
-      {
-        position: { x: 0 + 120, y: DPI_HEIGHT - 170, dw: 50, dh: 50 },
-        img: {src: './../cards/bringsResources.png'}
-      },
-      {
-        position: { x: 0 + 3, y: DPI_HEIGHT - 165, dw: 25, dh: 25 },
-        img: {src: './../cards/icons/head-icon.png'}
-      },
-      {
-        position: { x: 0 + 30, y: DPI_HEIGHT - 150 },
-        text: {font: '10pt Arial', fillStyle: 'gray', text: 'Учебная часть'}
-      },
-      {
-        position: { x: 0 + 142, y: DPI_HEIGHT - 135 },
-        text: {font: 'bold 16pt Arial', fillStyle: '#000', text: '5'}
-      },
+      // {
+      //   position: { x: 0, y: DPI_HEIGHT - 170 },
+      //   img: {src: './../cards/battleCard.png'}
+      // },
+      // {
+      //   position: { x: 0 + 14, y: DPI_HEIGHT - 170 + 36, dw: 145, dh: 127 },
+      //   img: {src: './../cards/images/headquarters/ussr-image.png'}
+      // },
+      // {
+      //   position: { x: 0 + 120, y: DPI_HEIGHT - 170, dw: 50, dh: 50 },
+      //   img: {src: './../cards/bringsResources.png'}
+      // },
+      // {
+      //   position: { x: 0 + 3, y: DPI_HEIGHT - 165, dw: 25, dh: 25 },
+      //   img: {src: './../cards/icons/head-icon.png'}
+      // },
+      // {
+      //   position: { x: 0 + 30, y: DPI_HEIGHT - 150 },
+      //   text: {font: '10pt Arial', fillStyle: 'gray', text: 'Учебная часть'}
+      // },
+      // {
+      //   position: { x: 0 + 142, y: DPI_HEIGHT - 135 },
+      //   text: {font: 'bold 16pt Arial', fillStyle: '#000', text: '5'}
+      // },
     ]
+    game.render()
+    console.log(game)
   }, [])
 
   return (

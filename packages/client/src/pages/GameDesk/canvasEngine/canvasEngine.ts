@@ -114,6 +114,36 @@ export let canvasEnginePlugins = {
         _.context.font = element.text.font
         _.context.fillText(element.text.text, element.position.x, element.position.y)
       }
+    },
+    (_: any, element: any) => {
+      if(element.type == 'card') {
+        let cardImg = new Image()
+        cardImg.src = element.cardImg.src
+        cardImg.onload = () => {
+          _.context.drawImage(cardImg, element.position.x, element.position.y, element.cardImg.w, element.cardImg.h)
+          let baseImg = new Image()
+          baseImg.src = element.baseImg.src
+          baseImg.onload = () => {
+            _.context.drawImage(baseImg, element.position.x + element.baseImg.dx, element.position.y + element.baseImg.dy, element.baseImg.w, element.baseImg.h)
+            let bringsResourcesIconImg = new Image()
+            bringsResourcesIconImg.src = element.bringsResourcesIconImg.src
+            bringsResourcesIconImg.onload = () => {
+              _.context.drawImage(bringsResourcesIconImg, element.position.x + element.bringsResourcesIconImg.dx, element.position.y + element.bringsResourcesIconImg.dy, element.bringsResourcesIconImg.w, element.bringsResourcesIconImg.h)
+              let headIconImg = new Image()
+              headIconImg.src = element.headIconImg.src
+              headIconImg.onload = () => {
+                _.context.drawImage(headIconImg, element.position.x + element.headIconImg.dx, element.position.y + element.headIconImg.dy, element.headIconImg.w, element.headIconImg.h)
+                _.context.fillStyle = element.headText.fillStyle
+                _.context.font = element.headText.font
+                _.context.fillText(element.headText.text, element.position.x + element.headText.dx, element.position.y + element.headText.dy)
+                _.context.fillStyle = element.bringsResourcesText.fillStyle
+                _.context.font = element.bringsResourcesText.font
+                _.context.fillText(element.bringsResourcesText.text, element.position.x + element.bringsResourcesText.dx, element.position.y + element.bringsResourcesText.dy)
+              }
+            }
+          }
+        }
+      }
     }
     // async () => {
     //   imageL = (await loadImage('./../cards/battleCard.png')) as CanvasImageSource
@@ -153,7 +183,7 @@ export function canvasEngine(query: any, settings = {} as any): any {
     typeof settings.imageSmoothling == 'boolean'
       ? settings.imageSmoothling
       : false
-  _.settings.fps = typeof settings.fps == 'number' ? settings.fps : 60
+  _.settings.fps = typeof settings.fps == 'number' ? settings.fps : 0
   _.settings.interval = Math.floor(1000 / _.settings.fps)
 
   _.canvas = document.querySelector(query)
@@ -224,13 +254,13 @@ export function canvasEngine(query: any, settings = {} as any): any {
     })
   }
 
-  _.interval = setInterval(
-    _ => {
-      _.render()
-    },
-    _.settings.interval,
-    _
-  )
+  // _.interval = setInterval(
+  //   _ => {
+  //     _.render()
+  //   },
+  //   _.settings.interval,
+  //   _
+  // )
   return _
 }
 
