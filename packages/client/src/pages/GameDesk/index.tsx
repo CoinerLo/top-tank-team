@@ -66,7 +66,9 @@ export const GameDesk = () => {
   // }, [])
 
   useEffect(() => {
-    let game = canvasEngine('#icanvas')
+    const DPI_WIDTH = 854
+    const DPI_HEIGHT = 512
+    let game = canvasEngine('#icanvas', {DPI_WIDTH, DPI_HEIGHT})
     game.elements = [
       {
         position: { x: 0, y: 0 },
@@ -91,6 +93,34 @@ export const GameDesk = () => {
           console.log('click', game)
           game.elements[1].position = { x: 100, y: 100 }
         },
+      },
+      {
+        position: { x: 0, y: 0 },
+        setka: {c: 'white', lineWidth: 1,}
+      },
+      {
+        position: { x: 0, y: DPI_HEIGHT - 170 },
+        img: {src: './../cards/battleCard.png'}
+      },
+      {
+        position: { x: 0 + 14, y: DPI_HEIGHT - 170 + 36, dw: 145, dh: 127 },
+        img: {src: './../cards/images/headquarters/ussr-image.png'}
+      },
+      {
+        position: { x: 0 + 120, y: DPI_HEIGHT - 170, dw: 50, dh: 50 },
+        img: {src: './../cards/bringsResources.png'}
+      },
+      {
+        position: { x: 0 + 3, y: DPI_HEIGHT - 165, dw: 25, dh: 25 },
+        img: {src: './../cards/icons/head-icon.png'}
+      },
+      {
+        position: { x: 0 + 30, y: DPI_HEIGHT - 150 },
+        text: {font: '10pt Arial', fillStyle: 'gray', text: 'Учебная часть'}
+      },
+      {
+        position: { x: 0 + 142, y: DPI_HEIGHT - 135 },
+        text: {font: 'bold 16pt Arial', fillStyle: '#000', text: '5'}
       },
     ]
   }, [])
@@ -221,7 +251,7 @@ export const GameDesk = () => {
             </Box>
           </Box> */}
 
-          <canvas id="icanvas" style={{ border: '2px solid white' }}></canvas>
+          <canvas id="icanvas" width={854} height={512} style={{ border: '2px solid white' }}></canvas>
           {/* <canvas id="icanvasT" width={200} height={200}></canvas> */}
 
           <Box sx={{ display: 'flex', flexDirection: 'column', ml: '10px' }}>

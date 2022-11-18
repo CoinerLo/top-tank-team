@@ -16,6 +16,14 @@ interface _canvasEngine {
   mouse: any
 }
 
+const loadImage = (src: any) => {
+  return new Promise(resolve => {
+    const image = new Image()
+    image.src = src
+    image.onload = () => resolve(image)
+  })
+}
+
 export let canvasEnginePlugins = {
   after: [],
   before: [],
@@ -57,6 +65,82 @@ export let canvasEnginePlugins = {
         element.beforeRender(_, element)
       }
     },
+    (_: any, element: any) => {
+      if (element.setka) {
+        const DPI_WIDTH = _.canvas.offsetWidth
+        const DPI_HEIGHT = _.canvas.offsetHeight
+        const step = DPI_HEIGHT / 3
+        _.context.strokeStyle = element.setka.c
+        _.context.lineWidth = element.setka.lineWidth
+        _.context.beginPath()
+        for (let i = 1; i < 3; i++) {
+          const y = step * i
+          _.context.moveTo(0, y)
+          _.context.lineTo(DPI_WIDTH, y)
+        }
+        _.context.stroke()
+        _.context.closePath
+      }
+    },
+    (_: any, element: any) => {
+      if (element.setka) {
+        const DPI_WIDTH = _.canvas.offsetWidth
+        const DPI_HEIGHT = _.canvas.offsetHeight
+        const stepX = DPI_WIDTH / 5
+        _.context.strokeStyle = element.setka.c
+        _.context.lineWidth = element.setka.lineWidth
+        _.context.beginPath()
+        for (let i = 1; i < 5; i++) {
+          const x = stepX * i
+          _.context.moveTo(x, 0)
+          _.context.lineTo(x, DPI_HEIGHT)
+        }
+        _.context.stroke()
+        _.context.closePath
+      }
+    },
+    (_: any, element: any) => {
+      if (element.img) {
+        let pic = new Image()
+        pic.src = element.img.src
+        pic.onload = () => {
+          _.context.drawImage(pic, element.position.x, element.position.y, element.position.dw || 170, element.position.dh || 170)
+        }
+      }
+    },
+    (_: any, element: any) => {
+      if (element.text) {
+        _.context.fillStyle = element.text.fillStyle
+        _.context.font = element.text.font
+        _.context.fillText(element.text.text, element.position.x, element.position.y)
+      }
+    }
+    // async () => {
+    //   imageL = (await loadImage('./../cards/battleCard.png')) as CanvasImageSource
+    //   if (ctx) {
+    //     if (imageL) {
+    //       ctx?.drawImage(imageL, 0, DPI_HEIGHT - 200, 200, 200)
+    //     }
+    //     const image2 = (await loadImage(
+    //       './../cards/images/headquarters/ussr-image.png'
+    //     )) as CanvasImageSource
+    //     ctx.drawImage(image2, 0 + 16, DPI_HEIGHT - 200 + 40, 170, 152)
+    //     const image3 = (await loadImage(
+    //       './../cards/bringsResources.png'
+    //     )) as CanvasImageSource
+    //     ctx.drawImage(image3, 0 + 150, DPI_HEIGHT - 200, 50, 50)
+    //     const image4 = (await loadImage(
+    //       './../cards/icons/head-icon.png'
+    //     )) as CanvasImageSource
+    //     ctx.drawImage(image4, 0 + 3, DPI_HEIGHT - 190, 25, 25)
+    //     ctx.fillStyle = 'gray'
+    //     ctx.font = '12pt Arial'
+    //     ctx.fillText('Учебная часть', 0 + 30, DPI_HEIGHT - 170)
+    //     ctx.fillStyle = '#000'
+    //     ctx.font = 'bold 16pt Arial'
+    //     ctx.fillText('5', 0 + 172, DPI_HEIGHT - 165)
+    //   }
+    // }
   ],
 }
 
@@ -73,10 +157,14 @@ export function canvasEngine(query: any, settings = {} as any): any {
   _.settings.interval = Math.floor(1000 / _.settings.fps)
 
   _.canvas = document.querySelector(query)
-  _.canvas.width = _.canvas.offsetWidth
-  _.canvas.style.width = _.canvas.offsetWidth + 'px'
-  _.canvas.height = _.canvas.offsetHeight
-  _.canvas.style.height = _.canvas.offsetHeight + 'px'
+  _.canvas.width = settings.DPI_WIDTH
+  _.canvas.style.width = settings.DPI_WIDTH + 'px'
+  _.canvas.height = settings.DPI_HEIGHT
+  _.canvas.style.height = settings.DPI_HEIGHT + 'px'
+  // _.canvas.width = _.canvas.offsetWidth
+  // _.canvas.style.width = _.canvas.offsetWidth + 'px'
+  // _.canvas.height = _.canvas.offsetHeight
+  // _.canvas.style.height = _.canvas.offsetHeight + 'px'
   _.canvas.addEventListener('click', () => {
     _.mouse.click = true
   })
@@ -145,3 +233,5 @@ export function canvasEngine(query: any, settings = {} as any): any {
   )
   return _
 }
+
+
