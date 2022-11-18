@@ -1,3 +1,4 @@
+import { Box, Button } from '@mui/material'
 import { FC, useEffect } from 'react'
 import { useStopwatch } from 'react-timer-hook'
 import fist from '../../assets/img/fist.png'
@@ -34,26 +35,26 @@ export const MyStopwatch: FC<MyStopwatchProps> = ({
   }, [valReset])
 
   return (
-    <div style={{ textAlign: 'center' }}>
+    <Box sx={{ textAlign: 'center' }}>
       <h1>{title}</h1>
       <p>
         <img src={fist}></img>
         {subTitle}
       </p>
-      <div style={{ fontSize: '50px' }}>
+      <Box sx={{ fontSize: '50px' }}>
         <span>{minutes}</span>:<span>{seconds}</span>
-      </div>
+      </Box>
       <p>{isRunning ? runningMsg[0] : runningMsg[1]}</p>
-      {isBtnStart && <button onClick={start}>{BtnStartTxt}</button>}
-      {isBtnPause && <button onClick={pause}>{BtnPauseTxt}</button>}
+      {isBtnStart && <Button onClick={start}>{BtnStartTxt}</Button>}
+      {isBtnPause && <Button onClick={pause}>{BtnPauseTxt}</Button>}
       {isBtnReset && (
-        <button
+        <Button
           onClick={() => {
             reset()
           }}>
           {BtnResetTxt}
-        </button>
+        </Button>
       )}
-    </div>
+    </Box>
   )
 }

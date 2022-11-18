@@ -91,3 +91,22 @@ export const IconsByName: Record<string, string> = {
   'T7 Combat Car': `${tankIconPath}t7-Combat-Car-image.png`,
   'МС-1': `${tankIconPath}ms-1-image.png`,
 }
+
+export enum HeadquartersNames {
+  german = 'Trainingslager',
+  usa = 'Training Camp',
+  ussr = 'Учебная часть',
+}
+
+export const getHeadquartersPreview = (headquarters: string) => {
+  switch (headquarters) {
+    case HeadquartersNames.german:
+      return 'avatar_default.png'
+    case HeadquartersNames.ussr:
+      return 'avatar_default_ussr.png'
+    case HeadquartersNames.usa:
+      return 'avatar_default_usa.png'
+    default:
+      return 'avatar_default.png'
+  }
+}
