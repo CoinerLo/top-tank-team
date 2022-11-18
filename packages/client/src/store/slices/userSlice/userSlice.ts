@@ -41,7 +41,7 @@ export const userSlice = createSlice({
           ? `${BASE_URL}resources/${avatar}`
           : undefined
         if (!state.currentUser.display_name) {
-          state.currentUser.display_name = `${state.currentUser.first_name} ${state.currentUser.second_name}`
+          state.currentUser.display_name = `${state.currentUser.login}`
         }
         state.authorizationStatus = AuthorizationStatus.Auth
       }),

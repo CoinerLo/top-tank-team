@@ -43,7 +43,6 @@ export const UserProfile: FC<IUserAvatar> = ({ containerStyle }) => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          boxShadow: 3,
           alignItems: 'center',
           ...containerStyle,
         }}>
