@@ -9,41 +9,25 @@ export class AuthController {
   }
 
   async signin(data: ISignInData) {
-    try {
-      const response = await this.api.signIn(data)
-      // await this.fetchUser()
-      return response
-    } catch (e: unknown) {
-      console.error((e as Error).message)
-    }
+    const response = await this.api.signIn(data)
+    await this.fetchUser()
+    return response
   }
 
   async signup(data: ISingUpForm) {
-    try {
-      const response = await this.api.signUp(data)
-      await this.fetchUser()
-      return response
-    } catch (e: unknown) {
-      console.error((e as Error).message)
-    }
+    const response = await this.api.signUp(data)
+    await this.fetchUser()
+    return response
   }
 
   async fetchUser() {
-    try {
-      const response = await this.api.read()
-      return response
-    } catch (e) {
-      console.error(`Ошибка: ${e}`)
-    }
+    const response = await this.api.read()
+    return response
   }
 
   async logout() {
-    try {
-      const response = await this.api.logout()
-      return response
-    } catch (e: unknown) {
-      console.error((e as Error).message)
-    }
+    const response = await this.api.logout()
+    return response
   }
 }
 

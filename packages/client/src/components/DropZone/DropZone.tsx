@@ -1,38 +1,42 @@
 import 'react-dropzone-uploader/dist/styles.css'
-import Dropzone, { IDropzoneProps } from 'react-dropzone-uploader'
-import { useState } from 'react'
+import Dropzone, {
+  IDropzoneProps,
+  IPreviewProps,
+} from 'react-dropzone-uploader'
+import { FC, useState } from 'react'
 import { updateAvatarThunk } from '../../store/api-thunks'
 import { useAppDispatch } from '../../hooks'
+import { Box } from '@mui/material'
 
-const Preview = ({ meta }: { meta: any }) => {
+const Preview: FC<IPreviewProps> = ({ meta }) => {
   const { name, percent, status, previewUrl } = meta
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: 'grid',
         alignItems: 'center',
         padding: '20px 3%',
         borderBottom: '1px solid #ddd',
         color: '#EAE3CC',
       }}>
-      <img
+      <Box
+        component="img"
         src={previewUrl}
-        height={150}
-        style={{
+        sx={{
           margin: '10px',
           display: 'flex',
           alignContent: 'center',
           borderRadius: '5px',
-        }}
-      />
-      <div>
-        <span className="name">{name}</span> -{' '}
-        <span className="status">Загружено</span>
+          height: '150px',
+        }}></Box>
+      <Box>
+        <Box component="span">{name}</Box> -{' '}
+        <Box component="span">Загружено</Box>
         {status !== 'done' && (
-          <span className="percent">&nbsp;({Math.round(percent)}%)</span>
+          <Box component="span">&nbsp;({Math.round(percent)}%)</Box>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 
@@ -73,7 +77,7 @@ export const DropZone = () => {
           border: '1px solid #999',
           background: '#706d6d',
         },
-        inputLabelWithFiles: { margin: '20px 3%' },
+        inputLabelWithFiles: { margin: '20px' },
       }}
       canRemove={true}
       PreviewComponent={Preview}

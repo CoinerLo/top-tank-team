@@ -9,13 +9,9 @@ export class UserController {
   }
 
   async updateProfile(data: IChangeDataForm) {
-    try {
-      const response = await this.api.updateProfile(data)
-      AuthController.fetchUser()
-      return response
-    } catch (e: unknown) {
-      console.error(e as Error)
-    }
+    const response = await this.api.updateProfile(data)
+    AuthController.fetchUser()
+    return response
   }
 
   async updatePassword(data: UserAPIUpdatePassword) {
@@ -32,14 +28,9 @@ export class UserController {
   }
 
   async updateAvatar(data: FormData) {
-    try {
-      const response = await this.api.updateAvatar(data)
-      AuthController.fetchUser()
-      return response
-      alert('Аватар успешно изменен') // после добавления RTK заменить на Snackbar (UserProfile, DropZone)
-    } catch (e: unknown) {
-      console.error(e as Error)
-    }
+    const response = await this.api.updateAvatar(data)
+    AuthController.fetchUser()
+    return response
   }
 }
 

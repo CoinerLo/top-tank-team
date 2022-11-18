@@ -35,38 +35,42 @@ export const userSlice = createSlice({
         state.authorizationStatus = AuthorizationStatus.NoAuth
       }),
       builder.addCase(getUserThunk.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.currentUser = action.payload
-          const avatar = action.payload.avatar
-          state.currentUser.avatar = avatar
-            ? `${BASE_URL}resources/${avatar}`
-            : undefined
-          state.authorizationStatus = AuthorizationStatus.Auth
-        } else {
-          state.currentUser = initialState.currentUser
+        state.currentUser = action.payload
+        const avatar = action.payload.avatar
+        state.currentUser.avatar = avatar
+          ? `${BASE_URL}resources/${avatar}`
+          : undefined
+        if (!state.currentUser.display_name) {
+          state.currentUser.display_name = `${state.currentUser.first_name} ${state.currentUser.second_name}`
         }
-      }),
-      builder.addCase(updateProfileThunk.fulfilled, (state, action) => {
-        if (action.payload) {
-          const avatar = state.currentUser.avatar
-          state.currentUser = action.payload
-          state.currentUser.avatar = avatar
-        }
-      }),
-      builder.addCase(updateAvatarThunk.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.currentUser.avatar = action.payload.avatar
-            ? `${BASE_URL}resources/${action.payload.avatar}`
-            : undefined
-        }
+        state.authorizationStatus = AuthorizationStatus.Auth
       }),
       builder.addCase(getUserThunk.rejected, state => {
         state.currentUser = initialState.currentUser
         state.authorizationStatus = AuthorizationStatus.NoAuth
       }),
+      builder.addCase(updateProfileThunk.fulfilled, (state, action) => {
+        const avatar = state.currentUser.avatar
+        state.currentUser = action.payload
+        state.currentUser.avatar = avatar
+      }),
+      builder.addCase(updateProfileThunk.rejected, (state, action) => {
+        console.log(action.payload)
+      }),
+      builder.addCase(updateAvatarThunk.fulfilled, (state, action) => {
+        state.currentUser.avatar = action.payload.avatar
+          ? `${BASE_URL}resources/${action.payload.avatar}`
+          : undefined
+      }),
+      builder.addCase(updateAvatarThunk.rejected, (state, action) => {
+        console.log(action.payload)
+      }),
       builder.addCase(logoutThunk.fulfilled, state => {
         state.currentUser = initialState.currentUser
         state.authorizationStatus = AuthorizationStatus.NoAuth
+      }),
+      builder.addCase(logoutThunk.rejected, (state, action) => {
+        console.log(action.payload)
       })
   },
 })

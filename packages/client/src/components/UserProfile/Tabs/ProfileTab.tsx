@@ -16,7 +16,7 @@ import {
 } from '../../../utils/validation'
 import { useAppDispatch, useAppselector } from '../../../hooks'
 import { IChangeDataForm } from '../../../typings'
-import { getUserThunk, updateProfileThunk } from '../../../store/api-thunks'
+import { updateProfileThunk } from '../../../store/api-thunks'
 
 interface IProfileTab {
   tabIndex: number
@@ -40,14 +40,23 @@ const disabledFieldStyle = {
 
 export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
   const [isEditProfileMode, setIsEditProfileMode] = useState(false)
-  const { handleSubmit, control } = useForm<IChangeDataForm>({
-    mode: 'onBlur',
-    reValidateMode: 'onChange',
-  })
   const { currentUser } = useAppselector(({ USER }) => USER)
   const dispatch = useAppDispatch()
   const { first_name, second_name, display_name, login, email, phone } =
     currentUser
+  const { handleSubmit, control } = useForm<IChangeDataForm>({
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+    defaultValues: {
+      first_name: first_name,
+      second_name: second_name,
+      display_name: display_name,
+      login: login,
+      email: email,
+      phone: phone,
+    },
+  })
+
   const { errors, isValid } = useFormState({
     control,
   })
@@ -69,12 +78,11 @@ export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
             <TextField
               sx={disabledFieldStyle}
               label="Имя"
-              className="auth-form__input"
               fullWidth={true}
               margin="normal"
               size="small"
               variant={!isEditProfileMode ? 'standard' : undefined}
-              value={!isEditProfileMode ? first_name : field.value || ''}
+              value={field.value}
               disabled={!isEditProfileMode}
               onChange={e => field.onChange(e)}
               onBlur={() => field.onBlur()}
@@ -92,8 +100,7 @@ export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
             <TextField
               sx={disabledFieldStyle}
               label="Фамилия"
-              className="auth-form__input"
-              value={!isEditProfileMode ? second_name : field.value || ''}
+              value={field.value}
               fullWidth={true}
               size="small"
               margin="normal"
@@ -115,8 +122,7 @@ export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
             <TextField
               sx={disabledFieldStyle}
               label="Игровое имя"
-              className="auth-form__input"
-              value={!isEditProfileMode ? display_name : field.value || ''}
+              value={field.value}
               fullWidth={true}
               size="small"
               margin="normal"
@@ -140,7 +146,7 @@ export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
               label="Логин"
               onChange={field.onChange}
               onBlur={field.onBlur}
-              value={!isEditProfileMode ? login : field.value || ''}
+              value={field.value}
               fullWidth={true}
               size="small"
               variant={!isEditProfileMode ? 'standard' : undefined}
@@ -161,7 +167,7 @@ export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
               label="Почта"
               onChange={field.onChange}
               onBlur={field.onBlur}
-              value={!isEditProfileMode ? email : field.value || ''}
+              value={field.value}
               fullWidth={true}
               size="small"
               variant={!isEditProfileMode ? 'standard' : undefined}
@@ -182,7 +188,7 @@ export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
               label="Телефон"
               onChange={field.onChange}
               onBlur={field.onBlur}
-              value={!isEditProfileMode ? phone : field.value || ''}
+              value={field.value}
               fullWidth={true}
               size="small"
               variant={!isEditProfileMode ? 'standard' : undefined}

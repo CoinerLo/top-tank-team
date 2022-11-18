@@ -12,7 +12,6 @@ export const loginThunk = createAsyncThunk(
 
 export const getUserThunk = createAsyncThunk('user/getUser', async () => {
   const res = await AuthController.fetchUser()
-
   return res?.data
 })
 
