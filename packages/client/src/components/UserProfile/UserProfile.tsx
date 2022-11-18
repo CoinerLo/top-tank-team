@@ -43,7 +43,6 @@ export const UserProfile: FC<IUserAvatar> = ({ containerStyle }) => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          boxShadow: 3,
           alignItems: 'center',
           ...containerStyle,
         }}>
@@ -100,7 +99,7 @@ export const UserProfile: FC<IUserAvatar> = ({ containerStyle }) => {
             <Box
               sx={{
                 ...modalStyle,
-                minHeight: '500px',
+                minHeight: '200px',
               }}>
               <Typography
                 onClick={() => setIsChangeAvatarOpen(false)}

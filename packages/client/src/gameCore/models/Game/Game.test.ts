@@ -1,8 +1,8 @@
 import { Game } from '.'
+import { HeadquartersNames } from '../../../utils/consts'
 import { COUNT_CARDS_IN_PLAYER_DECK } from '../../consts'
 import { getRandomUserDeck } from '../../mockData'
 import { Desk } from '../Desk'
-import { HeadquartersNames } from '../HeadquartersDeck'
 
 const userData = {
   userName: 'player1',

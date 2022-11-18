@@ -1,10 +1,10 @@
 import { UserState } from '.'
+import { HeadquartersNames } from '../../../utils/consts'
 import {
   BASE_COUNT_OF_CARDS_IN_HAND,
   COUNT_CARDS_IN_PLAYER_DECK,
 } from '../../consts'
 import { getRandomUserDeck } from '../../mockData'
-import { HeadquartersNames } from '../HeadquartersDeck'
 
 let newUserState: UserState
 

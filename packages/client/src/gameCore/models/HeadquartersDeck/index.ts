@@ -42,9 +42,3 @@ export const headquartersByName = fullHeadquartersDeck.reduce(
   },
   {} as Record<string, Headquarters>
 )
-
-export enum HeadquartersNames {
-  german = 'Trainingslager',
-  usa = 'Training Camp',
-  ussr = 'Учебная часть',
-}
