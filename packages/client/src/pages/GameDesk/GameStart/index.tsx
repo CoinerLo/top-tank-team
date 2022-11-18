@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { HeadquartersSelection } from '../../../components/HeadquartersSelection/HeadquartersSelection'
 import { ReadyFight } from '../../../components/ReadyFight/ReadyFight'
 import { HeadquartersPreview } from '../../../components/HeadquartersPreview/HeadquartersPreview'
-import { getHeadquartersPreview } from '../../../utils/consts'
+import { AppRoute, getHeadquartersPreview } from '../../../utils/consts'
 import { IUserData } from '../../../gameCore/types'
 import { getRandomUserDeck } from '../../../gameCore/mockData'
 import { COUNT_CARDS_IN_PLAYER_DECK } from '../../../gameCore/consts'
@@ -46,7 +46,7 @@ export const GameStart = () => {
       // либо возможно как-то иначе, в любом случае еще доработаем
       const { id } = newGame
 
-      navigate(`/game/${id}`)
+      navigate(`/${AppRoute.Game}/${id}`)
     }
   })
 
@@ -163,9 +163,7 @@ export const GameStart = () => {
         )}
       </Box>
       <Button
-        onClick={() => {
-          resetTimer()
-        }}
+        onClick={resetTimer}
         variant="sub"
         fullWidth
         disableElevation
