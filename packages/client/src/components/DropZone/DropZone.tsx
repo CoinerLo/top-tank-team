@@ -15,7 +15,7 @@ const Preview: FC<IPreviewProps> = ({ meta }) => {
       sx={{
         display: 'grid',
         alignItems: 'center',
-        padding: '20px 3%',
+        padding: '20px',
         borderBottom: '1px solid #ddd',
         color: '#EAE3CC',
       }}>
