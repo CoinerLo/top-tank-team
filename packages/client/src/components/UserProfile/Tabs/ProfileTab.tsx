@@ -8,6 +8,7 @@ import {
 import { FC, useState } from 'react'
 import { TabPanel } from '../../TabPanel/TabPanel'
 import {
+  displayNameValidation,
   emailValidation,
   firstNameValidation,
   loginValidation,
@@ -117,7 +118,7 @@ export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
         <Controller
           control={control}
           name="display_name"
-          rules={secondNameValidation}
+          rules={displayNameValidation}
           render={({ field }) => (
             <TextField
               sx={disabledFieldStyle}
