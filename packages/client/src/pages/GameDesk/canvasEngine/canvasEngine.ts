@@ -24,6 +24,24 @@ const loadImage = (src: any) => {
   })
 }
 
+export const coordinates = {
+  'A1': {x:0,y:0},
+  'A2': {x:171,y:0},
+  'A3': {x:342,y:0},
+  'A4': {x:513,y:0},
+  'A5': {x:684,y:0},
+  'B1': {x:0,y:171},
+  'B2': {x:171,y:171},
+  'B3': {x:342,y:171},
+  'B4': {x:513,y:171},
+  'B5': {x:684,y:171},
+  'C1': {x:0,y:342},
+  'C2': {x:171,y:342},
+  'C3': {x:342,y:342},
+  'C4': {x:513,y:342},
+  'C5': {x:684,y:342},
+}
+
 export let canvasEnginePlugins = {
   after: [],
   before: [],
@@ -117,6 +135,14 @@ export let canvasEnginePlugins = {
     },
     (_: any, element: any) => {
       if(element.type == 'card') {
+        if(element.position.cell) {
+          for (let key of Object.keys(coordinates)) {
+            if (key == element.position.cell) {
+              element.position.x = coordinates[key as keyof typeof coordinates].x
+              element.position.y = coordinates[key as keyof typeof coordinates].y
+            }
+          }
+        }
         let cardImg = new Image()
         cardImg.src = element.cardImg.src
         cardImg.onload = () => {

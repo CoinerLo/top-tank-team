@@ -70,33 +70,43 @@ export const GameDesk = () => {
     const DPI_HEIGHT = 512
     let game = canvasEngine('#icanvas', {DPI_WIDTH, DPI_HEIGHT})
     game.elements = [
+      // {
+      //   position: { x: 0, y: 0 },
+      //   drawRect: { w: 50, h: 50, c: '#ff0000' },
+      // },
+      // {
+      //   position: { x: 50, y: 50 },
+      //   drawRect: { x: 10, y: 10, w: 50, h: 50, c: '#5844ff' },
+      //   drawRound: { w: 50, h: 50, r: 25, c: '#0000ff' },
+      //   mouse: { x: 50, y: 50, w: 50, h: 50 },
+      //   beforeRender: (_: any, element: any) => {
+      //     element.mouse.x = element.position.x
+      //     element.mouse.y = element.position.y
+      //   },
+      //   mouseover: () => {
+      //     console.log('mouseover')
+      //   },
+      //   mouseoff: () => {
+      //     console.log('mouseoff')
+      //   },
+      //   click: () => {
+      //     console.log('click', game)
+      //     game.elements[1].position = { x: 100, y: 100 }
+      //   },
+      // },
       {
-        position: { x: 0, y: 0 },
-        drawRect: { w: 50, h: 50, c: '#ff0000' },
-      },
-      {
-        position: { x: 50, y: 50 },
-        drawRect: { x: 10, y: 10, w: 50, h: 50, c: '#5844ff' },
-        drawRound: { w: 50, h: 50, r: 25, c: '#0000ff' },
-        mouse: { x: 50, y: 50, w: 50, h: 50 },
-        beforeRender: (_: any, element: any) => {
-          element.mouse.x = element.position.x
-          element.mouse.y = element.position.y
-        },
-        mouseover: () => {
-          console.log('mouseover')
-        },
-        mouseoff: () => {
-          console.log('mouseoff')
-        },
-        click: () => {
-          console.log('click', game)
-          game.elements[1].position = { x: 100, y: 100 }
-        },
+        type: 'card',
+        position: { x: 0, y: DPI_HEIGHT - 170, cell: 'A5' },
+        cardImg: { w: 170, h: 170, src: './../cards/battleCard.png'},
+        baseImg: {w: 150, h: 125, dx: 10, dy: 36, src: './../cards/images/headquarters/ussr-image.png'},
+        bringsResourcesIconImg: {w: 39, h: 39, dx: 129, dy: 2, src: './../cards/bringsResources.png'},
+        headIconImg: {w: 20, h: 18, dx: 3, dy: 10, src: './../cards/icons/head-icon.png'},
+        headText: {text: 'Учебная часть', dx:25, dy:25, font: '10pt Arial', fillStyle: 'gray'},
+        bringsResourcesText: {text: '5', dx:143, dy:31, font: 'bold 16pt Arial', fillStyle: '#000'},
       },
       {
         type: 'card',
-        position: { x: 0, y: DPI_HEIGHT - 170 },
+        position: { x: 0, y: DPI_HEIGHT - 170, cell: 'C1' },
         cardImg: { w: 170, h: 170, src: './../cards/battleCard.png'},
         baseImg: {w: 150, h: 125, dx: 10, dy: 36, src: './../cards/images/headquarters/ussr-image.png'},
         bringsResourcesIconImg: {w: 39, h: 39, dx: 129, dy: 2, src: './../cards/bringsResources.png'},
