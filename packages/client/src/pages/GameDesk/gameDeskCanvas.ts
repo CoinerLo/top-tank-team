@@ -1,3 +1,4 @@
+import { destinationSquare } from '../../components/Canvas/Canvas'
 import { fullHeadquartersDeck } from '../../gameCore/models/HeadquartersDeck'
 
 // export function icanvas(canvas: HTMLCanvasElement) {
@@ -10,13 +11,13 @@ import { fullHeadquartersDeck } from '../../gameCore/models/HeadquartersDeck'
 // let canvas = document.getElementById('icanvas') as HTMLCanvasElement
 // let ctx = canvas?.getContext("2d")
 
-const WIDTH = 1000
-const HEIGHT = 600
+export const WIDTH = 856
+export const HEIGHT = 514
 const DPI_WIDTH = 1000
 const DPI_HEIGHT = 600
 
-const setka = {
-  gorigont: [
+const grid = {
+  row: [
     [
       [0, 1],
       [1000, 1],
@@ -26,7 +27,7 @@ const setka = {
       [1000, 200],
     ],
   ],
-  vertikal: [],
+  col: [],
 }
 
 export const icanvas = (
@@ -151,23 +152,24 @@ export const icanvas = (
   //   imgTag.onload = () => {animate()}
 
   // }
-  function moveImage(x: number, y: number) {
-    // const imageOffset = 120;
-    // ctx?.clearRect(0, 0, canvas.width, canvas.height);  // clear canvas
-    // ctx?.putImageData(imageL, x, y);
-    console.log(ctx2)
-    ctx?.drawImage(canvasT, 0, 0, 200, 200)
-  }
+  // function moveImage(x: number, y: number) {
+  //   // const imageOffset = 120;
+  //   // ctx?.clearRect(0, 0, canvas.width, canvas.height);  // clear canvas
+  //   // ctx?.putImageData(imageL, x, y);
+  //   console.log(ctx2)
+  //   ctx?.drawImage(canvasT, 0, 0, 200, 200)
+  // }
 
   function getCursorPosition(canvas: HTMLCanvasElement, event: MouseEvent) {
     const rect = canvas.getBoundingClientRect()
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
-    console.log('x: ' + x + ' y: ' + y)
-    moveImage(x, y)
+    // console.log('x: ' + x + ' y: ' + y)
+    console.log('Квадрат клика:', destinationSquare(x, y))
+    // moveImage(x, y)
   }
 
-  canvas.addEventListener('mousedown', function (e) {
+  canvas.addEventListener('click', function (e) {
     getCursorPosition(canvas, e)
   })
 }

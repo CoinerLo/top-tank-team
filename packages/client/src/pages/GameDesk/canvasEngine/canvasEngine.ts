@@ -21,6 +21,17 @@ export let canvasEnginePlugins = {
   before: [],
   during: [
     (_: any, element: any) => {
+      if (element.drawLine) {
+        _.context.beginPath()
+        _.context.strokeStyle = element.drawLine.c
+        _.context.lineWidth = 1
+        _.context.moveTo(171, 0)
+        _.context.lineTo(171, 171)
+        _.context.stroke()
+        _.context.closePath()
+      }
+    },
+    (_: any, element: any) => {
       if (element.drawRect) {
         _.context.fillStyle = element.drawRect.c
         _.context.beginPath()
@@ -74,6 +85,7 @@ export function canvasEngine(query: any, settings = {} as any): any {
 
   _.canvas = document.querySelector(query)
   _.canvas.width = _.canvas.offsetWidth
+  console.log(_)
   _.canvas.style.width = _.canvas.offsetWidth + 'px'
   _.canvas.height = _.canvas.offsetHeight
   _.canvas.style.height = _.canvas.offsetHeight + 'px'

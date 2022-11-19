@@ -1,16 +1,13 @@
 import { Box, Button, Container } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { BattleCard } from '../../components/game/BattleCard/BattleCard'
 import { Deck } from '../../components/game/Deck/Deck'
 import { Field } from '../../components/game/Field/Field'
 import { Hand } from '../../components/game/Hand/Hand'
 import { ResourceCounter } from '../../components/game/ResourceCounter/ResourceCounter'
 import { TimerBox } from '../../components/game/TimerBox/TimerBox'
-import { fullHeadquartersDeck } from '../../gameCore/models/HeadquartersDeck'
 import { fieldsIcons } from '../../utils/consts'
-import { icanvas } from './gameDeskCanvas'
-import { canvasEngine } from './canvasEngine/canvasEngine'
+import { Canvas } from '../../components/Canvas/Canvas'
 
 const opponentCardsInHand = [{}, {}, {}, {}]
 const userCardsInHand = [{}, {}, {}, {}, {}, {}]
@@ -56,44 +53,6 @@ export const GameDesk = () => {
   const handlerEndOfTurn = () => {
     console.log('Переход хода!')
   }
-
-  // useEffect(() => {
-  //   const canvas = document.getElementById('icanvas') as HTMLCanvasElement
-  //   const canvasT = document.getElementById('icanvasT') as HTMLCanvasElement
-  //   // let icanvasRender = icanvas.bind(this)
-  //   // icanvasRender(canvas)
-  //   icanvas(canvas, canvasT)
-  // }, [])
-
-  useEffect(() => {
-    let game = canvasEngine('#icanvas')
-    game.elements = [
-      {
-        position: { x: 0, y: 0 },
-        drawRect: { w: 50, h: 50, c: '#ff0000' },
-      },
-      {
-        position: { x: 50, y: 50 },
-        drawRect: { x: 10, y: 10, w: 50, h: 50, c: '#5844ff' },
-        drawRound: { w: 50, h: 50, r: 25, c: '#0000ff' },
-        mouse: { x: 50, y: 50, w: 50, h: 50 },
-        beforeRender: (_: any, element: any) => {
-          element.mouse.x = element.position.x
-          element.mouse.y = element.position.y
-        },
-        mouseover: () => {
-          console.log('mouseover')
-        },
-        mouseoff: () => {
-          console.log('mouseoff')
-        },
-        click: () => {
-          console.log('click', game)
-          game.elements[1].position = { x: 100, y: 100 }
-        },
-      },
-    ]
-  }, [])
 
   return (
     <Container disableGutters>
@@ -221,7 +180,8 @@ export const GameDesk = () => {
             </Box>
           </Box> */}
 
-          <canvas id="icanvas" style={{ border: '2px solid white' }}></canvas>
+          <Canvas />
+          {/* <canvas id="icanvas" style={{ border: '2px solid white' }}></canvas> */}
           {/* <canvas id="icanvasT" width={200} height={200}></canvas> */}
 
           <Box sx={{ display: 'flex', flexDirection: 'column', ml: '10px' }}>
