@@ -20,7 +20,7 @@ import { SignInContainer } from './containers/SignInContainer'
 import { SignUpContainer } from './containers/SignUpContainer'
 import { HeaderContainer } from './containers/HeaderContainer'
 import { useAppselector } from './hooks'
-import { PrivateRoute } from './components/PrivateRoute/PrivateRoute'
+import { PrivateRoute } from './hocs/PrivateRoute/PrivateRoute'
 import { LoadingScreen } from './pages/LoadingScreen/LoadingScreen'
 
 function App() {
@@ -38,9 +38,7 @@ function App() {
   const { authorizationStatus } = useAppselector(({ USER }) => USER)
 
   if (authorizationStatus === AuthorizationStatus.Unknown) {
-    return (
-      <LoadingScreen />
-    )
+    return <LoadingScreen />
   }
 
   return (
@@ -52,48 +50,69 @@ function App() {
         <Route path={AppRoute.SignIn} element={<SignInContainer />} />
         <Route path={AppRoute.SignUp} element={<SignUpContainer />} />
         <Route path={AppRoute.Briefing} element={<Briefing />} />
-        <Route path={AppRoute.Headquarters} element={
-          <PrivateRoute>
-            <Headquarters />
-          </PrivateRoute>
-        } />
-        <Route path={AppRoute.Upgrade} element={
-          <PrivateRoute>
-            <Upgrade />
-          </PrivateRoute>
-        } />
-        <Route path={AppRoute.Deck} element={
-          <PrivateRoute>
-            <Deck />
-          </PrivateRoute>
-        } />
-        <Route path={AppRoute.Leaderboard} element={
-          <PrivateRoute>
-            <LeaderBoard />
-          </PrivateRoute>
-        } />
+        <Route
+          path={AppRoute.Headquarters}
+          element={
+            <PrivateRoute>
+              <Headquarters />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.Upgrade}
+          element={
+            <PrivateRoute>
+              <Upgrade />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.Deck}
+          element={
+            <PrivateRoute>
+              <Deck />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.Leaderboard}
+          element={
+            <PrivateRoute>
+              <LeaderBoard />
+            </PrivateRoute>
+          }
+        />
         <Route path={AppRoute.Forum}>
           <Route index element={<Forum />} />
           <Route path={AppRoute.ForumPost} element={<PostPage />} />
         </Route>
 
         <Route path={AppRoute.Game}>
-          <Route path={AppRoute.StartGame} element={
-            <PrivateRoute>
-              <GameStart />
-            </PrivateRoute>
-          } />
-          <Route path={AppRoute.GameId} element={
-            <PrivateRoute>
-              <GameDesk />
-            </PrivateRoute>
-          } />
-          <Route path={AppRoute.ResultGame}>
-            <Route path={AppRoute.GameId} element={
+          <Route
+            path={AppRoute.StartGame}
+            element={
               <PrivateRoute>
-                <GameResult />
+                <GameStart />
               </PrivateRoute>
-            } />
+            }
+          />
+          <Route
+            path={AppRoute.GameId}
+            element={
+              <PrivateRoute>
+                <GameDesk />
+              </PrivateRoute>
+            }
+          />
+          <Route path={AppRoute.ResultGame}>
+            <Route
+              path={AppRoute.GameId}
+              element={
+                <PrivateRoute>
+                  <GameResult />
+                </PrivateRoute>
+              }
+            />
           </Route>
         </Route>
 

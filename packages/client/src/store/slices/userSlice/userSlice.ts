@@ -5,6 +5,7 @@ import {
   getUserThunk,
   loginThunk,
   logoutThunk,
+  signUpThunk,
   updateAvatarThunk,
   updateProfileThunk,
 } from '../../api-thunks'
@@ -31,6 +32,9 @@ export const userSlice = createSlice({
     builder.addCase(loginThunk.fulfilled, state => {
       state.authorizationStatus = AuthorizationStatus.Auth
     }),
+      builder.addCase(loginThunk.pending, state => {
+        state.authorizationStatus = AuthorizationStatus.Unknown
+      }),
       builder.addCase(loginThunk.rejected, state => {
         state.authorizationStatus = AuthorizationStatus.NoAuth
       }),
@@ -72,5 +76,15 @@ export const userSlice = createSlice({
       builder.addCase(logoutThunk.rejected, (state, action) => {
         console.log(action.payload)
       })
+    builder.addCase(signUpThunk.fulfilled, (state, action) => {
+      state.currentUser = action.payload
+      state.authorizationStatus = AuthorizationStatus.Auth
+    })
+    builder.addCase(signUpThunk.pending, state => {
+      state.authorizationStatus = AuthorizationStatus.Unknown
+    })
+    builder.addCase(signUpThunk.rejected, state => {
+      state.authorizationStatus = AuthorizationStatus.NoAuth
+    })
   },
 })

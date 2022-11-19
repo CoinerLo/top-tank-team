@@ -1,8 +1,8 @@
 import { FC, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { AppRoute, AuthorizationStatus } from '../../utils/consts'
+import { AppRoute } from '../../utils/consts'
 import { Box, Button, Container, Link as MuiLink } from '@mui/material'
-import { useAppselector } from '../../hooks'
+import { useAuthorizationStatus } from '../../hooks/useAuthorizationStatus'
 
 interface HeaderProps {
   handleLogout: () => void
@@ -11,8 +11,7 @@ interface HeaderProps {
 export const Header: FC<HeaderProps> = ({ handleLogout }) => {
   const [gameId, setGameId] = useState('0')
   const navigate = useNavigate()
-  const {authorizationStatus} = useAppselector(({USER}) => USER)
-  const isAuthorized = authorizationStatus === AuthorizationStatus.Auth
+  const { isAuthorized } = useAuthorizationStatus()
 
   const toGoGame = () => {
     navigate(`${AppRoute.Game}/${gameId}`)
@@ -34,7 +33,7 @@ export const Header: FC<HeaderProps> = ({ handleLogout }) => {
         zIndex: 100,
         backgroundColor: '#000',
       }}>
-      {isAuthorized &&
+      {isAuthorized && (
         <Button
           variant="sizeSmall"
           onClick={handleLogout}
@@ -52,20 +51,20 @@ export const Header: FC<HeaderProps> = ({ handleLogout }) => {
           }}>
           Выход
         </Button>
-      }
+      )}
       <Box
         component="nav"
         sx={{ display: 'flex', flex: 1, justifyContent: 'space-around' }}>
-        {isAuthorized ? null :
+        {isAuthorized ? null : (
           <MuiLink component={Link} to={AppRoute.SignIn}>
             Вход
           </MuiLink>
-        }
-        {isAuthorized ? null :
+        )}
+        {isAuthorized ? null : (
           <MuiLink component={Link} to={AppRoute.SignUp}>
             Регистрация
           </MuiLink>
-        }
+        )}
 
         <MuiLink component={Link} to={AppRoute.Index}>
           Главная

@@ -14,7 +14,8 @@ import {
   useForm,
   useFormState,
 } from 'react-hook-form'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Navigate } from 'react-router-dom'
+import { useAuthorizationStatus } from '../../hooks/useAuthorizationStatus'
 import { ISignInData } from '../../typings'
 import { AppRoute } from '../../utils/consts'
 import { loginValidation, passwordValidation } from '../../utils/validation'
@@ -31,6 +32,12 @@ export const SignIn: FC<ISignIn> = ({ handleSubmitSignInData }) => {
   const { errors } = useFormState({
     control,
   })
+
+  const { isAuthorized } = useAuthorizationStatus()
+
+  if (isAuthorized) {
+    return <Navigate to={`/${AppRoute.Headquarters}`} />
+  }
 
   return (
     <Container
