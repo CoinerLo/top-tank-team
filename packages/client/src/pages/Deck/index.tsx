@@ -1,4 +1,14 @@
-import { Button, Container, Modal, Typography } from '@mui/material'
+import {
+  Button,
+  Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  SelectChangeEvent,
+  Typography,
+} from '@mui/material'
 import { Box } from '@mui/system'
 import { SubMenu } from '../../components/SubMenu/SubMenu'
 import { useCallback, useState } from 'react'
@@ -10,6 +20,12 @@ import { Card } from '../../components/Card/Card'
 import { ICollectionCardItem } from '../../typings'
 import 'swiper/css'
 import 'swiper/css/pagination'
+import { allCardsForDeck } from '../../gameCore/allCardsForDeck'
+import { Tank } from '../../gameCore/models/TanksDeck'
+import { getRandomUserDeck } from '../../gameCore/mockData'
+import { COUNT_CARDS_IN_PLAYER_DECK } from '../../gameCore/consts'
+import { useAppDispatch, useAppselector } from '../../hooks'
+import { decksSlice } from '../../store/slices/userSlice/decksSlice'
 
 const styles = {
   container: {
@@ -32,7 +48,7 @@ const styles = {
     justifyContent: 'space-between',
     transform: 'translate(-50%, -50%)',
     width: '600px',
-    bgcolor: 'background.paper',
+    backgroundColor: 'background.paper',
     border: '2px solid #000',
     boxShadow: '24px',
     padding: '25px',
@@ -50,19 +66,52 @@ const styles = {
   },
 }
 
+let testDeck = getRandomUserDeck(COUNT_CARDS_IN_PLAYER_DECK)
+let testDeckSecond = [...testDeck]
+const testColletion = [
+  ...allCardsForDeck.filter(col => {
+    return !testDeck.includes(col)
+  }),
+]
+
 export const Deck = () => {
+  const { decks } = useAppselector(state => state.DECKS)
+  // const { getStartDeck } = decksSlice.actions
+  // const dispatch = useAppDispatch()
+  //
+  // dispatch(getStartDeck())
+
   const [isOpen, setIsOpen] = useState(false)
-  const [collectionState, setCollectionState] = useState(collection)
-  const [deckState, setDeckState] = useState(deck)
-  const [cardItem, setCardItem] = useState({
-    name: '',
-    id: '',
-  })
+  const [collectionState, setCollectionState] = useState(testColletion)
+  const [deckState, setDeckState] = useState(decks.first)
+  const [cardItem, setCardItem] = useState(allCardsForDeck[0])
+  const [choiceDeck, setChoiceDeck] = useState('')
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setChoiceDeck(event.target.value)
+    if (choiceDeck == '1') {
+      testDeckSecond = deckState
+      setDeckState(testDeck)
+      setCollectionState([
+        ...allCardsForDeck.filter(col => {
+          return !deckState.includes(col)
+        }),
+      ])
+    } else if (choiceDeck == '2') {
+      testDeck = deckState
+      setDeckState(testDeckSecond)
+      setCollectionState([
+        ...allCardsForDeck.filter(col => {
+          return !deckState.includes(col)
+        }),
+      ])
+    }
+  }
 
   const navigate = useNavigate()
 
   const handleClickCardCollection = useCallback(
-    (item: ICollectionCardItem) => {
+    (item: Tank) => {
       setCollectionState(collectionState.filter(i => i.id !== item.id))
       setDeckState([item, ...deckState])
     },
@@ -70,14 +119,14 @@ export const Deck = () => {
   )
 
   const handleClickCardDeck = useCallback(
-    (item: ICollectionCardItem) => {
+    (item: Tank) => {
       setDeckState(deckState.filter(i => i.id !== item.id))
       setCollectionState([item, ...collectionState])
     },
     [collectionState]
   )
 
-  const handleClickCardInfo = useCallback((item: ICollectionCardItem) => {
+  const handleClickCardInfo = useCallback((item: Tank) => {
     setIsOpen(true)
     setCardItem(item)
   }, [])
@@ -123,6 +172,21 @@ export const Deck = () => {
                   }}>{`${deckState.length}/40`}</Typography>
               </Box>
             </Box>
+            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+              <InputLabel id="deckSelect">Колода</InputLabel>
+              <Select
+                labelId="deckSelect"
+                id="demo-select-small"
+                value={choiceDeck}
+                label="Колода"
+                onChange={handleChange}>
+                <MenuItem value={'1'}>Первая</MenuItem>
+                <MenuItem value={'2'}>Вторая</MenuItem>
+              </Select>
+            </FormControl>
+            <Button variant={'sub'} size={'small'}>
+              Сохранить
+            </Button>
           </Box>
           <Box sx={{ flex: 1, height: '300px', marginTop: '10px' }}>
             <Swiper width={200} spaceBetween={20} className="mySwiper">

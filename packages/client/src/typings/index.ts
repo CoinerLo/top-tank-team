@@ -1,4 +1,5 @@
 import { AuthorizationStatus } from '../utils/consts'
+import { Tank } from '../gameCore/models/TanksDeck'
 
 export interface IUser {
   id: number
@@ -46,4 +47,10 @@ export interface ICollectionCardItem {
 export interface UserSlice {
   authorizationStatus: AuthorizationStatus
   currentUser: IUser
+}
+
+export interface DecksSlice {
+  decks: {
+    first: Tank[]
+  }
 }

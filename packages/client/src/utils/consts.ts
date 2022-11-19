@@ -48,6 +48,7 @@ export enum AuthorizationStatus {
 
 export enum NameSpace {
   User = 'USER',
+  Decks = 'DECKS',
 }
 
 const fieldsIconPath = '/cards/images/fields/'

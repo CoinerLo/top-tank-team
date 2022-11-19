@@ -3,7 +3,6 @@ import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
 import { ICollectionCardItem } from '../../typings'
 import { TanksDataType } from '../../gameCore/types'
-import { Tank } from '../../gameCore/models/TanksDeck'
 
 const styles = {
   card: {
@@ -26,8 +25,8 @@ const styles = {
 }
 
 export interface ICardProps {
-  handleCardClick: (item: Tank) => void
-  item: Tank
+  handleCardClick: (item: TanksDataType) => void
+  item: TanksDataType
 }
 
 export const Card: FC<ICardProps> = memo(({ item, handleCardClick }) => {
