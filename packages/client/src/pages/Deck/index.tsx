@@ -85,7 +85,7 @@ export const Deck = () => {
   //Можно к константу куда-то верно?
   const defaultDeck = 'first'
 
-  const { decks } = useAppselector(state => state.DECKS)
+  const { decks } = useAppselector(({ DECKS }) => DECKS)
   const { saveUserDeck, addUserDeck } = decksSlice.actions
   const dispatch = useAppDispatch()
 
@@ -94,7 +94,7 @@ export const Deck = () => {
   const [choiceDeck, setChoiceDeck] = useState(defaultDeck)
   const [nameNewDeck, setNameNewDeck] = useState('')
 
-  const [deckState, setDeckState] = useState(decks.first)
+  const [currentDeck, setCurrentDeck] = useState(decks.first)
   const [collectionState, setCollectionState] = useState([
     ...allCardsForDeck.filter(collection => {
       return !decks[defaultDeck].includes(collection)
@@ -108,7 +108,7 @@ export const Deck = () => {
     (event: SelectChangeEvent) => {
       const choiceValue = event.target.value
       setChoiceDeck(choiceValue)
-      setDeckState(decks[choiceValue])
+      setCurrentDeck(decks[choiceValue])
       setCollectionState(
         allCardsForDeck.filter(collection => {
           return !decks[choiceValue].includes(collection)
@@ -131,24 +131,24 @@ export const Deck = () => {
   )
 
   const handleSaveDeck = useCallback(() => {
-    if (deckState.length > 30) {
+    if (currentDeck.length > 30) {
       setErrorSaveDeck(true)
     } else {
-      dispatch(saveUserDeck({ data: deckState, name: `${choiceDeck}` }))
+      dispatch(saveUserDeck({ data: currentDeck, name: `${choiceDeck}` }))
     }
-  }, [deckState])
+  }, [currentDeck])
 
   const handleClickCardCollection = useCallback(
     (item: Tank) => {
       setCollectionState(collectionState.filter(i => i.id !== item.id))
-      setDeckState([item, ...deckState])
+      setCurrentDeck([item, ...currentDeck])
     },
-    [deckState]
+    [currentDeck]
   )
 
   const handleClickCardDeck = useCallback(
     (item: Tank) => {
-      setDeckState(deckState.filter(i => i.id !== item.id))
+      setCurrentDeck(currentDeck.filter(i => i.id !== item.id))
       setCollectionState([item, ...collectionState])
     },
     [collectionState]
@@ -194,8 +194,8 @@ export const Deck = () => {
                 <Typography
                   sx={{
                     marginLeft: '5px',
-                    color: deckState.length > 30 ? 'red' : '#EAE3CC',
-                  }}>{`${deckState.length}/30`}</Typography>
+                    color: currentDeck.length > 30 ? 'red' : '#EAE3CC',
+                  }}>{`${currentDeck.length}/30`}</Typography>
               </Box>
             </Box>
             <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
@@ -246,7 +246,7 @@ export const Deck = () => {
           </Box>
           <Box sx={{ flex: 1, height: '300px', marginTop: '10px' }}>
             <Swiper width={200} spaceBetween={20} className="mySwiper">
-              {deckState.map(item => (
+              {currentDeck.map(item => (
                 <SwiperSlide key={item.id}>
                   <Card handleCardClick={handleClickCardDeck} item={item} />
                   <Button
