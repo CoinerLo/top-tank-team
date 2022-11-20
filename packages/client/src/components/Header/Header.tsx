@@ -55,12 +55,12 @@ export const Header: FC<HeaderProps> = ({ handleLogout }) => {
       <Box
         component="nav"
         sx={{ display: 'flex', flex: 1, justifyContent: 'space-around' }}>
-        {isAuthorized ? null : (
+        {!isAuthorized && (
           <MuiLink component={Link} to={AppRoute.SignIn}>
             Вход
           </MuiLink>
         )}
-        {isAuthorized ? null : (
+        {!isAuthorized && (
           <MuiLink component={Link} to={AppRoute.SignUp}>
             Регистрация
           </MuiLink>

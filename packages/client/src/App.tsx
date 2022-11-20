@@ -21,7 +21,7 @@ import { SignUpContainer } from './containers/SignUpContainer'
 import { HeaderContainer } from './containers/HeaderContainer'
 import { useAppselector } from './hooks'
 import { PrivateRoute } from './hocs/PrivateRoute/PrivateRoute'
-import { LoadingScreen } from './pages/LoadingScreen/LoadingScreen'
+import { LoadingScreen } from './components/LoadingScreen/LoadingScreen'
 
 function App() {
   useEffect(() => {
