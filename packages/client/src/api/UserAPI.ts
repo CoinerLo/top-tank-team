@@ -12,7 +12,9 @@ export class UserAPI {
     return PraktikumClient.put(`${UserAPI.API_URL}/profile`, data)
   }
 
-  public updatePassword(data: UserAPIUpdatePassword): Promise<XMLHttpRequest> {
+  public updatePassword(
+    data: UserAPIUpdatePassword
+  ): Promise<AxiosResponse<boolean>> {
     return PraktikumClient.put(`${UserAPI.API_URL}/password`, data)
   }
 

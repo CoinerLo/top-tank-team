@@ -15,16 +15,9 @@ export class UserController {
   }
 
   async updatePassword(data: UserAPIUpdatePassword) {
-    try {
-      const response = await this.api.updatePassword(data)
-      AuthController.fetchUser()
-      if (response?.status == 200) {
-        return true
-      }
-      return false
-    } catch (e: unknown) {
-      console.error(e as Error)
-    }
+    const response = await this.api.updatePassword(data)
+    AuthController.fetchUser()
+    return response
   }
 
   async updateAvatar(data: FormData) {

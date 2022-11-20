@@ -15,8 +15,9 @@ import { FC, useState } from 'react'
 import { TabPanel } from '../../TabPanel/TabPanel'
 import { passwordValidation } from '../../../utils/validation'
 import { RequiredField } from '../../../utils/consts'
-import UserController from '../../../controllers/UserController'
 import CloseIcon from '@mui/icons-material/Close'
+import { useAppDispatch } from '../../../hooks'
+import { updatePasswordThunk } from '../../../store/api-thunks'
 
 export interface IChangePasswordForm {
   newPassword: string
@@ -47,14 +48,18 @@ export const PasswordTab: FC<IPasswordTab> = ({ tabIndex, index }) => {
   const [isEditPasswordMode, setIsEditPasswordMode] = useState(false)
   const [isOpenMsg, setIsOpenMsg] = useState(false)
   const [message, setMessage] = useState('')
+  const dispatch = useAppDispatch()
+
   const { handleSubmit, control, getValues, reset } =
     useForm<IChangePasswordForm>({
       mode: 'onBlur',
       reValidateMode: 'onChange',
     })
+
   const { errors, isValid } = useFormState({
     control,
   })
+
   const handleSubmitPasswordData: SubmitHandler<
     IChangePasswordForm
   > = async data => {
@@ -62,15 +67,17 @@ export const PasswordTab: FC<IPasswordTab> = ({ tabIndex, index }) => {
       newPassword,
       oldPassword,
     }: IChangePasswordForm) => ({ newPassword, oldPassword })
+
     const dataSend = checkNoRepeat(data)
-    const res = await UserController.updatePassword(dataSend)
-    if (res) {
-      setMessage('Пароль успешно изменен')
-      setIsOpenMsg(res)
-    } else {
-      setMessage('Ошибка, пароль не изменен')
-      setIsOpenMsg(!res)
-    }
+    dispatch(updatePasswordThunk(dataSend)).then(res => {
+      if (res.payload) {
+        setMessage('Пароль успешно изменен')
+        setIsOpenMsg(true)
+      } else {
+        setMessage('Ошибка, пароль не изменен')
+        setIsOpenMsg(true)
+      }
+    })
     reset({
       oldPassword: '',
       newPassword: '',
