@@ -7,6 +7,7 @@ import {
   Modal,
   Select,
   SelectChangeEvent,
+  TextField,
   Typography,
 } from '@mui/material'
 import { Box } from '@mui/system'
@@ -15,17 +16,14 @@ import { useCallback, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { AppRoute } from '../../utils/consts'
 import { useNavigate } from 'react-router-dom'
-import { deck, collection } from './data'
 import { Card } from '../../components/Card/Card'
-import { ICollectionCardItem } from '../../typings'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import { allCardsForDeck } from '../../gameCore/allCardsForDeck'
 import { Tank } from '../../gameCore/models/TanksDeck'
-import { getRandomUserDeck } from '../../gameCore/mockData'
-import { COUNT_CARDS_IN_PLAYER_DECK } from '../../gameCore/consts'
 import { useAppDispatch, useAppselector } from '../../hooks'
 import { decksSlice } from '../../store/slices/userSlice/decksSlice'
+import CloseIcon from '@mui/icons-material/Close'
 
 const styles = {
   container: {
@@ -64,51 +62,81 @@ const styles = {
     pb: '5px',
     borderRadius: '0 0 5px 5px',
   },
+  modalErrorWindow: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    display: 'flex',
+    flexDirection: 'column',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    backgroundColor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    minHeight: '200px',
+  },
 }
 
-let testDeck = getRandomUserDeck(COUNT_CARDS_IN_PLAYER_DECK)
-let testDeckSecond = [...testDeck]
-const testColletion = [
-  ...allCardsForDeck.filter(col => {
-    return !testDeck.includes(col)
-  }),
-]
-
 export const Deck = () => {
+  const navigate = useNavigate()
+  const goHeadquarters = () => navigate(`/${AppRoute.Headquarters}`)
+
+  //Можно к константу куда-то верно?
+  const defaultDeck = 'first'
+
   const { decks } = useAppselector(state => state.DECKS)
-  // const { getStartDeck } = decksSlice.actions
-  // const dispatch = useAppDispatch()
-  //
-  // dispatch(getStartDeck())
+  const { saveUserDeck, addUserDeck } = decksSlice.actions
+  const dispatch = useAppDispatch()
 
   const [isOpen, setIsOpen] = useState(false)
-  const [collectionState, setCollectionState] = useState(testColletion)
+  const [errorSaveDeck, setErrorSaveDeck] = useState(false)
+  const [choiceDeck, setChoiceDeck] = useState(defaultDeck)
+  const [nameNewDeck, setNameNewDeck] = useState('')
+
   const [deckState, setDeckState] = useState(decks.first)
+  const [collectionState, setCollectionState] = useState([
+    ...allCardsForDeck.filter(collection => {
+      return !decks[defaultDeck].includes(collection)
+    }),
+  ])
+
+  //Подскажите как лучше сделать, нужно задать дефолтный объект так как жалуется в ином случае, прописать прям полноценно полностью объект или как?) Заранее спасибо)
   const [cardItem, setCardItem] = useState(allCardsForDeck[0])
-  const [choiceDeck, setChoiceDeck] = useState('')
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setChoiceDeck(event.target.value)
-    if (choiceDeck == '1') {
-      testDeckSecond = deckState
-      setDeckState(testDeck)
-      setCollectionState([
-        ...allCardsForDeck.filter(col => {
-          return !deckState.includes(col)
-        }),
-      ])
-    } else if (choiceDeck == '2') {
-      testDeck = deckState
-      setDeckState(testDeckSecond)
-      setCollectionState([
-        ...allCardsForDeck.filter(col => {
-          return !deckState.includes(col)
-        }),
-      ])
+  const handleChangeChoiceDeck = useCallback(
+    (event: SelectChangeEvent) => {
+      const choiceValue = event.target.value
+      setChoiceDeck(choiceValue)
+      setDeckState(decks[choiceValue])
+      setCollectionState(
+        allCardsForDeck.filter(collection => {
+          return !decks[choiceValue].includes(collection)
+        })
+      )
+    },
+    [decks]
+  )
+
+  const handleAddNewDeck = useCallback(() => {
+    dispatch(addUserDeck(nameNewDeck))
+    setNameNewDeck('')
+  }, [nameNewDeck])
+
+  const handleChangeNameDeck = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setNameNewDeck(event.target.value)
+    },
+    []
+  )
+
+  const handleSaveDeck = useCallback(() => {
+    if (deckState.length > 30) {
+      setErrorSaveDeck(true)
+    } else {
+      dispatch(saveUserDeck({ data: deckState, name: `${choiceDeck}` }))
     }
-  }
-
-  const navigate = useNavigate()
+  }, [deckState])
 
   const handleClickCardCollection = useCallback(
     (item: Tank) => {
@@ -131,12 +159,9 @@ export const Deck = () => {
     setCardItem(item)
   }, [])
 
-  const goHeadquarters = () => navigate(`/${AppRoute.Headquarters}`)
-
   return (
     <Container disableGutters sx={styles.container}>
       <SubMenu />
-
       <Button onClick={goHeadquarters} variant="primary" sx={styles.buttonHome}>
         <Box component="img" src="/home.svg" alt="Go home" width="25px" />
       </Button>
@@ -169,7 +194,8 @@ export const Deck = () => {
                 <Typography
                   sx={{
                     marginLeft: '5px',
-                  }}>{`${deckState.length}/40`}</Typography>
+                    color: deckState.length > 30 ? 'red' : '#EAE3CC',
+                  }}>{`${deckState.length}/30`}</Typography>
               </Box>
             </Box>
             <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
@@ -179,14 +205,44 @@ export const Deck = () => {
                 id="demo-select-small"
                 value={choiceDeck}
                 label="Колода"
-                onChange={handleChange}>
-                <MenuItem value={'1'}>Первая</MenuItem>
-                <MenuItem value={'2'}>Вторая</MenuItem>
+                onChange={handleChangeChoiceDeck}>
+                {Object.keys(decks).map(item => (
+                  <MenuItem key={item} value={item}>
+                    {item}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
-            <Button variant={'sub'} size={'small'}>
+            <Button
+              variant={'sub'}
+              size={'small'}
+              onClick={handleSaveDeck}
+              sx={{ height: '40px', alignSelf: 'center' }}>
               Сохранить
             </Button>
+            <Button
+              variant={'sub'}
+              size={'small'}
+              onClick={handleAddNewDeck}
+              sx={{
+                marginLeft: '10px',
+                height: '40px',
+                alignSelf: 'center',
+              }}>
+              Создать
+            </Button>
+            <TextField
+              label="Название новой колоды"
+              size="small"
+              margin="dense"
+              value={nameNewDeck}
+              onChange={handleChangeNameDeck}
+              sx={{
+                marginLeft: '10px',
+                height: '40px',
+                alignItems: 'center',
+              }}
+            />
           </Box>
           <Box sx={{ flex: 1, height: '300px', marginTop: '10px' }}>
             <Swiper width={200} spaceBetween={20} className="mySwiper">
@@ -207,6 +263,17 @@ export const Deck = () => {
       </Box>
       <Modal disableAutoFocus open={isOpen} onClose={() => setIsOpen(false)}>
         <Box sx={styles.modalWindow}>
+          <Typography
+            onClick={() => setIsOpen(false)}
+            component="span"
+            sx={{
+              cursor: 'pointer',
+              position: 'absolute',
+              right: '10px',
+              top: '10px',
+            }}>
+            <CloseIcon />
+          </Typography>
           <Typography textAlign="center" marginBottom="20px" variant="h2">
             Описание карты: {cardItem.name}
           </Typography>
@@ -238,6 +305,28 @@ export const Deck = () => {
               </Typography>
             </Box>
           </Box>
+        </Box>
+      </Modal>
+      <Modal
+        disableAutoFocus
+        open={errorSaveDeck}
+        onClose={() => setErrorSaveDeck(false)}>
+        <Box sx={styles.modalErrorWindow}>
+          <Typography
+            onClick={() => setErrorSaveDeck(false)}
+            component="span"
+            sx={{
+              cursor: 'pointer',
+              position: 'absolute',
+              right: '10px',
+              top: '10px',
+            }}>
+            <CloseIcon />
+          </Typography>
+          <Typography alignSelf="center" marginBottom="20px" variant="h3">
+            Нельзя сохранить колоду!
+          </Typography>
+          <Typography>В вашей колоде должно быть не больше 30и карт</Typography>
         </Box>
       </Modal>
     </Container>

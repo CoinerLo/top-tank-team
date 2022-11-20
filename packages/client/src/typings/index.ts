@@ -39,18 +39,11 @@ export interface ICardUpgrade {
   name: string
 }
 
-export interface ICollectionCardItem {
-  name: string
-  id: string
-}
-
 export interface UserSlice {
   authorizationStatus: AuthorizationStatus
   currentUser: IUser
 }
 
 export interface DecksSlice {
-  decks: {
-    first: Tank[]
-  }
+  decks: Record<string, Tank[]>
 }

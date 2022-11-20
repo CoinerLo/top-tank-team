@@ -1,8 +1,6 @@
 import { FC, memo } from 'react'
 import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
-import { ICollectionCardItem } from '../../typings'
-import { TanksDataType } from '../../gameCore/types'
 import { Tank } from '../../gameCore/models/TanksDeck'
 
 const styles = {
