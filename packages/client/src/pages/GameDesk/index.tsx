@@ -11,6 +11,7 @@ import { fullHeadquartersDeck } from '../../gameCore/models/HeadquartersDeck'
 import { fieldsIcons } from '../../utils/consts'
 import { icanvas } from './gameDeskCanvas'
 import { canvasEngine } from './canvasEngine/canvasEngine'
+import { Canvas } from '../../components/Canvas/Canvas'
 
 const opponentCardsInHand = [{}, {}, {}, {}]
 const userCardsInHand = [{}, {}, {}, {}, {}, {}]
@@ -65,87 +66,87 @@ export const GameDesk = () => {
   //   icanvas(canvas, canvasT)
   // }, [])
 
-  useEffect(() => {
-    const DPI_WIDTH = 854
-    const DPI_HEIGHT = 512
-    let game = canvasEngine('#icanvas', {DPI_WIDTH, DPI_HEIGHT})
-    game.elements = [
-      // {
-      //   position: { x: 0, y: 0 },
-      //   drawRect: { w: 50, h: 50, c: '#ff0000' },
-      // },
-      // {
-      //   position: { x: 50, y: 50 },
-      //   drawRect: { x: 10, y: 10, w: 50, h: 50, c: '#5844ff' },
-      //   drawRound: { w: 50, h: 50, r: 25, c: '#0000ff' },
-      //   mouse: { x: 50, y: 50, w: 50, h: 50 },
-      //   beforeRender: (_: any, element: any) => {
-      //     element.mouse.x = element.position.x
-      //     element.mouse.y = element.position.y
-      //   },
-      //   mouseover: () => {
-      //     console.log('mouseover')
-      //   },
-      //   mouseoff: () => {
-      //     console.log('mouseoff')
-      //   },
-      //   click: () => {
-      //     console.log('click', game)
-      //     game.elements[1].position = { x: 100, y: 100 }
-      //   },
-      // },
-      {
-        type: 'card',
-        position: { x: 0, y: DPI_HEIGHT - 170, cell: 'A5' },
-        cardImg: { w: 170, h: 170, src: './../cards/battleCard.png'},
-        baseImg: {w: 150, h: 125, dx: 10, dy: 36, src: './../cards/images/headquarters/ussr-image.png'},
-        bringsResourcesIconImg: {w: 39, h: 39, dx: 129, dy: 2, src: './../cards/bringsResources.png'},
-        headIconImg: {w: 20, h: 18, dx: 3, dy: 10, src: './../cards/icons/head-icon.png'},
-        headText: {text: 'Учебная часть', dx:25, dy:25, font: '10pt Arial', fillStyle: 'gray'},
-        bringsResourcesText: {text: '5', dx:143, dy:31, font: 'bold 16pt Arial', fillStyle: '#000'},
-      },
-      {
-        type: 'card',
-        position: { x: 0, y: DPI_HEIGHT - 170, cell: 'C1' },
-        cardImg: { w: 170, h: 170, src: './../cards/battleCard.png'},
-        baseImg: {w: 150, h: 125, dx: 10, dy: 36, src: './../cards/images/headquarters/ussr-image.png'},
-        bringsResourcesIconImg: {w: 39, h: 39, dx: 129, dy: 2, src: './../cards/bringsResources.png'},
-        headIconImg: {w: 20, h: 18, dx: 3, dy: 10, src: './../cards/icons/head-icon.png'},
-        headText: {text: 'Учебная часть', dx:25, dy:25, font: '10pt Arial', fillStyle: 'gray'},
-        bringsResourcesText: {text: '5', dx:143, dy:31, font: 'bold 16pt Arial', fillStyle: '#000'},
-      },
-      {
-        position: { x: 0, y: 0 },
-        setka: {c: 'white', lineWidth: 1,}
-      },
-      // {
-      //   position: { x: 0, y: DPI_HEIGHT - 170 },
-      //   img: {src: './../cards/battleCard.png'}
-      // },
-      // {
-      //   position: { x: 0 + 14, y: DPI_HEIGHT - 170 + 36, dw: 145, dh: 127 },
-      //   img: {src: './../cards/images/headquarters/ussr-image.png'}
-      // },
-      // {
-      //   position: { x: 0 + 120, y: DPI_HEIGHT - 170, dw: 50, dh: 50 },
-      //   img: {src: './../cards/bringsResources.png'}
-      // },
-      // {
-      //   position: { x: 0 + 3, y: DPI_HEIGHT - 165, dw: 25, dh: 25 },
-      //   img: {src: './../cards/icons/head-icon.png'}
-      // },
-      // {
-      //   position: { x: 0 + 30, y: DPI_HEIGHT - 150 },
-      //   text: {font: '10pt Arial', fillStyle: 'gray', text: 'Учебная часть'}
-      // },
-      // {
-      //   position: { x: 0 + 142, y: DPI_HEIGHT - 135 },
-      //   text: {font: 'bold 16pt Arial', fillStyle: '#000', text: '5'}
-      // },
-    ]
-    game.render()
-    console.log(game)
-  }, [])
+  // useEffect(() => {
+  //   const DPI_WIDTH = 854
+  //   const DPI_HEIGHT = 512
+  //   let game = canvasEngine('#icanvas', {DPI_WIDTH, DPI_HEIGHT})
+  //   game.elements = [
+  //     // {
+  //     //   position: { x: 0, y: 0 },
+  //     //   drawRect: { w: 50, h: 50, c: '#ff0000' },
+  //     // },
+  //     // {
+  //     //   position: { x: 50, y: 50 },
+  //     //   drawRect: { x: 10, y: 10, w: 50, h: 50, c: '#5844ff' },
+  //     //   drawRound: { w: 50, h: 50, r: 25, c: '#0000ff' },
+  //     //   mouse: { x: 50, y: 50, w: 50, h: 50 },
+  //     //   beforeRender: (_: any, element: any) => {
+  //     //     element.mouse.x = element.position.x
+  //     //     element.mouse.y = element.position.y
+  //     //   },
+  //     //   mouseover: () => {
+  //     //     console.log('mouseover')
+  //     //   },
+  //     //   mouseoff: () => {
+  //     //     console.log('mouseoff')
+  //     //   },
+  //     //   click: () => {
+  //     //     console.log('click', game)
+  //     //     game.elements[1].position = { x: 100, y: 100 }
+  //     //   },
+  //     // },
+  //     {
+  //       type: 'card',
+  //       position: { x: 0, y: DPI_HEIGHT - 170, cell: 'A5' },
+  //       cardImg: { w: 170, h: 170, src: './../cards/battleCard.png'},
+  //       baseImg: {w: 150, h: 125, dx: 10, dy: 36, src: './../cards/images/headquarters/ussr-image.png'},
+  //       bringsResourcesIconImg: {w: 39, h: 39, dx: 129, dy: 2, src: './../cards/bringsResources.png'},
+  //       headIconImg: {w: 20, h: 18, dx: 3, dy: 10, src: './../cards/icons/head-icon.png'},
+  //       headText: {text: 'Учебная часть', dx:25, dy:25, font: '10pt Arial', fillStyle: 'gray'},
+  //       bringsResourcesText: {text: '5', dx:143, dy:31, font: 'bold 16pt Arial', fillStyle: '#000'},
+  //     },
+  //     {
+  //       type: 'card',
+  //       position: { x: 0, y: DPI_HEIGHT - 170, cell: 'C1' },
+  //       cardImg: { w: 170, h: 170, src: './../cards/battleCard.png'},
+  //       baseImg: {w: 150, h: 125, dx: 10, dy: 36, src: './../cards/images/headquarters/ussr-image.png'},
+  //       bringsResourcesIconImg: {w: 39, h: 39, dx: 129, dy: 2, src: './../cards/bringsResources.png'},
+  //       headIconImg: {w: 20, h: 18, dx: 3, dy: 10, src: './../cards/icons/head-icon.png'},
+  //       headText: {text: 'Учебная часть', dx:25, dy:25, font: '10pt Arial', fillStyle: 'gray'},
+  //       bringsResourcesText: {text: '5', dx:143, dy:31, font: 'bold 16pt Arial', fillStyle: '#000'},
+  //     },
+  //     {
+  //       position: { x: 0, y: 0 },
+  //       setka: {c: 'white', lineWidth: 1,}
+  //     },
+  //     // {
+  //     //   position: { x: 0, y: DPI_HEIGHT - 170 },
+  //     //   img: {src: './../cards/battleCard.png'}
+  //     // },
+  //     // {
+  //     //   position: { x: 0 + 14, y: DPI_HEIGHT - 170 + 36, dw: 145, dh: 127 },
+  //     //   img: {src: './../cards/images/headquarters/ussr-image.png'}
+  //     // },
+  //     // {
+  //     //   position: { x: 0 + 120, y: DPI_HEIGHT - 170, dw: 50, dh: 50 },
+  //     //   img: {src: './../cards/bringsResources.png'}
+  //     // },
+  //     // {
+  //     //   position: { x: 0 + 3, y: DPI_HEIGHT - 165, dw: 25, dh: 25 },
+  //     //   img: {src: './../cards/icons/head-icon.png'}
+  //     // },
+  //     // {
+  //     //   position: { x: 0 + 30, y: DPI_HEIGHT - 150 },
+  //     //   text: {font: '10pt Arial', fillStyle: 'gray', text: 'Учебная часть'}
+  //     // },
+  //     // {
+  //     //   position: { x: 0 + 142, y: DPI_HEIGHT - 135 },
+  //     //   text: {font: 'bold 16pt Arial', fillStyle: '#000', text: '5'}
+  //     // },
+  //   ]
+  //   game.render()
+  //   console.log(game)
+  // }, [])
 
   return (
     <Container disableGutters>
@@ -273,7 +274,8 @@ export const GameDesk = () => {
             </Box>
           </Box> */}
 
-          <canvas id="icanvas" width={854} height={512} style={{ border: '2px solid white' }}></canvas>
+          <Canvas />
+          {/* <canvas id="icanvas" width={854} height={512} style={{ border: '2px solid white' }}></canvas> */}
           {/* <canvas id="icanvasT" width={200} height={200}></canvas> */}
 
           <Box sx={{ display: 'flex', flexDirection: 'column', ml: '10px' }}>

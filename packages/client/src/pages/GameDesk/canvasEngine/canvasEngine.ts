@@ -1,3 +1,5 @@
+import { coordinates, destinationSquare } from "../../../components/Canvas/Canvas"
+
 interface _settings {
   alpha: boolean
   imageSmoothling: boolean
@@ -24,28 +26,22 @@ const loadImage = (src: any) => {
   })
 }
 
-export const coordinates = {
-  'A1': {x:0,y:0},
-  'A2': {x:171,y:0},
-  'A3': {x:342,y:0},
-  'A4': {x:513,y:0},
-  'A5': {x:684,y:0},
-  'B1': {x:0,y:171},
-  'B2': {x:171,y:171},
-  'B3': {x:342,y:171},
-  'B4': {x:513,y:171},
-  'B5': {x:684,y:171},
-  'C1': {x:0,y:342},
-  'C2': {x:171,y:342},
-  'C3': {x:342,y:342},
-  'C4': {x:513,y:342},
-  'C5': {x:684,y:342},
-}
 
 export let canvasEnginePlugins = {
   after: [],
   before: [],
   during: [
+    (_: any, element: any) => {
+      if (element.drawLine) {
+        _.context.beginPath()
+        _.context.strokeStyle = element.drawLine.c
+        _.context.lineWidth = 1
+        _.context.moveTo(171, 0)
+        _.context.lineTo(171, 171)
+        _.context.stroke()
+        _.context.closePath()
+      }
+    },
     (_: any, element: any) => {
       if (element.drawRect) {
         _.context.fillStyle = element.drawRect.c
@@ -84,12 +80,12 @@ export let canvasEnginePlugins = {
       }
     },
     (_: any, element: any) => {
-      if (element.setka) {
+      if (element.grid) {
         const DPI_WIDTH = _.canvas.offsetWidth
         const DPI_HEIGHT = _.canvas.offsetHeight
         const step = DPI_HEIGHT / 3
-        _.context.strokeStyle = element.setka.c
-        _.context.lineWidth = element.setka.lineWidth
+        _.context.strokeStyle = element.grid.c
+        _.context.lineWidth = element.grid.lineWidth
         _.context.beginPath()
         for (let i = 1; i < 3; i++) {
           const y = step * i
@@ -101,12 +97,12 @@ export let canvasEnginePlugins = {
       }
     },
     (_: any, element: any) => {
-      if (element.setka) {
+      if (element.grid) {
         const DPI_WIDTH = _.canvas.offsetWidth
         const DPI_HEIGHT = _.canvas.offsetHeight
         const stepX = DPI_WIDTH / 5
-        _.context.strokeStyle = element.setka.c
-        _.context.lineWidth = element.setka.lineWidth
+        _.context.strokeStyle = element.grid.c
+        _.context.lineWidth = element.grid.lineWidth
         _.context.beginPath()
         for (let i = 1; i < 5; i++) {
           const x = stepX * i
@@ -212,7 +208,8 @@ export function canvasEngine(query: any, settings = {} as any): any {
   _.settings.fps = typeof settings.fps == 'number' ? settings.fps : 0
   _.settings.interval = Math.floor(1000 / _.settings.fps)
 
-  _.canvas = document.querySelector(query)
+  // _.canvas = document.querySelector(query)
+  _.canvas = query
   _.canvas.width = settings.DPI_WIDTH
   _.canvas.style.width = settings.DPI_WIDTH + 'px'
   _.canvas.height = settings.DPI_HEIGHT
@@ -221,8 +218,52 @@ export function canvasEngine(query: any, settings = {} as any): any {
   // _.canvas.style.width = _.canvas.offsetWidth + 'px'
   // _.canvas.height = _.canvas.offsetHeight
   // _.canvas.style.height = _.canvas.offsetHeight + 'px'
-  _.canvas.addEventListener('click', () => {
-    _.mouse.click = true
+  _.canvas.addEventListener('click', (event: any) => {
+    const square = destinationSquare(event.offsetX,event.offsetY)
+    const cell = `${square.y}${square.x}`
+    if(_.mouse.click == false){
+      console.log('mouse false')
+      _.elements.forEach((element: any) => {
+        if(element.position.cell == cell) {
+          if(element.position.status == false) {
+            element.position.status = true
+            _.mouse.click = true
+            element.headText.fillStyle = 'red'
+            console.log(element.position.cell, element.position.status)
+          }
+        }
+      })
+    } else {
+      console.log('mouse true')
+      let move = true
+      _.elements.forEach((element: any) => {
+        if(element.position.cell == cell) {
+          if(element.position.status == true) {
+            element.position.status = false
+            element.headText.fillStyle = 'gray'
+            _.mouse.click = false
+            move = false
+            console.log(element.position.cell, element.position.status)
+            return
+          } else {
+            move = false
+          }
+        }
+      })
+      if (move == true) {
+        console.log('перемещение')
+        _.elements.forEach((element: any) => {
+          if(element.position.status == true) {
+            element.position.cell = cell
+            element.position.status = false
+            element.headText.fillStyle = 'gray'
+            _.mouse.click = false
+          }
+        })
+      }
+    }
+    console.log(cell, _.mouse.click)
+    _.render()
   })
   _.canvas.addEventListener('mousemove', (event: any) => {
     _.mouse.position.x = event.offsetX
@@ -274,7 +315,7 @@ export function canvasEngine(query: any, settings = {} as any): any {
         plugin(this, element)
       })
     })
-    this.mouse.click = false
+    // this.mouse.click = false
     this.plugins.after.forEach((plugin: any) => {
       plugin(this)
     })
