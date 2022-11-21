@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import AuthController from '../controllers/AuthController'
-import { ISignInData, IChangeDataForm } from '../typings'
+import { ISignInData, IChangeDataForm, ISingUpForm } from '../typings'
 import UserController from '../controllers/UserController'
 import { UserAPIUpdatePassword } from '../api/UserAPI'
 
@@ -8,6 +8,14 @@ export const loginThunk = createAsyncThunk(
   'user/login',
   async (data: ISignInData) => {
     await AuthController.signin(data)
+  }
+)
+
+export const signUpThunk = createAsyncThunk(
+  'user/signUp',
+  async (data: ISingUpForm) => {
+    const res = await AuthController.signup(data)
+    return res?.data
   }
 )
 

@@ -2,6 +2,7 @@ import { FC, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppRoute } from '../../utils/consts'
 import { Box, Button, Container, Link as MuiLink } from '@mui/material'
+import { useAuthorizationStatus } from '../../hooks/useAuthorizationStatus'
 
 interface HeaderProps {
   handleLogout: () => void
@@ -10,6 +11,7 @@ interface HeaderProps {
 export const Header: FC<HeaderProps> = ({ handleLogout }) => {
   const [gameId, setGameId] = useState('0')
   const navigate = useNavigate()
+  const { isAuthorized } = useAuthorizationStatus()
 
   const toGoGame = () => {
     navigate(`${AppRoute.Game}/${gameId}`)
@@ -31,32 +33,38 @@ export const Header: FC<HeaderProps> = ({ handleLogout }) => {
         zIndex: 100,
         backgroundColor: '#000',
       }}>
-      <Button
-        variant="sizeSmall"
-        onClick={handleLogout}
-        fullWidth
-        disableElevation
-        sx={{
-          fontSize: '1rem',
-          fontWeight: 500,
-          ':hover': {
-            backgroundColor: '#E8AA00',
-          },
-          textTransform: 'none',
-          padding: '0px 16px',
-          height: '23px',
-        }}>
-        Выход
-      </Button>
+      {isAuthorized && (
+        <Button
+          variant="sizeSmall"
+          onClick={handleLogout}
+          fullWidth
+          disableElevation
+          sx={{
+            fontSize: '1rem',
+            fontWeight: 500,
+            ':hover': {
+              backgroundColor: '#E8AA00',
+            },
+            textTransform: 'none',
+            padding: '0px 16px',
+            height: '23px',
+          }}>
+          Выход
+        </Button>
+      )}
       <Box
         component="nav"
         sx={{ display: 'flex', flex: 1, justifyContent: 'space-around' }}>
-        <MuiLink component={Link} to={AppRoute.SignIn}>
-          Вход
-        </MuiLink>
-        <MuiLink component={Link} to={AppRoute.SignUp}>
-          Регистрация
-        </MuiLink>
+        {!isAuthorized && (
+          <MuiLink component={Link} to={AppRoute.SignIn}>
+            Вход
+          </MuiLink>
+        )}
+        {!isAuthorized && (
+          <MuiLink component={Link} to={AppRoute.SignUp}>
+            Регистрация
+          </MuiLink>
+        )}
 
         <MuiLink component={Link} to={AppRoute.Index}>
           Главная

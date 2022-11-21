@@ -9,7 +9,7 @@ export class AuthAPI {
     return PraktikumClient.post(`${AuthAPI.API_URL}/signin`, data)
   }
 
-  signUp(data: ISingUpForm): Promise<XMLHttpRequest> {
+  signUp(data: ISingUpForm): Promise<AxiosResponse<IUser>> {
     return PraktikumClient.post(`${AuthAPI.API_URL}/signup`, data)
   }
 

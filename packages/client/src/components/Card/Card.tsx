@@ -1,7 +1,7 @@
 import { FC, memo } from 'react'
 import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
-import { ICollectionCardItem } from '../../typings'
+import { Tank } from '../../gameCore/models/TanksDeck'
 
 const styles = {
   card: {
@@ -24,8 +24,8 @@ const styles = {
 }
 
 export interface ICardProps {
-  handleCardClick: (item: ICollectionCardItem) => void
-  item: ICollectionCardItem
+  handleCardClick: (item: Tank) => void
+  item: Tank
 }
 
 export const Card: FC<ICardProps> = memo(({ item, handleCardClick }) => {

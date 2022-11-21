@@ -16,7 +16,6 @@ export class AuthController {
 
   async signup(data: ISingUpForm) {
     const response = await this.api.signUp(data)
-    await this.fetchUser()
     return response
   }
 

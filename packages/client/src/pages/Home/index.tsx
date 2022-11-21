@@ -2,6 +2,7 @@ import { Button, Box, Typography, Container, Link } from '@mui/material'
 import React from 'react'
 import { AppRoute } from '../../utils/consts'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { useAuthorizationStatus } from '../../hooks/useAuthorizationStatus'
 
 const styles = {
   container: {
@@ -19,6 +20,7 @@ const styles = {
 
 export const Home = () => {
   const navigate = useNavigate()
+  const { isAuthorized } = useAuthorizationStatus()
 
   const signIn = () => {
     navigate(`/${AppRoute.SignIn}`)
@@ -76,9 +78,11 @@ export const Home = () => {
           стратегия с верными тактическими ходами.
         </Typography>
       </Box>
-      <Button onClick={signIn} variant="secondary" sx={styles.mainBtn}>
-        Войти
-      </Button>
+      {!isAuthorized && (
+        <Button onClick={signIn} variant="secondary" sx={styles.mainBtn}>
+          Войти
+        </Button>
+      )}
       <Typography
         variant="subtitle1"
         component="span"
