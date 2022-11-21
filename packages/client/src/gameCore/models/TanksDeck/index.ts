@@ -29,7 +29,13 @@ export class Tank extends BaseCard {
     this.specialProperties = specialProperties
   }
 }
-
-export const fullTanksDeck = TanksData.map(tankData => new Tank(tankData))
+//TODO Убрать лишние операции ... и [] (Xroniks - Постников Павел)
+export const fullTanksDeck = [
+  ...TanksData.map(tankData => [
+    new Tank(tankData),
+    new Tank(tankData),
+    new Tank(tankData),
+  ]).flat(),
+]
 
 export const decksOfTanksByTier = decksOfCardsByTier(fullTanksDeck)
