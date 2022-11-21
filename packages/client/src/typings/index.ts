@@ -42,6 +42,10 @@ export interface ICardUpgrade {
 export interface UserSlice {
   authorizationStatus: AuthorizationStatus
   currentUser: IUser
+  changePasswordStatus: {
+    message: string
+    isLoading: boolean
+  }
 }
 
 export interface DecksSlice {

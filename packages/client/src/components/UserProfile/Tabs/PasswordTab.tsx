@@ -1,5 +1,6 @@
 import {
   Button,
+  CircularProgress,
   FormControl,
   IconButton,
   Snackbar,
@@ -16,7 +17,7 @@ import { TabPanel } from '../../TabPanel/TabPanel'
 import { passwordValidation } from '../../../utils/validation'
 import { RequiredField } from '../../../utils/consts'
 import CloseIcon from '@mui/icons-material/Close'
-import { useAppDispatch } from '../../../hooks'
+import { useAppDispatch, useAppselector } from '../../../hooks'
 import { updatePasswordThunk } from '../../../store/api-thunks'
 
 export interface IChangePasswordForm {
@@ -47,8 +48,10 @@ const disabledFieldStyle = {
 export const PasswordTab: FC<IPasswordTab> = ({ tabIndex, index }) => {
   const [isEditPasswordMode, setIsEditPasswordMode] = useState(false)
   const [isOpenMsg, setIsOpenMsg] = useState(false)
-  const [message, setMessage] = useState('')
   const dispatch = useAppDispatch()
+  const { changePasswordStatus } = useAppselector(({ USER }) => USER)
+  const { message: changeMessage, isLoading: isPasswordChanging } =
+    changePasswordStatus
 
   const { handleSubmit, control, getValues, reset } =
     useForm<IChangePasswordForm>({
@@ -70,18 +73,16 @@ export const PasswordTab: FC<IPasswordTab> = ({ tabIndex, index }) => {
 
     const dataSend = checkNoRepeat(data)
     dispatch(updatePasswordThunk(dataSend)).then(res => {
+      setIsOpenMsg(true)
+
       if (res.payload) {
-        setMessage('Пароль успешно изменен')
-        setIsOpenMsg(true)
-      } else {
-        setMessage('Ошибка, пароль не изменен')
-        setIsOpenMsg(true)
+        reset({
+          oldPassword: '',
+          newPassword: '',
+          repeatPassword: '',
+        })
+        setIsEditPasswordMode(false)
       }
-    })
-    reset({
-      oldPassword: '',
-      newPassword: '',
-      repeatPassword: '',
     })
   }
 
@@ -191,11 +192,9 @@ export const PasswordTab: FC<IPasswordTab> = ({ tabIndex, index }) => {
           variant="contained"
           type="submit"
           disableElevation
-          disabled={!isValid && isEditPasswordMode}
+          disabled={(!isValid && isEditPasswordMode) || isPasswordChanging}
           onClick={e => {
-            if (isEditPasswordMode) {
-              setIsEditPasswordMode(!isEditPasswordMode)
-            } else {
+            if (!isEditPasswordMode) {
               e.preventDefault()
               setIsEditPasswordMode(!isEditPasswordMode)
             }
@@ -205,13 +204,20 @@ export const PasswordTab: FC<IPasswordTab> = ({ tabIndex, index }) => {
             marginTop: 2,
           }}>
           {!isEditPasswordMode ? 'Редактировать пароль' : 'Сохранить'}
+          {isPasswordChanging && (
+            <CircularProgress
+              sx={{ marginLeft: '10px' }}
+              size="20px"
+              color="secondary"
+            />
+          )}
         </Button>
       </FormControl>
       <Snackbar
         open={isOpenMsg}
         autoHideDuration={6000}
         onClose={handleClose}
-        message={message}
+        message={changeMessage}
         action={action}
       />
     </TabPanel>
