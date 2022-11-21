@@ -32,11 +32,11 @@ interface IGridElement {
   position: Omit<IPosition, 'cell' | 'isActive'>
 }
 
-function click(event: MouseEvent) {
-  const { x, y } = destinationSquare(event.offsetX, event.offsetY)
-  const cell = `${y}${x}`
-  console.log('Вот так всего один click in', cell)
-}
+// function click(event: MouseEvent) {
+//   const { x, y } = destinationSquare(event.offsetX, event.offsetY)
+//   const cell = `${y}${x}`
+//   console.log('Вот так всего один click in', cell)
+// }
 
 export class CanvasEngine {
   query: string | null
@@ -79,7 +79,7 @@ export class CanvasEngine {
       click: false,
     }
 
-    this.canvas.addEventListener('click', click)
+    // this.canvas.addEventListener('click', click)
 
     // this.canvas.addEventListener('click', (event: MouseEvent) => {
     //   console.log(this)
@@ -129,39 +129,37 @@ export class CanvasEngine {
     // })
   }
 
-  // click(event: MouseEvent) {
-  // const square = destinationSquare(event.offsetX,event.offsetY)
-  // const cell = `${square.y}${square.x}`
+  click(cell: string) {
 
-  //   if (!this.mouse.click) {
-  //     this.elements.forEach((element: any) => {
-  //       if(element.position.cell === cell) {
-  //         this.activeElement = element
-  //         this.mouse.click = !this.mouse.click
-  //         this.mouse.cell = cell
-  //         element.headText.fillStyle = 'red'
-  //         this.render()
-  //       }
-  //     })
-  //   } else {
-  //     this.mouse.click = !this.mouse.click
+    if (!this.mouse.click) {
+      this.elements.forEach((element: any) => {
+        if(element.position.cell === cell) {
+          this.activeElement = element
+          this.mouse.click = !this.mouse.click
+          this.mouse.cell = cell
+          element.headText.fillStyle = 'red'
+          this.render()
+        }
+      })
+    } else {
+      this.mouse.click = !this.mouse.click
 
-  //     this.elements.forEach((element: any) => {
-  //       const position = element.position.cell
+      this.elements.forEach((element: any) => {
+        const position = element.position.cell
 
-  //       if (position === this.mouse.cell) {
-  //         console.log('bingo')
-  //       }
-  //     })
-  //     if (this.activeElement) {
-  //       this.activeElement.headText.fillStyle = 'gray'
-  //       this.activeElement = null
-  //     }
-  //     this.mouse.cell = null
-  //     this.render()
-  //     console.log('Click')
-  //   }
-  // }
+        if (position === this.mouse.cell) {
+          console.log('bingo')
+        }
+      })
+      if (this.activeElement) {
+        this.activeElement.headText.fillStyle = 'gray'
+        this.activeElement = null
+      }
+      this.mouse.cell = null
+      this.render()
+      console.log('Click')
+    }
+  }
 
   render() {
     // this.plugins.before.forEach((plugin: any) => { // пока убрал т.к. не используем
@@ -181,10 +179,10 @@ export class CanvasEngine {
     // })
   }
 
-  removeListener() {
-    console.log()
-    this.canvas.removeEventListener('click', click)
-  }
+  // removeListener() {
+  //   console.log()
+  //   this.canvas.removeEventListener('click', click)
+  // }
 
   // this.interval = setInterval(
   //   this => {

@@ -1,5 +1,6 @@
-import { useEffect, useRef, memo } from 'react'
+import React, { useEffect, useRef, memo, MouseEventHandler } from 'react'
 import { decksOfTanksByTier, Tank } from '../../gameCore/models/TanksDeck'
+import { destinationSquare } from '../../utils'
 import { CanvasEngine } from '../../utils/canvasEngine/canvasEngine'
 import {
   BattleCardIcons,
@@ -135,15 +136,17 @@ export const Canvas = memo(() => {
     game = new CanvasEngine(canvasRef.current, { DPI_WIDTH, DPI_HEIGHT })
     game.elements = elements
     game.render()
-    return () => {
-      console.log('Здесь надо удалять слушатель, но пока ни как не получается')
-      // game.canvas.removeEventListener('click', game.click)
-      game.removeListener()
-    }
   }, [])
+
+  const handleClick = (event: React.MouseEvent) => {
+    const { x, y } = destinationSquare(event.nativeEvent.offsetX, event.nativeEvent.offsetY)
+    const cell = `${y}${x}`
+    game.click(cell)
+  }
 
   return (
     <canvas
+      onClick={handleClick}
       id="icanvas"
       ref={canvasRef}
       style={{
