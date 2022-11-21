@@ -1,11 +1,12 @@
-import { destinationSquare } from '../'
 import { canvasEnginePlugins } from './canvasEngine-plugins'
 
 interface ISettings {
-  alpha: boolean
-  imageSmoothling: boolean
-  fps: number
-  interval: number
+  alpha?: boolean
+  imageSmoothling?: boolean
+  fps?: number
+  interval?: number
+  DPI_WIDTH: number
+  DPI_HEIGHT: number
 }
 
 interface IPosition {
@@ -15,46 +16,63 @@ interface IPosition {
   isActive: boolean
 }
 
-interface IElement {
+interface IBaseCanvasElement {
+  dx: number
+  dy: number
+}
+
+interface ICardImgElement {
+  w: number
+  h: number
+  src: string
+}
+
+interface IBaseText extends IBaseCanvasElement {
+  text: string
+  font: string
+  fillStyle: string
+}
+
+export interface IElement {
   type: string
   position: IPosition
-  cardImg: Record<string, string | number>
-  baseImg: Record<string, string | number>
-  bringsResourcesIconImg: Record<string, string | number>
-  headIconImg: Record<string, string | number>
-  headText: Record<string, string | number>
-  bringsResourcesText: Record<string, string | number>
-  damage: Record<string, string | number>
-  health: Record<string, string | number>
+  cardImg: ICardImgElement
+  baseImg: ICardImgElement & IBaseCanvasElement
+  bringsResourcesIconImg: ICardImgElement & IBaseCanvasElement
+  headIconImg: ICardImgElement & IBaseCanvasElement
+  headText: IBaseText
+  bringsResourcesText: IBaseText
+  damage: IBaseText
+  health: IBaseText
 }
 
-interface IGridElement {
+interface IGrid {
+  c: string
+  lineWidth: number
+}
+
+interface IDuring {
+  gridPlugins: ((_: CanvasEngine, element: IGridElement) => void)[]
+  elementsPlugins: ((_: CanvasEngine, element: IElement) => void)[]
+}
+
+export interface IGridElement {
+  type: string
   position: Omit<IPosition, 'cell' | 'isActive'>
+  grid: IGrid
 }
-
-// function click(event: MouseEvent) {
-//   const { x, y } = destinationSquare(event.offsetX, event.offsetY)
-//   const cell = `${y}${x}`
-//   console.log('Вот так всего один click in', cell)
-// }
 
 export class CanvasEngine {
-  query: string | null
-  settings: any
-  canvas: any
-  plugins: {
-    after: never[]
-    before: never[]
-    during: ((_: any, element: any) => void)[]
-  }
-  elements: IElement[] | IGridElement[] = []
-  context: any
+  settings: ISettings
+  canvas: HTMLCanvasElement
+  elements: IElement[] = []
+  grid: IGridElement[] = []
   mouse: { click: boolean; cell: string | null }
   activeElement: null | IElement = null
+  context: CanvasRenderingContext2D | undefined
+  plugins: { after: never[]; before: never[]; during: IDuring }
 
-  constructor(query: string | null, settings = {} as any) {
-    console.log('мы два раза создаем игру - и это проблема')
-    this.query = query
+  constructor(query: HTMLCanvasElement, settings: ISettings) {
     this.settings = settings
     this.settings.alpha =
       typeof settings.alpha == 'boolean' ? settings.alpha : true
@@ -66,25 +84,22 @@ export class CanvasEngine {
     this.settings.interval = Math.floor(1000 / this.settings.fps)
     this.canvas = query
     this.canvas.width = settings.DPI_WIDTH
-    this.canvas.style.width = settings.DPIthisWIDTH + 'px'
+    this.canvas.style.width = settings.DPI_WIDTH + 'px'
     this.canvas.height = settings.DPI_HEIGHT
-    this.canvas.style.height = settings.DPIthisHEIGHT + 'px'
+    this.canvas.style.height = settings.DPI_HEIGHT + 'px'
     this.plugins = canvasEnginePlugins
-    this.context = this.canvas.getContext('2d', { alpha: this.settings.alpha })
-    this.context.imageSmoothingEnabled = this.settings.imageSmoothling
-    this.context.mozImageSmoothingEnabled = this.settings.imageSmoothling
-    this.context.webkitImageSmoothingEnabled = this.settings.imageSmoothling
+    const context = this.canvas.getContext('2d', { alpha: this.settings.alpha })
     this.mouse = {
       cell: null,
       click: false,
     }
 
-    // this.canvas.addEventListener('click', click)
+    if (context) {
+      this.context = context
+      this.context.imageSmoothingEnabled = this.settings.imageSmoothling
+    }
 
     // this.canvas.addEventListener('click', (event: MouseEvent) => {
-    //   console.log(this)
-
-    //   this.click(cell)
     //   if(this.mouse.click === false){
     //     console.log('mouse false')
     //     this.elements.forEach((element: any) => {
@@ -130,10 +145,9 @@ export class CanvasEngine {
   }
 
   click(cell: string) {
-
     if (!this.mouse.click) {
-      this.elements.forEach((element: any) => {
-        if(element.position.cell === cell) {
+      this.elements.forEach((element: IElement) => {
+        if (element.position.cell === cell) {
           this.activeElement = element
           this.mouse.click = !this.mouse.click
           this.mouse.cell = cell
@@ -142,34 +156,62 @@ export class CanvasEngine {
         }
       })
     } else {
-      this.mouse.click = !this.mouse.click
+      this.mouse.click = false
+      let isMove = true
+      const activePositionElement = this.activeElement?.position.cell
 
-      this.elements.forEach((element: any) => {
+      this.elements.forEach((element: IElement) => {
         const position = element.position.cell
 
-        if (position === this.mouse.cell) {
-          console.log('bingo')
+        if (activePositionElement && activePositionElement !== position && position === cell) {
+          isMove = false
+          console.log('здесь будет взаимодействие карточек')
         }
       })
+
+      if (activePositionElement === cell) {
+        isMove = false
+      }
+
+      if (isMove && this.activeElement) {
+        this.activeElement.position.cell = cell
+      }
+
       if (this.activeElement) {
         this.activeElement.headText.fillStyle = 'gray'
         this.activeElement = null
       }
+
       this.mouse.cell = null
       this.render()
       console.log('Click')
     }
   }
 
+  setElements(elements: IElement[]) {
+    this.elements = elements
+  }
+
+  setGrid(grid: IGridElement[]) {
+    this.grid = grid
+  }
+
   render() {
     // this.plugins.before.forEach((plugin: any) => { // пока убрал т.к. не используем
     //   plugin(this)
     // })
+    if (this.context) {
+      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    }
 
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    this.grid.forEach((element: IGridElement) => {
+      this.plugins.during.gridPlugins.forEach(plugin => {
+        plugin(this, element)
+      })
+    })
 
-    this.elements.forEach((element: any) => {
-      this.plugins.during.forEach((plugin: any) => {
+    this.elements.forEach((element: IElement) => {
+      this.plugins.during.elementsPlugins.forEach(plugin => {
         plugin(this, element)
       })
     })
@@ -178,11 +220,6 @@ export class CanvasEngine {
     //   plugin(this)
     // })
   }
-
-  // removeListener() {
-  //   console.log()
-  //   this.canvas.removeEventListener('click', click)
-  // }
 
   // this.interval = setInterval(
   //   this => {

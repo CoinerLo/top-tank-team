@@ -1,7 +1,8 @@
 import { coordinates } from '../consts'
+import { CanvasEngine, IElement } from './canvasEngine'
 
-export const drawCard = (_: any, element: any) => {
-  if (element.type == 'card') {
+export const drawCard = (_: CanvasEngine, element: IElement) => {
+  if (element.type === 'card') {
     if (element.position.cell) {
       for (const key of Object.keys(coordinates)) {
         if (key == element.position.cell) {
