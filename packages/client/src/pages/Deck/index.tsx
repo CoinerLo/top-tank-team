@@ -22,8 +22,9 @@ import 'swiper/css/pagination'
 import { allCardsForDeck } from '../../gameCore/allCardsForDeck'
 import { Tank } from '../../gameCore/models/TanksDeck'
 import { useAppDispatch, useAppselector } from '../../hooks'
-import { decksSlice } from '../../store/slices/userSlice/decksSlice'
+import { decksSlice } from '../../store/slices/decksSlice/decksSlice'
 import CloseIcon from '@mui/icons-material/Close'
+import { COUNT_CARDS_IN_PLAYER_DECK } from '../../gameCore/consts'
 
 const styles = {
   container: {
@@ -82,8 +83,7 @@ export const Deck = () => {
   const navigate = useNavigate()
   const goHeadquarters = () => navigate(`/${AppRoute.Headquarters}`)
 
-  //Можно к константу куда-то верно?
-  const defaultDeck = 'first'
+  const DEFAULT_DECK = 'first'
 
   const { decks } = useAppselector(({ DECKS }) => DECKS)
   const { saveUserDeck, addUserDeck } = decksSlice.actions
@@ -91,17 +91,19 @@ export const Deck = () => {
 
   const [isOpen, setIsOpen] = useState(false)
   const [errorSaveDeck, setErrorSaveDeck] = useState(false)
-  const [choiceDeck, setChoiceDeck] = useState(defaultDeck)
+  const [choiceDeck, setChoiceDeck] = useState(DEFAULT_DECK)
   const [nameNewDeck, setNameNewDeck] = useState('')
 
   const [currentDeck, setCurrentDeck] = useState(decks.first)
-  const [collectionState, setCollectionState] = useState([
-    ...allCardsForDeck.filter(collection => {
-      return !decks[defaultDeck].includes(collection)
-    }),
-  ])
+  const [collectionState, setCollectionState] = useState(
+    allCardsForDeck.filter(collection => {
+      return !decks[DEFAULT_DECK].includes(collection)
+    })
+  )
 
-  //Подскажите как лучше сделать, нужно задать дефолтный объект так как жалуется в ином случае, прописать прям полноценно полностью объект или как?) Заранее спасибо)
+  const permissionSave = !(currentDeck.length == COUNT_CARDS_IN_PLAYER_DECK)
+
+  //TODO Расписать дефолтный объект (сразу не получилось...) (Xroniks - Павел Постников)
   const [cardItem, setCardItem] = useState(allCardsForDeck[0])
 
   const handleChangeChoiceDeck = useCallback(
@@ -117,7 +119,7 @@ export const Deck = () => {
     },
     [decks]
   )
-
+  //TODO Доделать логику, при добавлении новой колоды, выводить её сразу в currentDeck (Xroniks - Постников Павел)
   const handleAddNewDeck = useCallback(() => {
     dispatch(addUserDeck(nameNewDeck))
     setNameNewDeck('')
@@ -129,9 +131,9 @@ export const Deck = () => {
     },
     []
   )
-
+  //TODO Доделать логику, если колода с таким названием есть, не переписывать её новыми картами а выкинуть сообщение о том, что колода уже существует!) (Xroniks - Постников Павел)
   const handleSaveDeck = useCallback(() => {
-    if (currentDeck.length > 30) {
+    if (permissionSave) {
       setErrorSaveDeck(true)
     } else {
       dispatch(saveUserDeck({ data: currentDeck, name: `${choiceDeck}` }))
@@ -194,7 +196,7 @@ export const Deck = () => {
                 <Typography
                   sx={{
                     marginLeft: '5px',
-                    color: currentDeck.length > 30 ? 'red' : '#EAE3CC',
+                    color: permissionSave ? 'red' : '#EAE3CC',
                   }}>{`${currentDeck.length}/30`}</Typography>
               </Box>
             </Box>
@@ -326,7 +328,7 @@ export const Deck = () => {
           <Typography alignSelf="center" marginBottom="20px" variant="h3">
             Нельзя сохранить колоду!
           </Typography>
-          <Typography>В вашей колоде должно быть не больше 30и карт</Typography>
+          <Typography>В вашей колоде должно быть ровно 30 карт!</Typography>
         </Box>
       </Modal>
     </Container>
