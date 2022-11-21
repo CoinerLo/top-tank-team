@@ -1,5 +1,6 @@
-import { CanvasEngine, IGridElement } from './canvasEngine'
+import { CanvasEngine } from './canvasEngine'
 import { drawCard } from './canvasEngine-drawCard'
+import { IGridElement } from './canvasTypings'
 
 export const canvasEnginePlugins = {
   after: [],

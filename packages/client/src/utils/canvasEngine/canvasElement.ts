@@ -29,7 +29,6 @@ export class ElementsCreator {
         x: 0,
         y: DPI_HEIGHT - 170,
         cell: this.targetСell,
-        isActive: false,
       },
       cardImg: { w: 170, h: 170, src: './../cards/battleCard.png' },
       baseImg: { w: 150, h: 125, dx: 10, dy: 36, src: this.imgSrc },

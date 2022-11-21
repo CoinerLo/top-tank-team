@@ -12,3 +12,11 @@ export const destinationSquare = (x: number, y: number) => {
       return { y: 'C', x: xResult }
   }
 }
+
+export async function loadImage(url: string, elem: HTMLImageElement) {
+  return new Promise((resolve, reject) => {
+    elem.src = url
+    elem.onload = () => resolve(elem)
+    elem.onerror = reject
+  })
+}

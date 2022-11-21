@@ -15,7 +15,7 @@ export const Canvas = memo(() => {
   const elements = [
     {
       type: 'card',
-      position: { x: 0, y: DPI_HEIGHT - 170, cell: 'C1', isActive: false },
+      position: { x: 0, y: DPI_HEIGHT - 170, cell: 'C1' },
       cardImg: { w: 170, h: 170, src: './../cards/battleCard.png' },
       baseImg: {
         w: 150,
