@@ -15,8 +15,7 @@ export class UserState {
   constructor({ deck, headquartersName, userName }: IUserData) {
     this.name = userName
     this.headquarters = headquartersByName[headquartersName]
-    this.deck = deck
-    shuffleArray(this.deck)
+    this.deck = shuffleArray(deck)
     this.hand = this.hand.map(() => this.takeСardFromDeck() as CardsDeckType)
     this.currentCountResources = this.headquarters.bringsResources
     this.futureСountResources = this.currentCountResources

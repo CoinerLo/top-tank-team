@@ -54,6 +54,7 @@ export enum ChangePasswordStatus {
 export enum NameSpace {
   User = 'USER',
   Decks = 'DECKS',
+  Game = 'GAME'
 }
 
 const fieldsIconPath = '/cards/images/fields/'

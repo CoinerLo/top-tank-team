@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import CssBaseline from '@mui/material/CssBaseline'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import { mainTheme } from './assets/mainTheme'
@@ -12,7 +11,6 @@ import { Upgrade } from './pages/Upgrade'
 import { Deck } from './pages/Deck'
 import { Forum } from './pages/Forum'
 import { GameStart } from './pages/GameDesk/GameStart'
-import { GameDesk } from './pages/GameDesk'
 import { GameResult } from './pages/GameDesk/GameResult'
 import { AppRoute, AuthorizationStatus } from './utils/consts'
 import { PostPage } from './pages/Forum/Post'
@@ -22,18 +20,19 @@ import { HeaderContainer } from './containers/HeaderContainer'
 import { useAppselector } from './hooks'
 import { PrivateRoute } from './hocs/PrivateRoute/PrivateRoute'
 import { LoadingScreen } from './components/LoadingScreen/LoadingScreen'
+import { GameDeskContainer } from './containers/GameDeskContainer'
 
 function App() {
-  useEffect(() => {
-    const fetchServerData = async () => {
-      const url = `http://localhost:${__SERVER_PORT__}`
-      const response = await fetch(url)
-      const data = await response.json()
-      console.log(data)
-    }
+  // useEffect(() => {                                    // пока заглушу - пока не возьмемся за бекенд, надоели эти ошибки в консоле постоянные
+  //   const fetchServerData = async () => {
+  //     const url = `http://localhost:${__SERVER_PORT__}`
+  //     const response = await fetch(url)
+  //     const data = await response.json()
+  //     console.log(data)
+  //   }
 
-    fetchServerData()
-  }, [])
+  //   fetchServerData()
+  // }, [])
 
   const { authorizationStatus } = useAppselector(({ USER }) => USER)
 
@@ -100,7 +99,7 @@ function App() {
             path={AppRoute.GameId}
             element={
               <PrivateRoute>
-                <GameDesk />
+                <GameDeskContainer />
               </PrivateRoute>
             }
           />

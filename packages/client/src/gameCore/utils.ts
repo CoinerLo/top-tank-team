@@ -57,11 +57,13 @@ export const nanoid = () => {
   return nextID.toString()
 } // MEMORY: решение с таким id временное, до создания постоянного хранилища данных
 
-export const shuffleArray = (array: unknown[]) => {
-  for (let i = array.length - 1; i > 0; i--) {
+export const shuffleArray = <T>(array: T[]) => {
+  const copyArray = [...array]
+  for (let i = copyArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
-    ;[array[i], array[j]] = [array[j], array[i]]
+    ;[copyArray[i], copyArray[j]] = [copyArray[j], copyArray[i]]
   }
+  return copyArray
 }
 
 export const getRandomInt = (max: number) => {

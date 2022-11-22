@@ -8,13 +8,14 @@ import { ReadyFight } from '../../../components/ReadyFight/ReadyFight'
 import { HeadquartersPreview } from '../../../components/HeadquartersPreview/HeadquartersPreview'
 import { AppRoute, getHeadquartersPreview } from '../../../utils/consts'
 import { IUserData } from '../../../gameCore/types'
-import { getRandomUserDeck } from '../../../gameCore/mockData'
-import { COUNT_CARDS_IN_PLAYER_DECK } from '../../../gameCore/consts'
 import { Game } from '../../../gameCore/models/Game'
+import { useAppDispatch, useAppselector } from '../../../hooks'
+import { saveGame } from '../../../store/slices/gameSlice/gameSlice'
 
 export const GameStart = () => {
   const [valResetTimer, setvalResetTimer] = useState(false)
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const [userHeadquarters, setUserHeadquarters] = useState('')
   const [opponentHeadquarters, setOpponentHeadquarters] = useState('')
   const [userHeadquartersAvatar, setUserHeadquartersAvatar] = useState(
@@ -23,28 +24,33 @@ export const GameStart = () => {
   const [opponentHeadquartersAvatar, setOpponentHeadquartersAvatar] = useState(
     getHeadquartersPreview('')
   )
+  
+  const { currentUser } = useAppselector(({ USER }) => USER)
+  const { display_name } = currentUser
+
+  const { decks } = useAppselector(({ DECKS }) => DECKS)
+  const { first, second } = decks
 
   const baseOpponentName = 'Оппонент'
   const [opponentName, setOpponentName] = useState(baseOpponentName)
   const helpInfo = 'Выберите свой штаб главнокомандующего!'
-  const userName = 'Игрок' // из редакса потом будем брать
 
   useEffect(() => {
     if (userHeadquarters && opponentHeadquarters) {
       const userData: IUserData = {
-        userName,
-        deck: getRandomUserDeck(COUNT_CARDS_IN_PLAYER_DECK), // поменяем когда будет готов набор колоды
+        userName: display_name,
+        deck: first,
         headquartersName: userHeadquarters,
       }
       const opponentData: IUserData = {
         userName: opponentName ?? baseOpponentName,
-        deck: getRandomUserDeck(COUNT_CARDS_IN_PLAYER_DECK), // поменяем когда будет готов набор колоды
+        deck: second,
         headquartersName: opponentHeadquarters,
       }
       const newGame = new Game({ userData, opponentData })
-      // далее этот объект будем записывать в стор, и брать его оттуда уже на странице игры
-      // либо возможно как-то иначе, в любом случае еще доработаем
       const { id } = newGame
+
+      dispatch(saveGame({ data: newGame}))
 
       navigate(`/${AppRoute.Game}/${id}`)
     }
@@ -82,7 +88,7 @@ export const GameStart = () => {
           }}>
           <Box>
             <Typography variant="h6" sx={{ textAlign: 'center' }}>
-              {userName}
+              {display_name}
             </Typography>
           </Box>
           <Box

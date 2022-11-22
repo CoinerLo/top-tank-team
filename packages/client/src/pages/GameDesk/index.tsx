@@ -1,11 +1,11 @@
 import { Box, Button, Container } from '@mui/material'
-import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { FC, useState } from 'react'
 import { Deck } from '../../components/game/Deck/Deck'
 import { Field } from '../../components/game/Field/Field'
 import { Hand } from '../../components/game/Hand/Hand'
 import { ResourceCounter } from '../../components/game/ResourceCounter/ResourceCounter'
 import { TimerBox } from '../../components/game/TimerBox/TimerBox'
+import { Game } from '../../gameCore/models/Game'
 import { fieldsIcons } from '../../utils/consts'
 import { Canvas } from '../../components/Canvas/Canvas'
 
@@ -36,7 +36,11 @@ const styles = {
   },
 }
 
-export const GameDesk = () => {
+interface IGameDesk {
+  game: Game
+}
+
+export const GameDesk: FC<IGameDesk> = ({ game }) => {
   const [opponentDeck] = useState(34)
   const [opponentThrowDeck] = useState(2)
   const [userDeck] = useState(34)
@@ -47,13 +51,10 @@ export const GameDesk = () => {
   const [userCurrentCountResource] = useState(5)
   const [userFutureСountResource] = useState(5)
 
-  const params = useParams()
-  console.log(params.gameId)
-
   const handlerEndOfTurn = () => {
     console.log('Переход хода!')
   }
-
+  console.log(game.getFullState())
   return (
     <Container disableGutters>
       <Box sx={{ my: '10px', mx: 'auto' }}>
