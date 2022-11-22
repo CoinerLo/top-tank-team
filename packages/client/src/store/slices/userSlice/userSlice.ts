@@ -37,7 +37,11 @@ const initialState: UserSlice = {
 export const userSlice = createSlice({
   name: NameSpace.User,
   initialState,
-  reducers: {},
+  reducers: {
+    resetPasswordStatus: (state) => {
+      state.changePasswordStatus.message = ''
+    },
+  },
   extraReducers: builder => {
     builder.addCase(loginThunk.fulfilled, state => {
       state.authorizationStatus = AuthorizationStatus.Auth
@@ -109,3 +113,5 @@ export const userSlice = createSlice({
       })
   },
 })
+
+export const {resetPasswordStatus} = userSlice.actions

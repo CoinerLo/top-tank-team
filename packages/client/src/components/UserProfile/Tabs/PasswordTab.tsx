@@ -12,13 +12,14 @@ import {
   useForm,
   SubmitHandler,
 } from 'react-hook-form'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { TabPanel } from '../../TabPanel/TabPanel'
 import { passwordValidation } from '../../../utils/validation'
-import { RequiredField } from '../../../utils/consts'
+import { ChangePasswordStatus, RequiredField } from '../../../utils/consts'
 import CloseIcon from '@mui/icons-material/Close'
 import { useAppDispatch, useAppselector } from '../../../hooks'
 import { updatePasswordThunk } from '../../../store/api-thunks'
+import { resetPasswordStatus } from '../../../store/slices/userSlice/userSlice'
 
 export interface IChangePasswordForm {
   newPassword: string
@@ -53,6 +54,12 @@ export const PasswordTab: FC<IPasswordTab> = ({ tabIndex, index }) => {
   const { message: changeMessage, isLoading: isPasswordChanging } =
     changePasswordStatus
 
+  useEffect(() => {
+    if (!isPasswordChanging && changeMessage) {
+      setIsOpenMsg(true)
+    }
+  }, [isPasswordChanging, changeMessage])
+
   const { handleSubmit, control, getValues, reset } =
     useForm<IChangePasswordForm>({
       mode: 'onBlur',
@@ -65,25 +72,14 @@ export const PasswordTab: FC<IPasswordTab> = ({ tabIndex, index }) => {
 
   const handleSubmitPasswordData: SubmitHandler<
     IChangePasswordForm
-  > = async data => {
+  > = data => {
     const checkNoRepeat = ({
       newPassword,
       oldPassword,
     }: IChangePasswordForm) => ({ newPassword, oldPassword })
 
     const dataSend = checkNoRepeat(data)
-    dispatch(updatePasswordThunk(dataSend)).then(res => {
-      setIsOpenMsg(true)
-
-      if (res.payload) {
-        reset({
-          oldPassword: '',
-          newPassword: '',
-          repeatPassword: '',
-        })
-        setIsEditPasswordMode(false)
-      }
-    })
+    dispatch(updatePasswordThunk(dataSend))
   }
 
   const handleClose = (
@@ -93,6 +89,16 @@ export const PasswordTab: FC<IPasswordTab> = ({ tabIndex, index }) => {
     if (reason === 'clickaway') {
       return
     }
+    if (changePasswordStatus.message === ChangePasswordStatus.Changed) {
+      setIsEditPasswordMode(false)
+
+      reset({
+        oldPassword: '',
+        newPassword: '',
+        repeatPassword: '',
+      })
+    }
+    dispatch(resetPasswordStatus)
     setIsOpenMsg(false)
   }
 
