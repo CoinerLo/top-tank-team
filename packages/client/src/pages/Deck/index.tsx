@@ -14,7 +14,7 @@ import { Box } from '@mui/system'
 import { SubMenu } from '../../components/SubMenu/SubMenu'
 import { useCallback, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { AppRoute } from '../../utils/consts'
+import { AppRoute, ImageByName } from '../../utils/consts'
 import { useNavigate } from 'react-router-dom'
 import { Card } from '../../components/Card/Card'
 import 'swiper/css'
@@ -44,13 +44,9 @@ const styles = {
     position: 'absolute',
     top: '50%',
     left: '50%',
-    justifyContent: 'space-between',
     transform: 'translate(-50%, -50%)',
-    width: '600px',
-    backgroundColor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: '24px',
-    padding: '25px',
+    width: '360px',
+    height: '540px',
   },
   cardButtonInfo: {
     display: 'flex',
@@ -61,7 +57,7 @@ const styles = {
     fontSize: '10px',
     pt: '5px',
     pb: '5px',
-    borderRadius: '0 0 5px 5px',
+    borderRadius: '5px',
   },
   modalErrorWindow: {
     position: 'absolute',
@@ -105,6 +101,8 @@ export const Deck = () => {
 
   //TODO Расписать дефолтный объект (сразу не получилось...) (Xroniks - Павел Постников)
   const [cardItem, setCardItem] = useState(allCardsForDeck[0])
+  const { name } = cardItem
+  const srcImg = ImageByName[name]
 
   const handleChangeChoiceDeck = useCallback(
     (event: SelectChangeEvent) => {
@@ -188,14 +186,13 @@ export const Deck = () => {
           </Swiper>
         </Box>
         <Box>
-          <Box sx={{ display: 'flex', marginTop: '20px' }}>
-            <Box sx={{ display: 'grid' }}>
-              <Typography>Колода</Typography>
+          <Box sx={{ display: 'flex', marginTop: '30px' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography mr="30px">Колода</Typography>
               <Box sx={{ display: 'flex' }}>
-                <Typography>Название штаба:</Typography>
                 <Typography
                   sx={{
-                    marginLeft: '5px',
+                    mr: '15px',
                     color: permissionSave ? 'red' : '#EAE3CC',
                   }}>{`${currentDeck.length}/30`}</Typography>
               </Box>
@@ -265,48 +262,7 @@ export const Deck = () => {
       </Box>
       <Modal disableAutoFocus open={isOpen} onClose={() => setIsOpen(false)}>
         <Box sx={styles.modalWindow}>
-          <Typography
-            onClick={() => setIsOpen(false)}
-            component="span"
-            sx={{
-              cursor: 'pointer',
-              position: 'absolute',
-              right: '10px',
-              top: '10px',
-            }}>
-            <CloseIcon />
-          </Typography>
-          <Typography textAlign="center" marginBottom="20px" variant="h2">
-            Описание карты: {cardItem.name}
-          </Typography>
-          <Box
-            sx={{
-              display: 'flex',
-            }}>
-            <Card item={cardItem} handleCardClick={() => null}></Card>
-            <Box sx={{ ml: '15px', width: '350px' }}>
-              <Typography variant={'h6'} sx={{ textAlign: 'center' }}>
-                Особенность:
-              </Typography>
-              <Typography component={'p'}>
-                Средние танки - самый универсальный тип техники, а ещё они могут
-                передвигаться по диагонали.
-              </Typography>
-              <Typography variant={'h6'} sx={{ textAlign: 'center' }}>
-                Способность №1:
-              </Typography>
-              <Typography component={'p'}>
-                Огневая мощь увеличивается на 1 за каждую технику противника на
-                соседних клетках.
-              </Typography>
-              <Typography variant={'h6'} sx={{ textAlign: 'center' }}>
-                Способность №2:
-              </Typography>
-              <Typography component={'p'}>
-                Ваш штаб может быть атаковано только один раз за ход.
-              </Typography>
-            </Box>
-          </Box>
+          <Box component="img" src={srcImg} alt="Изображение карты" />
         </Box>
       </Modal>
       <Modal
