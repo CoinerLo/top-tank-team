@@ -9,9 +9,6 @@ import { Game } from '../../gameCore/models/Game'
 import { fieldsIcons } from '../../utils/consts'
 import { Canvas } from '../../components/Canvas/Canvas'
 
-const opponentCardsInHand = [{}, {}, {}, {}]
-const userCardsInHand = [{}, {}, {}, {}, {}, {}]
-
 const styles = {
   userLine: {
     position: 'relative',
@@ -41,28 +38,44 @@ interface IGameDesk {
 }
 
 export const GameDesk: FC<IGameDesk> = ({ game }) => {
-  const [opponentDeck] = useState(34)
-  const [opponentThrowDeck] = useState(2)
-  const [userDeck] = useState(34)
+  const userState = game.getUserState()
+  const userName = userState.getUserName()
+  const userHeadquarters = userState.getHeadquarters()
+  const userHand = userState.getCardsInHand()
+
+  const opponentState = game.getOpponentState()
+  const opponentName = opponentState.getUserName()
+  const opponentHeadquarters = opponentState.getHeadquarters()
+  const opponentHand = opponentState.getCardsInHand()
+
+  const [opponentDeck] = useState(opponentState.getCountCardsInDeck())
+  const [opponentThrowDeck] = useState(0)
+  const [userDeck] = useState(userState.getCountCardsInDeck())
   const [userThrowDeck] = useState(0)
 
-  const [opponentCurrentCountResource] = useState(4)
-  const [opponentFutureСountResource] = useState(4)
-  const [userCurrentCountResource] = useState(5)
-  const [userFutureСountResource] = useState(5)
+  const [opponentCurrentCountResource] = useState(
+    opponentHeadquarters.bringsResources
+  )
+  const [opponentFutureСountResource] = useState(
+    opponentHeadquarters.bringsResources
+  )
+  const [userCurrentCountResource] = useState(userHeadquarters.bringsResources)
+  const [userFutureСountResource] = useState(userHeadquarters.bringsResources)
+
+  const [isActive, setIsActive] = useState(true)
 
   const handlerEndOfTurn = () => {
-    console.log('Переход хода!')
+    setIsActive(!isActive)
   }
-  console.log(game.getFullState())
+
   return (
     <Container disableGutters>
       <Box sx={{ my: '10px', mx: 'auto' }}>
         <Box sx={styles.userLine}>
-          <Hand cardsInHand={opponentCardsInHand} />
+          <Hand isActive={!isActive} cardsInHand={opponentHand} />
           <Box sx={{ position: 'absolute', right: -30 }}>
             <Deck
-              userName="opponent"
+              userName={opponentName}
               cardCountInDeck={opponentDeck}
               cardCountThrown={opponentThrowDeck}
             />
@@ -100,12 +113,12 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
         <Box sx={styles.userLine}>
           <Box sx={{ position: 'absolute', left: -30 }}>
             <Deck
-              userName="user name"
+              userName={userName}
               cardCountInDeck={userDeck}
               cardCountThrown={userThrowDeck}
             />
           </Box>
-          <Hand cardsInHand={userCardsInHand} />
+          <Hand isActive={isActive} cardsInHand={userHand} />
           <Button
             variant="sub"
             type="button"

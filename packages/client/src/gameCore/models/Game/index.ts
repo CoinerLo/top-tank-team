@@ -45,4 +45,12 @@ export class Game {
   public getDesk() {
     return this.Desk
   }
+
+  public getUserState() {
+    return this.UserState
+  }
+
+  public getOpponentState() {
+    return this.OpponentState
+  }
 }

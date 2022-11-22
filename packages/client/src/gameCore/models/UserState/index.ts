@@ -7,7 +7,7 @@ export class UserState {
   private name: string
   private headquarters: Headquarters
   private deck: CardsDeckType[]
-  private hand: CardsDeckType[] = new Array(BASE_COUNT_OF_CARDS_IN_HAND)
+  private hand: CardsDeckType[] = new Array(BASE_COUNT_OF_CARDS_IN_HAND).fill(0)
   private throw: CardsDeckType[] = []
   private currentCountResources: number
   private futureСountResources: number
