@@ -1,10 +1,10 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Game } from '../../../gameCore/models/Game';
-import { GameSlice } from '../../../typings';
-import { NameSpace } from '../../../utils/consts';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Game } from '../../../gameCore/models/Game'
+import { GameSlice } from '../../../typings'
+import { NameSpace } from '../../../utils/consts'
 
 const initialState: GameSlice = {
-  game: {}
+  game: {},
 }
 
 export const gameSlice = createSlice({

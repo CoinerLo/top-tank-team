@@ -11,7 +11,9 @@ export const GameDeskContainer = () => {
     game = games[gameId]
   }
 
-  return (
-    game ? <GameDesk game={game} /> : <Navigate to={`/${AppRoute.Headquarters}`} />
+  return game ? (
+    <GameDesk game={game} />
+  ) : (
+    <Navigate to={`/${AppRoute.Headquarters}`} />
   )
 }

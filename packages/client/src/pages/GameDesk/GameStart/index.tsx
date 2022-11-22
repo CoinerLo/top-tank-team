@@ -24,7 +24,7 @@ export const GameStart = () => {
   const [opponentHeadquartersAvatar, setOpponentHeadquartersAvatar] = useState(
     getHeadquartersPreview('')
   )
-  
+
   const { currentUser } = useAppselector(({ USER }) => USER)
   const { display_name } = currentUser
 
@@ -50,7 +50,7 @@ export const GameStart = () => {
       const newGame = new Game({ userData, opponentData })
       const { id } = newGame
 
-      dispatch(saveGame({ data: newGame}))
+      dispatch(saveGame({ data: newGame }))
 
       navigate(`/${AppRoute.Game}/${id}`)
     }

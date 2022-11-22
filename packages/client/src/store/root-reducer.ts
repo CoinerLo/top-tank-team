@@ -7,5 +7,5 @@ import { gameSlice } from './slices/gameSlice/gameSlice'
 export const rootReducer = combineReducers({
   [NameSpace.User]: userSlice.reducer,
   [NameSpace.Decks]: decksSlice.reducer,
-  [NameSpace.Game]: gameSlice.reducer
+  [NameSpace.Game]: gameSlice.reducer,
 })
