@@ -1,12 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { UserSlice } from '../../../typings'
-import { AuthorizationStatus, BASE_URL, NameSpace } from '../../../utils/consts'
+import {
+  AuthorizationStatus,
+  BASE_URL,
+  ChangePasswordStatus,
+  NameSpace,
+} from '../../../utils/consts'
 import {
   getUserThunk,
   loginThunk,
   logoutThunk,
   signUpThunk,
   updateAvatarThunk,
+  updatePasswordThunk,
   updateProfileThunk,
 } from '../../api-thunks'
 
@@ -22,12 +28,20 @@ const initialState: UserSlice = {
     phone: '',
     avatar: undefined,
   },
+  changePasswordStatus: {
+    message: '',
+    isLoading: false,
+  },
 }
 
 export const userSlice = createSlice({
   name: NameSpace.User,
   initialState,
-  reducers: {},
+  reducers: {
+    resetPasswordStatus: (state) => {
+      state.changePasswordStatus.message = ''
+    },
+  },
   extraReducers: builder => {
     builder.addCase(loginThunk.fulfilled, state => {
       state.authorizationStatus = AuthorizationStatus.Auth
@@ -75,16 +89,29 @@ export const userSlice = createSlice({
       }),
       builder.addCase(logoutThunk.rejected, (state, action) => {
         console.log(action.payload)
+      }),
+      builder.addCase(signUpThunk.fulfilled, (state, action) => {
+        state.currentUser = action.payload
+        state.authorizationStatus = AuthorizationStatus.Auth
+      }),
+      builder.addCase(signUpThunk.pending, state => {
+        state.authorizationStatus = AuthorizationStatus.Unknown
+      }),
+      builder.addCase(signUpThunk.rejected, state => {
+        state.authorizationStatus = AuthorizationStatus.NoAuth
+      }),
+      builder.addCase(updatePasswordThunk.fulfilled, state => {
+        state.changePasswordStatus.message = ChangePasswordStatus.Changed
+        state.changePasswordStatus.isLoading = false
+      }),
+      builder.addCase(updatePasswordThunk.pending, state => {
+        state.changePasswordStatus.isLoading = true
+      }),
+      builder.addCase(updatePasswordThunk.rejected, state => {
+        state.changePasswordStatus.message = ChangePasswordStatus.NoChanged
+        state.changePasswordStatus.isLoading = false
       })
-    builder.addCase(signUpThunk.fulfilled, (state, action) => {
-      state.currentUser = action.payload
-      state.authorizationStatus = AuthorizationStatus.Auth
-    })
-    builder.addCase(signUpThunk.pending, state => {
-      state.authorizationStatus = AuthorizationStatus.Unknown
-    })
-    builder.addCase(signUpThunk.rejected, state => {
-      state.authorizationStatus = AuthorizationStatus.NoAuth
-    })
   },
 })
+
+export const {resetPasswordStatus} = userSlice.actions

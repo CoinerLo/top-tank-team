@@ -46,6 +46,11 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export enum ChangePasswordStatus {
+  Changed = 'Пароль успешно изменен!',
+  NoChanged = 'Ошибка, пароль не изменен!',
+}
+
 export enum NameSpace {
   User = 'USER',
   Decks = 'DECKS',

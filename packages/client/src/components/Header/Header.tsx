@@ -56,14 +56,14 @@ export const Header: FC<HeaderProps> = ({ handleLogout }) => {
         component="nav"
         sx={{ display: 'flex', flex: 1, justifyContent: 'space-around' }}>
         {!isAuthorized && (
-          <MuiLink component={Link} to={AppRoute.SignIn}>
-            Вход
-          </MuiLink>
-        )}
-        {!isAuthorized && (
-          <MuiLink component={Link} to={AppRoute.SignUp}>
-            Регистрация
-          </MuiLink>
+          <>
+            <MuiLink component={Link} to={AppRoute.SignIn}>
+              Вход
+            </MuiLink>
+            <MuiLink component={Link} to={AppRoute.SignUp}>
+              Регистрация
+            </MuiLink>
+          </>
         )}
 
         <MuiLink component={Link} to={AppRoute.Index}>

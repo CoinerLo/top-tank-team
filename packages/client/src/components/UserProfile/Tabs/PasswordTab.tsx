@@ -1,5 +1,6 @@
 import {
   Button,
+  CircularProgress,
   FormControl,
   IconButton,
   Snackbar,
@@ -11,12 +12,14 @@ import {
   useForm,
   SubmitHandler,
 } from 'react-hook-form'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { TabPanel } from '../../TabPanel/TabPanel'
 import { passwordValidation } from '../../../utils/validation'
-import { RequiredField } from '../../../utils/consts'
-import UserController from '../../../controllers/UserController'
+import { ChangePasswordStatus, RequiredField } from '../../../utils/consts'
 import CloseIcon from '@mui/icons-material/Close'
+import { useAppDispatch, useAppselector } from '../../../hooks'
+import { updatePasswordThunk } from '../../../store/api-thunks'
+import { resetPasswordStatus } from '../../../store/slices/userSlice/userSlice'
 
 export interface IChangePasswordForm {
   newPassword: string
@@ -46,36 +49,37 @@ const disabledFieldStyle = {
 export const PasswordTab: FC<IPasswordTab> = ({ tabIndex, index }) => {
   const [isEditPasswordMode, setIsEditPasswordMode] = useState(false)
   const [isOpenMsg, setIsOpenMsg] = useState(false)
-  const [message, setMessage] = useState('')
+  const dispatch = useAppDispatch()
+  const { changePasswordStatus } = useAppselector(({ USER }) => USER)
+  const { message: changeMessage, isLoading: isPasswordChanging } =
+    changePasswordStatus
+
+  useEffect(() => {
+    if (!isPasswordChanging && changeMessage) {
+      setIsOpenMsg(true)
+    }
+  }, [isPasswordChanging, changeMessage])
+
   const { handleSubmit, control, getValues, reset } =
     useForm<IChangePasswordForm>({
       mode: 'onBlur',
       reValidateMode: 'onChange',
     })
+
   const { errors, isValid } = useFormState({
     control,
   })
+
   const handleSubmitPasswordData: SubmitHandler<
     IChangePasswordForm
-  > = async data => {
+  > = data => {
     const checkNoRepeat = ({
       newPassword,
       oldPassword,
     }: IChangePasswordForm) => ({ newPassword, oldPassword })
+
     const dataSend = checkNoRepeat(data)
-    const res = await UserController.updatePassword(dataSend)
-    if (res) {
-      setMessage('Пароль успешно изменен')
-      setIsOpenMsg(res)
-    } else {
-      setMessage('Ошибка, пароль не изменен')
-      setIsOpenMsg(!res)
-    }
-    reset({
-      oldPassword: '',
-      newPassword: '',
-      repeatPassword: '',
-    })
+    dispatch(updatePasswordThunk(dataSend))
   }
 
   const handleClose = (
@@ -85,6 +89,16 @@ export const PasswordTab: FC<IPasswordTab> = ({ tabIndex, index }) => {
     if (reason === 'clickaway') {
       return
     }
+    if (changePasswordStatus.message === ChangePasswordStatus.Changed) {
+      setIsEditPasswordMode(false)
+
+      reset({
+        oldPassword: '',
+        newPassword: '',
+        repeatPassword: '',
+      })
+    }
+    dispatch(resetPasswordStatus)
     setIsOpenMsg(false)
   }
 
@@ -184,11 +198,9 @@ export const PasswordTab: FC<IPasswordTab> = ({ tabIndex, index }) => {
           variant="contained"
           type="submit"
           disableElevation
-          disabled={!isValid && isEditPasswordMode}
+          disabled={(!isValid && isEditPasswordMode) || isPasswordChanging}
           onClick={e => {
-            if (isEditPasswordMode) {
-              setIsEditPasswordMode(!isEditPasswordMode)
-            } else {
+            if (!isEditPasswordMode) {
               e.preventDefault()
               setIsEditPasswordMode(!isEditPasswordMode)
             }
@@ -198,13 +210,20 @@ export const PasswordTab: FC<IPasswordTab> = ({ tabIndex, index }) => {
             marginTop: 2,
           }}>
           {!isEditPasswordMode ? 'Редактировать пароль' : 'Сохранить'}
+          {isPasswordChanging && (
+            <CircularProgress
+              sx={{ marginLeft: '10px' }}
+              size="20px"
+              color="secondary"
+            />
+          )}
         </Button>
       </FormControl>
       <Snackbar
         open={isOpenMsg}
         autoHideDuration={6000}
         onClose={handleClose}
-        message={message}
+        message={changeMessage}
         action={action}
       />
     </TabPanel>
