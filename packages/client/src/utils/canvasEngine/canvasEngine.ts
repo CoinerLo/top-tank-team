@@ -16,7 +16,7 @@ export class CanvasEngine {
     this.settings.alpha =
       typeof settings.alpha === 'boolean' ? settings.alpha : true
     this.settings.imageSmoothling = settings.imageSmoothling ?? false
-    this.settings.fps = settings.fps ??  0
+    this.settings.fps = settings.fps ?? 0
     this.settings.interval = Math.floor(1000 / this.settings.fps)
     this.canvas = query
     this.canvas.width = settings.DPI_WIDTH

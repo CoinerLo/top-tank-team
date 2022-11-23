@@ -70,9 +70,7 @@ export const PasswordTab: FC<IPasswordTab> = ({ tabIndex, index }) => {
     control,
   })
 
-  const handleSubmitPasswordData: SubmitHandler<
-    IChangePasswordForm
-  > = data => {
+  const handleSubmitPasswordData: SubmitHandler<IChangePasswordForm> = data => {
     const checkNoRepeat = ({
       newPassword,
       oldPassword,

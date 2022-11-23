@@ -17,6 +17,7 @@ export const Hand: FC<IHand> = ({ cardsInHand, isActive }) => {
         const srcImg = ImageByName[name]
         return isActive ? (
           <Box
+            key={id}
             sx={{ width: '100px', height: '150px' }}
             component="img"
             src={srcImg}

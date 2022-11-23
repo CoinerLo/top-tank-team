@@ -52,7 +52,7 @@ export const GameStart = () => {
 
       dispatch(saveGame({ data: newGame }))
 
-      navigate(`/${AppRoute.Game}/${id}`)
+      navigate(`/${AppRoute.Game}/${id}`, { replace: true })
     }
   })
 

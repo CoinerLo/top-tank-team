@@ -1,4 +1,4 @@
-import { Box, Button, Container } from '@mui/material'
+import { Box, Button, Container, Modal, Typography } from '@mui/material'
 import { FC, useState } from 'react'
 import { Deck } from '../../components/game/Deck/Deck'
 import { Field } from '../../components/game/Field/Field'
@@ -6,8 +6,12 @@ import { Hand } from '../../components/game/Hand/Hand'
 import { ResourceCounter } from '../../components/game/ResourceCounter/ResourceCounter'
 import { TimerBox } from '../../components/game/TimerBox/TimerBox'
 import { Game } from '../../gameCore/models/Game'
-import { fieldsIcons } from '../../utils/consts'
+import { AppRoute, fieldsIcons } from '../../utils/consts'
 import { Canvas } from '../../components/Canvas/Canvas'
+import FullscreenIcon from '@mui/icons-material/Fullscreen'
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
+import FlagIcon from '@mui/icons-material/Flag'
+import { useNavigate } from 'react-router-dom'
 
 const styles = {
   userLine: {
@@ -31,6 +35,30 @@ const styles = {
     flexWrap: 'wrap',
     fontSize: '14px',
   },
+  fullscreenIcon: {
+    position: 'absolute',
+    right: '50px',
+    top: '50px',
+    cursor: 'pointer',
+  },
+  flagIcon: {
+    position: 'absolute',
+    left: '50px',
+    top: '50px',
+    cursor: 'pointer',
+  },
+  flagModalWindow: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '400px',
+    height: '200px',
+    padding: '20px',
+    background: 'rgba(0,0,0,0.7)',
+    textAlign: 'center',
+    borderRadius: '8px',
+  },
 }
 
 interface IGameDesk {
@@ -38,6 +66,10 @@ interface IGameDesk {
 }
 
 export const GameDesk: FC<IGameDesk> = ({ game }) => {
+  const navigate = useNavigate()
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [isOpenFlagModalWindow, setIsOpenFlagModalWindow] = useState(false)
+
   const userState = game.getUserState()
   const userName = userState.getUserName()
   const userHeadquarters = userState.getHeadquarters()
@@ -66,6 +98,20 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
 
   const handlerEndOfTurn = () => {
     setIsActive(!isActive)
+  }
+
+  const handleClickFullscreen = () => {
+    setIsFullscreen(!isFullscreen)
+  }
+
+  const handleClickFlag = () => {
+    setIsOpenFlagModalWindow(!isOpenFlagModalWindow)
+  }
+
+  const handleClickOnYes = () => {
+    navigate(`/${AppRoute.Game}/${AppRoute.ResultGame}/${game.id}`, {
+      replace: true,
+    })
   }
 
   return (
@@ -128,6 +174,34 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
           </Button>
         </Box>
       </Box>
+      <Box sx={styles.fullscreenIcon} onClick={handleClickFullscreen}>
+        {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+      </Box>
+      <Box sx={styles.flagIcon} onClick={handleClickFlag}>
+        <FlagIcon />
+      </Box>
+      <Modal
+        disableAutoFocus
+        open={isOpenFlagModalWindow}
+        onClose={handleClickFlag}>
+        <Box sx={styles.flagModalWindow}>
+          <Typography variant="h2" color="red" mt="50px" mb="20px">
+            Вы уверены что хотите сдаться?
+          </Typography>
+          <Button
+            type="button"
+            onClick={handleClickOnYes}
+            sx={{ color: 'red', mr: '30px' }}>
+            Да
+          </Button>
+          <Button
+            type="button"
+            onClick={handleClickFlag}
+            sx={{ color: 'green' }}>
+            Нет
+          </Button>
+        </Box>
+      </Modal>
     </Container>
   )
 }

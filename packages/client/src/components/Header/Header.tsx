@@ -1,7 +1,7 @@
-import { FC, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { FC } from 'react'
+import { Link } from 'react-router-dom'
 import { AppRoute } from '../../utils/consts'
-import { Box, Button, Container, Link as MuiLink } from '@mui/material'
+import { Box, Button, Link as MuiLink } from '@mui/material'
 import { useAuthorizationStatus } from '../../hooks/useAuthorizationStatus'
 
 interface HeaderProps {
@@ -9,24 +9,14 @@ interface HeaderProps {
 }
 
 export const Header: FC<HeaderProps> = ({ handleLogout }) => {
-  const [gameId, setGameId] = useState('0')
-  const navigate = useNavigate()
   const { isAuthorized } = useAuthorizationStatus()
 
-  const toGoGame = () => {
-    navigate(`${AppRoute.Game}/${gameId}`)
-  }
-
-  const goOutGame = () => {
-    navigate(`${AppRoute.Game}/${AppRoute.ResultGame}/${gameId}`)
-  }
-
   return (
-    <Container
-      maxWidth="xl"
+    <Box
       component="header"
       sx={{
         position: 'absolute',
+        width: '100vw',
         display: 'flex',
         justifyContent: 'space-between',
         paddingY: '7px',
@@ -88,16 +78,6 @@ export const Header: FC<HeaderProps> = ({ handleLogout }) => {
           Форум
         </MuiLink>
       </Box>
-      <div>
-        <input
-          type="text"
-          placeholder="Номер игры"
-          value={gameId}
-          onChange={e => setGameId(e.currentTarget.value)}
-        />
-        <button onClick={toGoGame}>go</button>
-        <button onClick={goOutGame}>esc</button>
-      </div>
-    </Container>
+    </Box>
   )
 }

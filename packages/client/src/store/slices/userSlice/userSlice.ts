@@ -38,7 +38,7 @@ export const userSlice = createSlice({
   name: NameSpace.User,
   initialState,
   reducers: {
-    resetPasswordStatus: (state) => {
+    resetPasswordStatus: state => {
       state.changePasswordStatus.message = ''
     },
   },
@@ -114,4 +114,4 @@ export const userSlice = createSlice({
   },
 })
 
-export const {resetPasswordStatus} = userSlice.actions
+export const { resetPasswordStatus } = userSlice.actions
