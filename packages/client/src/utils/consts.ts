@@ -68,11 +68,11 @@ export const fieldsIcons = [
 
 export enum BattleCardIcons {
   training = '/cards/icons/head-icon.png',
-  tt = '/cards/icons/tt-icon.png',
-  pt = '/cards/icons/pt-icon.png',
-  lt = '/cards/icons/lt-icon.png',
-  st = '/cards/icons/st-icon.png',
-  say = '/cards/icons/say-icon.png',
+  тяжёлый = '/cards/icons/tt-icon.png',
+  'ПТ-САУ' = '/cards/icons/pt-icon.png',
+  лёгкий = '/cards/icons/lt-icon.png',
+  средний = '/cards/icons/st-icon.png',
+  САУ = '/cards/icons/say-icon.png',
 }
 
 const tankIconPath = '/cards/images/tanks/'
@@ -116,3 +116,24 @@ export const getHeadquartersPreview = (headquarters: string) => {
       return 'avatar_default.png'
   }
 }
+
+export const coordinates = {
+  A1: { x: 0, y: 0 },
+  A2: { x: 171, y: 0 },
+  A3: { x: 342, y: 0 },
+  A4: { x: 513, y: 0 },
+  A5: { x: 684, y: 0 },
+  B1: { x: 0, y: 171 },
+  B2: { x: 171, y: 171 },
+  B3: { x: 342, y: 171 },
+  B4: { x: 513, y: 171 },
+  B5: { x: 684, y: 171 },
+  C1: { x: 0, y: 342 },
+  C2: { x: 171, y: 342 },
+  C3: { x: 342, y: 342 },
+  C4: { x: 513, y: 342 },
+  C5: { x: 684, y: 342 },
+}
+
+export const DPI_WIDTH = 854
+export const DPI_HEIGHT = 512

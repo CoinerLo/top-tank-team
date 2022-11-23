@@ -3,11 +3,9 @@ import { FC } from 'react'
 import { IHeadquarters } from '../../../gameCore/types'
 import { BattleCardIcons } from '../../../utils/consts'
 
-type BattleCardType = 'training' | 'tt' | 'pt' | 'lt' | 'st' | 'say'
-
 interface IBattleCard {
   card: Pick<IHeadquarters, 'name' | 'bringsResources' | 'icon'>
-  battleCardType: BattleCardType
+  battleCardType: string
 }
 
 const styles = {
@@ -73,7 +71,7 @@ export const BattleCard: FC<IBattleCard> = ({ card, battleCardType }) => {
       <Box component="img" src={icon} sx={styles.baseImg} />
       <Box
         component="img"
-        src={BattleCardIcons[battleCardType]}
+        src={(BattleCardIcons as Record<string, string>)[battleCardType]}
         sx={styles.headIcon}
       />
       <Typography sx={styles.name}>{name}</Typography>
