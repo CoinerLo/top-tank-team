@@ -14,12 +14,9 @@ export class CanvasEngine {
   constructor(query: HTMLCanvasElement, settings: ISettings) {
     this.settings = settings
     this.settings.alpha =
-      typeof settings.alpha == 'boolean' ? settings.alpha : true
-    this.settings.imageSmoothling =
-      typeof settings.imageSmoothling == 'boolean'
-        ? settings.imageSmoothling
-        : false
-    this.settings.fps = typeof settings.fps == 'number' ? settings.fps : 0
+      typeof settings.alpha === 'boolean' ? settings.alpha : true
+    this.settings.imageSmoothling = settings.imageSmoothling ?? false
+    this.settings.fps = settings.fps ??  0
     this.settings.interval = Math.floor(1000 / this.settings.fps)
     this.canvas = query
     this.canvas.width = settings.DPI_WIDTH
