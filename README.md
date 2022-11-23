@@ -28,7 +28,17 @@
 
 Для клиента используется [`react-testing-library`](https://testing-library.com/docs/react-testing-library/intro/)
 
+Запуск тестов на клиенте и сервере
+
 ```yarn test```
+
+Запуск тестов на клиенте с детализацией (запускать из папки packages/client)
+
+```yarn test```
+
+Запуск тестов на клиенте с детализацией и покрытием (запускать из папки packages/client)
+
+```yarn test:coverage```
 
 ### Линтинг
 
