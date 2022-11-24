@@ -29,6 +29,14 @@ export class UserState {
     this.theEndGame(endGameMessage.noCardsInDeck)
   }
 
+  public takeCardFromHand(id: string) {
+    const card = this.hand.find(card => card.id === id)
+    if (card) {
+      this.hand = this.hand.filter(card => card.id !== id)
+      return card
+    }
+  }
+
   public getCountOfDiscardedCards() {
     return this.throw.length
   }

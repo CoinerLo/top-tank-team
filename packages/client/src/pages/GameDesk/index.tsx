@@ -1,5 +1,5 @@
 import { Box, Button, Container, Modal, Typography } from '@mui/material'
-import { FC, useState } from 'react'
+import { FC, useCallback, useState } from 'react'
 import { Deck } from '../../components/game/Deck/Deck'
 import { Field } from '../../components/game/Field/Field'
 import { Hand } from '../../components/game/Hand/Hand'
@@ -12,6 +12,9 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
 import FlagIcon from '@mui/icons-material/Flag'
 import { useNavigate } from 'react-router-dom'
+import { ElementsCreator } from '../../utils/canvasEngine/canvasElement'
+import { decksOfTanksByTier, Tank } from '../../gameCore/models/TanksDeck'
+import { DPI_HEIGHT } from '../../utils/consts'
 
 const styles = {
   userLine: {
@@ -65,15 +68,18 @@ interface IGameDesk {
   game: Game
 }
 
+const tank = decksOfTanksByTier.first[0]
+
 export const GameDesk: FC<IGameDesk> = ({ game }) => {
   const navigate = useNavigate()
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [isOpenFlagModalWindow, setIsOpenFlagModalWindow] = useState(false)
+  const [activeCardInHand, setIsActiveCardInHand] = useState('')
 
   const userState = game.getUserState()
   const userName = userState.getUserName()
   const userHeadquarters = userState.getHeadquarters()
-  const userHand = userState.getCardsInHand()
+  const [userHand, setUserHand] = useState(userState.getCardsInHand())
 
   const opponentState = game.getOpponentState()
   const opponentName = opponentState.getUserName()
@@ -114,11 +120,100 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
     })
   }
 
+  const handleChoiceActiveCardInHand = useCallback((idCard: string) => {
+    setIsActiveCardInHand(idCard)
+  }, [])
+
+  const element = new ElementsCreator({ type: 'card', tank, targetСell: 'C2' })
+
+  const [elements, setElements] = useState([
+    {
+      type: 'card',
+      position: { x: 0, y: DPI_HEIGHT - 170, cell: 'C1' },
+      cardImg: { w: 170, h: 170, src: './../cards/battleCard.png' },
+      baseImg: {
+        w: 150,
+        h: 125,
+        dx: 10,
+        dy: 36,
+        src: './../cards/images/headquarters/ussr-image.png',
+      },
+      bringsResourcesIconImg: {
+        w: 39,
+        h: 39,
+        dx: 129,
+        dy: 2,
+        src: './../cards/bringsResources.png',
+      },
+      headIconImg: {
+        w: 20,
+        h: 18,
+        dx: 3,
+        dy: 10,
+        src: './../cards/icons/head-icon.png',
+      },
+      headText: {
+        text: 'Учебная часть',
+        dx: 25,
+        dy: 25,
+        font: '10pt Arial',
+        fillStyle: 'gray',
+      },
+      bringsResourcesText: {
+        text: '5',
+        dx: 143,
+        dy: 31,
+        font: 'bold 16pt Arial',
+        fillStyle: '#000',
+      },
+      damage: {
+        text: '1',
+        dx: 12,
+        dy: 105,
+        font: 'bold 18px Arial',
+        fillStyle: '#64CB3E',
+      },
+      health: {
+        text: '22',
+        dx: 10,
+        dy: 145,
+        font: 'bold 16px Arial',
+        fillStyle: '#fff',
+      },
+    },
+    element.getElement(),
+  ])
+
+  const handleClickOnCanvas = useCallback(
+    (grid: string) => {
+      if (activeCardInHand) {
+        // Сильно переработать этот метод. И создать его в ядре состояния игры игры
+        const newTank = userState.takeCardFromHand(activeCardInHand) // достали карту из руки
+        if (newTank) {
+          setUserHand(userState.getCardsInHand()) // обновили состояние компонента
+          const newElement = new ElementsCreator({
+            type: 'card',
+            tank: newTank as Tank,
+            targetСell: grid,
+          })
+          setElements([...elements, newElement.getElement()])
+          setIsActiveCardInHand('')
+        }
+      }
+    },
+    [activeCardInHand, elements, userHand]
+  )
+
   return (
-    <Container disableGutters>
+    <Container disableGutters sx={{ overflow: 'hidden' }}>
       <Box sx={{ my: '10px', mx: 'auto' }}>
         <Box sx={styles.userLine}>
-          <Hand isActive={!isActive} cardsInHand={opponentHand} />
+          <Hand
+            isActive={!isActive}
+            cardsInHand={opponentHand}
+            isOpponent={true}
+            handleChoiceActiveCardInHand={handleChoiceActiveCardInHand}
+          />
           <Box sx={{ position: 'absolute', right: -30 }}>
             <Deck
               userName={opponentName}
@@ -141,7 +236,10 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
             </Box>
           </Box>
 
-          <Canvas />
+          <Canvas
+            handleClickOnCanvas={handleClickOnCanvas}
+            elements={elements}
+          />
 
           <Box sx={{ display: 'flex', flexDirection: 'column', ml: '10px' }}>
             <TimerBox />
@@ -164,7 +262,12 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
               cardCountThrown={userThrowDeck}
             />
           </Box>
-          <Hand isActive={isActive} cardsInHand={userHand} />
+          <Hand
+            isActive={isActive}
+            cardsInHand={userHand}
+            isOpponent={false}
+            handleChoiceActiveCardInHand={handleChoiceActiveCardInHand}
+          />
           <Button
             variant="sub"
             type="button"
