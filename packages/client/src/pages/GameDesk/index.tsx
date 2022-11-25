@@ -13,7 +13,7 @@ import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
 import FlagIcon from '@mui/icons-material/Flag'
 import { useNavigate } from 'react-router-dom'
 import { ElementsCreator } from '../../utils/canvasEngine/canvasElement'
-import { decksOfTanksByTier, Tank } from '../../gameCore/models/TanksDeck'
+import { Tank } from '../../gameCore/models/TanksDeck'
 import { DPI_HEIGHT } from '../../utils/consts'
 
 const styles = {
@@ -68,8 +68,6 @@ interface IGameDesk {
   game: Game
 }
 
-const tank = decksOfTanksByTier.first[0]
-
 export const GameDesk: FC<IGameDesk> = ({ game }) => {
   const navigate = useNavigate()
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -123,8 +121,6 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
   const handleChoiceActiveCardInHand = useCallback((idCard: string) => {
     setIsActiveCardInHand(idCard)
   }, [])
-
-  const element = new ElementsCreator({ type: 'card', tank, targetСell: 'C2' })
 
   const [elements, setElements] = useState([
     {
@@ -181,16 +177,69 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
         fillStyle: '#fff',
       },
     },
-    element.getElement(),
+    {
+      type: 'card',
+      position: { x: 0, y: DPI_HEIGHT - 170, cell: 'A5' },
+      cardImg: { w: 170, h: 170, src: './../cards/battleCard.png' },
+      baseImg: {
+        w: 150,
+        h: 125,
+        dx: 10,
+        dy: 36,
+        src: './../cards/images/headquarters/ussr-image.png',
+      },
+      bringsResourcesIconImg: {
+        w: 39,
+        h: 39,
+        dx: 129,
+        dy: 2,
+        src: './../cards/bringsResources.png',
+      },
+      headIconImg: {
+        w: 20,
+        h: 18,
+        dx: 3,
+        dy: 10,
+        src: './../cards/icons/head-icon.png',
+      },
+      headText: {
+        text: 'Учебная часть',
+        dx: 25,
+        dy: 25,
+        font: '10pt Arial',
+        fillStyle: 'gray',
+      },
+      bringsResourcesText: {
+        text: '5',
+        dx: 143,
+        dy: 31,
+        font: 'bold 16pt Arial',
+        fillStyle: '#000',
+      },
+      damage: {
+        text: '1',
+        dx: 12,
+        dy: 105,
+        font: 'bold 18px Arial',
+        fillStyle: '#64CB3E',
+      },
+      health: {
+        text: '22',
+        dx: 10,
+        dy: 145,
+        font: 'bold 16px Arial',
+        fillStyle: '#fff',
+      },
+    },
   ])
 
   const handleClickOnCanvas = useCallback(
     (grid: string) => {
       if (activeCardInHand) {
-        // Сильно переработать этот метод. И создать его в ядре состояния игры игры
-        const newTank = userState.takeCardFromHand(activeCardInHand) // достали карту из руки
+        // TODO: Сильно переработать этот метод. И создать его в ядре состояния игры
+        const newTank = userState.takeCardFromHand(activeCardInHand)
         if (newTank) {
-          setUserHand(userState.getCardsInHand()) // обновили состояние компонента
+          setUserHand(userState.getCardsInHand())
           const newElement = new ElementsCreator({
             type: 'card',
             tank: newTank as Tank,
