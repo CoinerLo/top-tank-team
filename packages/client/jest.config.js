@@ -11,4 +11,11 @@ export default {
   moduleNameMapper: {
     '\\.(css|scss)$': 'identity-obj-proxy',
   },
+  verbose: true,
+  collectCoverage: false,
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.{ts,tsx}',
+    '!<rootDir>/node_modules/**',
+    '!<rootDir>/vendor/**',
+  ],
 }
