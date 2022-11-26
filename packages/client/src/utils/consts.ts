@@ -54,6 +54,7 @@ export enum ChangePasswordStatus {
 export enum NameSpace {
   User = 'USER',
   Decks = 'DECKS',
+  Game = 'GAME',
 }
 
 const fieldsIconPath = '/cards/images/fields/'
@@ -96,6 +97,24 @@ export const IconsByName: Record<string, string> = {
   'T1 LT': `${tankIconPath}t1-lt-image.png`,
   'T7 Combat Car': `${tankIconPath}t7-Combat-Car-image.png`,
   'МС-1': `${tankIconPath}ms-1-image.png`,
+}
+
+const tankImagePath = '/cards/tanks/'
+
+export const ImageByName: Record<string, string> = {
+  Liberty: `${tankImagePath}liberty.png`,
+  T6: `${tankImagePath}t6.png`,
+  'T-24': `${tankImagePath}t-24.png`,
+  'T-35-1': `${tankImagePath}t-35-1.png`,
+  'T-21': `${tankImagePath}t-21.png`,
+  A7V: `${tankImagePath}a7v.png`,
+  'СУ-18': `${tankImagePath}su-18.png`,
+  'Panzerjager I': `${tankImagePath}panzerjagerI.png`,
+  T18: `${tankImagePath}t-18.png`,
+  Leichttraktor: `${tankImagePath}leichttraktor.png`,
+  'T1 LT': `${tankImagePath}t1-lt.png`,
+  'T7 Combat Car': `${tankImagePath}t7-Combat-Car.png`,
+  'МС-1': `${tankImagePath}ms1.png`,
 }
 
 export enum HeadquartersNames {

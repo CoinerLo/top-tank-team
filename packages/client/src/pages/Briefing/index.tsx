@@ -12,14 +12,14 @@ export const Briefing = () => {
         overflowY: 'scroll',
       }}>
       <Typography variant="h1" sx={{ mt: '50px' }}>
-        Правила боя в WoT Generals
+        Правила боя в Headquarters. Tank Battles
       </Typography>
       <Box m="10px" width="75%">
         <Typography>
-          World of Tanks Generals — игра между двумя соперниками. Игроки ходят
-          по очереди, разыгрывают карты из руки, перемещают карты на поле боя и
-          атакуют противника. Главной целью игры является уничтожение штаба
-          противника.
+          Headquarters. Tank Battles — игра между двумя соперниками. Игроки
+          ходят по очереди, разыгрывают карты из руки, перемещают карты на поле
+          боя и атакуют противника. Главной целью игры является уничтожение
+          штаба противника.
         </Typography>
       </Box>
       <Box mb="10px" mt="20px" width="75%">

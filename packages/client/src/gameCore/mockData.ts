@@ -3,7 +3,7 @@ import { shuffleArray } from './utils'
 
 export const getRandomUserDeck = (length: number) => {
   const shuffledAllCardsForDeck = [...allCardsForDeck]
-  shuffleArray(shuffledAllCardsForDeck)
+  const result = shuffleArray(shuffledAllCardsForDeck)
 
-  return shuffledAllCardsForDeck.slice(0, length)
+  return result.slice(0, length)
 }

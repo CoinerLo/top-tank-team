@@ -1,5 +1,6 @@
 import { AuthorizationStatus } from '../utils/consts'
 import { Tank } from '../gameCore/models/TanksDeck'
+import { Game } from '../gameCore/models/Game'
 
 export interface IUser {
   id: number
@@ -50,4 +51,8 @@ export interface UserSlice {
 
 export interface DecksSlice {
   decks: Record<string, Tank[]>
+}
+
+export interface GameSlice {
+  game: Record<string, Game>
 }

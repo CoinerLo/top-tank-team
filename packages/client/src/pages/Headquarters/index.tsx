@@ -16,15 +16,13 @@ const styles = {
   },
   cardCarousel: {
     width: '280px',
-    height: '360px',
-    marginTop: '150px',
+    height: '420px',
+    marginTop: '100px',
     marginBottom: '75px',
-    border: '1px solid #373936',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
   mainBtn: {
     marginX: '40px',
-    padding: '20px 80px',
+    padding: '20px 83px',
     fontSize: '2rem',
   },
 }
@@ -49,10 +47,12 @@ export const Headquarters = () => {
       <UserProfile containerStyle={styles.avatar} />
       <SubMenu />
       <Box sx={styles.cardCarousel}>
-        <div>
-          Здесь будет карусель с колодами карт игрока, с дополнительной
-          информацией о колоде
-        </div>
+        <Box
+          sx={{ width: '280px', height: '420px' }}
+          component="img"
+          src="/cards/headquarters/ussr.png"
+          alt="Изображение штаба"
+        />
       </Box>
       <Box sx={{}}>
         <Button onClick={navigateToDeck} variant="sub">

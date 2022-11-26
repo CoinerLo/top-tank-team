@@ -3,19 +3,7 @@ import { drawCard } from './canvasEngine-drawCard'
 import { IGridElement } from './canvasTypings'
 
 export const canvasEnginePlugins = {
-  after: [],
-  before: [],
   during: {
-    // (_: CanvasEngine, element: any) => { // Пока не используем, но может понадобится
-    //   if (element.afterRender || false) {
-    //     element.afterRender(_, element)
-    //   }
-    // },
-    // (_: CanvasEngine, element: any) => {
-    //   if (element.beforeRender || false) {
-    //     element.beforeRender(_, element)
-    //   }
-    // },
     gridPlugins: [
       (_: CanvasEngine, element: IGridElement) => {
         if (element.grid && _.context) {

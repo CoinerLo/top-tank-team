@@ -9,14 +9,14 @@ export class CanvasEngine {
   mouse: { click: boolean; cell: string | null }
   activeElement: null | IElement = null
   context: CanvasRenderingContext2D | undefined
-  plugins: { after: never[]; before: never[]; during: IDuring }
+  plugins: { during: IDuring }
 
   constructor(query: HTMLCanvasElement, settings: ISettings) {
     this.settings = settings
     this.settings.alpha =
       typeof settings.alpha === 'boolean' ? settings.alpha : true
     this.settings.imageSmoothling = settings.imageSmoothling ?? false
-    this.settings.fps = settings.fps ??  0
+    this.settings.fps = settings.fps ?? 0
     this.settings.interval = Math.floor(1000 / this.settings.fps)
     this.canvas = query
     this.canvas.width = settings.DPI_WIDTH
@@ -92,9 +92,6 @@ export class CanvasEngine {
   }
 
   render() {
-    // this.plugins.before.forEach((plugin: any) => { // пока убрал т.к. не используем
-    //   plugin(this)
-    // })
     if (this.context) {
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     }
@@ -110,17 +107,5 @@ export class CanvasEngine {
         plugin(this, element)
       })
     })
-
-    // this.plugins.after.forEach((plugin: any) => { // пока убрал т.к. не используем
-    //   plugin(this)
-    // })
   }
-
-  // this.interval = setInterval( // Метод постоянных перерисовок для анимации пока плохо работает с большим кол-вом картинок, возможно решим это в будущих версиях
-  //   this => {
-  //     this.render()
-  //   },
-  //   this.settings.interval,
-  //   this
-  // )
 }
