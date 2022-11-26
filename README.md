@@ -1,3 +1,21 @@
+<h1 align="center">Top Tank Team</h1>
+
+# Навигация
+
+- [Запуск проекта](#запуск-проекта)
+    - [Как запускать](#как-запускать)
+    - [Как добавить зависимости](#как-добавить-зависимости)
+- [Тесты](#тесты)
+- [Линтинг](#линтинг)
+- [Форматирование prettier](#форматирование-prettier)
+- [Production build](#production-build)
+- [Хуки](#хуки)
+- [Ой, ничего не работает :(](#ой-ничего-не-работает)
+- [Автодеплой статики на vercel](#автодеплой-статики-на-vercel)
+- [Production окружение в докере](#production-окружение-в-докере)
+
+## Запуск проекта
+
 ### Как запускать?
 
 1. Убедитесь что у вас установлен `node` и `docker`
@@ -24,39 +42,40 @@
 ```yarn lerna add {your_dep} --dev --scope server```
 
 
-### Тесты
+## Тесты
 
 Для клиента используется [`react-testing-library`](https://testing-library.com/docs/react-testing-library/intro/)
 
 Запуск тестов на клиенте и сервере
 
-```yarn test```
+    yarn test
 
-Запуск тестов на клиенте с детализацией (запускать из папки packages/client)
+Запуск тестов на клиенте с детализацией
 
-```yarn test```
+    cd packages/client
+    yarn test
 
-Запуск тестов на клиенте с детализацией и покрытием (запускать из папки packages/client)
+Запуск тестов на клиенте с детализацией и покрытием
 
-```yarn test:coverage```
+    cd packages/client
+    yarn test:coverage
 
-### Линтинг
+## Линтинг
 
-```yarn lint```
+    yarn lint
 
-### Форматирование prettier
+## Форматирование prettier
 
-```yarn format```
+    yarn format
 
-### Production build
+## Production build
 
-```yarn build```
+    yarn build
 
 И чтобы посмотреть что получилось
 
-
-`yarn preview --scope client`
-`yarn preview --scope server`
+    yarn preview --scope client
+    yarn preview --scope server
 
 ## Хуки
 В проекте используется [lefthook](https://github.com/evilmartians/lefthook)
