@@ -7,6 +7,6 @@ describe('Basic table component', () => {
 
     const table = screen.getByRole('table')
 
-    expect(table).toBeTruthy
+    expect(table).toBeTruthy()
   })
 })
