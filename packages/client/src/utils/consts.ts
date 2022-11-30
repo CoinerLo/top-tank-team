@@ -126,13 +126,13 @@ export enum HeadquartersNames {
 export const getHeadquartersPreview = (headquarters: string) => {
   switch (headquarters) {
     case HeadquartersNames.german:
-      return 'avatar_default.png'
+      return '/avatar_default.png'
     case HeadquartersNames.ussr:
-      return 'avatar_default_ussr.png'
+      return '/avatar_default_ussr.png'
     case HeadquartersNames.usa:
-      return 'avatar_default_usa.png'
+      return '/avatar_default_usa.png'
     default:
-      return 'avatar_default.png'
+      return '/avatar_default.png'
   }
 }
 
