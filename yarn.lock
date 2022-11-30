@@ -2356,7 +2356,7 @@
     magic-string "^0.26.2"
     react-refresh "^0.14.0"
 
-"@vizualabstract/react-dropzone-uploader@^2.24.0":
+"@vizualabstract/react-dropzone-uploader@2.24.0":
   version "2.24.0"
   resolved "https://registry.yarnpkg.com/@vizualabstract/react-dropzone-uploader/-/react-dropzone-uploader-2.24.0.tgz#55c782ef934b01e0f352c31802935e6f0e443162"
   integrity sha512-yE+7bql4XJSNKEoiLR4aizmAEUiValCojhA8m57aIFnctfwyC66dA1vNvpCMxunsdf7Ww+f5VVGGJLjDctotiQ==
