@@ -1,14 +1,64 @@
-import { Box, Button, CardMedia, Typography } from '@mui/material'
+import { Box, Button, CardMedia, TextField, Typography } from '@mui/material'
 import { MyStopwatch } from '../../../components/Stopwatch/MyStopwatch'
 import { Container } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { HeadquartersSelection } from '../../../components/HeadquartersSelection/HeadquartersSelection'
+import { ReadyFight } from '../../../components/ReadyFight/ReadyFight'
+import { HeadquartersPreview } from '../../../components/HeadquartersPreview/HeadquartersPreview'
+import { AppRoute, getHeadquartersPreview } from '../../../utils/consts'
+import { IUserData } from '../../../gameCore/types'
+import { Game } from '../../../gameCore/models/Game'
+import { useAppDispatch, useAppselector } from '../../../hooks'
+import { saveGame } from '../../../store/slices/gameSlice/gameSlice'
 
 export const GameStart = () => {
   const [valResetTimer, setvalResetTimer] = useState(false)
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const [userHeadquarters, setUserHeadquarters] = useState('')
+  const [opponentHeadquarters, setOpponentHeadquarters] = useState('')
+  const [userHeadquartersAvatar, setUserHeadquartersAvatar] = useState(
+    getHeadquartersPreview('')
+  )
+  const [opponentHeadquartersAvatar, setOpponentHeadquartersAvatar] = useState(
+    getHeadquartersPreview('')
+  )
 
-  const helpInfo = 'В затянувшемся бою следите за временем!'
+  const { currentUser } = useAppselector(({ USER }) => USER)
+  const { display_name } = currentUser
+
+  const { decks } = useAppselector(({ DECKS }) => DECKS)
+  const { first, second } = decks
+
+  const baseOpponentName = 'Оппонент'
+  const [opponentName, setOpponentName] = useState(baseOpponentName)
+  const helpInfo = 'Выберите свой штаб главнокомандующего!'
+
+  useEffect(() => {
+    if (userHeadquarters && opponentHeadquarters) {
+      const userData: IUserData = {
+        userName: display_name,
+        deck: first,
+        headquartersName: userHeadquarters,
+      }
+      const opponentData: IUserData = {
+        userName: opponentName ?? baseOpponentName,
+        deck: second,
+        headquartersName: opponentHeadquarters,
+      }
+      const newGame = new Game({ userData, opponentData })
+      const { id } = newGame
+
+      dispatch(saveGame({ data: newGame }))
+
+      navigate(`/${AppRoute.Game}/${id}`, { replace: true })
+    }
+  })
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setOpponentName(event.target.value)
+  }
 
   const resetTimer = () => {
     setvalResetTimer(!valResetTimer)
@@ -38,7 +88,7 @@ export const GameStart = () => {
           }}>
           <Box>
             <Typography variant="h6" sx={{ textAlign: 'center' }}>
-              Игрок 1
+              {display_name}
             </Typography>
           </Box>
           <Box
@@ -46,15 +96,8 @@ export const GameStart = () => {
               width: '100%',
               height: '100%',
             }}>
-            <CardMedia
-              component={'img'}
-              image={'avatar_default.png'}
-              sx={{
-                height: '250px',
-                width: '450px',
-                margin: 'auto',
-                objectFit: 'cover',
-              }}
+            <HeadquartersPreview
+              url={getHeadquartersPreview(userHeadquartersAvatar)}
             />
           </Box>
         </Box>
@@ -62,20 +105,19 @@ export const GameStart = () => {
           sx={{
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'flex-start',
-            minWidth: '200px',
+            alignItems: 'center',
+            minWidth: '220px',
           }}>
           <CardMedia
             component={'img'}
             image={'random_fight_ico.png'}
             sx={{
               width: '40px',
+              mr: '10px',
             }}
           />
-          <Typography
-            variant="h6"
-            sx={{ textAlign: 'center', color: '#CB7007' }}>
-            Случайный бой
+          <Typography variant="h6" color="secondary">
+            Бой лицом к лицу
           </Typography>
         </Box>
         <Box
@@ -83,35 +125,51 @@ export const GameStart = () => {
             width: '100%',
             height: '100%',
           }}>
-          <Box>
-            <Typography variant="h6" sx={{ textAlign: 'center' }}>
-              Игрок 2
-            </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <TextField
+              id="opponentName"
+              label="Введите ник"
+              multiline
+              maxRows={1}
+              value={opponentName}
+              onChange={handleChange}
+              variant="standard"
+            />
           </Box>
           <Box>
-            <CardMedia
-              component={'img'}
-              image={'world_default.png'}
-              sx={{
-                height: '250px',
-                width: '450px',
-                margin: 'auto',
-                objectFit: 'cover',
-              }}
+            <HeadquartersPreview
+              url={getHeadquartersPreview(opponentHeadquartersAvatar)}
             />
           </Box>
         </Box>
       </Box>
-      <MyStopwatch
-        title="Поиск противника"
-        subTitle="40-53"
-        runningMsg={['Идет поиск', 'Поиск прерван']}
-        valReset={valResetTimer}
-      />
+      <Box
+        sx={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
+        {userHeadquarters ? (
+          <ReadyFight />
+        ) : (
+          <HeadquartersSelection
+            setHeadquarters={setUserHeadquarters}
+            setAvatar={setUserHeadquartersAvatar}
+          />
+        )}
+        <MyStopwatch
+          title="Подготовка техники"
+          subTitle="40-53"
+          runningMsg={['Ждем готовности', 'Поиск прерван']}
+          valReset={valResetTimer}
+        />
+        {opponentHeadquarters ? (
+          <ReadyFight />
+        ) : (
+          <HeadquartersSelection
+            setHeadquarters={setOpponentHeadquarters}
+            setAvatar={setOpponentHeadquartersAvatar}
+          />
+        )}
+      </Box>
       <Button
-        onClick={() => {
-          resetTimer()
-        }}
+        onClick={resetTimer}
         variant="sub"
         fullWidth
         disableElevation
@@ -119,7 +177,7 @@ export const GameStart = () => {
           alignSelf: 'center',
           marginTop: '1rem',
         }}>
-        Прервать поиск
+        Прервать подготовку
       </Button>
       <Box
         sx={{

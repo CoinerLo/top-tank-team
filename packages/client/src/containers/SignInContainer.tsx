@@ -1,19 +1,22 @@
 import { useCallback } from 'react'
 import { SubmitHandler } from 'react-hook-form/dist/types/form'
-import { useNavigate } from 'react-router-dom'
-import AuthController from '../controllers/AuthController'
+import { useAppDispatch } from '../hooks'
 import { SignIn } from '../pages/SignIn'
+import { getUserThunk, loginThunk } from '../store/api-thunks'
 import { ISignInData } from '../typings'
+import { useNavigate } from 'react-router-dom'
+import { AppRoute } from '../utils/consts'
 
 export const SignInContainer = () => {
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   const handleSubmitSignInData: SubmitHandler<ISignInData> = useCallback(
-    async data => {
-      const res = await AuthController.signin(data)
-      if (res?.status == 200) {
-        navigate('/headquarters')
-      }
+    data => {
+      dispatch(loginThunk(data)).then(() => {
+        dispatch(getUserThunk())
+      })
+      navigate(`/${AppRoute.Headquarters}`)
     },
     []
   )

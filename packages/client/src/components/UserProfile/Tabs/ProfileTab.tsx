@@ -8,16 +8,17 @@ import {
 import { FC, useState } from 'react'
 import { TabPanel } from '../../TabPanel/TabPanel'
 import {
+  displayNameValidation,
   emailValidation,
+  firstNameValidation,
   loginValidation,
   phoneValidation,
+  secondNameValidation,
 } from '../../../utils/validation'
+import { useAppDispatch, useAppselector } from '../../../hooks'
+import { IChangeDataForm } from '../../../typings'
+import { updateProfileThunk } from '../../../store/api-thunks'
 
-interface IChangeDataForm {
-  login: string
-  email: string
-  phone: string
-}
 interface IProfileTab {
   tabIndex: number
   index: number
@@ -40,15 +41,28 @@ const disabledFieldStyle = {
 
 export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
   const [isEditProfileMode, setIsEditProfileMode] = useState(false)
+  const { currentUser } = useAppselector(({ USER }) => USER)
+  const dispatch = useAppDispatch()
+  const { first_name, second_name, display_name, login, email, phone } =
+    currentUser
   const { handleSubmit, control } = useForm<IChangeDataForm>({
     mode: 'onBlur',
     reValidateMode: 'onChange',
+    defaultValues: {
+      first_name: first_name,
+      second_name: second_name,
+      display_name: display_name,
+      login: login,
+      email: email,
+      phone: phone,
+    },
   })
+
   const { errors, isValid } = useFormState({
     control,
   })
   const handleSubmitProfileData: SubmitHandler<IChangeDataForm> = data => {
-    console.log(data)
+    dispatch(updateProfileThunk(data))
   }
 
   return (
@@ -59,6 +73,72 @@ export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
         onSubmit={handleSubmit(handleSubmitProfileData)}>
         <Controller
           control={control}
+          name="first_name"
+          rules={firstNameValidation}
+          render={({ field }) => (
+            <TextField
+              sx={disabledFieldStyle}
+              label="Имя"
+              fullWidth={true}
+              margin="normal"
+              size="small"
+              variant={!isEditProfileMode ? 'standard' : undefined}
+              value={field.value}
+              disabled={!isEditProfileMode}
+              onChange={e => field.onChange(e)}
+              onBlur={() => field.onBlur()}
+              error={!!errors.first_name?.message}
+              helperText={errors?.first_name?.message}
+            />
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="second_name"
+          rules={secondNameValidation}
+          render={({ field }) => (
+            <TextField
+              sx={disabledFieldStyle}
+              label="Фамилия"
+              value={field.value}
+              fullWidth={true}
+              size="small"
+              margin="normal"
+              variant={!isEditProfileMode ? 'standard' : undefined}
+              disabled={!isEditProfileMode}
+              onChange={e => field.onChange(e)}
+              onBlur={() => field.onBlur()}
+              error={!!errors.second_name?.message}
+              helperText={errors?.second_name?.message}
+            />
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="display_name"
+          rules={displayNameValidation}
+          render={({ field }) => (
+            <TextField
+              sx={disabledFieldStyle}
+              label="Игровое имя"
+              value={field.value}
+              fullWidth={true}
+              size="small"
+              margin="normal"
+              variant={!isEditProfileMode ? 'standard' : undefined}
+              disabled={!isEditProfileMode}
+              onChange={e => field.onChange(e)}
+              onBlur={() => field.onBlur()}
+              error={!!errors.display_name?.message}
+              helperText={errors?.display_name?.message}
+            />
+          )}
+        />
+
+        <Controller
+          control={control}
           name="login"
           rules={loginValidation}
           render={({ field }) => (
@@ -67,7 +147,7 @@ export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
               label="Логин"
               onChange={field.onChange}
               onBlur={field.onBlur}
-              value={field.value || ''}
+              value={field.value}
               fullWidth={true}
               size="small"
               variant={!isEditProfileMode ? 'standard' : undefined}
@@ -88,7 +168,7 @@ export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
               label="Почта"
               onChange={field.onChange}
               onBlur={field.onBlur}
-              value={field.value || ''}
+              value={field.value}
               fullWidth={true}
               size="small"
               variant={!isEditProfileMode ? 'standard' : undefined}
@@ -109,7 +189,7 @@ export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
               label="Телефон"
               onChange={field.onChange}
               onBlur={field.onBlur}
-              value={field.value || ''}
+              value={field.value}
               fullWidth={true}
               size="small"
               variant={!isEditProfileMode ? 'standard' : undefined}

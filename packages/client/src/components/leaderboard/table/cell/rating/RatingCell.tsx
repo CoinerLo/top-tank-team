@@ -3,11 +3,18 @@ import { Typography, Box } from '@mui/material'
 import { StarRate, StarHalf, StarOutline } from '@mui/icons-material'
 
 export interface RatingCellProps {
-  rating: 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5
+  rating: 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5
 }
 
 export const RatingCell: FC<RatingCellProps> = ({ rating }) => {
   const ratings = {
+    0: [
+      <StarOutline key={1}>no_star</StarOutline>,
+      <StarOutline key={2}>no_star</StarOutline>,
+      <StarOutline key={3}>no_star</StarOutline>,
+      <StarOutline key={4}>no_star</StarOutline>,
+      <StarOutline key={5}>no_star</StarOutline>,
+    ],
     0.5: [
       <StarHalf key={1}>star_half</StarHalf>,
       <StarOutline key={2}>no_star</StarOutline>,

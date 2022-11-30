@@ -1,5 +1,6 @@
-import { ISignInData, ISingUpForm } from '../typings'
+import { ISignInData, ISingUpForm, IUser } from '../typings'
 import { DefaultPraktikumClient, PraktikumClient } from './PraktikumClient'
+import { AxiosResponse } from 'axios'
 
 export class AuthAPI {
   static API_URL = 'auth'
@@ -8,11 +9,11 @@ export class AuthAPI {
     return PraktikumClient.post(`${AuthAPI.API_URL}/signin`, data)
   }
 
-  signUp(data: ISingUpForm): Promise<XMLHttpRequest> {
+  signUp(data: ISingUpForm): Promise<AxiosResponse<IUser>> {
     return PraktikumClient.post(`${AuthAPI.API_URL}/signup`, data)
   }
 
-  read(): Promise<XMLHttpRequest> {
+  read(): Promise<AxiosResponse<IUser>> {
     return DefaultPraktikumClient.get(`${AuthAPI.API_URL}/user`)
   }
 

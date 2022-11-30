@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import CssBaseline from '@mui/material/CssBaseline'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import { mainTheme } from './assets/mainTheme'
@@ -12,25 +11,34 @@ import { Upgrade } from './pages/Upgrade'
 import { Deck } from './pages/Deck'
 import { Forum } from './pages/Forum'
 import { GameStart } from './pages/GameDesk/GameStart'
-import { GameDesk } from './pages/GameDesk'
 import { GameResult } from './pages/GameDesk/GameResult'
-import { AppRoute } from './utils/consts'
+import { AppRoute, AuthorizationStatus } from './utils/consts'
 import { PostPage } from './pages/Forum/Post'
 import { SignInContainer } from './containers/SignInContainer'
 import { SignUpContainer } from './containers/SignUpContainer'
 import { HeaderContainer } from './containers/HeaderContainer'
+import { useAppselector } from './hooks'
+import { PrivateRoute } from './hocs/PrivateRoute/PrivateRoute'
+import { LoadingScreen } from './components/LoadingScreen/LoadingScreen'
+import { GameDeskContainer } from './containers/GameDeskContainer'
 
 function App() {
-  useEffect(() => {
-    const fetchServerData = async () => {
-      const url = `http://localhost:${__SERVER_PORT__}`
-      const response = await fetch(url)
-      const data = await response.json()
-      console.log(data)
-    }
+  // useEffect(() => {                                    // пока заглушу - пока не возьмемся за бекенд, надоели эти ошибки в консоле постоянные
+  //   const fetchServerData = async () => {
+  //     const url = `http://localhost:${__SERVER_PORT__}`
+  //     const response = await fetch(url)
+  //     const data = await response.json()
+  //     console.log(data)
+  //   }
 
-    fetchServerData()
-  }, [])
+  //   fetchServerData()
+  // }, [])
+
+  const { authorizationStatus } = useAppselector(({ USER }) => USER)
+
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
+    return <LoadingScreen />
+  }
 
   return (
     <ThemeProvider theme={mainTheme}>
@@ -41,21 +49,23 @@ function App() {
         <Route path={AppRoute.SignIn} element={<SignInContainer />} />
         <Route path={AppRoute.SignUp} element={<SignUpContainer />} />
         <Route path={AppRoute.Briefing} element={<Briefing />} />
-        <Route path={AppRoute.Headquarters} element={<Headquarters />} />
-        <Route path={AppRoute.Upgrade} element={<Upgrade />} />
-        <Route path={AppRoute.Deck} element={<Deck />} />
-        <Route path={AppRoute.Leaderboard} element={<LeaderBoard />} />
+        <Route element={<PrivateRoute />}>
+          <Route path={AppRoute.Headquarters} element={<Headquarters />} />
+          <Route path={AppRoute.Upgrade} element={<Upgrade />} />
+          <Route path={AppRoute.Deck} element={<Deck />} />
+          <Route path={AppRoute.Leaderboard} element={<LeaderBoard />} />
+          <Route path={AppRoute.Game}>
+            <Route path={AppRoute.StartGame} element={<GameStart />} />
+            <Route path={AppRoute.GameId} element={<GameDeskContainer />} />
+            <Route path={AppRoute.ResultGame}>
+              <Route path={AppRoute.GameId} element={<GameResult />} />
+            </Route>
+          </Route>
+        </Route>
+
         <Route path={AppRoute.Forum}>
           <Route index element={<Forum />} />
           <Route path={AppRoute.ForumPost} element={<PostPage />} />
-        </Route>
-
-        <Route path={AppRoute.Game}>
-          <Route path={AppRoute.StartGame} element={<GameStart />} />
-          <Route path={AppRoute.GameId} element={<GameDesk />} />
-          <Route path={AppRoute.ResultGame}>
-            <Route path={AppRoute.GameId} element={<GameResult />} />
-          </Route>
         </Route>
 
         <Route path="*" element={<Error404 />} />

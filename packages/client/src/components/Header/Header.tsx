@@ -1,62 +1,60 @@
-import { FC, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { FC } from 'react'
+import { Link } from 'react-router-dom'
 import { AppRoute } from '../../utils/consts'
-import { Box, Button, Container, Link as MuiLink } from '@mui/material'
+import { Box, Button, Link as MuiLink } from '@mui/material'
+import { useAuthorizationStatus } from '../../hooks/useAuthorizationStatus'
 
 interface HeaderProps {
   handleLogout: () => void
 }
 
 export const Header: FC<HeaderProps> = ({ handleLogout }) => {
-  const [gameId, setGameId] = useState('0')
-  const navigate = useNavigate()
-
-  const toGoGame = () => {
-    navigate(`${AppRoute.Game}/${gameId}`)
-  }
-
-  const goOutGame = () => {
-    navigate(`${AppRoute.Game}/${AppRoute.ResultGame}/${gameId}`)
-  }
+  const { isAuthorized } = useAuthorizationStatus()
 
   return (
-    <Container
-      maxWidth="xl"
+    <Box
       component="header"
       sx={{
         position: 'absolute',
+        width: '100vw',
         display: 'flex',
         justifyContent: 'space-between',
         paddingY: '7px',
         zIndex: 100,
         backgroundColor: '#000',
       }}>
-      <Button
-        variant="sizeSmall"
-        onClick={handleLogout}
-        fullWidth
-        disableElevation
-        sx={{
-          fontSize: '1rem',
-          fontWeight: 500,
-          ':hover': {
-            backgroundColor: '#E8AA00',
-          },
-          textTransform: 'none',
-          padding: '0px 16px',
-          height: '23px',
-        }}>
-        Выход
-      </Button>
+      {isAuthorized && (
+        <Button
+          variant="sizeSmall"
+          onClick={handleLogout}
+          fullWidth
+          disableElevation
+          sx={{
+            fontSize: '1rem',
+            fontWeight: 500,
+            ':hover': {
+              backgroundColor: '#E8AA00',
+            },
+            textTransform: 'none',
+            padding: '0px 16px',
+            height: '23px',
+          }}>
+          Выход
+        </Button>
+      )}
       <Box
         component="nav"
         sx={{ display: 'flex', flex: 1, justifyContent: 'space-around' }}>
-        <MuiLink component={Link} to={AppRoute.SignIn}>
-          Вход
-        </MuiLink>
-        <MuiLink component={Link} to={AppRoute.SignUp}>
-          Регистрация
-        </MuiLink>
+        {!isAuthorized && (
+          <>
+            <MuiLink component={Link} to={AppRoute.SignIn}>
+              Вход
+            </MuiLink>
+            <MuiLink component={Link} to={AppRoute.SignUp}>
+              Регистрация
+            </MuiLink>
+          </>
+        )}
 
         <MuiLink component={Link} to={AppRoute.Index}>
           Главная
@@ -80,16 +78,6 @@ export const Header: FC<HeaderProps> = ({ handleLogout }) => {
           Форум
         </MuiLink>
       </Box>
-      <div>
-        <input
-          type="text"
-          placeholder="Номер игры"
-          value={gameId}
-          onChange={e => setGameId(e.currentTarget.value)}
-        />
-        <button onClick={toGoGame}>go</button>
-        <button onClick={goOutGame}>esc</button>
-      </div>
-    </Container>
+    </Box>
   )
 }

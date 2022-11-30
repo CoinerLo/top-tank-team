@@ -1,16 +1,17 @@
 import { useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Header } from '../components/Header/Header'
-import AuthController from '../controllers/AuthController'
+import { useAppDispatch } from '../hooks'
+import { logoutThunk } from '../store/api-thunks'
+import { useNavigate } from 'react-router-dom'
+import { AppRoute } from '../utils/consts'
 
 export const HeaderContainer = () => {
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const handleLogout = useCallback(async () => {
-    const res = await AuthController.logout()
-    if (res?.status == 200) {
-      navigate('/')
-    }
+  const handleLogout = useCallback(() => {
+    dispatch(logoutThunk())
+    navigate(`/${AppRoute.SignIn}`)
   }, [])
 
   return <Header handleLogout={handleLogout} />

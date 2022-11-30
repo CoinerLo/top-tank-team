@@ -111,7 +111,7 @@ export const GameResult = () => {
   console.log(`This is GameResult! Number ${params.gameId}`)
 
   const navigateToHeadquarters = () => {
-    navigate(`/${AppRoute.Headquarters}`)
+    navigate(`/${AppRoute.Headquarters}`, { replace: true })
   }
 
   const dataCreator = (data1: DataGameResult, data2: DataGameResult) => {

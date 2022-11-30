@@ -30,6 +30,10 @@ export class Tank extends BaseCard {
   }
 }
 
-export const fullTanksDeck = TanksData.map(tankData => new Tank(tankData))
+export const fullTanksDeck = TanksData.map(tankData => [
+  new Tank(tankData),
+  new Tank(tankData),
+  new Tank(tankData),
+]).flat()
 
 export const decksOfTanksByTier = decksOfCardsByTier(fullTanksDeck)

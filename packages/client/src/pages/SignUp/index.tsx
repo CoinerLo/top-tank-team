@@ -13,7 +13,7 @@ import {
   Box,
   Link,
 } from '@mui/material'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Navigate } from 'react-router-dom'
 import {
   loginValidation,
   passwordValidation,
@@ -25,6 +25,7 @@ import {
 import { ISingUpForm } from '../../typings'
 import { AppRoute } from '../../utils/consts'
 import { FC } from 'react'
+import { useAuthorizationStatus } from '../../hooks/useAuthorizationStatus'
 
 interface ISignUp {
   handleSubmitSignUpData: SubmitHandler<ISingUpForm>
@@ -38,6 +39,12 @@ export const SignUp: FC<ISignUp> = ({ handleSubmitSignUpData }) => {
   const { errors, isValid } = useFormState({
     control,
   })
+
+  const { isAuthorized } = useAuthorizationStatus()
+
+  if (isAuthorized) {
+    return <Navigate to={`/${AppRoute.Headquarters}`} />
+  }
 
   return (
     <Container
