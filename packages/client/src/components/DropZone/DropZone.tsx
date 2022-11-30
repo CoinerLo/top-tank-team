@@ -1,8 +1,8 @@
-import 'react-dropzone-uploader/dist/styles.css'
+import '@vizualabstract/react-dropzone-uploader/dist/styles.css'
 import Dropzone, {
   IDropzoneProps,
   IPreviewProps,
-} from 'react-dropzone-uploader'
+} from '@vizualabstract/react-dropzone-uploader'
 import { FC, useState } from 'react'
 import { updateAvatarThunk } from '../../store/api-thunks'
 import { useAppDispatch } from '../../hooks'
