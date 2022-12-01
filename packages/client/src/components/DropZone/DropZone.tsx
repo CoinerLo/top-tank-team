@@ -8,6 +8,11 @@ import { updateAvatarThunk } from '../../store/api-thunks'
 import { useAppDispatch } from '../../hooks'
 import { Box } from '@mui/material'
 
+// Временное решение проблемы связанной с Vite https://github.com/vitejs/vite/issues/2139
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const ReactDropzone = Dropzone.default ? Dropzone.default : Dropzone
+
 const Preview: FC<IPreviewProps> = ({ meta }) => {
   const { name, percent, status, previewUrl } = meta
   return (
@@ -59,7 +64,7 @@ export const DropZone = () => {
   }
 
   return (
-    <Dropzone
+    <ReactDropzone
       onChangeStatus={handleChangeStatus}
       maxFiles={1}
       onSubmit={handleSubmit}
