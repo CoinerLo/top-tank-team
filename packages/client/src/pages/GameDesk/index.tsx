@@ -5,16 +5,15 @@ import { Field } from '../../components/game/Field/Field'
 import { Hand } from '../../components/game/Hand/Hand'
 import { ResourceCounter } from '../../components/game/ResourceCounter/ResourceCounter'
 import { TimerBox } from '../../components/game/TimerBox/TimerBox'
-import { Game } from '../../gameCore/models/Game'
+import { CurrentGamer, Game } from '../../gameCore/models/Game'
 import { AppRoute, fieldsIcons } from '../../utils/consts'
 import { Canvas } from '../../components/Canvas/Canvas'
 import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
 import FlagIcon from '@mui/icons-material/Flag'
 import { useNavigate } from 'react-router-dom'
-import { ElementsCreator } from '../../utils/canvasEngine/canvasElement'
 import { Tank } from '../../gameCore/models/TanksDeck'
-import { DPI_HEIGHT } from '../../utils/consts'
+import { GameDeskSegmentKeyType } from '../../gameCore/types'
 
 const styles = {
   userLine: {
@@ -72,7 +71,12 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
   const navigate = useNavigate()
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [isOpenFlagModalWindow, setIsOpenFlagModalWindow] = useState(false)
-  const [activeCardInHand, setIsActiveCardInHand] = useState('')
+  const [activeCardInHand, setActiveCardInHand] = useState('')
+  const [activeCardInDesk, setActiveCardInDesk] = useState<
+    GameDeskSegmentKeyType | ''
+  >('')
+
+  const [currentGamer, setCurrentGamer] = useState(game.currentGamer)
 
   const userState = game.getUserState()
   const userName = userState.getUserName()
@@ -82,7 +86,9 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
   const opponentState = game.getOpponentState()
   const opponentName = opponentState.getUserName()
   const opponentHeadquarters = opponentState.getHeadquarters()
-  const opponentHand = opponentState.getCardsInHand()
+  const [opponentHand, setOpponentHand] = useState(
+    opponentState.getCardsInHand()
+  )
 
   const [opponentDeck] = useState(opponentState.getCountCardsInDeck())
   const [opponentThrowDeck] = useState(0)
@@ -98,10 +104,19 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
   const [userCurrentCountResource] = useState(userHeadquarters.bringsResources)
   const [userFutureСountResource] = useState(userHeadquarters.bringsResources)
 
-  const [isActive, setIsActive] = useState(true)
+  const [deskState, setDeskState] = useState(game.getDesk().getGamingDesk())
 
   const handlerEndOfTurn = () => {
-    setIsActive(!isActive)
+    if (activeCardInDesk) {
+      setActiveCardInDesk('')
+      game.getDesk().toggleActiveVehicleOnDesk(activeCardInDesk, currentGamer)
+    }
+    if (activeCardInHand) {
+      setActiveCardInHand('')
+    }
+    setCurrentGamer(prev =>
+      prev === CurrentGamer.user ? CurrentGamer.opponent : CurrentGamer.user
+    )
   }
 
   const handleClickFullscreen = () => {
@@ -119,138 +134,90 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
   }
 
   const handleChoiceActiveCardInHand = useCallback((idCard: string) => {
-    setIsActiveCardInHand(idCard)
+    setActiveCardInHand(idCard)
   }, [])
 
-  const [elements, setElements] = useState([
-    {
-      type: 'card',
-      position: { x: 0, y: DPI_HEIGHT - 170, cell: 'C1' },
-      cardImg: { w: 170, h: 170, src: './../cards/battleCard.png' },
-      baseImg: {
-        w: 150,
-        h: 125,
-        dx: 10,
-        dy: 36,
-        src: './../cards/images/headquarters/ussr-image.png',
-      },
-      bringsResourcesIconImg: {
-        w: 39,
-        h: 39,
-        dx: 129,
-        dy: 2,
-        src: './../cards/bringsResources.png',
-      },
-      headIconImg: {
-        w: 20,
-        h: 18,
-        dx: 3,
-        dy: 10,
-        src: './../cards/icons/head-icon.png',
-      },
-      headText: {
-        text: 'Учебная часть',
-        dx: 25,
-        dy: 25,
-        font: '10pt Arial',
-        fillStyle: 'gray',
-      },
-      bringsResourcesText: {
-        text: '5',
-        dx: 143,
-        dy: 31,
-        font: 'bold 16pt Arial',
-        fillStyle: '#000',
-      },
-      damage: {
-        text: '1',
-        dx: 12,
-        dy: 105,
-        font: 'bold 18px Arial',
-        fillStyle: '#64CB3E',
-      },
-      health: {
-        text: '22',
-        dx: 10,
-        dy: 145,
-        font: 'bold 16px Arial',
-        fillStyle: '#fff',
-      },
-    },
-    {
-      type: 'card',
-      position: { x: 0, y: DPI_HEIGHT - 170, cell: 'A5' },
-      cardImg: { w: 170, h: 170, src: './../cards/battleCard.png' },
-      baseImg: {
-        w: 150,
-        h: 125,
-        dx: 10,
-        dy: 36,
-        src: './../cards/images/headquarters/ussr-image.png',
-      },
-      bringsResourcesIconImg: {
-        w: 39,
-        h: 39,
-        dx: 129,
-        dy: 2,
-        src: './../cards/bringsResources.png',
-      },
-      headIconImg: {
-        w: 20,
-        h: 18,
-        dx: 3,
-        dy: 10,
-        src: './../cards/icons/head-icon.png',
-      },
-      headText: {
-        text: 'Учебная часть',
-        dx: 25,
-        dy: 25,
-        font: '10pt Arial',
-        fillStyle: 'gray',
-      },
-      bringsResourcesText: {
-        text: '5',
-        dx: 143,
-        dy: 31,
-        font: 'bold 16pt Arial',
-        fillStyle: '#000',
-      },
-      damage: {
-        text: '1',
-        dx: 12,
-        dy: 105,
-        font: 'bold 18px Arial',
-        fillStyle: '#64CB3E',
-      },
-      health: {
-        text: '22',
-        dx: 10,
-        dy: 145,
-        font: 'bold 16px Arial',
-        fillStyle: '#fff',
-      },
-    },
-  ])
-
   const handleClickOnCanvas = useCallback(
-    (grid: string) => {
-      if (activeCardInHand) {
-        // TODO: Сильно переработать этот метод. И создать его в ядре состояния игры
-        const newTank = userState.takeCardFromHand(activeCardInHand)
-        if (newTank) {
-          setUserHand(userState.getCardsInHand())
-          const newElement = new ElementsCreator({
-            type: 'card',
-            tank: newTank as Tank,
-            targetСell: grid,
-          })
-          setElements([...elements, newElement.getElement()])
-          setIsActiveCardInHand('')
+    (grid: GameDeskSegmentKeyType) => {
+      const gameDesk = game.getDesk()
+      if (
+        activeCardInHand &&
+        gameDesk.isAccessibleGridForLanding(grid, currentGamer)
+      ) {
+        const newTankOnDesk =
+          currentGamer === CurrentGamer.user
+            ? (userState.takeCardFromHand(activeCardInHand) as Tank)
+            : (opponentState.takeCardFromHand(activeCardInHand) as Tank)
+
+        if (newTankOnDesk) {
+          if (currentGamer === CurrentGamer.user) {
+            setUserHand(userState.getCardsInHand())
+          } else {
+            setOpponentHand(opponentState.getCardsInHand())
+          }
+
+          const nextVersionDesk = gameDesk.addVehicleOnDesk(
+            grid,
+            newTankOnDesk,
+            currentGamer
+          )
+
+          if (nextVersionDesk) {
+            setDeskState(nextVersionDesk)
+          }
+
+          setActiveCardInHand('')
+        }
+
+        return true
+      }
+
+      if (!activeCardInDesk) {
+        const isChangeActiveCardInDesk = gameDesk.toggleActiveVehicleOnDesk(
+          grid,
+          currentGamer
+        )
+        if (isChangeActiveCardInDesk) {
+          setActiveCardInDesk(grid)
+        }
+        return isChangeActiveCardInDesk
+      }
+
+      if (activeCardInDesk === grid) {
+        setActiveCardInDesk('')
+        return gameDesk.toggleActiveVehicleOnDesk(grid, currentGamer)
+      }
+
+      if (activeCardInDesk) {
+        if (deskState[grid] === null) {
+          const nextVersionDesk = gameDesk.moveVehicleOnDesk(
+            activeCardInDesk,
+            grid
+          )
+
+          if (nextVersionDesk) {
+            setDeskState(nextVersionDesk)
+          }
+
+          setActiveCardInDesk('')
+          const isToogle = gameDesk.toggleActiveVehicleOnDesk(
+            grid,
+            currentGamer
+          )
+          if (!isToogle) {
+            gameDesk.toggleActiveVehicleOnDesk(activeCardInDesk, currentGamer)
+          }
+          return isToogle
+        }
+
+        if (deskState[grid] !== null) {
+          console.log('здесь будет взаимодействие карточек')
         }
       }
+
+      return false
     },
-    [activeCardInHand, elements, userHand]
+    [activeCardInHand, userHand, opponentHand, activeCardInDesk, deskState]
   )
 
   return (
@@ -258,7 +225,7 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
       <Box sx={{ my: '10px', mx: 'auto' }}>
         <Box sx={styles.userLine}>
           <Hand
-            isActive={!isActive}
+            isActive={currentGamer === CurrentGamer.opponent}
             cardsInHand={opponentHand}
             isOpponent={true}
             handleChoiceActiveCardInHand={handleChoiceActiveCardInHand}
@@ -287,7 +254,7 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
 
           <Canvas
             handleClickOnCanvas={handleClickOnCanvas}
-            elements={elements}
+            elements={deskState}
           />
 
           <Box sx={{ display: 'flex', flexDirection: 'column', ml: '10px' }}>
@@ -312,7 +279,7 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
             />
           </Box>
           <Hand
-            isActive={isActive}
+            isActive={currentGamer === CurrentGamer.user}
             cardsInHand={userHand}
             isOpponent={false}
             handleChoiceActiveCardInHand={handleChoiceActiveCardInHand}

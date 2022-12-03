@@ -1,5 +1,5 @@
 import BaseCard from './models/BaseCard'
-import { Headquarters } from './models/HeadquartersDeck'
+import { Vehicle } from './models/Vehicle'
 import { IGamingDesk } from './types'
 
 export const decksOfCardsByTier = <T extends BaseCard>(cardsArray: T[]) =>
@@ -28,26 +28,26 @@ export const decksOfCardsByTier = <T extends BaseCard>(cardsArray: T[]) =>
   )
 
 export const getNewGamingDesk = (
-  userHeadquarters: Headquarters,
-  opponentHeadquarters: Headquarters
+  userHeadquarters: Vehicle,
+  opponentHeadquarters: Vehicle
 ): IGamingDesk => ({
-  a1: null,
-  a2: null,
-  a3: null,
-  a4: null,
-  a5: opponentHeadquarters,
+  A1: null,
+  A2: null,
+  A3: null,
+  A4: null,
+  A5: opponentHeadquarters,
 
-  b1: null,
-  b2: null,
-  b3: null,
-  b4: null,
-  b5: null,
+  B1: null,
+  B2: null,
+  B3: null,
+  B4: null,
+  B5: null,
 
-  c1: userHeadquarters,
-  c2: null,
-  c3: null,
-  c4: null,
-  c5: null,
+  C1: userHeadquarters,
+  C2: null,
+  C3: null,
+  C4: null,
+  C5: null,
 })
 
 const ids = [0]
@@ -68,4 +68,11 @@ export const shuffleArray = <T>(array: T[]) => {
 
 export const getRandomInt = (max: number) => {
   return Math.floor(Math.random() * max)
+}
+
+export const getMaxMoves = (type: string) => {
+  if (type === 'лёгкий') {
+    return 2
+  }
+  return 1
 }

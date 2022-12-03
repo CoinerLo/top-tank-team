@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box/Box'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { CardsDeckType } from '../../../gameCore/types'
 import { ImageByName } from '../../../utils/consts'
 import { CardFace } from '../CardFace/CardFace'
@@ -26,7 +26,7 @@ const styles = {
   },
   opponentActiveCard: {
     position: 'absolute',
-    transform: 'scale(0.7, 0.7) translate(0, 30%);',
+    transform: 'scale(0.7, 0.7) translate(-300px, 20%);',
     transformOrigin: 'right bottom',
     transition: 'transform 0.5s ease-in-out',
     cursor: 'pointer',
@@ -40,6 +40,10 @@ export const Hand: FC<IHand> = ({
   handleChoiceActiveCardInHand,
 }) => {
   const [activeCardId, setActiveCardId] = useState<string | null>(null)
+
+  useEffect(() => {
+    setActiveCardId(null)
+  }, [isActive])
 
   const handleClickOnCard = (id: string) => () => {
     if (!activeCardId) {
@@ -59,7 +63,7 @@ export const Hand: FC<IHand> = ({
   }
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', height: '148px' }}>
       {cardsInHand.map(card => {
         const { id, name } = card
         const srcImg = ImageByName[name]
