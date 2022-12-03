@@ -1,7 +1,7 @@
-import { Button, Box, Typography, Container, Link } from '@mui/material'
+import { Button, Box, Typography, Container } from '@mui/material'
 import React from 'react'
 import { AppRoute } from '../../utils/consts'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const styles = {
   container: {
