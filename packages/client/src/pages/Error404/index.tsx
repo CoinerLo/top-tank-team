@@ -1,5 +1,4 @@
 import { Button, Box, Typography, Container } from '@mui/material'
-import React from 'react'
 import { AppRoute } from '../../utils/consts'
 import { useNavigate } from 'react-router-dom'
 
@@ -20,7 +19,7 @@ const styles = {
 export const Error404 = () => {
   const navigate = useNavigate()
 
-  const headquarters = () => {
+  const handleClickCameBackButton = () => {
     navigate(`/${AppRoute.Headquarters}`)
   }
 
@@ -41,7 +40,6 @@ export const Error404 = () => {
       <Box
         sx={{
           marginBottom: '5px',
-
           borderRadius: '5px',
           padding: '20px',
         }}>
@@ -49,13 +47,12 @@ export const Error404 = () => {
           Здесь Вы точно ничего не найдёте, прошу вернуться в свой штаб!
         </Typography>
       </Box>
-      <Button onClick={headquarters} variant="secondary" sx={styles.mainBtn}>
+      <Button
+        onClick={handleClickCameBackButton}
+        variant="secondary"
+        sx={styles.mainBtn}>
         Отыскать своих
       </Button>
-      <Typography
-        variant="subtitle1"
-        component="span"
-        sx={{ marginTop: '20px' }}></Typography>
     </Container>
   )
 }
