@@ -1,6 +1,5 @@
+import { allCardsForDeck } from './allCardsForDeck'
 import BaseCard from './models/BaseCard'
-import { Vehicle } from './models/Vehicle'
-import { IGamingDesk } from './types'
 
 export const decksOfCardsByTier = <T extends BaseCard>(cardsArray: T[]) =>
   cardsArray.reduce(
@@ -27,28 +26,9 @@ export const decksOfCardsByTier = <T extends BaseCard>(cardsArray: T[]) =>
     }
   )
 
-export const getNewGamingDesk = (
-  userHeadquarters: Vehicle,
-  opponentHeadquarters: Vehicle
-): IGamingDesk => ({
-  A1: null,
-  A2: null,
-  A3: null,
-  A4: null,
-  A5: opponentHeadquarters,
-
-  B1: null,
-  B2: null,
-  B3: null,
-  B4: null,
-  B5: null,
-
-  C1: userHeadquarters,
-  C2: null,
-  C3: null,
-  C4: null,
-  C5: null,
-})
+export const findCardFromDeckById = (id: string) => {
+  return allCardsForDeck.find(card => Number(card.id) === Number(id))
+}
 
 const ids = [0]
 export const nanoid = () => {
