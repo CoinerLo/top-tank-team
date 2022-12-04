@@ -8,6 +8,11 @@ export const endGameMessage = {
   noCardsInDeck: 'Карты в вашей колоде закончились! Вы проиграли!',
 }
 
+export enum operationConst {
+  'inc',
+  'dec',
+}
+
 export const accessibleGridForLanding: Record<
   CurrentGamer,
   GameDeskSegmentKeyType[]

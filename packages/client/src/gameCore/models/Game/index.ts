@@ -1,7 +1,9 @@
 import { UserState } from '../UserState'
-import { IUserData } from '../../types'
+import { GameDeskSegmentKeyType, IUserData } from '../../types'
 import { Desk } from '../Desk'
 import { getRandomInt, nanoid } from '../../utils'
+import { Tank } from '../TanksDeck'
+import { operationConst } from '../../consts'
 
 export enum CurrentGamer {
   user = 'user',
@@ -52,5 +54,76 @@ export class Game {
 
   public getOpponentState() {
     return this.OpponentState
+  }
+
+  public addVehicleOnDesk(
+    target: GameDeskSegmentKeyType,
+    currentGamer: CurrentGamer,
+    activeCardInHand: string
+  ) {
+    let newTankOnDesk
+    if (currentGamer === CurrentGamer.user) {
+      const card = this.UserState.takeCardFromHand(activeCardInHand)
+      if (card) {
+        const canBuyCard = this.UserState.updateCurrentСountResources(
+          operationConst.dec,
+          card.resourceСost
+        )
+        if (canBuyCard) {
+          newTankOnDesk = card
+          const bringsResources = (card as Tank).bringsResources
+          if (bringsResources) {
+            this.UserState.updateFutureСountResources(
+              operationConst.inc,
+              bringsResources
+            )
+          }
+        } else {
+          this.UserState.returnCardToHand(card)
+          return false
+        }
+      }
+    } else {
+      const card = this.OpponentState.takeCardFromHand(activeCardInHand)
+      if (card) {
+        const canBuyCard = this.OpponentState.updateCurrentСountResources(
+          operationConst.dec,
+          card.resourceСost
+        )
+        if (canBuyCard) {
+          newTankOnDesk = card
+          const bringsResources = (card as Tank).bringsResources
+          if (bringsResources) {
+            this.OpponentState.updateFutureСountResources(
+              operationConst.inc,
+              bringsResources
+            )
+          }
+        } else {
+          this.OpponentState.returnCardToHand(card)
+          return false
+        }
+      }
+    }
+
+    if (newTankOnDesk) {
+      this.Desk.addVehicleOnDesk(target, newTankOnDesk as Tank, currentGamer)
+      return true
+    }
+    return false
+  }
+
+  public changeCurrentGamer() {
+    if (this.currentGamer === CurrentGamer.user) {
+      this.currentGamer = CurrentGamer.opponent
+      this.UserState.endActionGamer()
+      this.OpponentState.startActionGamer()
+    } else {
+      this.currentGamer = CurrentGamer.user
+      this.OpponentState.endActionGamer()
+      this.UserState.startActionGamer()
+    }
+    this.Desk.updateStateVehicleWhenChangingCurrentGamer(this.currentGamer)
+    return this.currentGamer
   }
 }
