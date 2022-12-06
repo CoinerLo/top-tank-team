@@ -125,10 +125,7 @@ export class UserState {
     )
     if (canBuyCard) {
       const bringsResources = (card as Tank).bringsResources
-      this.updateFutureСountResources(
-        operationConst.inc,
-        bringsResources
-      )
+      this.updateFutureСountResources(operationConst.inc, bringsResources)
     } else {
       this.returnCardToHand(card)
       return false

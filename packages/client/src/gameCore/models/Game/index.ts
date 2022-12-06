@@ -60,8 +60,10 @@ export class Game {
     currentGamer: CurrentGamer,
     activeCardInHand: string
   ) {
-    const currentGamerState = currentGamer === CurrentGamer.user ? this.UserState : this.OpponentState
-    const newTankOnDesk = currentGamerState.bringingEquipmentToBattlefield(activeCardInHand)
+    const currentGamerState =
+      currentGamer === CurrentGamer.user ? this.UserState : this.OpponentState
+    const newTankOnDesk =
+      currentGamerState.bringingEquipmentToBattlefield(activeCardInHand)
 
     if (newTankOnDesk && newTankOnDesk instanceof Tank) {
       this.Desk.addVehicleOnDesk(target, newTankOnDesk, currentGamer)
