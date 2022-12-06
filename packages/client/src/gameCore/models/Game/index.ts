@@ -1,7 +1,8 @@
 import { UserState } from '../UserState'
-import { IUserData } from '../../types'
+import { GameDeskSegmentKeyType, IUserData } from '../../types'
 import { Desk } from '../Desk'
 import { getRandomInt, nanoid } from '../../utils'
+import { Tank } from '../TanksDeck'
 
 export enum CurrentGamer {
   user = 'user',
@@ -52,5 +53,36 @@ export class Game {
 
   public getOpponentState() {
     return this.OpponentState
+  }
+
+  public addVehicleOnDesk(
+    target: GameDeskSegmentKeyType,
+    currentGamer: CurrentGamer,
+    activeCardInHand: string
+  ) {
+    const currentGamerState =
+      currentGamer === CurrentGamer.user ? this.UserState : this.OpponentState
+    const newTankOnDesk =
+      currentGamerState.bringingEquipmentToBattlefield(activeCardInHand)
+
+    if (newTankOnDesk && newTankOnDesk instanceof Tank) {
+      this.Desk.addVehicleOnDesk(target, newTankOnDesk, currentGamer)
+      return true
+    }
+    return false
+  }
+
+  public changeCurrentGamer() {
+    if (this.currentGamer === CurrentGamer.user) {
+      this.currentGamer = CurrentGamer.opponent
+      this.UserState.endActionGamer()
+      this.OpponentState.startActionGamer()
+    } else {
+      this.currentGamer = CurrentGamer.user
+      this.OpponentState.endActionGamer()
+      this.UserState.startActionGamer()
+    }
+    this.Desk.updateStateVehicleWhenChangingCurrentGamer(this.currentGamer)
+    return this.currentGamer
   }
 }

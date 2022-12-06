@@ -134,4 +134,15 @@ export class Desk {
     this.gamingDesk[target] = null
     return targetTank
   }
+
+  public updateStateVehicleWhenChangingCurrentGamer(
+    newCurrentGamer: CurrentGamer
+  ) {
+    for (const vehicleKey in this.gamingDesk) {
+      const vehicle = this.gamingDesk[vehicleKey as GameDeskSegmentKeyType]
+      if (vehicle !== null) {
+        vehicle.updateStateWhenChangingCurrentGamer(newCurrentGamer)
+      }
+    }
+  }
 }

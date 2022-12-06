@@ -9,7 +9,9 @@ export class Vehicle {
   private vehicleOwner
   private maxMoves: number
   private currentMoves: number
+  private maxAttackPoints = 1
   public skin: ElementsCreator
+  public currentAttackPoints = 1
 
   constructor({ vehicle, vehicleOwner, skin }: IVehicle) {
     this.vehicle = vehicle
@@ -47,5 +49,12 @@ export class Vehicle {
 
   public refreshMoves() {
     this.currentMoves = this.maxMoves
+  }
+
+  public updateStateWhenChangingCurrentGamer(newCurrentGamer: CurrentGamer) {
+    if (newCurrentGamer === this.vehicleOwner) {
+      this.currentMoves = this.maxMoves
+      this.currentAttackPoints = this.maxAttackPoints
+    }
   }
 }

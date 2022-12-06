@@ -12,7 +12,6 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
 import FlagIcon from '@mui/icons-material/Flag'
 import { useNavigate } from 'react-router-dom'
-import { Tank } from '../../gameCore/models/TanksDeck'
 import { GameDeskSegmentKeyType } from '../../gameCore/types'
 
 const styles = {
@@ -71,6 +70,8 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
   const navigate = useNavigate()
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [isOpenFlagModalWindow, setIsOpenFlagModalWindow] = useState(false)
+  const [isOpenEndOfTurnModalWindow, setIsOpenEndOfTurnModalWindow] =
+    useState(false)
   const [activeCardInHand, setActiveCardInHand] = useState('')
   const [activeCardInDesk, setActiveCardInDesk] = useState<
     GameDeskSegmentKeyType | ''
@@ -78,35 +79,16 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
 
   const [currentGamer, setCurrentGamer] = useState(game.currentGamer)
 
-  const userState = game.getUserState()
+  const [userState, setUserState] = useState(game.getUserState())
   const userName = userState.getUserName()
-  const userHeadquarters = userState.getHeadquarters()
-  const [userHand, setUserHand] = useState(userState.getCardsInHand())
 
-  const opponentState = game.getOpponentState()
+  const [opponentState, setOpponentState] = useState(game.getOpponentState())
   const opponentName = opponentState.getUserName()
-  const opponentHeadquarters = opponentState.getHeadquarters()
-  const [opponentHand, setOpponentHand] = useState(
-    opponentState.getCardsInHand()
-  )
-
-  const [opponentDeck] = useState(opponentState.getCountCardsInDeck())
-  const [opponentThrowDeck] = useState(0)
-  const [userDeck] = useState(userState.getCountCardsInDeck())
-  const [userThrowDeck] = useState(0)
-
-  const [opponentCurrentCountResource] = useState(
-    opponentHeadquarters.bringsResources
-  )
-  const [opponentFutureСountResource] = useState(
-    opponentHeadquarters.bringsResources
-  )
-  const [userCurrentCountResource] = useState(userHeadquarters.bringsResources)
-  const [userFutureСountResource] = useState(userHeadquarters.bringsResources)
 
   const [deskState, setDeskState] = useState(game.getDesk().getGamingDesk())
 
   const handlerEndOfTurn = () => {
+    setIsOpenEndOfTurnModalWindow(true)
     if (activeCardInDesk) {
       setActiveCardInDesk('')
       game.getDesk().toggleActiveVehicleOnDesk(activeCardInDesk, currentGamer)
@@ -114,9 +96,10 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
     if (activeCardInHand) {
       setActiveCardInHand('')
     }
-    setCurrentGamer(prev =>
-      prev === CurrentGamer.user ? CurrentGamer.opponent : CurrentGamer.user
-    )
+    const nextGamer = game.changeCurrentGamer()
+    setOpponentState(game.getOpponentState())
+    setUserState(game.getUserState())
+    setCurrentGamer(nextGamer)
   }
 
   const handleClickFullscreen = () => {
@@ -144,30 +127,17 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
         activeCardInHand &&
         gameDesk.isAccessibleGridForLanding(grid, currentGamer)
       ) {
-        const newTankOnDesk =
-          currentGamer === CurrentGamer.user
-            ? (userState.takeCardFromHand(activeCardInHand) as Tank)
-            : (opponentState.takeCardFromHand(activeCardInHand) as Tank)
+        const nextVersionDesk = game.addVehicleOnDesk(
+          grid,
+          currentGamer,
+          activeCardInHand
+        )
 
-        if (newTankOnDesk) {
-          if (currentGamer === CurrentGamer.user) {
-            setUserHand(userState.getCardsInHand())
-          } else {
-            setOpponentHand(opponentState.getCardsInHand())
-          }
-
-          const nextVersionDesk = gameDesk.addVehicleOnDesk(
-            grid,
-            newTankOnDesk,
-            currentGamer
-          )
-
-          if (nextVersionDesk) {
-            setDeskState(nextVersionDesk)
-          }
-
-          setActiveCardInHand('')
+        if (nextVersionDesk) {
+          setDeskState(game.getDesk().getGamingDesk())
         }
+
+        setActiveCardInHand('')
 
         return true
       }
@@ -217,7 +187,14 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
 
       return false
     },
-    [activeCardInHand, userHand, opponentHand, activeCardInDesk, deskState]
+    [
+      activeCardInHand,
+      activeCardInDesk,
+      userState,
+      opponentState,
+      deskState,
+      currentGamer,
+    ]
   )
 
   return (
@@ -225,16 +202,19 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
       <Box sx={{ my: '10px', mx: 'auto' }}>
         <Box sx={styles.userLine}>
           <Hand
-            isActive={currentGamer === CurrentGamer.opponent}
-            cardsInHand={opponentHand}
+            isActive={
+              currentGamer === CurrentGamer.opponent &&
+              !isOpenEndOfTurnModalWindow
+            }
+            cardsInHand={opponentState.getCardsInHand()}
             isOpponent={true}
             handleChoiceActiveCardInHand={handleChoiceActiveCardInHand}
           />
           <Box sx={{ position: 'absolute', right: -30 }}>
             <Deck
               userName={opponentName}
-              cardCountInDeck={opponentDeck}
-              cardCountThrown={opponentThrowDeck}
+              cardCountInDeck={opponentState.getCountCardsInDeck()}
+              cardCountThrown={opponentState.getCountOfDiscardedCards()}
             />
           </Box>
         </Box>
@@ -246,8 +226,8 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
             <TimerBox />
             <Box sx={{ mt: '15px' }}>
               <ResourceCounter
-                currentCount={userCurrentCountResource}
-                futureСount={userFutureСountResource}
+                currentCount={userState.getCurrentCountResources()}
+                futureСount={userState.getFutureСountResources()}
               />
             </Box>
           </Box>
@@ -261,8 +241,8 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
             <TimerBox />
             <Box mb="15px">
               <ResourceCounter
-                currentCount={opponentCurrentCountResource}
-                futureСount={opponentFutureСountResource}
+                currentCount={opponentState.getCurrentCountResources()}
+                futureСount={opponentState.getFutureСountResources()}
               />
             </Box>
             {fieldsIcons.map((field, idx) => (
@@ -274,13 +254,15 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
           <Box sx={{ position: 'absolute', left: -30 }}>
             <Deck
               userName={userName}
-              cardCountInDeck={userDeck}
-              cardCountThrown={userThrowDeck}
+              cardCountInDeck={userState.getCountCardsInDeck()}
+              cardCountThrown={userState.getCountOfDiscardedCards()}
             />
           </Box>
           <Hand
-            isActive={currentGamer === CurrentGamer.user}
-            cardsInHand={userHand}
+            isActive={
+              currentGamer === CurrentGamer.user && !isOpenEndOfTurnModalWindow
+            }
+            cardsInHand={userState.getCardsInHand()}
             isOpponent={false}
             handleChoiceActiveCardInHand={handleChoiceActiveCardInHand}
           />
@@ -318,6 +300,25 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
             onClick={handleClickFlag}
             sx={{ color: 'green' }}>
             Нет
+          </Button>
+        </Box>
+      </Modal>
+      <Modal open={isOpenEndOfTurnModalWindow}>
+        <Box sx={styles.flagModalWindow}>
+          <Typography variant="h1" color="#974201" mt="10px" mb="10px">
+            Переход хода!
+          </Typography>
+          <Typography variant="h3" color="#974201" mb="10px">
+            Сейчас ходит
+          </Typography>
+          <Typography variant="h3" color="#64CB3E" mt="5px" mb="20px">
+            {currentGamer === CurrentGamer.user ? userName : opponentName}
+          </Typography>
+          <Button
+            type="button"
+            onClick={() => setIsOpenEndOfTurnModalWindow(false)}
+            sx={{ color: '#64CB3E' }}>
+            Да
           </Button>
         </Box>
       </Modal>
