@@ -14,6 +14,7 @@ import {
   updateAvatarThunk,
   updatePasswordThunk,
   updateProfileThunk,
+  yandexSigninThunk,
 } from '../../api-thunks'
 
 const initialState: UserSlice = {
@@ -50,6 +51,15 @@ export const userSlice = createSlice({
         state.authorizationStatus = AuthorizationStatus.Unknown
       }),
       builder.addCase(loginThunk.rejected, state => {
+        state.authorizationStatus = AuthorizationStatus.NoAuth
+      }),
+      builder.addCase(yandexSigninThunk.fulfilled, state => {
+        state.authorizationStatus = AuthorizationStatus.Auth
+      }),
+      builder.addCase(yandexSigninThunk.pending, state => {
+        state.authorizationStatus = AuthorizationStatus.Unknown
+      }),
+      builder.addCase(yandexSigninThunk.rejected, state => {
         state.authorizationStatus = AuthorizationStatus.NoAuth
       }),
       builder.addCase(getUserThunk.fulfilled, (state, action) => {

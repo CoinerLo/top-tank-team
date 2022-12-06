@@ -18,6 +18,15 @@ export interface ISignInData {
   password: string
 }
 
+export interface OAuthSingIn {
+  code: string
+  redirect_uri: string
+}
+
+export interface GetIdYandex {
+  service_id: string
+}
+
 export interface ISingUpForm {
   first_name: string
   second_name: string

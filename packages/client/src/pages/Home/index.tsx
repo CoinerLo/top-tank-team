@@ -3,6 +3,8 @@ import React from 'react'
 import { AppRoute } from '../../utils/consts'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuthorizationStatus } from '../../hooks/useAuthorizationStatus'
+import { useAppDispatch } from '../../hooks'
+import { getUserThunk, yandexSigninThunk } from '../../store/api-thunks'
 
 const styles = {
   container: {
@@ -12,6 +14,7 @@ const styles = {
     paddingTop: '100px',
   },
   mainBtn: {
+    margin: '20px',
     marginX: '40px',
     padding: '20px 80px',
     fontSize: '2rem',
@@ -21,8 +24,21 @@ const styles = {
 export const Home = () => {
   const navigate = useNavigate()
   const { isAuthorized } = useAuthorizationStatus()
+  const dispatch = useAppDispatch()
 
-  const signIn = () => {
+  // const queryRequestYandexOAuth = new URLSearchParams(window.location.search)
+  // const codeYandexOAuth = queryRequestYandexOAuth.get('code')
+  // if (codeYandexOAuth && !isAuthorized) {
+  //   const data = {
+  //     code: `${codeYandexOAuth}`,
+  //     redirect_uri: 'http://localhost:3000/signin',
+  //   }
+  //   dispatch(yandexSigninThunk(data)).then(() => {
+  //     dispatch(getUserThunk())
+  //   })
+  // }
+
+  const handleClickGoToPageSigninButton = () => {
     navigate(`/${AppRoute.SignIn}`)
   }
 
@@ -79,7 +95,10 @@ export const Home = () => {
         </Typography>
       </Box>
       {!isAuthorized && (
-        <Button onClick={signIn} variant="secondary" sx={styles.mainBtn}>
+        <Button
+          onClick={handleClickGoToPageSigninButton}
+          variant="secondary"
+          sx={styles.mainBtn}>
           Войти
         </Button>
       )}
