@@ -31,7 +31,7 @@ export const yandexGetIdThunk = createAsyncThunk(
     const res = await OAuthController.yandexGetId(data)
     if (res) {
       window.location.assign(
-        `https://oauth.yandex.ru/authorize?response_type=code&client_id=${res.data.service_id}&${data}`
+        `https://oauth.yandex.ru/authorize?response_type=code&client_id=${res.data.service_id}&redirect_uri=${data}`
       )
     }
     return res?.data
