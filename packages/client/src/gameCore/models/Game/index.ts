@@ -3,7 +3,7 @@ import { IUserData } from '../../types'
 import { Desk } from '../Desk'
 import { getRandomInt, nanoid } from '../../utils'
 
-enum CurrentGamer {
+export enum CurrentGamer {
   user = 'user',
   opponent = 'opponent',
 }
