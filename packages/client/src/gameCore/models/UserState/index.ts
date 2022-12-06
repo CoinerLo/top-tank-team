@@ -6,6 +6,7 @@ import {
 import { CardsDeckType, IUserData } from '../../types'
 import { getRandomInt, shuffleArray } from '../../utils'
 import { Headquarters, headquartersByName } from '../HeadquartersDeck'
+import { Tank } from '../TanksDeck'
 
 export class UserState {
   private name: string
@@ -65,7 +66,10 @@ export class UserState {
     }
   }
 
-  public returnCardToHand(card: CardsDeckType) {
+  public returnCardToHand(card: CardsDeckType | undefined) {
+    if (card === undefined) {
+      return
+    }
     this.hand.push(card)
   }
 
@@ -87,8 +91,11 @@ export class UserState {
 
   public updateCurrentСountResources(
     operation: operationConst,
-    number: number
+    number: number | undefined
   ) {
+    if (number === undefined) {
+      return false
+    }
     if (operation === operationConst.inc) {
       this.currentCountResources += number
       return true
@@ -108,6 +115,25 @@ export class UserState {
     const result = this.futureСountResources - number
     this.futureСountResources = result >= 0 ? result : 0
     return true
+  }
+
+  public bringingEquipmentToBattlefield(activeCardInHand: string) {
+    const card = this.takeCardFromHand(activeCardInHand)
+    const canBuyCard = this.updateCurrentСountResources(
+      operationConst.dec,
+      card?.resourceСost
+    )
+    if (canBuyCard) {
+      const bringsResources = (card as Tank).bringsResources
+      this.updateFutureСountResources(
+        operationConst.inc,
+        bringsResources
+      )
+    } else {
+      this.returnCardToHand(card)
+      return false
+    }
+    return card
   }
 
   public getUserName() {
