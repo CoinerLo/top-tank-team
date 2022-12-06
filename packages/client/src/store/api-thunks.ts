@@ -26,7 +26,7 @@ export const signUpThunk = createAsyncThunk(
 )
 
 export const yandexGetIdThunk = createAsyncThunk(
-  'user/yandexgetId',
+  'user/yandexGetId',
   async (data: string) => {
     const res = await OAuthController.yandexGetId(data)
     if (res) {
