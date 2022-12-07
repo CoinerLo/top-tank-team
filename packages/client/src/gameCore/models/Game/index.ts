@@ -3,6 +3,7 @@ import { GameDeskSegmentKeyType, IUserData } from '../../types'
 import { Desk } from '../Desk'
 import { getRandomInt, nanoid } from '../../utils'
 import { Tank } from '../TanksDeck'
+import { operationConst } from '../../consts'
 
 export enum CurrentGamer {
   user = 'user',
