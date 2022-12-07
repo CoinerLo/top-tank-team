@@ -30,7 +30,7 @@ export class Vehicle {
     this.currentDamage = vehicle.damage
     this.maxCounterattackPoints =
       vehicle instanceof Headquarters || vehicle.type === 'САУ' ? 0 : 1
-    this.currentCounterattackPoints = this.maxAttackPoints
+    this.currentCounterattackPoints = this.maxCounterattackPoints
   }
 
   public getVehicleOwner() {
