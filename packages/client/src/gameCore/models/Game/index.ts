@@ -3,7 +3,6 @@ import { GameDeskSegmentKeyType, IUserData } from '../../types'
 import { Desk } from '../Desk'
 import { getRandomInt, nanoid } from '../../utils'
 import { Tank } from '../TanksDeck'
-import { operationConst } from '../../consts'
 
 export enum CurrentGamer {
   user = 'user',
@@ -99,53 +98,13 @@ export class Game {
     currentGamer: CurrentGamer,
     activeCardInHand: string
   ) {
-    let newTankOnDesk
-    if (currentGamer === CurrentGamer.user) {
-      const card = this.UserState.takeCardFromHand(activeCardInHand)
-      if (card) {
-        const canBuyCard = this.UserState.updateCurrentСountResources(
-          operationConst.dec,
-          card.resourceСost
-        )
-        if (canBuyCard) {
-          newTankOnDesk = card
-          const bringsResources = (card as Tank).bringsResources
-          if (bringsResources) {
-            this.UserState.updateFutureСountResources(
-              operationConst.inc,
-              bringsResources
-            )
-          }
-        } else {
-          this.UserState.returnCardToHand(card)
-          return false
-        }
-      }
-    } else {
-      const card = this.OpponentState.takeCardFromHand(activeCardInHand)
-      if (card) {
-        const canBuyCard = this.OpponentState.updateCurrentСountResources(
-          operationConst.dec,
-          card.resourceСost
-        )
-        if (canBuyCard) {
-          newTankOnDesk = card
-          const bringsResources = (card as Tank).bringsResources
-          if (bringsResources) {
-            this.OpponentState.updateFutureСountResources(
-              operationConst.inc,
-              bringsResources
-            )
-          }
-        } else {
-          this.OpponentState.returnCardToHand(card)
-          return false
-        }
-      }
-    }
+    const currentGamerState =
+      currentGamer === CurrentGamer.user ? this.UserState : this.OpponentState
+    const newTankOnDesk =
+      currentGamerState.bringingEquipmentToBattlefield(activeCardInHand)
 
-    if (newTankOnDesk) {
-      this.Desk.addVehicleOnDesk(target, newTankOnDesk as Tank, currentGamer)
+    if (newTankOnDesk && newTankOnDesk instanceof Tank) {
+      this.Desk.addVehicleOnDesk(target, newTankOnDesk, currentGamer)
       return true
     }
     return false
