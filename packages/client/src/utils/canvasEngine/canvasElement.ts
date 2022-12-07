@@ -97,4 +97,8 @@ export class ElementsCreator {
   moveActiveElement(target: GameDeskSegmentKeyType) {
     this.targetСell = target
   }
+
+  changeHealth(health: number) {
+    this.tankHealth = health
+  }
 }
