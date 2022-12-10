@@ -1,3 +1,4 @@
+import React from 'react'
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { AppRoute } from '../../utils/consts'
@@ -9,7 +10,7 @@ interface HeaderProps {
 }
 
 export const Header: FC<HeaderProps> = ({ handleLogout }) => {
-  const { isAuthorized } = useAuthorizationStatus()
+  // const { isAuthorized } = useAuthorizationStatus()
 
   return (
     <Box
@@ -23,7 +24,7 @@ export const Header: FC<HeaderProps> = ({ handleLogout }) => {
         zIndex: 100,
         backgroundColor: '#000',
       }}>
-      {isAuthorized && (
+      {/* {isAuthorized && (
         <Button
           variant="sizeSmall"
           onClick={handleLogout}
@@ -41,11 +42,11 @@ export const Header: FC<HeaderProps> = ({ handleLogout }) => {
           }}>
           Выход
         </Button>
-      )}
+      )} */}
       <Box
         component="nav"
         sx={{ display: 'flex', flex: 1, justifyContent: 'space-around' }}>
-        {!isAuthorized && (
+        {/* {!isAuthorized && (
           <>
             <MuiLink component={Link} to={AppRoute.SignIn}>
               Вход
@@ -54,7 +55,7 @@ export const Header: FC<HeaderProps> = ({ handleLogout }) => {
               Регистрация
             </MuiLink>
           </>
-        )}
+        )} */}
 
         <MuiLink component={Link} to={AppRoute.Index}>
           Главная

@@ -20,7 +20,7 @@ const styles = {
 
 export const Home = () => {
   const navigate = useNavigate()
-  const { isAuthorized } = useAuthorizationStatus()
+  // const { isAuthorized } = useAuthorizationStatus()
 
   const signIn = () => {
     navigate(`/${AppRoute.SignIn}`)
@@ -78,11 +78,11 @@ export const Home = () => {
           стратегия с верными тактическими ходами.
         </Typography>
       </Box>
-      {!isAuthorized && (
+      {/* {!isAuthorized && (
         <Button onClick={signIn} variant="secondary" sx={styles.mainBtn}>
           Войти
         </Button>
-      )}
+      )} */}
       <Typography
         variant="subtitle1"
         component="span"

@@ -43,39 +43,39 @@ function App() {
   // }
 
   return (
-    // <ThemeProvider theme={mainTheme}>
-    //   <CssBaseline />
-    //   <HeaderContainer />
-    //   <Routes>
-    //     <Route path={AppRoute.Index} element={<Home />} />
-    //     <Route path={AppRoute.SignIn} element={<SignInContainer />} />
-    //     <Route path={AppRoute.SignUp} element={<SignUpContainer />} />
-    //     <Route path={AppRoute.Briefing} element={<Briefing />} />
-    //     <Route element={<PrivateRoute />}>
-    //       <Route path={AppRoute.Headquarters} element={<Headquarters />} />
-    //       <Route path={AppRoute.Upgrade} element={<Upgrade />} />
-    //       <Route path={AppRoute.Deck} element={<Deck />} />
-    //       <Route path={AppRoute.Leaderboard} element={<LeaderBoard />} />
-    //       <Route path={AppRoute.Game}>
-    //         <Route path={AppRoute.StartGame} element={<GameStart />} />
-    //         <Route path={AppRoute.GameId} element={<GameDeskContainer />} />
-    //         <Route path={AppRoute.ResultGame}>
-    //           <Route path={AppRoute.GameId} element={<GameResult />} />
-    //         </Route>
-    //       </Route>
-    //     </Route>
+    <ThemeProvider theme={mainTheme}>
+      <CssBaseline />
+      <HeaderContainer />
+      <Routes>
+        <Route path={AppRoute.Index} element={<Home />} />
+        {/* <Route path={AppRoute.SignIn} element={<SignInContainer />} />
+        <Route path={AppRoute.SignUp} element={<SignUpContainer />} />
+        <Route path={AppRoute.Briefing} element={<Briefing />} />
+        <Route element={<PrivateRoute />}>
+          <Route path={AppRoute.Headquarters} element={<Headquarters />} />
+          <Route path={AppRoute.Upgrade} element={<Upgrade />} />
+          <Route path={AppRoute.Deck} element={<Deck />} />
+          <Route path={AppRoute.Leaderboard} element={<LeaderBoard />} />
+          <Route path={AppRoute.Game}>
+            <Route path={AppRoute.StartGame} element={<GameStart />} />
+            <Route path={AppRoute.GameId} element={<GameDeskContainer />} />
+            <Route path={AppRoute.ResultGame}>
+              <Route path={AppRoute.GameId} element={<GameResult />} />
+            </Route>
+          </Route>
+        </Route>
 
-    //     <Route path={AppRoute.Forum}>
-    //       <Route index element={<Forum />} />
-    //       <Route path={AppRoute.ForumPost} element={<PostPage />} />
-    //     </Route>
+        <Route path={AppRoute.Forum}>
+          <Route index element={<Forum />} />
+          <Route path={AppRoute.ForumPost} element={<PostPage />} />
+        </Route> */}
 
-    //     <Route path="*" element={<Error404 />} />
-    //   </Routes>
-    // </ThemeProvider>
-    <Routes>
-      <Route index element={<div>hello</div>} />
-    </Routes>
+        <Route path="*" element={<Error404 />} />
+      </Routes>
+    </ThemeProvider>
+    // <Routes>
+    //   <Route index element={<div>hello</div>} />
+    // </Routes>
   )
 }
 
