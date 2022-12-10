@@ -48,10 +48,10 @@ function App() {
       <HeaderContainer />
       <Routes>
         <Route path={AppRoute.Index} element={<Home />} />
-        {/* <Route path={AppRoute.SignIn} element={<SignInContainer />} />
-        <Route path={AppRoute.SignUp} element={<SignUpContainer />} />
+        {/* <Route path={AppRoute.SignIn} element={<SignInContainer />} /> */}
+        {/* <Route path={AppRoute.SignUp} element={<SignUpContainer />} /> */}
         <Route path={AppRoute.Briefing} element={<Briefing />} />
-        <Route element={<PrivateRoute />}>
+        {/* <Route element={<PrivateRoute />}>
           <Route path={AppRoute.Headquarters} element={<Headquarters />} />
           <Route path={AppRoute.Upgrade} element={<Upgrade />} />
           <Route path={AppRoute.Deck} element={<Deck />} />
@@ -63,12 +63,12 @@ function App() {
               <Route path={AppRoute.GameId} element={<GameResult />} />
             </Route>
           </Route>
-        </Route>
+        </Route> */}
 
         <Route path={AppRoute.Forum}>
           <Route index element={<Forum />} />
           <Route path={AppRoute.ForumPost} element={<PostPage />} />
-        </Route> */}
+        </Route>
 
         <Route path="*" element={<Error404 />} />
       </Routes>

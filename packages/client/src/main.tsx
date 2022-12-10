@@ -17,9 +17,9 @@ ReactDOM.hydrateRoot(
   <React.StrictMode>
     <ErrorBoundary>
       <HistoryRouter history={browserHistory}>
-        {/* <Provider store={store}> */}
+        <Provider store={store}>
         <App />
-        {/* </Provider> */}
+        </Provider>
       </HistoryRouter>
     </ErrorBoundary>
   </React.StrictMode>
