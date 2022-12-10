@@ -26,3 +26,4 @@ export const decksSlice = createSlice({
     },
   },
 })
+export default initialState

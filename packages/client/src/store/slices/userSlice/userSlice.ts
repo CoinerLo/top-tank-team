@@ -115,3 +115,4 @@ export const userSlice = createSlice({
 })
 
 export const { resetPasswordStatus } = userSlice.actions
+export default initialState

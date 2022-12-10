@@ -19,3 +19,4 @@ export const gameSlice = createSlice({
 })
 
 export const { saveGame } = gameSlice.actions
+export default initialState

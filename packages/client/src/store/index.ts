@@ -1,32 +1,36 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { redirect } from './middlewares/redirect'
 import { rootReducer } from './root-reducer'
+import { createBrowserHistory, createMemoryHistory } from 'history';
 
-export const store = configureStore({
-  reducer: rootReducer,
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }).concat(redirect),
-})
+// export const store = configureStore({
+//   reducer: rootReducer,
+//   middleware: getDefaultMiddleware =>
+//     getDefaultMiddleware({
+//       serializableCheck: false,
+//     }).concat(redirect),
+// })
 
-// // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// export function createStore(initialState: any) {
-//   const store = configureStore({
-//     reducer: rootReducer,
-//     preloadedState: initialState,
-//     middleware: getDefaultMiddleware =>
-//       getDefaultMiddleware({
-//         serializableCheck: false,
-//       }).concat(redirect),
-//   })
+export const isServer = !(
+  typeof window !== 'undefined' &&
+  window.document &&
+  window.document.createElement
+);
 
-//   if (process.env.NODE_ENV === 'development' && module.hot) {
-//     module.hot.accept('./rootReducer', () => {
-//       const newRootReducer = require('./root-reduser').default;
-//       store.replaceReducer(newRootReducer);
-//     });
-//   }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function createStore(initialState: any, url = '/') {
+  const store = configureStore({
+    reducer: rootReducer,
+    preloadedState: initialState,
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware({
+        serializableCheck: false,
+      }).concat(redirect),
+  })
 
-//   return store;
-// }
+  const history = isServer
+      ? createMemoryHistory({ initialEntries: [url] })
+      : createBrowserHistory();
+
+  return { store, history };
+}
