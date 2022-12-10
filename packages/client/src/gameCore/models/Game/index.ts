@@ -3,6 +3,7 @@ import { GameDeskSegmentKeyType, IUserData } from '../../types'
 import { Desk } from '../Desk'
 import { getRandomInt, nanoid } from '../../utils'
 import { Tank } from '../TanksDeck'
+import { operationConst } from '../../consts'
 
 export enum CurrentGamer {
   user = 'user',
@@ -19,6 +20,7 @@ export class Game {
   public id: string
   private UserState: UserState
   private OpponentState: UserState
+  private isEndGame = false
   public Desk: Desk
   public currentGamer: CurrentGamer
 
@@ -55,6 +57,43 @@ export class Game {
     return this.OpponentState
   }
 
+  public cardAttack(
+    attacker: GameDeskSegmentKeyType,
+    attackTarget: GameDeskSegmentKeyType
+  ) {
+    const resultAttack = this.Desk.cardAttack(attacker, attackTarget)
+    if (resultAttack) {
+      resultAttack.forEach(vehicle => {
+        if (vehicle) {
+          const vehicleBringsResources = vehicle.getVehicle().bringsResources
+          const vehicleOwner = vehicle.getVehicleOwner()
+          const gamerState =
+            vehicleOwner === CurrentGamer.user
+              ? this.UserState
+              : this.OpponentState
+          gamerState.updateFutureСountResources(
+            operationConst.dec,
+            vehicleBringsResources
+          )
+          gamerState.putCardIntoDiscardPile(vehicle.getVehicle())
+        }
+      })
+      this.Desk.toggleActiveVehicleOnDesk(attacker, this.currentGamer)
+    }
+    if (attackTarget === 'A5' || attackTarget === 'C1') {
+      const targetHeadquartersHealth =
+        this.Desk.getHeadquartersHealth(attackTarget)
+      if (
+        targetHeadquartersHealth !== undefined &&
+        targetHeadquartersHealth < 1
+      ) {
+        this.isEndGame = true
+        console.log('Конец игре') // Здесь начинается следующая задача - Написать концовку игры
+      }
+    }
+    return !!resultAttack
+  }
+
   public addVehicleOnDesk(
     target: GameDeskSegmentKeyType,
     currentGamer: CurrentGamer,
@@ -84,5 +123,9 @@ export class Game {
     }
     this.Desk.updateStateVehicleWhenChangingCurrentGamer(this.currentGamer)
     return this.currentGamer
+  }
+
+  public isEndOfThisGame() {
+    return this.isEndGame
   }
 }

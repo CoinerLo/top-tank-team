@@ -126,3 +126,11 @@ export interface IVehicle {
   vehicleOwner: VehicleOwnerType
   skin: ElementsCreator
 }
+
+export interface CardsBattleOnDesk {
+  attackerCard: Vehicle
+  attackTargetCard: Vehicle
+  deletedTanks: (Vehicle | null)[]
+  isResolveCounterattack: boolean
+  isAllowCounterattackDeadTank?: boolean
+}

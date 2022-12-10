@@ -87,6 +87,12 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
 
   const [deskState, setDeskState] = useState(game.getDesk().getGamingDesk())
 
+  const endGame = () => {
+    navigate(`/${AppRoute.Game}/${AppRoute.ResultGame}/${game.id}`, {
+      replace: true,
+    })
+  }
+
   const handlerEndOfTurn = () => {
     setIsOpenEndOfTurnModalWindow(true)
     if (activeCardInDesk) {
@@ -111,9 +117,7 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
   }
 
   const handleClickOnYes = () => {
-    navigate(`/${AppRoute.Game}/${AppRoute.ResultGame}/${game.id}`, {
-      replace: true,
-    })
+    endGame()
   }
 
   const handleChoiceActiveCardInHand = useCallback((idCard: string) => {
@@ -180,8 +184,18 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
           return isToogle
         }
 
-        if (deskState[grid] !== null) {
-          console.log('здесь будет взаимодействие карточек')
+        const card = deskState[grid]
+        if (card && !card.isYouVehicleOwner(currentGamer)) {
+          const resultAttack = game.cardAttack(activeCardInDesk, grid)
+          const isEndOfThisGame = game.isEndOfThisGame()
+          if (isEndOfThisGame) {
+            endGame()
+          } else if (resultAttack) {
+            setActiveCardInDesk('')
+            setDeskState(game.Desk.gamingDesk)
+            setUserState(game.getUserState())
+            setOpponentState(game.getOpponentState())
+          }
         }
       }
 
