@@ -9,6 +9,10 @@ export const MuiTextField = {
           borderColor: '#EAE3CC',
         },
       },
+      '& input:-internal-autofill-selected': {
+        '-webkit-text-fill-color': '#EAE3CC !important',
+        '-webkit-background-clip': 'text',
+      },
     },
   },
 }
