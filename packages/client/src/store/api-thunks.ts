@@ -12,8 +12,9 @@ import OAuthController from '../controllers/OAuthController'
 
 export const loginThunk = createAsyncThunk(
   'user/login',
-  async (data: ISignInData) => {
+  async (data: ISignInData, thunkAPI) => {
     await AuthController.signin(data)
+    thunkAPI.dispatch(getUserThunk())
   }
 )
 
