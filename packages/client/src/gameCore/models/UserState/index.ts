@@ -1,8 +1,4 @@
-import {
-  BASE_COUNT_OF_CARDS_IN_HAND,
-  endGameMessage,
-  operationConst,
-} from '../../consts'
+import { BASE_COUNT_OF_CARDS_IN_HAND, operationConst } from '../../consts'
 import { CardsDeckType, IUserData } from '../../types'
 import { getRandomInt, shuffleArray } from '../../utils'
 import { Headquarters, headquartersByName } from '../HeadquartersDeck'
@@ -16,6 +12,10 @@ export class UserState {
   private throw: CardsDeckType[] = []
   private currentCountResources: number
   private futureСountResources: number
+  private resourcesSpent = 0
+  private vehiclesDestroyed = 0
+  private platoonsDestroyed = 0
+  private ordersPlayed = 0
 
   constructor({ deck, headquartersName, userName }: IUserData) {
     this.name = userName
@@ -54,7 +54,6 @@ export class UserState {
     if (card) {
       return card
     }
-    this.theEndGame(endGameMessage.noCardsInDeck)
     return false
   }
 
@@ -102,6 +101,7 @@ export class UserState {
     }
     if (this.currentCountResources - number >= 0) {
       this.currentCountResources -= number
+      this.resourcesSpent += number
       return true
     }
     return false
@@ -163,7 +163,31 @@ export class UserState {
     this.throw.push(card)
   }
 
-  public theEndGame(endMessage: string) {
-    console.log(endMessage) // Пока так, при взаимодействии исправим
+  public getCountResourcesSpent() {
+    return this.resourcesSpent
+  }
+
+  public getCountVehiclesDestroyed() {
+    return this.vehiclesDestroyed
+  }
+
+  public updateCountVehiclesDestroyed(number: number) {
+    this.vehiclesDestroyed += number
+  }
+
+  public getCountPlatoonsDestroyed() {
+    return this.platoonsDestroyed
+  }
+
+  public updateCountPlatoonsDestroyed(number: number) {
+    this.platoonsDestroyed += number
+  }
+
+  public getCountOrdersPlayed() {
+    return this.ordersPlayed
+  }
+
+  public updateCountOrdersPlayed(number: number) {
+    this.ordersPlayed += number
   }
 }

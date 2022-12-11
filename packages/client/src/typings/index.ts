@@ -56,3 +56,22 @@ export interface DecksSlice {
 export interface GameSlice {
   game: Record<string, Game>
 }
+
+export type KeyDataGameResultType<K> = {
+  title: string
+  user: K
+  opponent: K
+}
+
+export type DataGameResultType = {
+  disposition: KeyDataGameResultType<string>
+  headquarters: KeyDataGameResultType<string>
+  deck_strength: KeyDataGameResultType<number>
+  statistics: KeyDataGameResultType<string>
+  headquarters_health: KeyDataGameResultType<number>
+  cards_in_deck: KeyDataGameResultType<number>
+  resources_spent: KeyDataGameResultType<number>
+  vehicles_destroyed: KeyDataGameResultType<number>
+  platoons_destroyed: KeyDataGameResultType<number>
+  orders_played: KeyDataGameResultType<number>
+}
