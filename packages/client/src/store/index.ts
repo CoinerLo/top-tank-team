@@ -8,4 +8,5 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
     }).concat(redirect),
+  preloadedState: window.__PRELOADED_STATE__,
 })

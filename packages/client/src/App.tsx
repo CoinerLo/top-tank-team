@@ -21,6 +21,8 @@ import { useAppselector } from './hooks'
 import { PrivateRoute } from './hocs/PrivateRoute/PrivateRoute'
 import { LoadingScreen } from './components/LoadingScreen/LoadingScreen'
 import { GameDeskContainer } from './containers/GameDeskContainer'
+import createEmotionCache from './createEmotionCache'
+import { CacheProvider } from '@emotion/react'
 
 function App() {
   // useEffect(() => {                                    // пока заглушу - пока не возьмемся за бекенд, надоели эти ошибки в консоле постоянные
@@ -37,40 +39,44 @@ function App() {
   const { authorizationStatus } = useAppselector(({ USER }) => USER)
 
   if (authorizationStatus === AuthorizationStatus.Unknown) {
-    return <LoadingScreen />
+    //   return <LoadingScreen /> // Так как при инициализации стора у нас ставят состояние Unknown то если раскоммитить эту строку у нас так оно и будет крутиться, т.к. запросы еще ни куда ни какие не уходят
   }
 
+  const cache = createEmotionCache()
+
   return (
-    <ThemeProvider theme={mainTheme}>
-      <CssBaseline />
-      <HeaderContainer />
-      <Routes>
-        <Route path={AppRoute.Index} element={<Home />} />
-        <Route path={AppRoute.SignIn} element={<SignInContainer />} />
-        <Route path={AppRoute.SignUp} element={<SignUpContainer />} />
-        <Route path={AppRoute.Briefing} element={<Briefing />} />
-        <Route element={<PrivateRoute />}>
-          <Route path={AppRoute.Headquarters} element={<Headquarters />} />
-          <Route path={AppRoute.Upgrade} element={<Upgrade />} />
-          <Route path={AppRoute.Deck} element={<Deck />} />
-          <Route path={AppRoute.Leaderboard} element={<LeaderBoard />} />
-          <Route path={AppRoute.Game}>
-            <Route path={AppRoute.StartGame} element={<GameStart />} />
-            <Route path={AppRoute.GameId} element={<GameDeskContainer />} />
-            <Route path={AppRoute.ResultGame}>
-              <Route path={AppRoute.GameId} element={<GameResult />} />
+    <CacheProvider value={cache}>
+      <ThemeProvider theme={mainTheme}>
+        <CssBaseline />
+        <HeaderContainer />
+        <Routes>
+          <Route path={AppRoute.Index} element={<Home />} />
+          <Route path={AppRoute.SignIn} element={<SignInContainer />} />
+          <Route path={AppRoute.SignUp} element={<SignUpContainer />} />
+          <Route path={AppRoute.Briefing} element={<Briefing />} />
+          <Route element={<PrivateRoute />}>
+            <Route path={AppRoute.Headquarters} element={<Headquarters />} />
+            <Route path={AppRoute.Upgrade} element={<Upgrade />} />
+            <Route path={AppRoute.Deck} element={<Deck />} />
+            <Route path={AppRoute.Leaderboard} element={<LeaderBoard />} />
+            <Route path={AppRoute.Game}>
+              <Route path={AppRoute.StartGame} element={<GameStart />} />
+              <Route path={AppRoute.GameId} element={<GameDeskContainer />} />
+              <Route path={AppRoute.ResultGame}>
+                <Route path={AppRoute.GameId} element={<GameResult />} />
+              </Route>
             </Route>
           </Route>
-        </Route>
 
-        <Route path={AppRoute.Forum}>
-          <Route index element={<Forum />} />
-          <Route path={AppRoute.ForumPost} element={<PostPage />} />
-        </Route>
+          <Route path={AppRoute.Forum}>
+            <Route index element={<Forum />} />
+            <Route path={AppRoute.ForumPost} element={<PostPage />} />
+          </Route>
 
-        <Route path="*" element={<Error404 />} />
-      </Routes>
-    </ThemeProvider>
+          <Route path="*" element={<Error404 />} />
+        </Routes>
+      </ThemeProvider>
+    </CacheProvider>
   )
 }
 
