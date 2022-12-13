@@ -17,10 +17,12 @@ import { PostPage } from './pages/Forum/Post'
 import { SignInContainer } from './containers/SignInContainer'
 import { SignUpContainer } from './containers/SignUpContainer'
 import { HeaderContainer } from './containers/HeaderContainer'
-import { useAppselector } from './hooks'
+import { useAppDispatch, useAppselector } from './hooks'
 import { PrivateRoute } from './hocs/PrivateRoute/PrivateRoute'
 import { LoadingScreen } from './components/LoadingScreen/LoadingScreen'
 import { GameDeskContainer } from './containers/GameDeskContainer'
+import { yandexGetIdThunk } from './store/api-thunks'
+import { useEffect, useLayoutEffect } from 'react'
 
 function App() {
   // useEffect(() => {                                    // пока заглушу - пока не возьмемся за бекенд, надоели эти ошибки в консоле постоянные
@@ -34,11 +36,15 @@ function App() {
   //   fetchServerData()
   // }, [])
 
-  const { authorizationStatus } = useAppselector(({ USER }) => USER)
+  //Закоментил так как эта часть перезагружает полностью роутер в случае отрисовки лоадера... что очень очень плохо на всём сказывается, ввёл лоудер внутрь signin странички
+  // const { authorizationStatus } = useAppselector(({ USER }) => USER)
+  //
+  // if (authorizationStatus === AuthorizationStatus.Unknown) {
+  //   return <LoadingScreen />
+  // }
 
-  if (authorizationStatus === AuthorizationStatus.Unknown) {
-    return <LoadingScreen />
-  }
+  const dispatch = useAppDispatch()
+  dispatch(yandexGetIdThunk(`${window.location.href}`))
 
   return (
     <ThemeProvider theme={mainTheme}>

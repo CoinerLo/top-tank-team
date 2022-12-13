@@ -14,8 +14,7 @@ export class OAuthController {
   }
 
   async yandexSignin(data: OAuthSingIn) {
-    const response = await this.api.yandexSignin(data)
-    return response
+    await this.api.yandexSignin(data)
   }
 }
 

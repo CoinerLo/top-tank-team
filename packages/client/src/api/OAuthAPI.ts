@@ -11,7 +11,7 @@ export class OAuthAPI {
     )
   }
 
-  yandexSignin(data: OAuthSingIn): Promise<AxiosResponse<XMLHttpRequest>> {
+  yandexSignin(data: OAuthSingIn): Promise<AxiosResponse> {
     return PraktikumClient.post(`${OAuthAPI.API_URL}/yandex`, data)
   }
 }

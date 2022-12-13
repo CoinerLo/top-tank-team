@@ -56,6 +56,7 @@ export interface UserSlice {
     message: string
     isLoading: boolean
   }
+  yandexOAuthId: string
 }
 
 export interface DecksSlice {

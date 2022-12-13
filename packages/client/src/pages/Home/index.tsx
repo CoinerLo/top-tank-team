@@ -1,10 +1,9 @@
 import { Button, Box, Typography, Container, Link } from '@mui/material'
-import React from 'react'
-import { AppRoute } from '../../utils/consts'
+import { AppRoute, AuthorizationStatus } from '../../utils/consts'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuthorizationStatus } from '../../hooks/useAuthorizationStatus'
-import { useAppDispatch } from '../../hooks'
-import { getUserThunk, yandexSigninThunk } from '../../store/api-thunks'
+import { useAppselector } from '../../hooks'
+import { LoadingScreen } from '../../components/LoadingScreen/LoadingScreen'
 
 const styles = {
   container: {
@@ -24,25 +23,15 @@ const styles = {
 export const Home = () => {
   const navigate = useNavigate()
   const { isAuthorized } = useAuthorizationStatus()
-  const dispatch = useAppDispatch()
-
-  // const queryRequestYandexOAuth = new URLSearchParams(window.location.search)
-  // const codeYandexOAuth = queryRequestYandexOAuth.get('code')
-  // if (codeYandexOAuth && !isAuthorized) {
-  //   const data = {
-  //     code: `${codeYandexOAuth}`,
-  //     redirect_uri: 'http://localhost:3000/signin',
-  //   }
-  //   dispatch(yandexSigninThunk(data)).then(() => {
-  //     dispatch(getUserThunk())
-  //   })
-  // }
+  const { authorizationStatus } = useAppselector(({ USER }) => USER)
 
   const handleClickGoToPageSigninButton = () => {
     navigate(`/${AppRoute.SignIn}`)
   }
 
-  return (
+  return authorizationStatus === AuthorizationStatus.Unknown ? (
+    <LoadingScreen />
+  ) : (
     <Container disableGutters sx={styles.container}>
       <Box
         component="img"
