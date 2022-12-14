@@ -39,7 +39,7 @@ function App() {
   const { authorizationStatus } = useAppselector(({ USER }) => USER)
 
   if (authorizationStatus === AuthorizationStatus.Unknown) {
-    //   return <LoadingScreen /> // Так как при инициализации стора у нас ставят состояние Unknown то если раскоммитить эту строку у нас так оно и будет крутиться, т.к. запросы еще ни куда ни какие не уходят
+    return <LoadingScreen />
   }
 
   const cache = createEmotionCache()
