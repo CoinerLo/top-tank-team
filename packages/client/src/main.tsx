@@ -8,7 +8,7 @@ import { HistoryRouter } from './components/HistoryRouter/HistoryRouter'
 import { store } from './store'
 import { getUserThunk } from './store/api-thunks'
 
-// store.dispatch(getUserThunk())
+store.dispatch(getUserThunk())
 
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,

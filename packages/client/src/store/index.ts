@@ -10,3 +10,5 @@ export const store = configureStore({
     }).concat(redirect),
   preloadedState: window.__PRELOADED_STATE__,
 })
+
+delete window.__PRELOADED_STATE__

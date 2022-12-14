@@ -22,6 +22,8 @@ app.get(
   express.static(path.resolve(__dirname, './dist/public'))
 )
 
+app.get(/\.js$/, express.static(path.resolve(__dirname, './dist')))
+
 app.get('/*', (req, res) => {
   const location = req.url
   const { html, css, store } = render(location)

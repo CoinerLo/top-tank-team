@@ -7,7 +7,7 @@
     "dev:client": "lerna run dev --scope=client",
     "host:client": "lerna run host --scope=client",
     "build:client": "lerna run build:ssr --scope=client && lerna run build:client --scope=client",
-    "dev:server": "yarn build:client && cp -r packages/client/public packages/server/dist && lerna run dev --scope=server",
+    "dev:server": "yarn build:client && cp -r packages/client/public packages/server/dist && cp -r packages/client/dist/client/assets packages/server/dist && lerna run dev --scope=server",
     "dev": "lerna run dev",
     "test": "lerna run test",
     "lint": "lerna run lint",
