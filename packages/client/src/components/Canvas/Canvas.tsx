@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, memo, FC } from 'react'
+import { GameDeskSegmentKeyType, IGamingDesk } from '../../gameCore/types'
 import { destinationSquare } from '../../utils'
 import { CanvasEngine } from '../../utils/canvasEngine/canvasEngine'
-import { IElement } from '../../utils/canvasEngine/canvasTypings'
 import { DPI_HEIGHT, DPI_WIDTH } from '../../utils/consts'
 
 interface ICanvasProps {
-  handleClickOnCanvas: (grid: string) => void
-  elements: IElement[]
+  handleClickOnCanvas: (grid: GameDeskSegmentKeyType) => boolean
+  elements: IGamingDesk
 }
 
 export const Canvas: FC<ICanvasProps> = memo(
@@ -36,9 +36,9 @@ export const Canvas: FC<ICanvasProps> = memo(
         event.nativeEvent.offsetX,
         event.nativeEvent.offsetY
       )
-      const cell = `${y}${x}`
-      game.click(cell)
-      handleClickOnCanvas(cell)
+      const cell = `${y}${x}` as GameDeskSegmentKeyType
+      const isRender = handleClickOnCanvas(cell)
+      game.click(isRender)
     }
 
     return (

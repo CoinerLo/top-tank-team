@@ -1,7 +1,9 @@
+import { ElementsCreator } from '../utils/canvasEngine/canvasElement'
 import { Headquarters } from './models/HeadquartersDeck'
 import { Order } from './models/OrdersDeck'
 import { Platoon } from './models/PlatoonsDeck'
 import { Tank } from './models/TanksDeck'
+import { Vehicle } from './models/Vehicle'
 
 export type TankType = 'тяжёлый' | 'средний' | 'лёгкий' | 'ПТ-САУ' | 'САУ'
 export type PlatoonsType =
@@ -97,22 +99,38 @@ export interface IDesk {
   opponentHeadquarters: Headquarters
 }
 
-export type GameDeskSegmentType = Tank | null
+export type GameDeskSegmentKeyType =
+  | 'A1'
+  | 'A2'
+  | 'A3'
+  | 'A4'
+  | 'A5'
+  | 'B1'
+  | 'B2'
+  | 'B3'
+  | 'B4'
+  | 'B5'
+  | 'C1'
+  | 'C2'
+  | 'C3'
+  | 'C4'
+  | 'C5'
 
-export interface IGamingDesk {
-  a1: GameDeskSegmentType
-  a2: GameDeskSegmentType
-  a3: GameDeskSegmentType
-  a4: GameDeskSegmentType
-  a5: Headquarters
-  b1: GameDeskSegmentType
-  b2: GameDeskSegmentType
-  b3: GameDeskSegmentType
-  b4: GameDeskSegmentType
-  b5: GameDeskSegmentType
-  c1: Headquarters
-  c2: GameDeskSegmentType
-  c3: GameDeskSegmentType
-  c4: GameDeskSegmentType
-  c5: GameDeskSegmentType
+export type IGamingDesk = {
+  [key in GameDeskSegmentKeyType]: Vehicle | null
+}
+
+export type VehicleOwnerType = 'user' | 'opponent'
+export interface IVehicle {
+  vehicle: Tank | Headquarters
+  vehicleOwner: VehicleOwnerType
+  skin: ElementsCreator
+}
+
+export interface CardsBattleOnDesk {
+  attackerCard: Vehicle
+  attackTargetCard: Vehicle
+  deletedTanks: (Vehicle | null)[]
+  isResolveCounterattack: boolean
+  isAllowCounterattackDeadTank?: boolean
 }

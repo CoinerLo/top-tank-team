@@ -10,6 +10,6 @@ beforeEach(() => (desk = new Desk({ opponentHeadquarters, userHeadquarters })))
 
 test('Desk start configuration', () => {
   const gamingDesk = desk.getGamingDesk()
-  const userHeadquartersName = gamingDesk.c1.name
+  const userHeadquartersName = gamingDesk.C1?.getVehicle().name
   expect(userHeadquartersName).toBe(userHeadquarters.name)
 })

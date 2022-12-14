@@ -68,7 +68,7 @@ export const fieldsIcons = [
 ]
 
 export enum BattleCardIcons {
-  training = '/cards/icons/head-icon.png',
+  учебный = '/cards/icons/head-icon.png',
   тяжёлый = '/cards/icons/tt-icon.png',
   'ПТ-САУ' = '/cards/icons/pt-icon.png',
   лёгкий = '/cards/icons/lt-icon.png',
