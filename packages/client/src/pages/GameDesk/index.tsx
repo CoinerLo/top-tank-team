@@ -103,6 +103,10 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
       setActiveCardInHand('')
     }
     const nextGamer = game.changeCurrentGamer()
+    if (!nextGamer) {
+      endGame()
+      return
+    }
     setOpponentState(game.getOpponentState())
     setUserState(game.getUserState())
     setCurrentGamer(nextGamer)
@@ -123,6 +127,7 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
   }
 
   const handleClickOnYes = () => {
+    game.endGameWithWhiteFlag()
     endGame()
   }
 

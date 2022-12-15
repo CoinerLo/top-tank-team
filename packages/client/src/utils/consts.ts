@@ -156,3 +156,16 @@ export const coordinates = {
 
 export const DPI_WIDTH = 854
 export const DPI_HEIGHT = 512
+
+export const rowsResultGameData = {
+  disposition: 'Диспозиция',
+  headquarters: 'Штаб',
+  deckStrength: 'Сила колоды',
+  statistics: 'Статистика',
+  strength_headquarters: 'Прочность штаба в момент окончания боя',
+  cardsInDeck: 'Карт в колоде в момент окончания боя',
+  resourcesSpent: 'Потрачено ресурсов за бой',
+  vehiclesDestroyed: 'Уничтожено техники противника',
+  platoonsDestroyed: 'Уничтожено взводов противника',
+  ordersPlayed: 'Разыграно приказов',
+}
