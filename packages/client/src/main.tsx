@@ -5,7 +5,7 @@ import App from './App'
 import browserHistory from './browser-history'
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 import { HistoryRouter } from './components/HistoryRouter/HistoryRouter'
-import './index.css'
+// import './index.css'
 import { store } from './store'
 
 import { getUserThunk } from './store/api-thunks'

@@ -12,9 +12,9 @@ process.env.MY_CUSTOM_SECRET = 'API_KEY_qwertyuiop'
 export async function createServer(
   root = process.cwd(),
   isProd = process.env.NODE_ENV === 'production',
-  hmrPort,
+  hmrPort
 ) {
-  const resolve = (p) => path.resolve(__dirname, p)
+  const resolve = p => path.resolve(__dirname, p)
 
   const indexProd = isProd
     ? fs.readFileSync(resolve('../client/dist/client/index.html'), 'utf-8')
@@ -53,7 +53,7 @@ export async function createServer(
     app.use(
       (await import('serve-static')).default(resolve('../client/dist/client'), {
         index: false,
-      }),
+      })
     )
   }
 
@@ -61,8 +61,6 @@ export async function createServer(
     /\.(png|ico|svg|jpg)$/,
     express.static(path.resolve(__dirname, './dist/public'))
   )
-
-  app.get(/\.(js|css)$/, express.static(path.resolve(__dirname, './dist')))
 
   app.use('*', async (req, res) => {
     try {
@@ -73,8 +71,9 @@ export async function createServer(
         // always read fresh template in dev
         template = fs.readFileSync(resolve('../client/index.html'), 'utf-8')
         template = await vite.transformIndexHtml(url, template)
-        render = (await vite.ssrLoadModule('../client/src/entry-server.tsx')).render
-        console.log(render);
+        render = (await vite.ssrLoadModule('../client/src/entry-server.tsx'))
+          .render
+        console.log(render)
       } else {
         template = indexProd
         // @ts-ignore
@@ -91,9 +90,10 @@ export async function createServer(
         return res.redirect(301, context.url)
       }
 
-      const html = template.replace(`<!--ssr-outlet-->`, test)
-      .replace('<!--css-outlet-->', css)
-      .replace('ssr-store', storeString)
+      const html = template
+        .replace(`<!--ssr-outlet-->`, test)
+        .replace('<!--css-outlet-->', css)
+        .replace('ssr-store', storeString)
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
@@ -103,13 +103,16 @@ export async function createServer(
     }
   })
 
+  app.get(/\.(js|css)$/, express.static(path.resolve(__dirname, './dist')))
+
   return { app, vite }
 }
+
 
 if (!isTest) {
   createServer().then(({ app }) =>
     app.listen(5173, () => {
       console.log('http://localhost:5173')
-    }),
+    })
   )
 }

@@ -57,16 +57,19 @@ function App() {
           <Route path={AppRoute.Briefing} element={<Briefing />} />
           <Route element={<PrivateRoute />}>
             <Route path={AppRoute.Headquarters} element={<Headquarters />} />
-            <Route path={AppRoute.Upgrade} element={<Upgrade />} />
+            {/* <Route path={AppRoute.Upgrade} element={<Upgrade />} />
             <Route path={AppRoute.Deck} element={<Deck />} />
             <Route path={AppRoute.Leaderboard} element={<LeaderBoard />} />
             <Route path={AppRoute.Game}>
               <Route path={AppRoute.StartGame} element={<GameStart />} />
               <Route path={AppRoute.GameId} element={<GameDeskContainer />} />
               <Route path={AppRoute.ResultGame}>
-                <Route path={AppRoute.GameId} element={<GameResultContainer />} />
+                <Route
+                  path={AppRoute.GameId}
+                  element={<GameResultContainer />}
+                />
               </Route>
-            </Route>
+            </Route> */}
           </Route>
 
           {/* <Route path={AppRoute.Forum}>
