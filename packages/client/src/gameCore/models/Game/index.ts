@@ -3,7 +3,7 @@ import { GameDeskSegmentKeyType, IUserData } from '../../types'
 import { Desk } from '../Desk'
 import { getRandomInt, nanoid } from '../../utils'
 import { Tank } from '../TanksDeck'
-import { operationConst } from '../../consts'
+import { operationConst, endGameMessage } from '../../consts'
 
 export enum CurrentGamer {
   user = 'user',
@@ -21,6 +21,8 @@ export class Game {
   private UserState: UserState
   private OpponentState: UserState
   private isEndGame = false
+  private winner: '' | CurrentGamer = ''
+  public endTheGameMessage = ''
   public Desk: Desk
   public currentGamer: CurrentGamer
 
@@ -76,6 +78,11 @@ export class Game {
             vehicleBringsResources
           )
           gamerState.putCardIntoDiscardPile(vehicle.getVehicle())
+          const opponentState =
+            vehicleOwner === CurrentGamer.user
+              ? this.OpponentState
+              : this.UserState
+          opponentState.updateCountVehiclesDestroyed(1)
         }
       })
       this.Desk.toggleActiveVehicleOnDesk(attacker, this.currentGamer)
@@ -88,7 +95,13 @@ export class Game {
         targetHeadquartersHealth < 1
       ) {
         this.isEndGame = true
-        console.log('Конец игре') // Здесь начинается следующая задача - Написать концовку игры
+        const headquartersOwner =
+          this.Desk.gamingDesk[attackTarget]?.getVehicleOwner()
+        this.winner =
+          headquartersOwner === CurrentGamer.user
+            ? CurrentGamer.opponent
+            : CurrentGamer.user
+        this.endTheGameMessage = endGameMessage.headquartersDestroyed
       }
     }
     return !!resultAttack
@@ -115,11 +128,23 @@ export class Game {
     if (this.currentGamer === CurrentGamer.user) {
       this.currentGamer = CurrentGamer.opponent
       this.UserState.endActionGamer()
-      this.OpponentState.startActionGamer()
+      const resultStartActionGamer = this.OpponentState.startActionGamer()
+      if (!resultStartActionGamer) {
+        this.isEndGame = true
+        this.winner = CurrentGamer.user
+        this.endTheGameMessage = endGameMessage.noCardsInDeck
+        return false
+      }
     } else {
       this.currentGamer = CurrentGamer.user
       this.OpponentState.endActionGamer()
-      this.UserState.startActionGamer()
+      const resultStartActionGamer = this.UserState.startActionGamer()
+      if (!resultStartActionGamer) {
+        this.isEndGame = true
+        this.winner = CurrentGamer.opponent
+        this.endTheGameMessage = endGameMessage.noCardsInDeck
+        return false
+      }
     }
     this.Desk.updateStateVehicleWhenChangingCurrentGamer(this.currentGamer)
     return this.currentGamer
@@ -127,5 +152,20 @@ export class Game {
 
   public isEndOfThisGame() {
     return this.isEndGame
+  }
+
+  public getWinnerName() {
+    const gamerState =
+      this.winner === CurrentGamer.user ? this.UserState : this.OpponentState
+    return gamerState.getUserName()
+  }
+
+  public endGameWithWhiteFlag() {
+    this.isEndGame = true
+    this.endTheGameMessage = endGameMessage.withWhiteFlag
+    this.winner =
+      this.currentGamer === CurrentGamer.user
+        ? CurrentGamer.opponent
+        : CurrentGamer.user
   }
 }

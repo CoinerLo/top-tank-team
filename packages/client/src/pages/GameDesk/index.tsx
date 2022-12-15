@@ -1,5 +1,5 @@
 import { Box, Button, Container, Modal, Typography } from '@mui/material'
-import { FC, useCallback, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 import { Deck } from '../../components/game/Deck/Deck'
 import { Field } from '../../components/game/Field/Field'
 import { Hand } from '../../components/game/Hand/Hand'
@@ -103,13 +103,23 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
       setActiveCardInHand('')
     }
     const nextGamer = game.changeCurrentGamer()
+    if (!nextGamer) {
+      endGame()
+      return
+    }
     setOpponentState(game.getOpponentState())
     setUserState(game.getUserState())
     setCurrentGamer(nextGamer)
   }
 
   const handleClickFullscreen = () => {
-    setIsFullscreen(!isFullscreen)
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen()
+      setIsFullscreen(true)
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen()
+      setIsFullscreen(false)
+    }
   }
 
   const handleClickFlag = () => {
@@ -117,11 +127,23 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
   }
 
   const handleClickOnYes = () => {
+    game.endGameWithWhiteFlag()
     endGame()
   }
 
   const handleChoiceActiveCardInHand = useCallback((idCard: string) => {
     setActiveCardInHand(idCard)
+  }, [])
+
+  useEffect(() => {
+    const onFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement)
+    }
+
+    document.addEventListener('fullscreenchange', onFullscreenChange)
+
+    return () =>
+      document.removeEventListener('fullscreenchange', onFullscreenChange)
   }, [])
 
   const handleClickOnCanvas = useCallback(

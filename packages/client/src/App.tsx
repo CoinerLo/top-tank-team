@@ -11,7 +11,6 @@ import { Upgrade } from './pages/Upgrade'
 import { Deck } from './pages/Deck'
 import { Forum } from './pages/Forum'
 import { GameStart } from './pages/GameDesk/GameStart'
-import { GameResult } from './pages/GameDesk/GameResult'
 import { AppRoute, AuthorizationStatus } from './utils/consts'
 import { PostPage } from './pages/Forum/Post'
 import { SignInContainer } from './containers/SignInContainer'
@@ -23,6 +22,7 @@ import { LoadingScreen } from './components/LoadingScreen/LoadingScreen'
 import { GameDeskContainer } from './containers/GameDeskContainer'
 import createEmotionCache from './createEmotionCache'
 import { CacheProvider } from '@emotion/react'
+import { GameResultContainer } from './containers/GameResultContainer'
 
 function App() {
   // useEffect(() => {                                    // пока заглушу - пока не возьмемся за бекенд, надоели эти ошибки в консоле постоянные
@@ -63,7 +63,7 @@ function App() {
               <Route path={AppRoute.StartGame} element={<GameStart />} />
               <Route path={AppRoute.GameId} element={<GameDeskContainer />} />
               <Route path={AppRoute.ResultGame}>
-                <Route path={AppRoute.GameId} element={<GameResult />} />
+                <Route path={AppRoute.GameId} element={<GameResultContainer />} />
               </Route>
             </Route>
           </Route>
