@@ -23,15 +23,12 @@ const styles = {
 export const Home = () => {
   const navigate = useNavigate()
   const { isAuthorized } = useAuthorizationStatus()
-  const { authorizationStatus } = useAppselector(({ USER }) => USER)
 
   const handleClickGoToPageSigninButton = () => {
     navigate(`/${AppRoute.SignIn}`)
   }
 
-  return authorizationStatus === AuthorizationStatus.Unknown ? (
-    <LoadingScreen />
-  ) : (
+  return (
     <Container disableGutters sx={styles.container}>
       <Box
         component="img"
