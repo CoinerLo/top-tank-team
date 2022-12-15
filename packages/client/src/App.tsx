@@ -1,4 +1,5 @@
 import CssBaseline from '@mui/material/CssBaseline'
+import React from 'react'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import { mainTheme } from './assets/mainTheme'
 import { Routes, Route } from 'react-router-dom'
@@ -36,11 +37,11 @@ function App() {
   //   fetchServerData()
   // }, [])
 
-  const { authorizationStatus } = useAppselector(({ USER }) => USER)
+  // const { authorizationStatus } = useAppselector(({ USER }) => USER)
 
-  if (authorizationStatus === AuthorizationStatus.Unknown) {
-    return <LoadingScreen />
-  }
+  // if (authorizationStatus === AuthorizationStatus.Unknown) {
+  //   return <LoadingScreen />
+  // }
 
   const cache = createEmotionCache()
 
@@ -68,12 +69,12 @@ function App() {
             </Route>
           </Route>
 
-          <Route path={AppRoute.Forum}>
+          {/* <Route path={AppRoute.Forum}>
             <Route index element={<Forum />} />
             <Route path={AppRoute.ForumPost} element={<PostPage />} />
           </Route>
 
-          <Route path="*" element={<Error404 />} />
+          <Route path="*" element={<Error404 />} /> */}
         </Routes>
       </ThemeProvider>
     </CacheProvider>

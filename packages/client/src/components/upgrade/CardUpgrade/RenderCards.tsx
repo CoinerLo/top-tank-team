@@ -1,3 +1,4 @@
+import React from 'react'
 import { Key } from 'react'
 import { CardUpgrade } from './CardUpgrade'
 import { ICardUpgrade } from '../../../typings'

@@ -1,3 +1,4 @@
+import React from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { useAppselector } from '../hooks'
 import { GameDesk } from '../pages/GameDesk'

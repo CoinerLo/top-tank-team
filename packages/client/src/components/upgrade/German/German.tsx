@@ -1,3 +1,4 @@
+import React from 'react'
 import { Box } from '@mui/system'
 import { RenderCards } from '../CardUpgrade/RenderCards'
 import { HeadquartersCard } from '../HeadquartersCard/HeadquartersCard'
