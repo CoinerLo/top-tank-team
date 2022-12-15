@@ -48,11 +48,7 @@ const Preview: FC<IPreviewProps> = ({ meta }) => {
 export const DropZone = () => {
   const [isChanged, setISChanged] = useState(false)
   const dispatch = useAppDispatch()
-  const handleChangeStatus: IDropzoneProps['onChangeStatus'] = (
-    { meta, file },
-    status
-  ) => {
-    console.log(status, meta, file)
+  const handleChangeStatus: IDropzoneProps['onChangeStatus'] = () => {
     setISChanged(!isChanged)
   }
 

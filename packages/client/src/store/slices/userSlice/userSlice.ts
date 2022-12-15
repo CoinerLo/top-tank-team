@@ -72,23 +72,14 @@ export const userSlice = createSlice({
         state.currentUser = action.payload
         state.currentUser.avatar = avatar
       }),
-      builder.addCase(updateProfileThunk.rejected, (state, action) => {
-        console.log(action.payload)
-      }),
       builder.addCase(updateAvatarThunk.fulfilled, (state, action) => {
         state.currentUser.avatar = action.payload.avatar
           ? `${BASE_URL}resources/${action.payload.avatar}`
           : undefined
       }),
-      builder.addCase(updateAvatarThunk.rejected, (state, action) => {
-        console.log(action.payload)
-      }),
       builder.addCase(logoutThunk.fulfilled, state => {
         state.currentUser = initialState.currentUser
         state.authorizationStatus = AuthorizationStatus.NoAuth
-      }),
-      builder.addCase(logoutThunk.rejected, (state, action) => {
-        console.log(action.payload)
       }),
       builder.addCase(signUpThunk.fulfilled, (state, action) => {
         state.currentUser = action.payload

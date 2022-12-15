@@ -5,14 +5,13 @@ import App from './App'
 import browserHistory from './browser-history'
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 import { HistoryRouter } from './components/HistoryRouter/HistoryRouter'
-import './index.css'
 import { store } from './store'
-
 import { getUserThunk } from './store/api-thunks'
 
 store.dispatch(getUserThunk())
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.hydrateRoot(
+  document.getElementById('root') as HTMLElement,
   <React.StrictMode>
     <ErrorBoundary>
       <HistoryRouter history={browserHistory}>
