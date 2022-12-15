@@ -66,12 +66,12 @@ export type KeyDataGameResultType<K> = {
 export type DataGameResultType = {
   disposition: KeyDataGameResultType<string>
   headquarters: KeyDataGameResultType<string>
-  deck_strength: KeyDataGameResultType<number>
+  deckStrength: KeyDataGameResultType<number>
   statistics: KeyDataGameResultType<string>
-  headquarters_health: KeyDataGameResultType<number>
-  cards_in_deck: KeyDataGameResultType<number>
-  resources_spent: KeyDataGameResultType<number>
-  vehicles_destroyed: KeyDataGameResultType<number>
-  platoons_destroyed: KeyDataGameResultType<number>
-  orders_played: KeyDataGameResultType<number>
+  headquartersHealth: KeyDataGameResultType<number>
+  cardsInDeck: KeyDataGameResultType<number>
+  resourcesSpent: KeyDataGameResultType<number>
+  vehiclesDestroyed: KeyDataGameResultType<number>
+  platoonsDestroyed: KeyDataGameResultType<number>
+  ordersPlayed: KeyDataGameResultType<number>
 }

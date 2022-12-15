@@ -59,8 +59,8 @@ export const resultGameDataCreator = (game: Game): DataGameResultType => {
       user: userHeadquarters,
       opponent: opponentHeadquarters,
     },
-    deck_strength: {
-      title: rowsResultGameData.deck_strength,
+    deckStrength: {
+      title: rowsResultGameData.deckStrength,
       user: 40,
       opponent: 40,
     },
@@ -69,33 +69,33 @@ export const resultGameDataCreator = (game: Game): DataGameResultType => {
       user: userName,
       opponent: opponentName,
     },
-    headquarters_health: {
+    headquartersHealth: {
       title: rowsResultGameData.strength_headquarters,
       user: userHeadquartersHealth ?? 0,
       opponent: opponentHeadquartersHealth ?? 0,
     },
-    cards_in_deck: {
-      title: rowsResultGameData.cards_in_deck,
+    cardsInDeck: {
+      title: rowsResultGameData.cardsInDeck,
       user: userCardsInDeck,
       opponent: opponentCardsInDeck,
     },
-    resources_spent: {
-      title: rowsResultGameData.resources_spent,
+    resourcesSpent: {
+      title: rowsResultGameData.resourcesSpent,
       user: userResourcesSpent,
       opponent: opponentResourcesSpent,
     },
-    vehicles_destroyed: {
-      title: rowsResultGameData.vehicles_destroyed,
+    vehiclesDestroyed: {
+      title: rowsResultGameData.vehiclesDestroyed,
       user: userVehiclesDestroyed,
       opponent: opponentVehiclesDestroyed,
     },
-    platoons_destroyed: {
-      title: rowsResultGameData.platoons_destroyed,
+    platoonsDestroyed: {
+      title: rowsResultGameData.platoonsDestroyed,
       user: userPlatoonsDestroyed,
       opponent: opponentPlatoonsDestroyed,
     },
-    orders_played: {
-      title: rowsResultGameData.orders_played,
+    ordersPlayed: {
+      title: rowsResultGameData.ordersPlayed,
       user: userOrdersPlayed,
       opponent: opponentStateOrdersPlayed,
     },

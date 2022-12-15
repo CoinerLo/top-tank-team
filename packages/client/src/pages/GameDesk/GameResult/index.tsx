@@ -79,13 +79,13 @@ export const GameResult: FC<IGameResultDesk> = ({ game }) => {
 
   const {
     headquarters,
-    deck_strength,
-    headquarters_health,
-    cards_in_deck,
-    resources_spent,
-    vehicles_destroyed,
-    platoons_destroyed,
-    orders_played,
+    deckStrength,
+    headquartersHealth,
+    cardsInDeck,
+    resourcesSpent,
+    vehiclesDestroyed,
+    platoonsDestroyed,
+    ordersPlayed,
     disposition,
     statistics,
   } = resultGameDataCreator(game)
@@ -130,7 +130,7 @@ export const GameResult: FC<IGameResultDesk> = ({ game }) => {
                     </TableCell>
                   </TableRow>
 
-                  {TableRowFormater(headquarters, deck_strength)}
+                  {TableRowFormater(headquarters, deckStrength)}
 
                   <TableRow sx={styles.row}>
                     <TableCell sx={styles.head}>{statistics.title}</TableCell>
@@ -143,12 +143,12 @@ export const GameResult: FC<IGameResultDesk> = ({ game }) => {
                   </TableRow>
 
                   {TableRowFormater(
-                    headquarters_health,
-                    cards_in_deck,
-                    resources_spent,
-                    vehicles_destroyed,
-                    platoons_destroyed,
-                    orders_played
+                    headquartersHealth,
+                    cardsInDeck,
+                    resourcesSpent,
+                    vehiclesDestroyed,
+                    platoonsDestroyed,
+                    ordersPlayed
                   )}
                 </TableBody>
               </Table>
