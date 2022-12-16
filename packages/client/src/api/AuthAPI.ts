@@ -5,7 +5,7 @@ import { AxiosResponse } from 'axios'
 export class AuthAPI {
   static API_URL = 'auth'
 
-  signIn(data: ISignInData): Promise<XMLHttpRequest> {
+  signIn(data: ISignInData): Promise<AxiosResponse<IUser>> {
     return PraktikumClient.post(`${AuthAPI.API_URL}/signin`, data)
   }
 

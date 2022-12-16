@@ -16,10 +16,10 @@ import { PostPage } from './pages/Forum/Post'
 import { SignInContainer } from './containers/SignInContainer'
 import { SignUpContainer } from './containers/SignUpContainer'
 import { HeaderContainer } from './containers/HeaderContainer'
-import { useAppselector } from './hooks'
 import { PrivateRoute } from './hocs/PrivateRoute/PrivateRoute'
-import { LoadingScreen } from './components/LoadingScreen/LoadingScreen'
 import { GameDeskContainer } from './containers/GameDeskContainer'
+import { LoadingScreen } from './components/LoadingScreen/LoadingScreen'
+import { useAppselector } from './hooks'
 import createEmotionCache from './createEmotionCache'
 import { CacheProvider } from '@emotion/react'
 import { GameResultContainer } from './containers/GameResultContainer'
@@ -37,10 +37,6 @@ function App() {
   // }, [])
 
   const { authorizationStatus } = useAppselector(({ USER }) => USER)
-
-  if (authorizationStatus === AuthorizationStatus.Unknown) {
-    return <LoadingScreen />
-  }
 
   const cache = createEmotionCache()
 
@@ -75,6 +71,7 @@ function App() {
 
           <Route path="*" element={<Error404 />} />
         </Routes>
+        {authorizationStatus === AuthorizationStatus.Unknown && <LoadingScreen />}
       </ThemeProvider>
     </CacheProvider>
   )

@@ -14,6 +14,8 @@ import {
   updateAvatarThunk,
   updatePasswordThunk,
   updateProfileThunk,
+  yandexGetIdThunk,
+  yandexSigninThunk,
 } from '../../api-thunks'
 
 const initialState: UserSlice = {
@@ -32,6 +34,7 @@ const initialState: UserSlice = {
     message: '',
     isLoading: false,
   },
+  yandexOAuthId: '',
 }
 
 export const userSlice = createSlice({
@@ -51,6 +54,18 @@ export const userSlice = createSlice({
       }),
       builder.addCase(loginThunk.rejected, state => {
         state.authorizationStatus = AuthorizationStatus.NoAuth
+      }),
+      builder.addCase(yandexSigninThunk.pending, state => {
+        state.authorizationStatus = AuthorizationStatus.Unknown
+      }),
+      builder.addCase(yandexSigninThunk.fulfilled, state => {
+        state.authorizationStatus = AuthorizationStatus.Auth
+      }),
+      builder.addCase(yandexSigninThunk.rejected, state => {
+        state.authorizationStatus = AuthorizationStatus.NoAuth
+      }),
+      builder.addCase(yandexGetIdThunk.fulfilled, (state, action) => {
+        state.yandexOAuthId = action.payload?.service_id
       }),
       builder.addCase(getUserThunk.fulfilled, (state, action) => {
         state.currentUser = action.payload
@@ -76,6 +91,12 @@ export const userSlice = createSlice({
         state.currentUser.avatar = action.payload.avatar
           ? `${BASE_URL}resources/${action.payload.avatar}`
           : undefined
+      }),
+      builder.addCase(updateAvatarThunk.rejected, (state, action) => {
+        console.log(action.payload)
+      }),
+      builder.addCase(logoutThunk.pending, state => {
+        state.authorizationStatus = AuthorizationStatus.NoAuth
       }),
       builder.addCase(logoutThunk.fulfilled, state => {
         state.currentUser = initialState.currentUser

@@ -18,6 +18,15 @@ export interface ISignInData {
   password: string
 }
 
+export interface OAuthSingIn {
+  code: string
+  redirect_uri: string
+}
+
+export interface GetIdYandex {
+  service_id: string
+}
+
 export interface ISingUpForm {
   first_name: string
   second_name: string
@@ -47,6 +56,7 @@ export interface UserSlice {
     message: string
     isLoading: boolean
   }
+  yandexOAuthId: string
 }
 
 export interface DecksSlice {

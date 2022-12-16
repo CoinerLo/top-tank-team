@@ -1,13 +1,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import AuthController from '../controllers/AuthController'
-import { ISignInData, IChangeDataForm, ISingUpForm } from '../typings'
+import {
+  ISignInData,
+  IChangeDataForm,
+  ISingUpForm,
+  OAuthSingIn,
+} from '../typings'
 import UserController from '../controllers/UserController'
 import { UserAPIUpdatePassword } from '../api/UserAPI'
+import OAuthController from '../controllers/OAuthController'
 
 export const loginThunk = createAsyncThunk(
   'user/login',
-  async (data: ISignInData) => {
+  async (data: ISignInData, thunkAPI) => {
     await AuthController.signin(data)
+    thunkAPI.dispatch(getUserThunk())
   }
 )
 
@@ -16,6 +23,22 @@ export const signUpThunk = createAsyncThunk(
   async (data: ISingUpForm) => {
     const res = await AuthController.signup(data)
     return res?.data
+  }
+)
+
+export const yandexGetIdThunk = createAsyncThunk(
+  'user/yandexGetId',
+  async (data: string) => {
+    const res = await OAuthController.yandexGetId(data)
+    return res?.data
+  }
+)
+
+export const yandexSigninThunk = createAsyncThunk(
+  'user/yandexSignin',
+  async (data: OAuthSingIn, thunkAPI) => {
+    await OAuthController.yandexSignin(data)
+    thunkAPI.dispatch(getUserThunk())
   }
 )
 

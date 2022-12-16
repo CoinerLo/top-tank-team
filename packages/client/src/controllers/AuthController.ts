@@ -10,7 +10,6 @@ export class AuthController {
 
   async signin(data: ISignInData) {
     const response = await this.api.signIn(data)
-    await this.fetchUser()
     return response
   }
 
