@@ -12,7 +12,7 @@ import { getUserThunk } from './store/api-thunks'
 
 store.dispatch(getUserThunk())
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.hydrateRoot(document.getElementById('root') as HTMLElement,
   <React.StrictMode>
     <ErrorBoundary>
       <HistoryRouter history={browserHistory}>

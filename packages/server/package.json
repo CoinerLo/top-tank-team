@@ -2,11 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "scripts": {
     "build": "tsc --p ./tsconfig.prod.json",
     "preview": "node ./dist/index.js",
-    "dev": "cross-env NODE_ENV=development nodemon server.js",
+    "dev": "cross-env NODE_ENV=development nodemon server.ts",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "jest ."
