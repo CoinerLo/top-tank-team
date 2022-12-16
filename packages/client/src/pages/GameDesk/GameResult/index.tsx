@@ -8,8 +8,11 @@ import {
   TableContainer,
   TableRow,
 } from '@mui/material'
-import { Key } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { FC } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Game } from '../../../gameCore/models/Game'
+import { KeyDataGameResultType } from '../../../typings'
+import { resultGameDataCreator } from '../../../utils'
 import { AppRoute } from '../../../utils/consts'
 
 const styles = {
@@ -63,73 +66,42 @@ const styles = {
   },
 }
 
-type DataGameResult = Record<string, string | number>
-
-const rows = {
-  disposition: 'Диспозиция',
-  headquarters: 'Штаб',
-  deck_strength: 'Сила колоды',
-  statistics: 'Статистика',
-  strength_headquarters: 'Прочность штаба в момент окончания боя',
-  cards_in_deck: 'Карт в колоде в момент окончания боя',
-  resources_spent: 'Потрачено ресурсов за бой',
-  vehicles_destroyed: 'Уничтожено техники противника',
-  platoons_destroyed: 'Уничтожено взводов противника',
-  orders_played: 'Разыграно приказов',
-} as DataGameResult
-
-const data1 = {
-  disposition: 'Игорок 1',
-  headquarters: '13-я дивизия',
-  deck_strength: 3492,
-  statistics: 'Игорок 1',
-  strength_headquarters: 6,
-  cards_in_deck: 27,
-  resources_spent: 48,
-  vehicles_destroyed: 8,
-  platoons_destroyed: 0,
-  orders_played: 1,
+interface IGameResultDesk {
+  game: Game
 }
 
-const data2 = {
-  disposition: 'Игорок 2',
-  headquarters: '2nd Armored',
-  deck_strength: 316,
-  statistics: 'Игорок 2',
-  strength_headquarters: 0,
-  cards_in_deck: 27,
-  resources_spent: 40,
-  vehicles_destroyed: 1,
-  platoons_destroyed: 1,
-  orders_played: 1,
-}
-
-export const GameResult = () => {
-  const params = useParams()
+export const GameResult: FC<IGameResultDesk> = ({ game }) => {
   const navigate = useNavigate()
-
-  console.log(`This is GameResult! Number ${params.gameId}`)
 
   const navigateToHeadquarters = () => {
     navigate(`/${AppRoute.Headquarters}`, { replace: true })
   }
 
-  const dataCreator = (data1: DataGameResult, data2: DataGameResult) => {
-    const rowsKeys = Object.keys(rows)
-    return rowsKeys.map(key => [rows[key], data1[key], data2[key]])
-  }
+  const {
+    headquarters,
+    deckStrength,
+    headquartersHealth,
+    cardsInDeck,
+    resourcesSpent,
+    vehiclesDestroyed,
+    platoonsDestroyed,
+    ordersPlayed,
+    disposition,
+    statistics,
+  } = resultGameDataCreator(game)
 
-  const data = dataCreator(data1, data2)
-
-  const formater = (i: (string | number)[], indx: Key) => (
-    <TableRow key={indx}>
-      <TableCell sx={{ ...styles.cell, ...styles.textOverflow }}>
-        {i[0]}
-      </TableCell>
-      <TableCell sx={styles.dataCell}>{i[1]}</TableCell>
-      <TableCell sx={styles.dataCell}>{i[2]}</TableCell>
-    </TableRow>
-  )
+  const TableRowFormater = (
+    ...args: KeyDataGameResultType<string | number>[]
+  ) =>
+    args.map(({ title, user, opponent }) => (
+      <TableRow key={title}>
+        <TableCell sx={{ ...styles.cell, ...styles.textOverflow }}>
+          {title}
+        </TableCell>
+        <TableCell sx={styles.dataCell}>{user}</TableCell>
+        <TableCell sx={styles.dataCell}>{opponent}</TableCell>
+      </TableRow>
+    ))
 
   return (
     <Container disableGutters>
@@ -141,33 +113,43 @@ export const GameResult = () => {
             alt="victory"
             sx={{ width: '100%', maxHeight: '40%' }}
           />
+          <Box sx={{ alignSelf: 'center', mt: '20px' }}>
+            {`Победил ${game.getWinnerName()}! ${game.endTheGameMessage}`}
+          </Box>
           <Box sx={{ display: 'flex', flex: 1, padding: '20px' }}>
             <TableContainer sx={{ marginRight: '40px' }}>
               <Table>
                 <TableBody>
                   <TableRow sx={styles.row}>
-                    <TableCell sx={styles.head}>{data[0][0]}</TableCell>
+                    <TableCell sx={styles.head}>{disposition.title}</TableCell>
                     <TableCell sx={styles.head} align="center">
-                      {data[0][1]}
+                      {disposition.user}
                     </TableCell>
                     <TableCell sx={styles.head} align="center">
-                      {data[0][2]}
+                      {disposition.opponent}
                     </TableCell>
                   </TableRow>
 
-                  {data.slice(1, 3).map(formater)}
+                  {TableRowFormater(headquarters, deckStrength)}
 
                   <TableRow sx={styles.row}>
-                    <TableCell sx={styles.head}>{data[3][0]}</TableCell>
+                    <TableCell sx={styles.head}>{statistics.title}</TableCell>
                     <TableCell sx={styles.head} align="center">
-                      {data[3][1]}
+                      {statistics.user}
                     </TableCell>
                     <TableCell sx={styles.head} align="center">
-                      {data[3][2]}
+                      {statistics.opponent}
                     </TableCell>
                   </TableRow>
 
-                  {data.slice(4).map(formater)}
+                  {TableRowFormater(
+                    headquartersHealth,
+                    cardsInDeck,
+                    resourcesSpent,
+                    vehiclesDestroyed,
+                    platoonsDestroyed,
+                    ordersPlayed
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>

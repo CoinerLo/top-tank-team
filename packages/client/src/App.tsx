@@ -11,7 +11,6 @@ import { Upgrade } from './pages/Upgrade'
 import { Deck } from './pages/Deck'
 import { Forum } from './pages/Forum'
 import { GameStart } from './pages/GameDesk/GameStart'
-import { GameResult } from './pages/GameDesk/GameResult'
 import { AppRoute, AuthorizationStatus } from './utils/consts'
 import { PostPage } from './pages/Forum/Post'
 import { SignInContainer } from './containers/SignInContainer'
@@ -21,6 +20,9 @@ import { PrivateRoute } from './hocs/PrivateRoute/PrivateRoute'
 import { GameDeskContainer } from './containers/GameDeskContainer'
 import { LoadingScreen } from './components/LoadingScreen/LoadingScreen'
 import { useAppselector } from './hooks'
+import createEmotionCache from './createEmotionCache'
+import { CacheProvider } from '@emotion/react'
+import { GameResultContainer } from './containers/GameResultContainer'
 
 function App() {
   // useEffect(() => {                                    // пока заглушу - пока не возьмемся за бекенд, надоели эти ошибки в консоле постоянные
@@ -36,38 +38,42 @@ function App() {
 
   const { authorizationStatus } = useAppselector(({ USER }) => USER)
 
+  const cache = createEmotionCache()
+
   return (
-    <ThemeProvider theme={mainTheme}>
-      <CssBaseline />
-      <HeaderContainer />
-      <Routes>
-        <Route path={AppRoute.Index} element={<Home />} />
-        <Route path={AppRoute.SignIn} element={<SignInContainer />} />
-        <Route path={AppRoute.SignUp} element={<SignUpContainer />} />
-        <Route path={AppRoute.Briefing} element={<Briefing />} />
-        <Route element={<PrivateRoute />}>
-          <Route path={AppRoute.Headquarters} element={<Headquarters />} />
-          <Route path={AppRoute.Upgrade} element={<Upgrade />} />
-          <Route path={AppRoute.Deck} element={<Deck />} />
-          <Route path={AppRoute.Leaderboard} element={<LeaderBoard />} />
-          <Route path={AppRoute.Game}>
-            <Route path={AppRoute.StartGame} element={<GameStart />} />
-            <Route path={AppRoute.GameId} element={<GameDeskContainer />} />
-            <Route path={AppRoute.ResultGame}>
-              <Route path={AppRoute.GameId} element={<GameResult />} />
+    <CacheProvider value={cache}>
+      <ThemeProvider theme={mainTheme}>
+        <CssBaseline />
+        <HeaderContainer />
+        <Routes>
+          <Route path={AppRoute.Index} element={<Home />} />
+          <Route path={AppRoute.SignIn} element={<SignInContainer />} />
+          <Route path={AppRoute.SignUp} element={<SignUpContainer />} />
+          <Route path={AppRoute.Briefing} element={<Briefing />} />
+          <Route element={<PrivateRoute />}>
+            <Route path={AppRoute.Headquarters} element={<Headquarters />} />
+            <Route path={AppRoute.Upgrade} element={<Upgrade />} />
+            <Route path={AppRoute.Deck} element={<Deck />} />
+            <Route path={AppRoute.Leaderboard} element={<LeaderBoard />} />
+            <Route path={AppRoute.Game}>
+              <Route path={AppRoute.StartGame} element={<GameStart />} />
+              <Route path={AppRoute.GameId} element={<GameDeskContainer />} />
+              <Route path={AppRoute.ResultGame}>
+                <Route path={AppRoute.GameId} element={<GameResultContainer />} />
+              </Route>
             </Route>
           </Route>
-        </Route>
 
-        <Route path={AppRoute.Forum}>
-          <Route index element={<Forum />} />
-          <Route path={AppRoute.ForumPost} element={<PostPage />} />
-        </Route>
+          <Route path={AppRoute.Forum}>
+            <Route index element={<Forum />} />
+            <Route path={AppRoute.ForumPost} element={<PostPage />} />
+          </Route>
 
-        <Route path="*" element={<Error404 />} />
-      </Routes>
-      {authorizationStatus === AuthorizationStatus.Unknown && <LoadingScreen />}
-    </ThemeProvider>
+          <Route path="*" element={<Error404 />} />
+        </Routes>
+        {authorizationStatus === AuthorizationStatus.Unknown && <LoadingScreen />}
+      </ThemeProvider>
+    </CacheProvider>
   )
 }
 

@@ -3,7 +3,7 @@ import { TanksDataType } from '../types'
 export const TanksData: TanksDataType[] = [
   {
     name: 'Liberty',
-    resourceСost: 8,
+    resourceСost: 7,
     bringsResources: 2,
     tier: 1,
     type: 'тяжёлый',
