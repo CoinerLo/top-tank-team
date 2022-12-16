@@ -8,7 +8,13 @@ export const LoadingScreen: FC = () => {
       width="100%"
       height="100vh"
       alignItems="center"
-      justifyContent="center">
+      justifyContent="center"
+      sx={{
+        position: 'absolute',
+        top: 0,
+        zIndex: 1000,
+        background: 'rgba(0,0,0,0.5)',
+      }}>
       <CircularProgress color="secondary" size={'450px'} />
     </Box>
   )

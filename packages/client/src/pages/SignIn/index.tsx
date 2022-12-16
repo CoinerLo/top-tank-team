@@ -56,7 +56,7 @@ export const SignIn: FC<ISignIn> = ({ handleSubmitSignInData }) => {
       </Typography>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Typography sx={{ marginRight: '5px' }}>Авторизация через:</Typography>
-        <Link href={yandexOAuthUrl}>
+        <Link href={yandexOAuthUrl} mt="6px">
           <Box
             component="img"
             src="/yandexLogoOAuth.png"

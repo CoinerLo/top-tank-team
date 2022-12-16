@@ -12,13 +12,15 @@ import { Deck } from './pages/Deck'
 import { Forum } from './pages/Forum'
 import { GameStart } from './pages/GameDesk/GameStart'
 import { GameResult } from './pages/GameDesk/GameResult'
-import { AppRoute } from './utils/consts'
+import { AppRoute, AuthorizationStatus } from './utils/consts'
 import { PostPage } from './pages/Forum/Post'
 import { SignInContainer } from './containers/SignInContainer'
 import { SignUpContainer } from './containers/SignUpContainer'
 import { HeaderContainer } from './containers/HeaderContainer'
 import { PrivateRoute } from './hocs/PrivateRoute/PrivateRoute'
 import { GameDeskContainer } from './containers/GameDeskContainer'
+import { LoadingScreen } from './components/LoadingScreen/LoadingScreen'
+import { useAppselector } from './hooks'
 
 function App() {
   // useEffect(() => {                                    // пока заглушу - пока не возьмемся за бекенд, надоели эти ошибки в консоле постоянные
@@ -31,6 +33,8 @@ function App() {
 
   //   fetchServerData()
   // }, [])
+
+  const { authorizationStatus } = useAppselector(({ USER }) => USER)
 
   return (
     <ThemeProvider theme={mainTheme}>
@@ -62,6 +66,7 @@ function App() {
 
         <Route path="*" element={<Error404 />} />
       </Routes>
+      {authorizationStatus === AuthorizationStatus.Unknown && <LoadingScreen />}
     </ThemeProvider>
   )
 }
