@@ -31,10 +31,6 @@ export const SignInContainer = () => {
   useEffect(() => {
     const codeYandexOAuth = searchParams.get('code')
 
-    if (isAuthorized) {
-      dispatch(getUserThunk())
-    }
-
     if (codeYandexOAuth && !isAuthorized) {
       const data = {
         code: `${codeYandexOAuth}`,

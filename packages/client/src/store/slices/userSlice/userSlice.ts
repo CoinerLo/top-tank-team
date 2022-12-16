@@ -55,11 +55,11 @@ export const userSlice = createSlice({
       builder.addCase(loginThunk.rejected, state => {
         state.authorizationStatus = AuthorizationStatus.NoAuth
       }),
-      builder.addCase(yandexSigninThunk.fulfilled, state => {
-        state.authorizationStatus = AuthorizationStatus.Auth
-      }),
       builder.addCase(yandexSigninThunk.pending, state => {
         state.authorizationStatus = AuthorizationStatus.Unknown
+      }),
+      builder.addCase(yandexSigninThunk.fulfilled, state => {
+        state.authorizationStatus = AuthorizationStatus.Auth
       }),
       builder.addCase(yandexSigninThunk.rejected, state => {
         state.authorizationStatus = AuthorizationStatus.NoAuth
@@ -97,6 +97,9 @@ export const userSlice = createSlice({
       }),
       builder.addCase(updateAvatarThunk.rejected, (state, action) => {
         console.log(action.payload)
+      }),
+      builder.addCase(logoutThunk.pending, state => {
+        state.authorizationStatus = AuthorizationStatus.NoAuth
       }),
       builder.addCase(logoutThunk.fulfilled, state => {
         state.currentUser = initialState.currentUser
