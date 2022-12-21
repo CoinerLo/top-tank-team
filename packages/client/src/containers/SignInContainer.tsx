@@ -4,8 +4,8 @@ import { useAppDispatch } from '../hooks'
 import { SignIn } from '../pages/SignIn'
 import {
   loginThunk,
-  yandexGetIdThunk,
-  yandexSigninThunk,
+  getYandexIdThunk,
+  signinYandexThunk,
 } from '../store/api-thunks'
 import { ISignInData } from '../typings'
 import { useNavigate, useSearchParams } from 'react-router-dom'
@@ -34,10 +34,10 @@ export const SignInContainer = () => {
         code: `${codeYandexOAuth}`,
         redirect_uri: `/${AppRoute.SignIn}`,
       }
-      dispatch(yandexSigninThunk(data))
+      dispatch(signinYandexThunk(data))
       setSearchParams('')
     } else if (!isAuthorized) {
-      dispatch(yandexGetIdThunk(`${window.location.href}`))
+      dispatch(getYandexIdThunk(`${window.location.href}`))
     }
   }, [])
 

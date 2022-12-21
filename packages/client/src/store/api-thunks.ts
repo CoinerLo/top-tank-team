@@ -26,18 +26,18 @@ export const signUpThunk = createAsyncThunk(
   }
 )
 
-export const yandexGetIdThunk = createAsyncThunk(
-  'user/yandexGetId',
+export const getYandexIdThunk = createAsyncThunk(
+  'user/getYandexId',
   async (data: string) => {
-    const res = await OAuthController.yandexGetId(data)
+    const res = await OAuthController.getYandexId(data)
     return res?.data
   }
 )
 
-export const yandexSigninThunk = createAsyncThunk(
-  'user/yandexSignin',
+export const signinYandexThunk = createAsyncThunk(
+  'user/signinYandex',
   async (data: OAuthSingIn, thunkAPI) => {
-    await OAuthController.yandexSignin(data)
+    await OAuthController.signinYandex(data)
     thunkAPI.dispatch(getUserThunk())
   }
 )
