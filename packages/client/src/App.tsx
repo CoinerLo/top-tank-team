@@ -59,7 +59,10 @@ function App() {
               <Route path={AppRoute.StartGame} element={<GameStart />} />
               <Route path={AppRoute.GameId} element={<GameDeskContainer />} />
               <Route path={AppRoute.ResultGame}>
-                <Route path={AppRoute.GameId} element={<GameResultContainer />} />
+                <Route
+                  path={AppRoute.GameId}
+                  element={<GameResultContainer />}
+                />
               </Route>
             </Route>
           </Route>
@@ -71,7 +74,9 @@ function App() {
 
           <Route path="*" element={<Error404 />} />
         </Routes>
-        {authorizationStatus === AuthorizationStatus.Unknown && <LoadingScreen />}
+        {authorizationStatus === AuthorizationStatus.Unknown && (
+          <LoadingScreen />
+        )}
       </ThemeProvider>
     </CacheProvider>
   )
