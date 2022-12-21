@@ -14,6 +14,8 @@ import {
   updateAvatarThunk,
   updatePasswordThunk,
   updateProfileThunk,
+  getYandexIdThunk,
+  signinYandexThunk,
 } from '../../api-thunks'
 
 const initialState: UserSlice = {
@@ -32,6 +34,7 @@ const initialState: UserSlice = {
     message: '',
     isLoading: false,
   },
+  yandexOAuthId: '',
 }
 
 export const userSlice = createSlice({
@@ -51,6 +54,18 @@ export const userSlice = createSlice({
       }),
       builder.addCase(loginThunk.rejected, state => {
         state.authorizationStatus = AuthorizationStatus.NoAuth
+      }),
+      builder.addCase(signinYandexThunk.pending, state => {
+        state.authorizationStatus = AuthorizationStatus.Unknown
+      }),
+      builder.addCase(signinYandexThunk.fulfilled, state => {
+        state.authorizationStatus = AuthorizationStatus.Auth
+      }),
+      builder.addCase(signinYandexThunk.rejected, state => {
+        state.authorizationStatus = AuthorizationStatus.NoAuth
+      }),
+      builder.addCase(getYandexIdThunk.fulfilled, (state, action) => {
+        state.yandexOAuthId = action.payload?.service_id
       }),
       builder.addCase(getUserThunk.fulfilled, (state, action) => {
         state.currentUser = action.payload
@@ -72,9 +87,6 @@ export const userSlice = createSlice({
         state.currentUser = action.payload
         state.currentUser.avatar = avatar
       }),
-      builder.addCase(updateProfileThunk.rejected, (state, action) => {
-        console.log(action.payload)
-      }),
       builder.addCase(updateAvatarThunk.fulfilled, (state, action) => {
         state.currentUser.avatar = action.payload.avatar
           ? `${BASE_URL}resources/${action.payload.avatar}`
@@ -83,12 +95,12 @@ export const userSlice = createSlice({
       builder.addCase(updateAvatarThunk.rejected, (state, action) => {
         console.log(action.payload)
       }),
+      builder.addCase(logoutThunk.pending, state => {
+        state.authorizationStatus = AuthorizationStatus.NoAuth
+      }),
       builder.addCase(logoutThunk.fulfilled, state => {
         state.currentUser = initialState.currentUser
         state.authorizationStatus = AuthorizationStatus.NoAuth
-      }),
-      builder.addCase(logoutThunk.rejected, (state, action) => {
-        console.log(action.payload)
       }),
       builder.addCase(signUpThunk.fulfilled, (state, action) => {
         state.currentUser = action.payload

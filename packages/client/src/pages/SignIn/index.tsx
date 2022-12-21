@@ -19,6 +19,7 @@ import { useAuthorizationStatus } from '../../hooks/useAuthorizationStatus'
 import { ISignInData } from '../../typings'
 import { AppRoute } from '../../utils/consts'
 import { loginValidation, passwordValidation } from '../../utils/validation'
+import { useAppselector } from '../../hooks'
 
 interface ISignIn {
   handleSubmitSignInData: SubmitHandler<ISignInData>
@@ -32,8 +33,9 @@ export const SignIn: FC<ISignIn> = ({ handleSubmitSignInData }) => {
   const { errors } = useFormState({
     control,
   })
-
   const { isAuthorized } = useAuthorizationStatus()
+  const { yandexOAuthId } = useAppselector(({ USER }) => USER)
+  const yandexOAuthUrl = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yandexOAuthId}&redirect_uri=http://localhost:3000/signin`
 
   if (isAuthorized) {
     return <Navigate to={`/${AppRoute.Headquarters}`} />
@@ -52,6 +54,17 @@ export const SignIn: FC<ISignIn> = ({ handleSubmitSignInData }) => {
         sx={{ alignSelf: 'center', marginBottom: '25px' }}>
         Вход
       </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Typography sx={{ marginRight: '5px' }}>Авторизация через:</Typography>
+        <Link href={yandexOAuthUrl} mt="6px">
+          <Box
+            component="img"
+            src="/yandexLogoOAuth.png"
+            alt="HomeLogo"
+            sx={{ height: '30px' }}
+          />
+        </Link>
+      </Box>
       <FormControl
         component="form"
         onSubmit={handleSubmit(handleSubmitSignInData)}

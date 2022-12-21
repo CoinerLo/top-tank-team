@@ -68,7 +68,7 @@ export const fieldsIcons = [
 ]
 
 export enum BattleCardIcons {
-  training = '/cards/icons/head-icon.png',
+  учебный = '/cards/icons/head-icon.png',
   тяжёлый = '/cards/icons/tt-icon.png',
   'ПТ-САУ' = '/cards/icons/pt-icon.png',
   лёгкий = '/cards/icons/lt-icon.png',
@@ -126,13 +126,13 @@ export enum HeadquartersNames {
 export const getHeadquartersPreview = (headquarters: string) => {
   switch (headquarters) {
     case HeadquartersNames.german:
-      return 'avatar_default.png'
+      return '/game/avatar_default.png'
     case HeadquartersNames.ussr:
-      return 'avatar_default_ussr.png'
+      return '/game/avatar_default_ussr.png'
     case HeadquartersNames.usa:
-      return 'avatar_default_usa.png'
+      return '/game/avatar_default_usa.png'
     default:
-      return 'avatar_default.png'
+      return '/game/avatar_default.png'
   }
 }
 
@@ -156,3 +156,16 @@ export const coordinates = {
 
 export const DPI_WIDTH = 854
 export const DPI_HEIGHT = 512
+
+export const rowsResultGameData = {
+  disposition: 'Диспозиция',
+  headquarters: 'Штаб',
+  deckStrength: 'Сила колоды',
+  statistics: 'Статистика',
+  strength_headquarters: 'Прочность штаба в момент окончания боя',
+  cardsInDeck: 'Карт в колоде в момент окончания боя',
+  resourcesSpent: 'Потрачено ресурсов за бой',
+  vehiclesDestroyed: 'Уничтожено техники противника',
+  platoonsDestroyed: 'Уничтожено взводов противника',
+  ordersPlayed: 'Разыграно приказов',
+}

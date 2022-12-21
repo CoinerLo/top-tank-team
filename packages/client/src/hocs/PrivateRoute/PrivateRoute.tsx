@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import { useAuthorizationStatus } from '../../hooks/useAuthorizationStatus'
-import { AppRoute } from '../../utils/consts'
+import { AppRoute, AuthorizationStatus } from '../../utils/consts'
+import { useAppselector } from '../../hooks'
 
 type PrivateRouteProps = {
   children?: JSX.Element
@@ -9,9 +9,9 @@ type PrivateRouteProps = {
 
 export const PrivateRoute: FC<PrivateRouteProps> = props => {
   const { children } = props
-  const { isAuthorized } = useAuthorizationStatus()
+  const { authorizationStatus } = useAppselector(({ USER }) => USER)
 
-  if (!isAuthorized) {
+  if (authorizationStatus === AuthorizationStatus.NoAuth) {
     return <Navigate to={`/${AppRoute.SignIn}`} replace />
   }
 

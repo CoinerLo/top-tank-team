@@ -1,25 +1,44 @@
-import { Tank } from '../../gameCore/models/TanksDeck'
+import { GameDeskSegmentKeyType } from '../../gameCore/types'
 import { BattleCardIcons, DPI_HEIGHT, IconsByName } from '../consts'
 
 export interface IElementsCreator {
   type: string
-  tank: Tank
-  targetСell: string
+  targetСell: GameDeskSegmentKeyType
+  tankName: string
+  tankBringsResources: number
+  tankDamage: number
+  tankHealth: number
+  tankType: string
 }
 
 export class ElementsCreator {
-  targetСell: string
-  type: string
-  tank: Tank
-  imgSrc: string
-  headImgSrc: string
+  public targetСell
+  public type
+  private imgSrc
+  private headImgSrc
+  private tankName
+  private tankBringsResources
+  private tankDamage
+  private tankHealth
+  private headTextFillStyle = false
 
-  constructor({ type, tank, targetСell }: IElementsCreator) {
+  constructor({
+    type,
+    tankName,
+    tankHealth,
+    tankType,
+    tankDamage,
+    tankBringsResources,
+    targetСell,
+  }: IElementsCreator) {
     this.targetСell = targetСell
     this.type = type
-    this.tank = tank
-    this.imgSrc = (IconsByName as Record<string, string>)[tank.name]
-    this.headImgSrc = (BattleCardIcons as Record<string, string>)[tank.type]
+    this.tankName = tankName
+    this.tankBringsResources = tankBringsResources
+    this.tankDamage = tankDamage
+    this.tankHealth = tankHealth
+    this.imgSrc = (IconsByName as Record<string, string>)[tankName]
+    this.headImgSrc = (BattleCardIcons as Record<string, string>)[tankType]
   }
 
   getElement() {
@@ -41,33 +60,45 @@ export class ElementsCreator {
       },
       headIconImg: { w: 20, h: 18, dx: 3, dy: 10, src: this.headImgSrc },
       headText: {
-        text: this.tank.name,
+        text: this.tankName,
         dx: 25,
         dy: 25,
-        font: '10pt Arial',
-        fillStyle: 'gray',
+        font: '15px Arial',
+        fillStyle: this.headTextFillStyle ? 'red' : 'gray',
       },
       bringsResourcesText: {
-        text: this.tank.bringsResources.toString(),
+        text: this.tankBringsResources.toString(),
         dx: 145,
         dy: 31,
         font: 'bold 18px Arial',
         fillStyle: '#000',
       },
       damage: {
-        text: this.tank.damage.toString(),
+        text: this.tankDamage.toString(),
         dx: 12,
         dy: 105,
         font: 'bold 18px Arial',
         fillStyle: '#64CB3E',
       },
       health: {
-        text: this.tank.health.toString(),
-        dx: 12,
+        text: this.tankHealth.toString(),
+        dx: this.tankHealth > 9 ? 8 : 12,
         dy: 145,
-        font: 'bold 18px Arial',
+        font: 'bold 16px Arial',
         fillStyle: '#fff',
       },
     }
+  }
+
+  toggleActiveElementState() {
+    this.headTextFillStyle = !this.headTextFillStyle
+  }
+
+  moveActiveElement(target: GameDeskSegmentKeyType) {
+    this.targetСell = target
+  }
+
+  changeHealth(health: number) {
+    this.tankHealth = health
   }
 }

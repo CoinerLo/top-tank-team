@@ -1,8 +1,9 @@
 import { Button, Box, Typography, Container, Link } from '@mui/material'
-import React from 'react'
-import { AppRoute } from '../../utils/consts'
+import { AppRoute, AuthorizationStatus } from '../../utils/consts'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuthorizationStatus } from '../../hooks/useAuthorizationStatus'
+import { useAppselector } from '../../hooks'
+import { LoadingScreen } from '../../components/LoadingScreen/LoadingScreen'
 
 const styles = {
   container: {
@@ -12,6 +13,7 @@ const styles = {
     paddingTop: '100px',
   },
   mainBtn: {
+    margin: '20px',
     marginX: '40px',
     padding: '20px 80px',
     fontSize: '2rem',
@@ -22,7 +24,7 @@ export const Home = () => {
   const navigate = useNavigate()
   const { isAuthorized } = useAuthorizationStatus()
 
-  const signIn = () => {
+  const handleClickGoToPageSigninButton = () => {
     navigate(`/${AppRoute.SignIn}`)
   }
 
@@ -79,7 +81,10 @@ export const Home = () => {
         </Typography>
       </Box>
       {!isAuthorized && (
-        <Button onClick={signIn} variant="secondary" sx={styles.mainBtn}>
+        <Button
+          onClick={handleClickGoToPageSigninButton}
+          variant="secondary"
+          sx={styles.mainBtn}>
           Войти
         </Button>
       )}

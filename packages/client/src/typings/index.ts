@@ -18,6 +18,15 @@ export interface ISignInData {
   password: string
 }
 
+export interface OAuthSingIn {
+  code: string
+  redirect_uri: string
+}
+
+export interface GetIdYandex {
+  service_id: string
+}
+
 export interface ISingUpForm {
   first_name: string
   second_name: string
@@ -47,6 +56,7 @@ export interface UserSlice {
     message: string
     isLoading: boolean
   }
+  yandexOAuthId: string
 }
 
 export interface DecksSlice {
@@ -55,4 +65,23 @@ export interface DecksSlice {
 
 export interface GameSlice {
   game: Record<string, Game>
+}
+
+export type KeyDataGameResultType<K> = {
+  title: string
+  user: K
+  opponent: K
+}
+
+export type DataGameResultType = {
+  disposition: KeyDataGameResultType<string>
+  headquarters: KeyDataGameResultType<string>
+  deckStrength: KeyDataGameResultType<number>
+  statistics: KeyDataGameResultType<string>
+  headquartersHealth: KeyDataGameResultType<number>
+  cardsInDeck: KeyDataGameResultType<number>
+  resourcesSpent: KeyDataGameResultType<number>
+  vehiclesDestroyed: KeyDataGameResultType<number>
+  platoonsDestroyed: KeyDataGameResultType<number>
+  ordersPlayed: KeyDataGameResultType<number>
 }
