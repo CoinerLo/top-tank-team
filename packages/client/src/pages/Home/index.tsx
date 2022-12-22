@@ -1,9 +1,7 @@
 import { Button, Box, Typography, Container, Link } from '@mui/material'
-import { AppRoute, AuthorizationStatus } from '../../utils/consts'
+import { AppRoute } from '../../utils/consts'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuthorizationStatus } from '../../hooks/useAuthorizationStatus'
-import { useAppselector } from '../../hooks'
-import { LoadingScreen } from '../../components/LoadingScreen/LoadingScreen'
 
 const styles = {
   container: {
