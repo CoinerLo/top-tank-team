@@ -1,6 +1,6 @@
 import { ElementsCreator } from '../../../utils/canvasEngine/canvasElement'
+import { findCardFromDeckById } from '../../allCardsForDeck'
 import { IBuildNewVehicle, ISaveDataVechicle } from '../../types'
-import { findCardFromDeckById } from '../../utils'
 import { headquartersByName } from '../HeadquartersDeck'
 import { Vehicle } from '../Vehicle'
 

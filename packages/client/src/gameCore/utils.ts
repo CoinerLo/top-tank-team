@@ -1,5 +1,4 @@
-import { allCardsForDeck } from './allCardsForDeck'
-import BaseCard from './models/BaseCard'
+import type BaseCard from './models/BaseCard'
 
 export const decksOfCardsByTier = <T extends BaseCard>(cardsArray: T[]) =>
   cardsArray.reduce(
@@ -25,10 +24,6 @@ export const decksOfCardsByTier = <T extends BaseCard>(cardsArray: T[]) =>
       third: [] as T[],
     }
   )
-
-export const findCardFromDeckById = (id: string) => {
-  return allCardsForDeck.find(card => Number(card.id) === Number(id))
-}
 
 const ids = [0]
 export const nanoid = () => {
