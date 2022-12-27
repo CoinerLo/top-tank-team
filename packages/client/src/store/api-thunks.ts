@@ -16,7 +16,6 @@ import LeaderController from '../controllers/LeaderController'
 export const loginThunk = createAsyncThunk(
   'user/login',
   async (data: ISignInData, thunkAPI) => {
-  async (data: ISignInData, thunkAPI) => {
     await AuthController.signin(data)
     thunkAPI.dispatch(getUserThunk())
     thunkAPI.dispatch(getUserThunk())
