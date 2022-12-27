@@ -6,7 +6,7 @@ import { Headquarters } from './pages/Headquarters'
 import { Error404 } from './pages/Error404'
 import { Briefing } from './pages/Briefing'
 import { Home } from './pages/Home'
-import { LeaderBoard } from './pages/Leaderboard'
+import { LeaderBoard } from './pages/LeaderBoard'
 import { Upgrade } from './pages/Upgrade'
 import { Deck } from './pages/Deck'
 import { Forum } from './pages/Forum'
@@ -23,6 +23,7 @@ import { useAppselector } from './hooks'
 import createEmotionCache from './createEmotionCache'
 import { CacheProvider } from '@emotion/react'
 import { GameResultContainer } from './containers/GameResultContainer'
+import { LeaderboardContainer } from './containers/LeaderboardContainer'
 
 function App() {
   // useEffect(() => {                                    // пока заглушу - пока не возьмемся за бекенд, надоели эти ошибки в консоле постоянные
@@ -54,7 +55,7 @@ function App() {
             <Route path={AppRoute.Headquarters} element={<Headquarters />} />
             <Route path={AppRoute.Upgrade} element={<Upgrade />} />
             <Route path={AppRoute.Deck} element={<Deck />} />
-            <Route path={AppRoute.Leaderboard} element={<LeaderBoard />} />
+            <Route path={AppRoute.Leaderboard} element={<LeaderboardContainer />} />
             <Route path={AppRoute.Game}>
               <Route path={AppRoute.StartGame} element={<GameStart />} />
               <Route path={AppRoute.GameId} element={<GameDeskContainer />} />

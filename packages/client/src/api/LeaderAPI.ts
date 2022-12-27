@@ -1,20 +1,21 @@
 import { PraktikumClient } from './PraktikumClient'
 import { AxiosResponse } from 'axios'
+import { ILeaderAdd, ILeaderAll } from '../typings'
 
-export interface ILeaderAdd {
-  data: {
-    name: string
-    ratingTopTank1: number
-  }
-  ratingFieldName: string
-  teamName: string
-}
+// export interface ILeaderAdd {
+//   data: {
+//     name: string
+//     ratingTopTank1: number
+//   }
+//   ratingFieldName: string
+//   teamName: string
+// }
 
-export interface ILeaderAll {
-  ratingFieldName: string
-  cursor: number
-  limit: number
-}
+// export interface ILeaderAll {
+//   ratingFieldName: string
+//   cursor: number
+//   limit: number
+// }
 
 export class LeaderAPI {
   static API_URL = 'leaderboard'

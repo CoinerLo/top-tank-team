@@ -1,4 +1,5 @@
-import API, { ILeaderAdd, ILeaderAll, LeaderAPI } from '../api/LeaderAPI'
+import API, { LeaderAPI } from '../api/LeaderAPI'
+import { ILeaderAdd, ILeaderAll } from '../typings'
 
 export class LeaderController {
   private readonly api: LeaderAPI

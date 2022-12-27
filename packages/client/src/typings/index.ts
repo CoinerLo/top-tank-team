@@ -57,6 +57,7 @@ export interface UserSlice {
     isLoading: boolean
   }
   yandexOAuthId: string
+  leaders: any
 }
 
 export interface DecksSlice {
@@ -84,4 +85,21 @@ export type DataGameResultType = {
   vehiclesDestroyed: KeyDataGameResultType<number>
   platoonsDestroyed: KeyDataGameResultType<number>
   ordersPlayed: KeyDataGameResultType<number>
+}
+
+export interface ILeaderAll {
+  ratingFieldName: string
+  cursor: number
+  limit: number
+}
+
+export interface ILeaderAdd {
+  data: {
+    name: string
+    ratingTopTank1: number
+    winner: number
+    all: number
+  }
+  ratingFieldName: string
+  teamName: string
 }
