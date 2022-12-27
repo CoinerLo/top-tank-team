@@ -8,13 +8,13 @@ export class OAuthController {
     this.api = API
   }
 
-  async yandexGetId(data: string) {
-    const response = await this.api.yandexGetId(data)
+  async getYandexId(data: string) {
+    const response = await this.api.getId(data)
     return response
   }
 
-  async yandexSignin(data: OAuthSingIn) {
-    await this.api.yandexSignin(data)
+  async signinYandex(data: OAuthSingIn) {
+    await this.api.signin(data)
   }
 }
 

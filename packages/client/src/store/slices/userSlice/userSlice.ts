@@ -14,8 +14,8 @@ import {
   updateAvatarThunk,
   updatePasswordThunk,
   updateProfileThunk,
-  yandexGetIdThunk,
-  yandexSigninThunk,
+  getYandexIdThunk,
+  signinYandexThunk,
   getAllLeaderThunk,
 } from '../../api-thunks'
 
@@ -57,16 +57,16 @@ export const userSlice = createSlice({
       builder.addCase(loginThunk.rejected, state => {
         state.authorizationStatus = AuthorizationStatus.NoAuth
       }),
-      builder.addCase(yandexSigninThunk.pending, state => {
+      builder.addCase(signinYandexThunk.pending, state => {
         state.authorizationStatus = AuthorizationStatus.Unknown
       }),
-      builder.addCase(yandexSigninThunk.fulfilled, state => {
+      builder.addCase(signinYandexThunk.fulfilled, state => {
         state.authorizationStatus = AuthorizationStatus.Auth
       }),
-      builder.addCase(yandexSigninThunk.rejected, state => {
+      builder.addCase(signinYandexThunk.rejected, state => {
         state.authorizationStatus = AuthorizationStatus.NoAuth
       }),
-      builder.addCase(yandexGetIdThunk.fulfilled, (state, action) => {
+      builder.addCase(getYandexIdThunk.fulfilled, (state, action) => {
         state.yandexOAuthId = action.payload?.service_id
       }),
       builder.addCase(getUserThunk.fulfilled, (state, action) => {
