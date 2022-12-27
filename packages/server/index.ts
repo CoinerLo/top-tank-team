@@ -56,7 +56,7 @@ async function startServer() {
         template = await vite!.transformIndexHtml(url, template)
       }
 
-      let render: () => Promise<{
+      let render: (url: string) => Promise<{
         html: string
         css: string
         store: any
@@ -69,7 +69,7 @@ async function startServer() {
           .render
       }
 
-      const appHtml = await render()
+      const appHtml = await render(url)
       const storeString = JSON.stringify(appHtml.store).replace(/</g, '\\u003c')
 
       const html = template
