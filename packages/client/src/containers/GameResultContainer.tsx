@@ -3,59 +3,48 @@ import { Navigate, useParams } from 'react-router-dom'
 import { useAppDispatch, useAppselector } from '../hooks'
 import { GameResult } from '../pages/GameDesk/GameResult'
 import { addLeaderThunk } from '../store/api-thunks'
+import { resultGameDataCreator } from '../utils'
 import { AppRoute } from '../utils/consts'
 
 export const GameResultContainer = () => {
   const dispatch = useAppDispatch()
-  const { leaders } = useAppselector(({ USER }) => USER)
+  const { gameId } = useParams()
+  const { currentUser } = useAppselector(({ USER }) => USER)
+  const { game: games } = useAppselector(({ GAME }) => GAME)
+  let game,
+    headquartersHealth: any,
+    vehiclesDestroyed: any,
+    platoonsDestroyed: any
+  if (gameId) {
+    game = games[gameId]
+  }
+  if (game) {
+    ;({ headquartersHealth, vehiclesDestroyed, platoonsDestroyed } =
+      resultGameDataCreator(game))
+  }
 
-  
   useEffect(() => {
-    // console.log('ho')
-    let arr:any[] = []
-    let name, winner, all, ratingTopTank1
-    if (leaders) {
-      arr = leaders.filter((val:any) => {
-        if (val.data.name == 'gamer8') {
-          return true
-        }
-        return false
-      })
-      if (arr.length > 0 && arr[0].data) {
-        ({ name, winner, all, ratingTopTank1 } = arr[0].data)
-        all = all + 1
-        ratingTopTank1 = winner / all * 5
-      } else {
-        name = 'gamer8'
-        winner = 2
-        all = 4
-        ratingTopTank1 = winner / all * 5
-      }
-    } else {
-      name = 'gamer8'
-      winner = 2
-      all = 4
-      ratingTopTank1 = winner / all * 5
+    const name = currentUser.login
+    let ratingTopTank1 =
+      ((headquartersHealth.user +
+        vehiclesDestroyed.user +
+        platoonsDestroyed.user) /
+        100) *
+      5
+    if (ratingTopTank1 > 5) {
+      ratingTopTank1 = 5
     }
-    console.log(all)
+
     const data = {
       data: {
         name,
-        winner,
-        all,
-        ratingTopTank1
+        ratingTopTank1,
       },
       ratingFieldName: 'ratingTopTank1',
       teamName: 'topTank1',
     }
     dispatch(addLeaderThunk(data))
   }, [])
-  const { gameId } = useParams()
-  const { game: games } = useAppselector(({ GAME }) => GAME)
-  let game
-  if (gameId) {
-    game = games[gameId]
-  }
 
   return game ? (
     <GameResult game={game} />

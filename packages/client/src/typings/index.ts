@@ -97,8 +97,6 @@ export interface ILeaderAdd {
   data: {
     name: string
     ratingTopTank1: number
-    winner: number
-    all: number
   }
   ratingFieldName: string
   teamName: string

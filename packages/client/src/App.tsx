@@ -6,7 +6,6 @@ import { Headquarters } from './pages/Headquarters'
 import { Error404 } from './pages/Error404'
 import { Briefing } from './pages/Briefing'
 import { Home } from './pages/Home'
-import { LeaderBoard } from './pages/LeaderBoard'
 import { Upgrade } from './pages/Upgrade'
 import { Deck } from './pages/Deck'
 import { Forum } from './pages/Forum'
@@ -55,12 +54,18 @@ function App() {
             <Route path={AppRoute.Headquarters} element={<Headquarters />} />
             <Route path={AppRoute.Upgrade} element={<Upgrade />} />
             <Route path={AppRoute.Deck} element={<Deck />} />
-            <Route path={AppRoute.Leaderboard} element={<LeaderboardContainer />} />
+            <Route
+              path={AppRoute.Leaderboard}
+              element={<LeaderboardContainer />}
+            />
             <Route path={AppRoute.Game}>
               <Route path={AppRoute.StartGame} element={<GameStart />} />
               <Route path={AppRoute.GameId} element={<GameDeskContainer />} />
               <Route path={AppRoute.ResultGame}>
-                <Route path={AppRoute.GameId} element={<GameResultContainer />} />
+                <Route
+                  path={AppRoute.GameId}
+                  element={<GameResultContainer />}
+                />
               </Route>
             </Route>
           </Route>
@@ -72,7 +77,9 @@ function App() {
 
           <Route path="*" element={<Error404 />} />
         </Routes>
-        {authorizationStatus === AuthorizationStatus.Unknown && <LoadingScreen />}
+        {authorizationStatus === AuthorizationStatus.Unknown && (
+          <LoadingScreen />
+        )}
       </ThemeProvider>
     </CacheProvider>
   )

@@ -8,7 +8,6 @@ import { AppRoute } from '../utils/consts'
 export const GameDeskContainer = () => {
   const dispatch = useAppDispatch()
   useEffect(() => {
-    console.log('ha')
     const data = {
       ratingFieldName: 'ratingTopTank1',
       cursor: 0,
