@@ -8,7 +8,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
     }).concat(redirect),
-  preloadedState: JSON.parse(window.__PRELOADED_STATE__),
+  // preloadedState: JSON.parse(window.__PRELOADED_STATE__),
 })
 
-delete window.__PRELOADED_STATE__
+// delete window.__PRELOADED_STATE__

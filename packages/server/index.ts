@@ -52,35 +52,49 @@ async function startServer() {
         )
       } else {
         template = fs.readFileSync(path.resolve(srcPath, 'index.html'), 'utf-8')
-
-        template = await vite!.transformIndexHtml(url, template)
+        if (!vite) {
+          console.log('Error! Vite is not defined')
+          return
+        }
+        template = await vite.transformIndexHtml(url, template)
       }
 
       let render: (url: string) => Promise<{
         html: string
         css: string
-        store: any
+        // store: unknown
       }>
 
       if (!isDev()) {
         render = (await import(ssrClientPath)).render
       } else {
-        render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
+        if (!vite) {
+          console.log('Error! Vite is not defined')
+          return
+        }
+        render = (await vite.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
           .render
       }
 
       const appHtml = await render(url)
-      const storeString = JSON.stringify(appHtml.store).replace(/</g, '\\u003c')
+      // console.log(appHtml.store);
 
+      // const storeString = JSON.stringify(appHtml.store).replace(/</g, '\\u003c')
+      // console.log(appHtml.store);
+      // console.log(JSON.stringify(appHtml.store));
       const html = template
         .replace(`<!--ssr-outlet-->`, appHtml.html)
         .replace('<!--css-outlet-->', appHtml.css)
-        .replace('ssr-store', storeString)
+      // .replace('ssr-store', storeString)
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
       if (isDev()) {
-        vite!.ssrFixStacktrace(e as Error)
+        if (!vite) {
+          console.log('Error! Vite is not defined')
+          return
+        }
+        vite.ssrFixStacktrace(e as Error)
       }
       next(e)
     }
