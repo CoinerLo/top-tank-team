@@ -1,12 +1,26 @@
 import { BasicTable } from './BasicTable'
 import { render, screen } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import { store } from '../../../store'
+// import { useAppselector } from '../../../hooks'
+
+// import * as redux from 'react-redux'
+
+// const spy = jest.spyOn(redux, 'useAppselector')
 
 describe('Basic table component. NO TEST!', () => {
   it('Renders table. NO TEST!', () => {
-    // render(<BasicTable />)
+    // jest.mock('useAppselector')
+    jest.mock('../../../hooks')
 
-    // const table = screen.getByRole('table')
+    render(
+      <Provider store={store}>
+        <BasicTable />
+      </Provider>
+    )
 
-    expect(1).toBe(1)
+    const table = screen.getByRole('table')
+
+    expect(table).toBeTruthy
   })
 })
