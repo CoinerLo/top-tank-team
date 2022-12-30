@@ -16,6 +16,7 @@ import {
   updateProfileThunk,
   getYandexIdThunk,
   signinYandexThunk,
+  getAllLeaderThunk,
 } from '../../api-thunks'
 
 const initialState: UserSlice = {
@@ -35,6 +36,7 @@ const initialState: UserSlice = {
     isLoading: false,
   },
   yandexOAuthId: '',
+  leaders: [],
 }
 
 export const userSlice = createSlice({
@@ -122,6 +124,12 @@ export const userSlice = createSlice({
       builder.addCase(updatePasswordThunk.rejected, state => {
         state.changePasswordStatus.message = ChangePasswordStatus.NoChanged
         state.changePasswordStatus.isLoading = false
+      }),
+      builder.addCase(getAllLeaderThunk.fulfilled, (state, action) => {
+        state.leaders = action.payload
+      }),
+      builder.addCase(getAllLeaderThunk.rejected, (state, action) => {
+        console.log(action.payload)
       })
   },
 })
