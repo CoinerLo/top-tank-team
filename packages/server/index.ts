@@ -3,15 +3,18 @@ import cors from 'cors'
 import { createServer as createViteServer } from 'vite'
 import type { ViteDevServer } from 'vite'
 
-dotenv.config()
+import path from 'path'
+import fs from 'fs'
+dotenv.config({ path: '../../.env' })
 
 import express from 'express'
-import * as fs from 'fs'
-import * as path from 'path'
+import { dbConnect } from './db'
 
 const isDev = () => process.env.NODE_ENV === 'development'
 
 async function startServer() {
+  await dbConnect()
+
   const app = express()
   app.use(cors())
   const port = Number(process.env.SERVER_PORT) || 3001
