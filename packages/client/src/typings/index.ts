@@ -57,6 +57,7 @@ export interface UserSlice {
     isLoading: boolean
   }
   yandexOAuthId: string
+  databaseId: number
 }
 
 export interface DecksSlice {
@@ -84,4 +85,9 @@ export type DataGameResultType = {
   vehiclesDestroyed: KeyDataGameResultType<number>
   platoonsDestroyed: KeyDataGameResultType<number>
   ordersPlayed: KeyDataGameResultType<number>
+}
+
+export type UserDBType = {
+  firstName: string
+  lastName: string
 }

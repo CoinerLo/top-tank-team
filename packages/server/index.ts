@@ -2,20 +2,23 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import { createServer as createViteServer } from 'vite'
 import type { ViteDevServer } from 'vite'
-
+import bodyParser from 'body-parser'
 import path from 'path'
 import fs from 'fs'
 dotenv.config({ path: '../../.env' })
 
 import express from 'express'
 import { dbConnect } from './db'
+import { UserController } from './controllers/UserController'
 
 const isDev = () => process.env.NODE_ENV === 'development'
 
 async function startServer() {
-  await dbConnect()
+  await dbConnect(isDev())
 
   const app = express()
+  app.use(bodyParser.urlencoded({ extended: false }))
+  app.use(bodyParser.json())
   app.use(cors())
   const port = Number(process.env.SERVER_PORT) || 3001
 
@@ -37,6 +40,9 @@ async function startServer() {
   app.get('/api', (_, res) => {
     res.json('👋 Howdy from the server :)')
   })
+
+  app.post('/api/v1/adduser', UserController.addUser)
+  app.get('/api/v1/finduser', UserController.findUser)
 
   if (!isDev()) {
     app.use('/assets', express.static(path.resolve(distPath, 'assets')))
@@ -80,11 +86,9 @@ async function startServer() {
       }
 
       const appHtml = await render(url)
-      // console.log(appHtml.store);
 
       // const storeString = JSON.stringify(appHtml.store).replace(/</g, '\\u003c')
-      // console.log(appHtml.store);
-      // console.log(JSON.stringify(appHtml.store));
+
       const html = template
         .replace(`<!--ssr-outlet-->`, appHtml.html)
         .replace('<!--css-outlet-->', appHtml.css)

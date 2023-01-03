@@ -5,10 +5,12 @@ import {
   IChangeDataForm,
   ISingUpForm,
   OAuthSingIn,
+  UserDBType,
 } from '../typings'
 import UserController from '../controllers/UserController'
 import { UserAPIUpdatePassword } from '../api/UserAPI'
 import OAuthController from '../controllers/OAuthController'
+import DatabaseController from '../controllers/DatabaseController'
 
 export const loginThunk = createAsyncThunk(
   'user/login',
@@ -44,7 +46,11 @@ export const signinYandexThunk = createAsyncThunk(
 
 export const getUserThunk = createAsyncThunk('user/getUser', async () => {
   const res = await AuthController.fetchUser()
-  return res?.data
+  const resDB = await DatabaseController.findAndAddUserInDB({
+    firstName: res.data.first_name,
+    lastName: res.data.second_name,
+  })
+  return { ...res.data, ...resDB.data }
 })
 
 export const logoutThunk = createAsyncThunk('user/logout', async () => {
@@ -72,5 +78,21 @@ export const updateAvatarThunk = createAsyncThunk(
   async (data: FormData) => {
     const res = await UserController.updateAvatar(data)
     return res?.data
+  }
+)
+
+export const addUserInDBThunk = createAsyncThunk(
+  'database/addUser',
+  async (data: UserDBType) => {
+    const res = await DatabaseController.addUserInDB(data)
+    return res.data
+  }
+)
+
+export const findUserInDBThunk = createAsyncThunk(
+  'database/findUser',
+  async (data: UserDBType) => {
+    const res = await DatabaseController.findUserInDB(data)
+    return res.data
   }
 )
