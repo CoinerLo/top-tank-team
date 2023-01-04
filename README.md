@@ -108,3 +108,10 @@
 Запуск:
 
     docker compose up postgres
+
+Запуск pgadmin4:
+
+    docker compose up pgadmin
+
+Pgadmin4 запустится на [8080 порту](http://localhost:8080)
+
