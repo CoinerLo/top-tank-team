@@ -9,7 +9,7 @@ dotenv.config({ path: '../../.env' })
 
 import express from 'express'
 import { dbConnect } from './db'
-import { UserController } from './controllers/UserController'
+import router from './router'
 
 const isDev = () => process.env.NODE_ENV === 'development'
 
@@ -41,8 +41,7 @@ async function startServer() {
     res.json('👋 Howdy from the server :)')
   })
 
-  app.post('/api/v1/adduser', UserController.addUser)
-  app.get('/api/v1/finduser', UserController.findUser)
+  app.use(router)
 
   if (!isDev()) {
     app.use('/assets', express.static(path.resolve(distPath, 'assets')))
