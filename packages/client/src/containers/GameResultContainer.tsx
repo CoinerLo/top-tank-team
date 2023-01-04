@@ -3,18 +3,20 @@ import { Navigate, useParams } from 'react-router-dom'
 import { useAppDispatch, useAppselector } from '../hooks'
 import { GameResult } from '../pages/GameDesk/GameResult'
 import { addLeaderThunk } from '../store/api-thunks'
-import { resultGameDataCreator } from '../utils'
-import { AppRoute } from '../utils/consts'
+import { KeyDataGameResultType } from '../typings'
+import { calculationRatingTopTank1, resultGameDataCreator } from '../utils'
+import { AppRoute, ratingFieldName, teamName } from '../utils/consts'
 
 export const GameResultContainer = () => {
   const dispatch = useAppDispatch()
   const { gameId } = useParams()
-  const { currentUser } = useAppselector(({ USER }) => USER)
-  const { game: games } = useAppselector(({ GAME }) => GAME)
+  const { USER, GAME } = useAppselector(({ USER, GAME }) => ({ USER, GAME }))
+  const { currentUser } = USER
+  const { game: games } = GAME
   let game,
-    headquartersHealth: any,
-    vehiclesDestroyed: any,
-    platoonsDestroyed: any
+    headquartersHealth: KeyDataGameResultType<number>,
+    vehiclesDestroyed: KeyDataGameResultType<number>,
+    platoonsDestroyed: KeyDataGameResultType<number>
   if (gameId) {
     game = games[gameId]
   }
@@ -25,23 +27,19 @@ export const GameResultContainer = () => {
 
   useEffect(() => {
     const name = currentUser.login
-    let ratingTopTank1 =
-      ((headquartersHealth.user +
-        vehiclesDestroyed.user +
-        platoonsDestroyed.user) /
-        100) *
-      5
-    if (ratingTopTank1 > 5) {
-      ratingTopTank1 = 5
-    }
+    const ratingTopTank1 = calculationRatingTopTank1(
+      headquartersHealth.user,
+      vehiclesDestroyed.user,
+      platoonsDestroyed.user
+    )
 
     const data = {
       data: {
         name,
         ratingTopTank1,
       },
-      ratingFieldName: 'ratingTopTank1',
-      teamName: 'topTank1',
+      ratingFieldName,
+      teamName,
     }
     dispatch(addLeaderThunk(data))
   }, [])

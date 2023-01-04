@@ -57,7 +57,6 @@ export interface UserSlice {
     isLoading: boolean
   }
   yandexOAuthId: string
-  leaders: any
 }
 
 export interface DecksSlice {
@@ -100,4 +99,19 @@ export interface ILeaderAdd {
   }
   ratingFieldName: string
   teamName: string
+}
+
+export type ILeader = Omit<ILeaderAdd, 'ratingFieldName' | 'teamName'>
+
+export interface ILeadersSlice {
+  leaders: Array<ILeader>
+}
+
+export interface RatingCellProps {
+  rating: 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5
+}
+
+export interface ICreateData {
+  name: string
+  rating: RatingCellProps['rating']
 }

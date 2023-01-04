@@ -1,8 +1,7 @@
 import { Container, Box, Typography } from '@mui/material'
-import { FC } from 'react'
 import { BasicTable } from '../../components/leaderboard/table/BasicTable'
 
-export const Leaderboard: FC = () => {
+export const Leaderboard = () => {
   return (
     <Container
       disableGutters

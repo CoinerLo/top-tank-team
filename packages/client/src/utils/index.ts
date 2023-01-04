@@ -101,3 +101,16 @@ export const resultGameDataCreator = (game: Game): DataGameResultType => {
     },
   }
 }
+
+export const calculationRatingTopTank1 = (
+  headquartersHealth: number,
+  vehiclesDestroyed: number,
+  platoonsDestroyed: number
+) => {
+  let ratingTopTank1 =
+    ((headquartersHealth + vehiclesDestroyed + platoonsDestroyed) / 50) * 5
+  if (ratingTopTank1 > 5) {
+    ratingTopTank1 = 5
+  }
+  return (ratingTopTank1 = +ratingTopTank1.toFixed(3))
+}

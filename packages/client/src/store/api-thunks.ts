@@ -79,17 +79,17 @@ export const updateAvatarThunk = createAsyncThunk(
 )
 
 export const getAllLeaderThunk = createAsyncThunk(
-  'user/getAllLeader',
+  'leaders/getAllLeader',
   async (data: ILeaderAll) => {
     const res = await LeaderController.getAllLeader(data)
-    return res?.data
+    return res.data
   }
 )
 
 export const addLeaderThunk = createAsyncThunk(
-  'user/addLeader',
+  'leaders/addLeader',
   async (data: ILeaderAdd) => {
     const res = await LeaderController.addLeader(data)
-    return res?.data
+    return res.data
   }
 )

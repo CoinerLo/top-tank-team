@@ -8,19 +8,25 @@ import {
   Paper,
 } from '@mui/material'
 import { useAppselector } from '../../../hooks'
-import { RatingCell, RatingCellProps } from './cell/rating/RatingCell'
+import { ICreateData, ILeader, RatingCellProps } from '../../../typings'
+import { RatingCell } from './cell/rating/RatingCell'
 
 function createData(name: string, rating: RatingCellProps['rating']) {
   return { name, rating }
 }
 
 export function BasicTable() {
-  const { leaders } = useAppselector(({ USER }) => USER)
+  const { leaders } = useAppselector(({ LEADERS }) => LEADERS)
 
-  const rows: any[] = []
+  const rows: Array<ICreateData> = []
   if (leaders) {
-    leaders.map((val: any) => {
-      rows.push(createData(val.data.name, val.data.ratingTopTank1))
+    leaders.map((val: ILeader) => {
+      rows.push(
+        createData(
+          val.data.name,
+          val.data.ratingTopTank1 as RatingCellProps['rating']
+        )
+      )
     })
   }
 
@@ -46,9 +52,8 @@ export function BasicTable() {
               </TableCell>
               <TableCell align="right">{row.rating * 20}</TableCell>
               <RatingCell
-                rating={
-                  Math.round(row.rating) as unknown as RatingCellProps['rating']
-                }></RatingCell>
+                rating={Math.round(row.rating) as RatingCellProps['rating']}
+              />
             </TableRow>
           ))}
         </TableBody>
