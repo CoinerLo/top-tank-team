@@ -2,7 +2,6 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import { createServer as createViteServer } from 'vite'
 import type { ViteDevServer } from 'vite'
-import bodyParser from 'body-parser'
 import path from 'path'
 import fs from 'fs'
 dotenv.config({ path: '../../.env' })
@@ -17,8 +16,8 @@ async function startServer() {
   await dbConnect(isDev())
 
   const app = express()
-  app.use(bodyParser.urlencoded({ extended: false }))
-  app.use(bodyParser.json())
+  app.use(express.urlencoded({ extended: false }))
+  app.use(express.json())
   app.use(cors())
   const port = Number(process.env.SERVER_PORT) || 3001
 
