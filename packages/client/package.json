@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "vite",
     "host": "vite --host",
-    "build:client": "vite build --outDir=dist/client",
-    "build:ssr": "vite build --outDir=dist/ssr --ssr src/entry-server.tsx",
+    "build:client": "tsc && vite build --config vite.config.ts",
+    "build:ssr": "tsc && vite build --config ssr.config.ts",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
