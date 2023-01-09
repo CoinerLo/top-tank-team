@@ -5,6 +5,7 @@ import {
   BASE_URL,
   ChangePasswordStatus,
   NameSpace,
+  Themes,
 } from '../../../utils/consts'
 import {
   getUserThunk,
@@ -16,6 +17,8 @@ import {
   updateProfileThunk,
   getYandexIdThunk,
   signinYandexThunk,
+  findOrCreateUserThemeInDBThunk,
+  updateUserThemeInDBThunk,
 } from '../../api-thunks'
 
 const initialState: UserSlice = {
@@ -36,6 +39,7 @@ const initialState: UserSlice = {
   },
   yandexOAuthId: '',
   databaseId: 0,
+  theme: Themes.dark,
 }
 
 export const userSlice = createSlice({
@@ -71,6 +75,7 @@ export const userSlice = createSlice({
       builder.addCase(getUserThunk.fulfilled, (state, action) => {
         state.currentUser = action.payload
         state.databaseId = Number(action.payload.databaseIdStatus)
+        state.theme = action.payload.databaseThemeStatus as Themes
         const avatar = action.payload.avatar
         state.currentUser.avatar = avatar
           ? `${BASE_URL}resources/${avatar}`
@@ -124,7 +129,19 @@ export const userSlice = createSlice({
       builder.addCase(updatePasswordThunk.rejected, state => {
         state.changePasswordStatus.message = ChangePasswordStatus.NoChanged
         state.changePasswordStatus.isLoading = false
-      })
+      }),
+      builder.addCase(
+        findOrCreateUserThemeInDBThunk.fulfilled,
+        (state, { payload }) => {
+          state.theme = payload.databaseThemeStatus as Themes
+        }
+      ),
+      builder.addCase(
+        updateUserThemeInDBThunk.fulfilled,
+        (state, { payload }) => {
+          state.theme = payload.databaseThemeStatus as Themes
+        }
+      )
   },
 })
 

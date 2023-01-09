@@ -6,8 +6,9 @@ export const usersRoutes = (router: Router) => {
   const usersRouter: Router = Router()
 
   usersRouter
+    .get('/user', UserController.findUser)
+    .post('/user', UserController.findOrCreateUser)
     .post('/adduser', UserController.addUser)
-    .get('/finduser', UserController.findUser)
 
   router.use(API_URL, usersRouter)
 }

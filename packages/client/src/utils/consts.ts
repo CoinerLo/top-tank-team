@@ -170,3 +170,8 @@ export const rowsResultGameData = {
   platoonsDestroyed: 'Уничтожено взводов противника',
   ordersPlayed: 'Разыграно приказов',
 }
+
+export enum Themes {
+  light = 'light',
+  dark = 'dark',
+}

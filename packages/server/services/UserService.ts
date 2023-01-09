@@ -10,11 +10,29 @@ class UserService {
   public async findUser(userData: UserType) {
     const result = await User.findOne({
       where: {
-        firstName: userData.firstName,
-        lastName: userData.lastName,
+        firstName: `${userData.firstName}`,
+        lastName: `${userData.lastName}`,
+        email: `${userData.email}`,
       },
     })
     return result
+  }
+
+  public async findOrCreateUser(userData: UserType) {
+    const [user] = await User.findOrCreate({
+      where: {
+        firstName: `${userData.firstName}`,
+        lastName: `${userData.lastName}`,
+        email: `${userData.email}`,
+      },
+      defaults: {
+        firstName: `${userData.firstName}`,
+        lastName: `${userData.lastName}`,
+        email: `${userData.email}`,
+      },
+    })
+
+    return user
   }
 }
 

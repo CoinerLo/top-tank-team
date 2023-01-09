@@ -6,11 +6,13 @@ import {
   ISingUpForm,
   OAuthSingIn,
   UserDBType,
+  CreateThemeType,
 } from '../typings'
 import UserController from '../controllers/UserController'
 import { UserAPIUpdatePassword } from '../api/UserAPI'
 import OAuthController from '../controllers/OAuthController'
 import DatabaseController from '../controllers/DatabaseController'
+import { Themes } from '../utils/consts'
 
 export const loginThunk = createAsyncThunk(
   'user/login',
@@ -24,7 +26,7 @@ export const signUpThunk = createAsyncThunk(
   'user/signUp',
   async (data: ISingUpForm) => {
     const res = await AuthController.signup(data)
-    return res?.data
+    return res.data
   }
 )
 
@@ -32,7 +34,7 @@ export const getYandexIdThunk = createAsyncThunk(
   'user/getYandexId',
   async (data: string) => {
     const res = await OAuthController.getYandexId(data)
-    return res?.data
+    return res.data
   }
 )
 
@@ -46,11 +48,16 @@ export const signinYandexThunk = createAsyncThunk(
 
 export const getUserThunk = createAsyncThunk('user/getUser', async () => {
   const res = await AuthController.fetchUser()
-  const resDB = await DatabaseController.findAndAddUserInDB({
+  const resUserDB = await DatabaseController.findAndAddUserInDB({
     firstName: res.data.first_name,
     lastName: res.data.second_name,
+    email: res.data.email,
   })
-  return { ...res.data, ...resDB.data }
+  const resThemeDB = await DatabaseController.findOrCreateUserThemeInDB({
+    ownerId: Number(resUserDB.data.databaseIdStatus),
+    theme: Themes.dark,
+  })
+  return { ...res.data, ...resUserDB.data, ...resThemeDB.data }
 })
 
 export const logoutThunk = createAsyncThunk('user/logout', async () => {
@@ -61,7 +68,7 @@ export const updateProfileThunk = createAsyncThunk(
   'user/updateProfile',
   async (data: IChangeDataForm) => {
     const res = await UserController.updateProfile(data)
-    return res?.data
+    return res.data
   }
 )
 
@@ -69,7 +76,7 @@ export const updatePasswordThunk = createAsyncThunk(
   'user/updatePassword',
   async (data: UserAPIUpdatePassword) => {
     const res = await UserController.updatePassword(data)
-    return res?.data
+    return res.data
   }
 )
 
@@ -77,10 +84,11 @@ export const updateAvatarThunk = createAsyncThunk(
   'user/updateAvatar',
   async (data: FormData) => {
     const res = await UserController.updateAvatar(data)
-    return res?.data
+    return res.data
   }
 )
 
+// Метод пока не используется
 export const addUserInDBThunk = createAsyncThunk(
   'database/addUser',
   async (data: UserDBType) => {
@@ -89,10 +97,28 @@ export const addUserInDBThunk = createAsyncThunk(
   }
 )
 
+// Пока этот метод не используется, когда появится в нем потребность
+// надо будет реализовать обработку ошибки 404, экстра-редьюсеры и слайс
 export const findUserInDBThunk = createAsyncThunk(
   'database/findUser',
   async (data: UserDBType) => {
     const res = await DatabaseController.findUserInDB(data)
+    return res.data
+  }
+)
+
+export const findOrCreateUserThemeInDBThunk = createAsyncThunk(
+  'database/findOrCreateUserTheme',
+  async (data: CreateThemeType) => {
+    const res = await DatabaseController.findOrCreateUserThemeInDB(data)
+    return res.data
+  }
+)
+
+export const updateUserThemeInDBThunk = createAsyncThunk(
+  'database/updateUserTheme',
+  async (data: CreateThemeType) => {
+    const res = await DatabaseController.updateUserTheme(data)
     return res.data
   }
 )

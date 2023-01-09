@@ -17,5 +17,7 @@ module.exports = {
   ignorePatterns: ['**/dist/*'],
   rules: {
     '@typescript-eslint/ban-ts-comment': 1,
+    'no-unused-vars': "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { varsIgnorePattern: '[i_]dc' }]
   },
 }

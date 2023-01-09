@@ -10,7 +10,6 @@ export class UserController {
   ) => {
     const data = req.body
     const result = await UserService.addUser(data)
-    console.log(result.dataValues)
     res.end(JSON.stringify({ databaseIdStatus: result.dataValues.id }))
   }
 
@@ -20,11 +19,23 @@ export class UserController {
   ) => {
     const data = req.query
     const result = await UserService.findUser(data)
-    console.log(result && result.dataValues)
-    res.end(
-      JSON.stringify({
-        databaseIdStatus: result ? result.dataValues.id : 'Not found',
-      })
-    )
+    if (!result) {
+      res.status(404).json({ databaseIdStatus: 'Not found' })
+    } else {
+      res.end(
+        JSON.stringify({
+          databaseIdStatus: result.dataValues.id,
+        })
+      )
+    }
+  }
+
+  public static findOrCreateUser = async (
+    req: TypedRequestBody<UserType>,
+    res: Express.Response
+  ) => {
+    const data = req.body
+    const user = await UserService.findOrCreateUser(data)
+    res.end(JSON.stringify({ databaseIdStatus: user.dataValues.id }))
   }
 }
