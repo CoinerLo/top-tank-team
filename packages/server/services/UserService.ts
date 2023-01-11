@@ -35,13 +35,18 @@ class UserService {
     return user
   }
 
-  public async update(userID: string, { firstName, lastName, email }: UserType) {
+  public async update(
+    userID: string,
+    { firstName, lastName, email }: UserType
+  ) {
     await User.update(
       {
-        firstName, lastName, email
+        firstName,
+        lastName,
+        email,
       },
       {
-        where: { id: Number(userID) }
+        where: { id: Number(userID) },
       }
     )
 

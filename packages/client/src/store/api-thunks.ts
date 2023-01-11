@@ -69,7 +69,11 @@ export const updateProfileThunk = createAsyncThunk(
   async ({ data, databaseId }: IChangeDataUser) => {
     const res = await UserController.updateProfile(data)
     const { email, first_name, second_name } = data
-    const userData: UserDBType = { email: email, firstName: first_name, lastName: second_name }
+    const userData: UserDBType = {
+      email: email,
+      firstName: first_name,
+      lastName: second_name,
+    }
     await DatabaseController.updateUserInDB({ id: databaseId, userData })
     return res.data
   }
