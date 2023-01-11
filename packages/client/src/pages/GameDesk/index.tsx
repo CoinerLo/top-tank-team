@@ -125,10 +125,10 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
   }
 
   const handleClickFullscreen = () => {
-    if (!document.fullscreenElement) {
+    if (typeof document !== 'undefined' &&!document.fullscreenElement) {
       document.documentElement.requestFullscreen()
       setIsFullscreen(true)
-    } else if (document.exitFullscreen) {
+    } else if (typeof document !== 'undefined' && document.exitFullscreen) {
       document.exitFullscreen()
       setIsFullscreen(false)
     }
@@ -149,13 +149,19 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
 
   useEffect(() => {
     const onFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement)
+      if (typeof document !== 'undefined') {
+        setIsFullscreen(!!document.fullscreenElement)
+      }
+    }
+    if (typeof document !== 'undefined') {
+      document.addEventListener('fullscreenchange', onFullscreenChange)
     }
 
-    document.addEventListener('fullscreenchange', onFullscreenChange)
-
-    return () =>
-      document.removeEventListener('fullscreenchange', onFullscreenChange)
+    return () =>  {
+      if (typeof document !== 'undefined') {
+        document.removeEventListener('fullscreenchange', onFullscreenChange)
+      }
+    }
   }, [])
 
   const handleClickOnCanvas = useCallback(

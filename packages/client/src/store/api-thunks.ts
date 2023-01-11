@@ -9,6 +9,7 @@ import {
   IChangeDataUser,
   ILeaderAll,
   ILeaderAdd,
+  GameDBType,
 } from '../typings'
 import UserController from '../controllers/UserController'
 import { UserAPIUpdatePassword } from '../api/UserAPI'
@@ -16,6 +17,7 @@ import OAuthController from '../controllers/OAuthController'
 import DatabaseController from '../controllers/DatabaseController'
 import { Themes } from '../utils/consts'
 import LeaderController from '../controllers/LeaderController'
+import DatabaseGameController from '../controllers/DatabaseGameController'
 
 export const loginThunk = createAsyncThunk(
   'user/login',
@@ -145,6 +147,14 @@ export const findUserInDBThunk = createAsyncThunk(
   'database/findUser',
   async (data: UserDBType) => {
     const res = await DatabaseController.findUserInDB(data)
+    return res.data
+  }
+)
+
+export const createNewGameInDBThunk = createAsyncThunk(
+  'database/createNewGame',
+  async (data: Omit<GameDBType, 'id'>) => {
+    const res = await DatabaseGameController.createNewGame(data)
     return res.data
   }
 )
