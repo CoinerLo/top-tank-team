@@ -7,8 +7,6 @@ import type { PaletteMode } from '@mui/material'
 export const getMainTheme = (mode: PaletteMode) => ({
   palette: {
     mode,
-    // ...(mode === 'dark'
-    //   ? {
     background: {
       default: '#24252A',
       paper: '#545358',
@@ -44,7 +42,6 @@ export const getMainTheme = (mode: PaletteMode) => ({
       light: '#7D7056',
       dark: '#37301B',
     },
-    // } : {})
   },
 
   typography: {
