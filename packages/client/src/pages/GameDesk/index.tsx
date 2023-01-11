@@ -13,6 +13,8 @@ import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
 import FlagIcon from '@mui/icons-material/Flag'
 import { useNavigate } from 'react-router-dom'
 import { GameDeskSegmentKeyType } from '../../gameCore/types'
+import { useAppDispatch } from '../../hooks'
+import { saveGame } from '../../store/slices/gameSlice/gameSlice'
 
 const styles = {
   userLine: {
@@ -68,6 +70,7 @@ interface IGameDesk {
 
 export const GameDesk: FC<IGameDesk> = ({ game }) => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [isOpenFlagModalWindow, setIsOpenFlagModalWindow] = useState(false)
   const [isOpenEndOfTurnModalWindow, setIsOpenEndOfTurnModalWindow] =
@@ -88,6 +91,14 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
   const [deskState, setDeskState] = useState(game.getDesk().getGamingDesk())
 
   const endGame = () => {
+    dispatch(saveGame({ data: game }))
+    const localGames = localStorage.getItem(userName)
+    if (localGames) {
+      const { id } = game
+      const games = JSON.parse(localGames)
+      delete games[id]
+      localStorage.setItem(userName, JSON.stringify(games))
+    }
     navigate(`/${AppRoute.Game}/${AppRoute.ResultGame}/${game.id}`, {
       replace: true,
     })
@@ -110,6 +121,7 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
     setOpponentState(game.getOpponentState())
     setUserState(game.getUserState())
     setCurrentGamer(nextGamer)
+    localStorage.setItem(userName, JSON.stringify({ [game.id]: game }))
   }
 
   const handleClickFullscreen = () => {
