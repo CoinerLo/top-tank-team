@@ -126,6 +126,6 @@ export const updateUserThemeInDBThunk = createAsyncThunk(
   'database/updateUserTheme',
   async (data: CreateThemeType) => {
     const res = await DatabaseController.updateUserTheme(data)
-    return res.data
+    return res?.data
   }
 )

@@ -107,6 +107,7 @@ export const userSlice = createSlice({
       }),
       builder.addCase(logoutThunk.fulfilled, state => {
         state.currentUser = initialState.currentUser
+        state.databaseId = 0
         state.authorizationStatus = AuthorizationStatus.NoAuth
       }),
       builder.addCase(signUpThunk.fulfilled, (state, action) => {
@@ -139,7 +140,12 @@ export const userSlice = createSlice({
       builder.addCase(
         updateUserThemeInDBThunk.fulfilled,
         (state, { payload }) => {
-          state.theme = payload.databaseThemeStatus as Themes
+          if (payload) {
+            state.theme = payload.databaseThemeStatus as Themes
+          } else {
+            state.theme =
+              state.theme === Themes.dark ? Themes.light : Themes.dark
+          }
         }
       )
   },

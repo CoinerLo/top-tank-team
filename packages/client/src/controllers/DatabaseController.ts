@@ -34,6 +34,9 @@ export class DatabaseController {
   }
 
   async updateUserTheme(data: CreateThemeType) {
+    if (data.ownerId === 0) {
+      return null
+    }
     const response = await this.api.updateUserTheme(data)
     return response
   }
