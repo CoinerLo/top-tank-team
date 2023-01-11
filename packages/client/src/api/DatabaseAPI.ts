@@ -2,6 +2,7 @@ import {
   AxiosResponseUserApiType,
   AxiosResponseUserThemeApiType,
   CreateThemeType,
+  UpdateUserDBType,
   UserDBType,
 } from '../typings'
 import type { AxiosResponse } from 'axios'
@@ -28,6 +29,12 @@ export class DatabaseAPI {
     data: UserDBType
   ): Promise<AxiosResponse<AxiosResponseUserApiType>> {
     return ServerClient.post(`${DatabaseAPI.API_URL}/user`, data)
+  }
+
+  public updateUser(
+    data: UpdateUserDBType
+  ): Promise<AxiosResponse<AxiosResponseUserApiType>> {
+    return ServerClient.patch(`${DatabaseAPI.API_URL}/user`, data)
   }
 
   public findTheme(

@@ -9,6 +9,7 @@ export const usersRoutes = (router: Router) => {
     .get('/user', UserController.findUser)
     .post('/user', UserController.findOrCreateUser)
     .post('/adduser', UserController.addUser)
+    .patch('/user', UserController.updateUser)
 
   router.use(API_URL, usersRouter)
 }

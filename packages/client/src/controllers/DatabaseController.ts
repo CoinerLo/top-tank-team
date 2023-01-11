@@ -1,6 +1,6 @@
 import API from '../api/DatabaseAPI'
 import type { DatabaseAPI } from '../api/DatabaseAPI'
-import { CreateThemeType, UserDBType } from '../typings'
+import { CreateThemeType, UpdateUserDBType, UserDBType } from '../typings'
 
 export class DatabaseController {
   private readonly api: DatabaseAPI
@@ -18,8 +18,13 @@ export class DatabaseController {
     return response
   }
 
-  async findAndAddUserInDB(data: UserDBType) {
+  async findOrCreateUserInDB(data: UserDBType) {
     const response = await this.api.findOrCreateUser(data)
+    return response
+  }
+
+  async updateUserInDB(data: UpdateUserDBType) {
+    const response = await this.api.updateUser(data)
     return response
   }
 

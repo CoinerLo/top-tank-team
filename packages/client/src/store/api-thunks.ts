@@ -2,11 +2,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import AuthController from '../controllers/AuthController'
 import {
   ISignInData,
-  IChangeDataForm,
   ISingUpForm,
   OAuthSingIn,
   UserDBType,
   CreateThemeType,
+  IChangeDataUser,
 } from '../typings'
 import UserController from '../controllers/UserController'
 import { UserAPIUpdatePassword } from '../api/UserAPI'
@@ -48,13 +48,13 @@ export const signinYandexThunk = createAsyncThunk(
 
 export const getUserThunk = createAsyncThunk('user/getUser', async () => {
   const res = await AuthController.fetchUser()
-  const resUserDB = await DatabaseController.findAndAddUserInDB({
+  const resUserDB = await DatabaseController.findOrCreateUserInDB({
     firstName: res.data.first_name,
     lastName: res.data.second_name,
     email: res.data.email,
   })
   const resThemeDB = await DatabaseController.findOrCreateUserThemeInDB({
-    ownerId: Number(resUserDB.data.databaseIdStatus),
+    ownerId: Number(resUserDB.data.databaseUserStatus),
     theme: Themes.dark,
   })
   return { ...res.data, ...resUserDB.data, ...resThemeDB.data }
@@ -66,8 +66,11 @@ export const logoutThunk = createAsyncThunk('user/logout', async () => {
 
 export const updateProfileThunk = createAsyncThunk(
   'user/updateProfile',
-  async (data: IChangeDataForm) => {
+  async ({ data, databaseId }: IChangeDataUser) => {
     const res = await UserController.updateProfile(data)
+    const { email, first_name, second_name } = data
+    const userData: UserDBType = { email: email, firstName: first_name, lastName: second_name }
+    await DatabaseController.updateUserInDB({ id: databaseId, userData })
     return res.data
   }
 )

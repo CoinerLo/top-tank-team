@@ -41,7 +41,7 @@ const disabledFieldStyle = {
 
 export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
   const [isEditProfileMode, setIsEditProfileMode] = useState(false)
-  const { currentUser } = useAppselector(({ USER }) => USER)
+  const { currentUser, databaseId } = useAppselector(({ USER }) => USER)
   const dispatch = useAppDispatch()
   const { first_name, second_name, display_name, login, email, phone } =
     currentUser
@@ -62,7 +62,7 @@ export const ProfileTab: FC<IProfileTab> = ({ tabIndex, index }) => {
     control,
   })
   const handleSubmitProfileData: SubmitHandler<IChangeDataForm> = data => {
-    dispatch(updateProfileThunk(data))
+    dispatch(updateProfileThunk({ data, databaseId }))
   }
 
   return (

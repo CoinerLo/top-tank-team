@@ -74,7 +74,7 @@ export const userSlice = createSlice({
       }),
       builder.addCase(getUserThunk.fulfilled, (state, action) => {
         state.currentUser = action.payload
-        state.databaseId = Number(action.payload.databaseIdStatus)
+        state.databaseId = Number(action.payload.databaseUserStatus)
         state.theme = action.payload.databaseThemeStatus as Themes
         const avatar = action.payload.avatar
         state.currentUser.avatar = avatar

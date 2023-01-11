@@ -45,6 +45,11 @@ export interface IChangeDataForm {
   phone: string
 }
 
+export interface IChangeDataUser {
+  data: IChangeDataForm
+  databaseId: number
+}
+
 export interface ICardUpgrade {
   name: string
 }
@@ -95,7 +100,7 @@ export type UserDBType = {
 }
 
 export type AxiosResponseUserApiType = Record<
-  'databaseIdStatus',
+  'databaseUserStatus',
   number | string
 >
 
@@ -107,4 +112,9 @@ export type AxiosResponseUserThemeApiType = Record<
 export type CreateThemeType = {
   theme: string
   ownerId: number
+}
+
+export type UpdateUserDBType = {
+  userData: UserDBType
+  id: number
 }

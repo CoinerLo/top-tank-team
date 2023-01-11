@@ -27,3 +27,8 @@ export type CreateRequest = {
   theme: string
   ownerId: string
 }
+
+export type UpdateUserType = {
+  userData: UserType
+  id: string
+}
