@@ -33,7 +33,6 @@ export type UpdateUserType = {
   id: string
 }
 
-
 export type CreateGameRequest = {
   game: string
   gamerId: string

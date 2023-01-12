@@ -9,10 +9,10 @@ class GameService {
   public async update({ game, id }: Game) {
     await Game.update(
       {
-        game: game
+        game: game,
       },
       {
-        where: { id }
+        where: { id },
       }
     )
   }
@@ -25,7 +25,7 @@ class GameService {
 
   public async delete(id: number) {
     await Game.destroy({
-      where: { id }
+      where: { id },
     })
   }
 }
