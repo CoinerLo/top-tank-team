@@ -22,19 +22,20 @@ import { useAppselector } from './hooks'
 import createEmotionCache from './createEmotionCache'
 import { CacheProvider } from '@emotion/react'
 import { GameResultContainer } from './containers/GameResultContainer'
+import { useEffect } from 'react'
 import { LeaderboardContainer } from './containers/LeaderboardContainer'
 
 function App() {
-  // useEffect(() => {                                    // пока заглушу - пока не возьмемся за бекенд, надоели эти ошибки в консоле постоянные
-  //   const fetchServerData = async () => {
-  //     const url = `http://localhost:${__SERVER_PORT__}`
-  //     const response = await fetch(url)
-  //     const data = await response.json()
-  //     console.log(data)
-  //   }
+  useEffect(() => {
+    const fetchServerData = async () => {
+      const url = `http://localhost:${__SERVER_PORT__}/api`
+      const response = await fetch(url)
+      const data = await response.json()
+      console.log(data)
+    }
 
-  //   fetchServerData()
-  // }, [])
+    fetchServerData()
+  }, [])
 
   const { authorizationStatus } = useAppselector(({ USER }) => USER)
 

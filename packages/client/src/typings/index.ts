@@ -57,6 +57,7 @@ export interface UserSlice {
     isLoading: boolean
   }
   yandexOAuthId: string
+  databaseId: number
 }
 
 export interface DecksSlice {
@@ -114,4 +115,9 @@ export interface RatingCellProps {
 export interface ICreateData {
   name: string
   rating: RatingCellProps['rating']
+}
+
+export type UserDBType = {
+  firstName: string
+  lastName: string
 }

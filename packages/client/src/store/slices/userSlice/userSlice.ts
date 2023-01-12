@@ -35,6 +35,7 @@ const initialState: UserSlice = {
     isLoading: false,
   },
   yandexOAuthId: '',
+  databaseId: 0,
 }
 
 export const userSlice = createSlice({
@@ -69,6 +70,7 @@ export const userSlice = createSlice({
       }),
       builder.addCase(getUserThunk.fulfilled, (state, action) => {
         state.currentUser = action.payload
+        state.databaseId = Number(action.payload.databaseIdStatus)
         const avatar = action.payload.avatar
         state.currentUser.avatar = avatar
           ? `${BASE_URL}resources/${avatar}`
