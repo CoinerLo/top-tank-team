@@ -1,6 +1,4 @@
-import BaseCard from './models/BaseCard'
-import { Vehicle } from './models/Vehicle'
-import { IGamingDesk } from './types'
+import type BaseCard from './models/BaseCard'
 
 export const decksOfCardsByTier = <T extends BaseCard>(cardsArray: T[]) =>
   cardsArray.reduce(
@@ -26,29 +24,6 @@ export const decksOfCardsByTier = <T extends BaseCard>(cardsArray: T[]) =>
       third: [] as T[],
     }
   )
-
-export const getNewGamingDesk = (
-  userHeadquarters: Vehicle,
-  opponentHeadquarters: Vehicle
-): IGamingDesk => ({
-  A1: null,
-  A2: null,
-  A3: null,
-  A4: null,
-  A5: opponentHeadquarters,
-
-  B1: null,
-  B2: null,
-  B3: null,
-  B4: null,
-  B5: null,
-
-  C1: userHeadquarters,
-  C2: null,
-  C3: null,
-  C4: null,
-  C5: null,
-})
 
 const ids = [0]
 export const nanoid = () => {

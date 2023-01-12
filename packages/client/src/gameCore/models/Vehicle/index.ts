@@ -5,13 +5,13 @@ import { CurrentGamer } from '../Game'
 import { Headquarters } from '../HeadquartersDeck'
 
 export class Vehicle {
-  private vehicle
-  private vehicleOwner
   private maxMoves: number
-  private currentMoves: number
   private maxAttackPoints = 1
   private maxCounterattackPoints: number
   private maxHealth: number
+  public vehicle
+  public vehicleOwner
+  public currentMoves: number
   public currentHealth: number
   public currentAttackPoints = 1
   public currentCounterattackPoints: number
@@ -116,5 +116,25 @@ export class Vehicle {
     this.currentHealth -= points
     this.skin.changeHealth(this.currentHealth)
     return true
+  }
+
+  public setCurrentMoves(movesPoints: number) {
+    this.currentMoves = movesPoints
+    return this
+  }
+
+  public setCurrentAttackPoints(attackPoints: number) {
+    this.currentAttackPoints = attackPoints
+    return this
+  }
+
+  public setCurrentCounterattackPoints(counterattackPoints: number) {
+    this.currentCounterattackPoints = counterattackPoints
+    return this
+  }
+
+  public setCurrentHealth(health: number) {
+    this.currentHealth = health
+    return this
   }
 }

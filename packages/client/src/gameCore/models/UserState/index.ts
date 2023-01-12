@@ -1,5 +1,6 @@
+import { findCardFromDeckById } from '../../allCardsForDeck'
 import { BASE_COUNT_OF_CARDS_IN_HAND, operationConst } from '../../consts'
-import { CardsDeckType, IUserData } from '../../types'
+import { CardsDeckType, IGameUserStateSave, IUserData } from '../../types'
 import { getRandomInt, shuffleArray } from '../../utils'
 import { Headquarters, headquartersByName } from '../HeadquartersDeck'
 import { Tank } from '../TanksDeck'
@@ -17,13 +18,41 @@ export class UserState {
   private platoonsDestroyed = 0
   private ordersPlayed = 0
 
-  constructor({ deck, headquartersName, userName }: IUserData) {
-    this.name = userName
-    this.headquarters = headquartersByName[headquartersName]
-    this.deck = shuffleArray(deck)
-    this.hand = this.hand.map(() => this.takeСardFromDeck() as CardsDeckType)
-    this.currentCountResources = this.headquarters.bringsResources
-    this.futureСountResources = this.currentCountResources
+  constructor(userData: IUserData | IGameUserStateSave) {
+    if (Object.hasOwn(userData, 'headquartersName')) {
+      const { deck, headquartersName, userName } = userData as IUserData
+      this.name = userName
+      this.headquarters = headquartersByName[headquartersName]
+      this.deck = shuffleArray(deck)
+      this.hand = this.hand.map(() => this.takeСardFromDeck() as CardsDeckType)
+      this.currentCountResources = this.headquarters.bringsResources
+      this.futureСountResources = this.currentCountResources
+    } else {
+      const {
+        currentCountResources,
+        deck,
+        futureСountResources,
+        hand,
+        headquarters,
+        name,
+        ordersPlayed,
+        platoonsDestroyed,
+        resourcesSpent,
+        throw: throwDeck,
+        vehiclesDestroyed,
+      } = userData as IGameUserStateSave
+      this.name = name
+      this.headquarters = headquartersByName[headquarters.name]
+      this.deck = deck.map(card => findCardFromDeckById(card.id) ?? card)
+      this.hand = hand.map(card => findCardFromDeckById(card.id) ?? card)
+      this.throw = throwDeck.map(card => findCardFromDeckById(card.id) ?? card)
+      this.currentCountResources = currentCountResources
+      this.futureСountResources = futureСountResources
+      this.resourcesSpent = resourcesSpent
+      this.vehiclesDestroyed = vehiclesDestroyed
+      this.platoonsDestroyed = platoonsDestroyed
+      this.ordersPlayed = ordersPlayed
+    }
   }
 
   public startActionGamer() {
@@ -189,5 +218,21 @@ export class UserState {
 
   public updateCountOrdersPlayed(number: number) {
     this.ordersPlayed += number
+  }
+
+  public saveGame(): IGameUserStateSave {
+    return {
+      name: this.name,
+      headquarters: this.headquarters,
+      deck: this.deck,
+      hand: this.hand,
+      throw: this.throw,
+      currentCountResources: this.currentCountResources,
+      futureСountResources: this.futureСountResources,
+      resourcesSpent: this.resourcesSpent,
+      vehiclesDestroyed: this.vehiclesDestroyed,
+      platoonsDestroyed: this.platoonsDestroyed,
+      ordersPlayed: this.ordersPlayed,
+    }
   }
 }
