@@ -5,10 +5,13 @@ import {
   IChangeDataForm,
   ISingUpForm,
   OAuthSingIn,
+  ILeaderAll,
+  ILeaderAdd,
 } from '../typings'
 import UserController from '../controllers/UserController'
 import { UserAPIUpdatePassword } from '../api/UserAPI'
 import OAuthController from '../controllers/OAuthController'
+import LeaderController from '../controllers/LeaderController'
 
 export const loginThunk = createAsyncThunk(
   'user/login',
@@ -72,5 +75,21 @@ export const updateAvatarThunk = createAsyncThunk(
   async (data: FormData) => {
     const res = await UserController.updateAvatar(data)
     return res?.data
+  }
+)
+
+export const getAllLeaderThunk = createAsyncThunk(
+  'leaders/getAllLeader',
+  async (data: ILeaderAll) => {
+    const res = await LeaderController.getAllLeader(data)
+    return res.data
+  }
+)
+
+export const addLeaderThunk = createAsyncThunk(
+  'leaders/addLeader',
+  async (data: ILeaderAdd) => {
+    const res = await LeaderController.addLeader(data)
+    return res.data
   }
 )
