@@ -1,12 +1,12 @@
-import { createTheme, Theme, ThemeOptions } from '@mui/material/styles'
-import { MuiContainer } from './components/MuiContainer'
+import { getMuiContainer } from './components/MuiContainer'
 import { MuiButton } from './components/MuiButton'
-import { MuiLink } from './components/MuiLink'
+import { getMuiLink } from './components/MuiLink'
 import { MuiTextField } from './components/MuiTextField'
+import type { PaletteMode } from '@mui/material'
 
-export const mainTheme: Theme = createTheme(<ThemeOptions>{
+export const getMainTheme = (mode: PaletteMode) => ({
   palette: {
-    type: 'dark',
+    mode,
     background: {
       default: '#24252A',
       paper: '#545358',
@@ -71,9 +71,9 @@ export const mainTheme: Theme = createTheme(<ThemeOptions>{
   },
   // Global style overrides
   components: {
-    MuiContainer,
+    MuiContainer: getMuiContainer(mode),
     MuiButton,
-    MuiLink,
+    MuiLink: getMuiLink(mode),
     MuiTextField,
   },
 })

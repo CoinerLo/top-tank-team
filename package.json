@@ -13,7 +13,7 @@
     "format": "lerna run format",
     "preview": "lerna run preview",
     "precommit": "yarn format && yarn lint && yarn test",
-    "docker": "docker compose up postgres && sudo chmod -R a+rwx tmp"
+    "postgres": "docker compose up -d postgres"
   },
   "license": "MIT",
   "workspaces": [

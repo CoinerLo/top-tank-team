@@ -1,6 +1,6 @@
 import API from '../api/DatabaseAPI'
 import type { DatabaseAPI } from '../api/DatabaseAPI'
-import { UserDBType } from '../typings'
+import { CreateThemeType, UpdateUserDBType, UserDBType } from '../typings'
 
 export class DatabaseController {
   private readonly api: DatabaseAPI
@@ -18,13 +18,33 @@ export class DatabaseController {
     return response
   }
 
-  async findAndAddUserInDB(data: UserDBType) {
-    const responseForFind = await this.findUserInDB(data)
-    if (responseForFind.data.databaseIdStatus === 'Not found') {
-      const response = await this.addUserInDB(data)
-      return response
+  async findOrCreateUserInDB(data: UserDBType) {
+    const response = await this.api.findOrCreateUser(data)
+    return response
+  }
+
+  async updateUserInDB(data: UpdateUserDBType) {
+    const response = await this.api.updateUser(data)
+    return response
+  }
+
+  async findOrCreateUserThemeInDB(data: CreateThemeType) {
+    const response = await this.api.findOrCreateUserTheme(data)
+    return response
+  }
+
+  async updateUserTheme(data: CreateThemeType) {
+    if (data.ownerId === 0) {
+      return null
     }
-    return responseForFind
+    const response = await this.api.updateUserTheme(data)
+    return response
+  }
+
+  // Пока не используется
+  async findUserThemeInDB(id: number) {
+    const response = await this.api.findTheme(id)
+    return response
   }
 }
 

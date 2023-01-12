@@ -180,3 +180,8 @@ export const dataGetAllLeaderThunk = {
   cursor: 0,
   limit: 10,
 }
+
+export enum Themes {
+  light = 'light',
+  dark = 'dark',
+}

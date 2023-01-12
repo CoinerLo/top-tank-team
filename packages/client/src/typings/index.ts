@@ -1,4 +1,4 @@
-import { AuthorizationStatus } from '../utils/consts'
+import { AuthorizationStatus, Themes } from '../utils/consts'
 import { Tank } from '../gameCore/models/TanksDeck'
 import { Game } from '../gameCore/models/Game'
 
@@ -45,6 +45,11 @@ export interface IChangeDataForm {
   phone: string
 }
 
+export interface IChangeDataUser {
+  data: IChangeDataForm
+  databaseId: number
+}
+
 export interface ICardUpgrade {
   name: string
 }
@@ -58,6 +63,7 @@ export interface UserSlice {
   }
   yandexOAuthId: string
   databaseId: number
+  theme: Themes
 }
 
 export interface DecksSlice {
@@ -120,4 +126,25 @@ export interface ICreateData {
 export type UserDBType = {
   firstName: string
   lastName: string
+  email: string
+}
+
+export type AxiosResponseUserApiType = Record<
+  'databaseUserStatus',
+  number | string
+>
+
+export type AxiosResponseUserThemeApiType = Record<
+  'databaseThemeStatus',
+  string
+>
+
+export type CreateThemeType = {
+  theme: string
+  ownerId: number
+}
+
+export type UpdateUserDBType = {
+  userData: UserDBType
+  id: number
 }

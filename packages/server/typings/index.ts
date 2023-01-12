@@ -16,4 +16,19 @@ export interface TypedRequestQuery<T extends Query> extends Express.Request {
 export type UserType = {
   firstName: string
   lastName: string
+  email: string
+}
+
+export type FindRequest = {
+  id: string
+}
+
+export type CreateRequest = {
+  theme: string
+  ownerId: string
+}
+
+export type UpdateUserType = {
+  userData: UserType
+  id: string
 }
