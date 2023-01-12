@@ -6,7 +6,6 @@ import { Headquarters } from './pages/Headquarters'
 import { Error404 } from './pages/Error404'
 import { Briefing } from './pages/Briefing'
 import { Home } from './pages/Home'
-import { LeaderBoard } from './pages/Leaderboard'
 import { Upgrade } from './pages/Upgrade'
 import { Deck } from './pages/Deck'
 import { Forum } from './pages/Forum'
@@ -30,6 +29,8 @@ import {
   findOrCreateUserThemeInDBThunk,
   updateUserThemeInDBThunk,
 } from './store/api-thunks'
+import { LeaderboardContainer } from './containers/LeaderboardContainer'
+
 
 function App() {
   const dispatch = useAppDispatch()
@@ -93,7 +94,10 @@ function App() {
               <Route path={AppRoute.Headquarters} element={<Headquarters />} />
               <Route path={AppRoute.Upgrade} element={<Upgrade />} />
               <Route path={AppRoute.Deck} element={<Deck />} />
-              <Route path={AppRoute.Leaderboard} element={<LeaderBoard />} />
+              <Route
+                path={AppRoute.Leaderboard}
+                element={<LeaderboardContainer />}
+              />
               <Route path={AppRoute.Game}>
                 <Route path={AppRoute.StartGame} element={<GameStart />} />
                 <Route path={AppRoute.GameId} element={<GameDeskContainer />} />

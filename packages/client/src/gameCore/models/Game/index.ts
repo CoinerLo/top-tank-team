@@ -1,5 +1,5 @@
 import { UserState } from '../UserState'
-import { GameDeskSegmentKeyType, IUserData } from '../../types'
+import { GameDeskSegmentKeyType, IGameSave, IUserData } from '../../types'
 import { Desk } from '../Desk'
 import { getRandomInt, nanoid } from '../../utils'
 import { Tank } from '../TanksDeck'
@@ -26,16 +26,32 @@ export class Game {
   public Desk: Desk
   public currentGamer: CurrentGamer
 
-  constructor({ userData, opponentData, id }: IGame) {
-    this.id = id ?? nanoid()
-    this.UserState = new UserState(userData)
-    this.OpponentState = new UserState(opponentData)
-    this.Desk = new Desk({
-      userHeadquarters: this.UserState.getHeadquarters(),
-      opponentHeadquarters: this.OpponentState.getHeadquarters(),
-    })
-    this.currentGamer =
-      getRandomInt(2) > 0 ? CurrentGamer.user : CurrentGamer.opponent
+  constructor(gameData: IGame | IGameSave) {
+    if (Object.hasOwn(gameData, 'Desk')) {
+      const {
+        Desk: deskSave,
+        OpponentState: opponentStateSave,
+        UserState: userStateSave,
+        currentGamer,
+        id,
+      } = gameData as IGameSave
+      this.id = id
+      this.currentGamer = currentGamer
+      this.UserState = new UserState(userStateSave)
+      this.OpponentState = new UserState(opponentStateSave)
+      this.Desk = new Desk(deskSave)
+    } else {
+      const { userData, opponentData, id } = gameData as IGame
+      this.id = id ?? nanoid()
+      this.UserState = new UserState(userData)
+      this.OpponentState = new UserState(opponentData)
+      this.Desk = new Desk({
+        userHeadquarters: this.UserState.getHeadquarters(),
+        opponentHeadquarters: this.OpponentState.getHeadquarters(),
+      })
+      this.currentGamer =
+        getRandomInt(2) > 0 ? CurrentGamer.user : CurrentGamer.opponent
+    }
   }
 
   public getFullState() {
@@ -167,5 +183,15 @@ export class Game {
       this.currentGamer === CurrentGamer.user
         ? CurrentGamer.opponent
         : CurrentGamer.user
+  }
+
+  public saveGame(): IGameSave {
+    return {
+      id: this.id,
+      currentGamer: this.currentGamer,
+      UserState: this.UserState.saveGame(),
+      OpponentState: this.OpponentState.saveGame(),
+      Desk: { gamingDesk: this.Desk.gameSave() },
+    }
   }
 }

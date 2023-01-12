@@ -6,54 +6,68 @@ import {
   GameDeskSegmentKeyType,
   VehicleOwnerType,
   CardsBattleOnDesk,
+  ISaveGamingDesk,
+  ISaveDataVechicle,
 } from '../../types'
-import { getNewGamingDesk } from '../../utils'
+import { buildNewVehicle } from './buildNewVehicle'
 import { CurrentGamer } from '../Game'
 import { Headquarters } from '../HeadquartersDeck'
 import { Tank } from '../TanksDeck'
 import { Vehicle } from '../Vehicle'
 
 export class Desk {
-  public gamingDesk: IGamingDesk
+  public gamingDesk: IGamingDesk = {
+    A1: null,
+    A2: null,
+    A3: null,
+    A4: null,
+    A5: null,
 
-  constructor({ userHeadquarters, opponentHeadquarters }: IDesk) {
-    const userHeadquartersSkin = new ElementsCreator({
-      type: 'card',
-      targetСell: 'C1',
-      tankBringsResources: userHeadquarters.bringsResources,
-      tankDamage: userHeadquarters.damage,
-      tankHealth: userHeadquarters.health,
-      tankName: userHeadquarters.name,
-      tankType: userHeadquarters.type,
-    })
-    const opponentHeadquartersSkin = new ElementsCreator({
-      type: 'card',
-      targetСell: 'A5',
-      tankBringsResources: opponentHeadquarters.bringsResources,
-      tankDamage: opponentHeadquarters.damage,
-      tankHealth: opponentHeadquarters.health,
-      tankName: opponentHeadquarters.name,
-      tankType: opponentHeadquarters.type,
-    })
-    this.gamingDesk = getNewGamingDesk(
-      new Vehicle({
-        vehicle: userHeadquarters,
-        skin: userHeadquartersSkin,
-        vehicleOwner: 'user',
-      }),
-      new Vehicle({
-        vehicle: opponentHeadquarters,
-        skin: opponentHeadquartersSkin,
+    B1: null,
+    B2: null,
+    B3: null,
+    B4: null,
+    B5: null,
+
+    C1: null,
+    C2: null,
+    C3: null,
+    C4: null,
+    C5: null,
+  }
+
+  constructor(DeskData: IDesk | ISaveGamingDesk) {
+    if (Object.hasOwn(DeskData, 'userHeadquarters')) {
+      const { userHeadquarters, opponentHeadquarters } = DeskData as IDesk
+      this.gamingDesk.A5 = buildNewVehicle({
+        cell: 'A5',
         vehicleOwner: 'opponent',
+        vehicle: opponentHeadquarters,
       })
-    )
+      this.gamingDesk.C1 = buildNewVehicle({
+        cell: 'C1',
+        vehicleOwner: 'user',
+        vehicle: userHeadquarters,
+      })
+    } else {
+      const { gamingDesk } = DeskData as ISaveGamingDesk
+      for (const cell in gamingDesk) {
+        const vehicleData = gamingDesk[
+          cell as GameDeskSegmentKeyType
+        ] as unknown as ISaveDataVechicle
+        if (vehicleData) {
+          this.gamingDesk[cell as GameDeskSegmentKeyType] =
+            buildNewVehicle(vehicleData)
+        }
+      }
+    }
   }
 
   public getGamingDesk() {
     return this.gamingDesk
   }
 
-  isAccessibleGridForLanding(
+  public isAccessibleGridForLanding(
     grid: GameDeskSegmentKeyType,
     currentGamer: CurrentGamer
   ) {
@@ -315,5 +329,9 @@ export class Desk {
 
   public getHeadquartersHealth(target: GameDeskSegmentKeyType) {
     return this.gamingDesk[target]?.currentHealth
+  }
+
+  public gameSave() {
+    return this.gamingDesk
   }
 }

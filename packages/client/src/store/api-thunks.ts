@@ -7,12 +7,15 @@ import {
   UserDBType,
   CreateThemeType,
   IChangeDataUser,
+  ILeaderAll,
+  ILeaderAdd,
 } from '../typings'
 import UserController from '../controllers/UserController'
 import { UserAPIUpdatePassword } from '../api/UserAPI'
 import OAuthController from '../controllers/OAuthController'
 import DatabaseController from '../controllers/DatabaseController'
 import { Themes } from '../utils/consts'
+import LeaderController from '../controllers/LeaderController'
 
 export const loginThunk = createAsyncThunk(
   'user/login',
@@ -95,21 +98,18 @@ export const updateAvatarThunk = createAsyncThunk(
   }
 )
 
-// Метод пока не используется
-export const addUserInDBThunk = createAsyncThunk(
-  'database/addUser',
-  async (data: UserDBType) => {
-    const res = await DatabaseController.addUserInDB(data)
+export const getAllLeaderThunk = createAsyncThunk(
+  'leaders/getAllLeader',
+  async (data: ILeaderAll) => {
+    const res = await LeaderController.getAllLeader(data)
     return res.data
   }
 )
 
-// Пока этот метод не используется, когда появится в нем потребность
-// надо будет реализовать обработку ошибки 404, экстра-редьюсеры и слайс
-export const findUserInDBThunk = createAsyncThunk(
-  'database/findUser',
-  async (data: UserDBType) => {
-    const res = await DatabaseController.findUserInDB(data)
+export const addLeaderThunk = createAsyncThunk(
+  'leaders/addLeader',
+  async (data: ILeaderAdd) => {
+    const res = await LeaderController.addLeader(data)
     return res.data
   }
 )
@@ -127,5 +127,24 @@ export const updateUserThemeInDBThunk = createAsyncThunk(
   async (data: CreateThemeType) => {
     const res = await DatabaseController.updateUserTheme(data)
     return res?.data
+  }
+)
+
+// Метод пока не используется
+export const addUserInDBThunk = createAsyncThunk(
+  'database/addUser',
+  async (data: UserDBType) => {
+    const res = await DatabaseController.addUserInDB(data)
+    return res.data
+  }
+)
+
+// Пока этот метод не используется, когда появится в нем потребность
+// надо будет реализовать обработку ошибки 404, экстра-редьюсеры и слайс
+export const findUserInDBThunk = createAsyncThunk(
+  'database/findUser',
+  async (data: UserDBType) => {
+    const res = await DatabaseController.findUserInDB(data)
+    return res.data
   }
 )

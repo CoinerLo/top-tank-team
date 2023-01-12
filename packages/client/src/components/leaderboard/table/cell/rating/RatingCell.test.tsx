@@ -1,5 +1,6 @@
-import { RatingCell, RatingCellProps } from './RatingCell'
+import { RatingCell } from './RatingCell'
 import { render } from '@testing-library/react'
+import { RatingCellProps } from '../../../../../typings'
 
 const star = 'StarRateIcon'
 const halfStar = 'StarHalfIcon'

@@ -93,6 +93,36 @@ export type DataGameResultType = {
   ordersPlayed: KeyDataGameResultType<number>
 }
 
+export interface ILeaderAll {
+  ratingFieldName: string
+  cursor: number
+  limit: number
+}
+
+export interface ILeaderAdd {
+  data: {
+    name: string
+    ratingTopTank1: number
+  }
+  ratingFieldName: string
+  teamName: string
+}
+
+export type ILeader = Omit<ILeaderAdd, 'ratingFieldName' | 'teamName'>
+
+export interface ILeadersSlice {
+  leaders: Array<ILeader>
+}
+
+export interface RatingCellProps {
+  rating: 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5
+}
+
+export interface ICreateData {
+  name: string
+  rating: RatingCellProps['rating']
+}
+
 export type UserDBType = {
   firstName: string
   lastName: string
