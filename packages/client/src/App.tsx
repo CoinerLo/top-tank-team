@@ -31,7 +31,6 @@ import {
 } from './store/api-thunks'
 import { LeaderboardContainer } from './containers/LeaderboardContainer'
 
-
 function App() {
   const dispatch = useAppDispatch()
   const { authorizationStatus, databaseId, theme } = useAppselector(

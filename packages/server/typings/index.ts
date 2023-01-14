@@ -32,3 +32,30 @@ export type UpdateUserType = {
   userData: UserType
   id: string
 }
+
+export type ForumTopicType = {
+  title: string
+  authorName: string
+  repliesCount: number
+  lastReplied: string
+  lastRepliedDate: string
+  dateTopic: string
+}
+
+export type ForumCommentType = {
+  contextId: number
+  parentId: number
+  postAuthor: string
+  postDate: string
+  comment: string
+}
+
+export type UpdateTopicType = {
+  topicData: ForumTopicType
+  id: number
+}
+
+export type UpdateCommentType = {
+  commentData: ForumCommentType
+  id: number
+}
