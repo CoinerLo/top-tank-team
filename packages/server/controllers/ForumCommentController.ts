@@ -1,6 +1,11 @@
 import type Express from 'express'
-import type { ForumCommentType, UpdateCommentType } from '../typings'
-import type { TypedRequestBody } from '../typings'
+import type {
+  FindRequest,
+  ForumCommentType,
+  TypedRequestBody,
+  TypedRequestQuery,
+  UpdateCommentType,
+} from '../typings'
 import ForumCommentService from '../services/ForumCommentService'
 
 export class ForumCommentController {
@@ -10,15 +15,18 @@ export class ForumCommentController {
   ) => {
     const data = req.body
     const result = await ForumCommentService.create(data)
-    res.end(JSON.stringify({ ...result }))
+    res.end(JSON.stringify({ databaseCommentStatus: result.dataValues }))
   }
 
-  public static findAllComment = async (res: Express.Response) => {
+  public static findAllComment = async (
+    _req: TypedRequestQuery<FindRequest>,
+    res: Express.Response
+  ) => {
     const result = await ForumCommentService.findAll()
     if (!result) {
       res.status(404).json({ databaseTopicStatus: 'Not found' })
     } else {
-      res.end(JSON.stringify({ ...result }))
+      res.end(JSON.stringify({ databaseCommentStatus: result }))
     }
   }
 
@@ -28,6 +36,6 @@ export class ForumCommentController {
   ) => {
     const { id, commentData } = req.body
     const result = await ForumCommentService.update(id, commentData)
-    res.end(JSON.stringify({ ...result }))
+    res.end(JSON.stringify({ databaseCommentStatus: result?.dataValues }))
   }
 }
