@@ -24,7 +24,7 @@ export class ForumCommentController {
   ) => {
     const result = await ForumCommentService.findAll()
     if (!result) {
-      res.status(404).json({ databaseTopicStatus: 'Not found' })
+      res.status(404).json({ databaseCommentStatus: 'Not found' })
     } else {
       res.end(JSON.stringify({ databaseCommentStatus: result }))
     }

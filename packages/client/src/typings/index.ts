@@ -139,6 +139,26 @@ export type AxiosResponseUserThemeApiType = Record<
   string
 >
 
+export type AxiosResponseTopicApiType = Record<
+  'databaseTopicStatus',
+  Record<string, number | string>
+>
+
+export type AxiosResponseCommentApiType = Record<
+  'databaseCommentStatus',
+  Record<string, number | string>
+>
+
+export type AxiosResponseTopicAllApiType = Record<
+  'databaseTopicStatus',
+  Array<ITopic>
+>
+
+export type AxiosResponseCommentAllApiType = Record<
+  'databaseCommentStatus',
+  Array<IComment>
+>
+
 export type CreateThemeType = {
   theme: string
   ownerId: number
@@ -147,4 +167,40 @@ export type CreateThemeType = {
 export type UpdateUserDBType = {
   userData: UserDBType
   id: number
+}
+
+export type TopicDBType = {
+  title: string
+  authorName: string
+  repliesCount: number
+  lastReplied: string
+  lastRepliedDate: string
+  dateTopic: string
+}
+
+export interface ITopic extends TopicDBType {
+  id: number
+}
+
+export type CommentDBType = {
+  contextId: number
+  parentId: number
+  postAuthor: string
+  postDate: string
+  comment: string
+}
+
+export interface IComment extends TopicDBType {
+  id: number
+}
+
+export type PostDBType = {
+  topic: string
+  comment: string
+  authorName: string
+}
+
+export interface IForumSlice {
+  topic: Array<ITopic>
+  comment: Array<IComment>
 }

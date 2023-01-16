@@ -3,12 +3,13 @@ import { FC } from 'react'
 import { NavLink } from 'react-router-dom'
 
 interface ForumThemeProps {
-  id: string
+  id: number
   title: string
   repliesCount: number
   authorName: string
   lastReplied: string
   lastRepliedDate: string
+  dateTopic: string
 }
 
 export const ForumPost: FC<ForumThemeProps> = ({
@@ -17,6 +18,7 @@ export const ForumPost: FC<ForumThemeProps> = ({
   authorName,
   lastReplied,
   lastRepliedDate,
+  dateTopic,
   id,
 }) => {
   return (
@@ -24,7 +26,7 @@ export const ForumPost: FC<ForumThemeProps> = ({
       <Box display="flex" flexDirection="column" width="100%">
         <Link
           component={NavLink}
-          to={id}
+          to={id.toString()}
           marginBottom="5px"
           width="max-content"
           sx={{

@@ -1,7 +1,12 @@
 import {
+  AxiosResponseCommentApiType,
+  AxiosResponseTopicAllApiType,
+  AxiosResponseTopicApiType,
   AxiosResponseUserApiType,
   AxiosResponseUserThemeApiType,
+  CommentDBType,
   CreateThemeType,
+  TopicDBType,
   UpdateUserDBType,
   UserDBType,
 } from '../typings'
@@ -53,6 +58,22 @@ export class DatabaseAPI {
     data: CreateThemeType
   ): Promise<AxiosResponse<AxiosResponseUserThemeApiType>> {
     return ServerClient.patch(`${DatabaseAPI.API_URL}/theme`, data)
+  }
+
+  public addTopic(
+    data: TopicDBType
+  ): Promise<AxiosResponse<AxiosResponseTopicApiType>> {
+    return ServerClient.post(`${DatabaseAPI.API_URL}/addTopic`, data)
+  }
+
+  public addComment(
+    data: CommentDBType
+  ): Promise<AxiosResponse<AxiosResponseCommentApiType>> {
+    return ServerClient.post(`${DatabaseAPI.API_URL}/addComment`, data)
+  }
+
+  public topicAll(): Promise<AxiosResponse<AxiosResponseTopicAllApiType>> {
+    return ServerClient.get(`${DatabaseAPI.API_URL}/topic`)
   }
 }
 

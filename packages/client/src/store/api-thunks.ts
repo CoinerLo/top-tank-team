@@ -9,6 +9,9 @@ import {
   IChangeDataUser,
   ILeaderAll,
   ILeaderAdd,
+  TopicDBType,
+  CommentDBType,
+  PostDBType,
 } from '../typings'
 import UserController from '../controllers/UserController'
 import { UserAPIUpdatePassword } from '../api/UserAPI'
@@ -145,6 +148,38 @@ export const findUserInDBThunk = createAsyncThunk(
   'database/findUser',
   async (data: UserDBType) => {
     const res = await DatabaseController.findUserInDB(data)
+    return res.data
+  }
+)
+
+export const addPostInDBThunk = createAsyncThunk(
+  'database/addPost',
+  async ({ topic, comment, authorName }: PostDBType) => {
+    const dataTopic = {
+      title: topic,
+      authorName,
+      repliesCount: 0,
+      lastReplied: authorName,
+      lastRepliedDate: JSON.stringify(new Date()),
+      dateTopic: JSON.stringify(new Date()),
+    }
+    const resTopic = await DatabaseController.addTopicInDB(dataTopic)
+    const dataComment = {
+      contextId: resTopic.data.databaseTopicStatus.id as number,
+      parentId: 0,
+      postAuthor: authorName,
+      postDate: resTopic.data.databaseTopicStatus.dateTopic as string,
+      comment: comment,
+    }
+    const resComment = await DatabaseController.addCommentInDB(dataComment)
+    return { ...resTopic.data, ...resComment.data }
+  }
+)
+
+export const topicAllInDBThunk = createAsyncThunk(
+  'database/topicAll',
+  async () => {
+    const res = await DatabaseController.topicAllInDB()
     return res.data
   }
 )
