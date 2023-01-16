@@ -139,10 +139,7 @@ export type AxiosResponseUserThemeApiType = Record<
   string
 >
 
-export type AxiosResponseGameApiType = Record<
-  'databaseGameStatus',
-  number | GameDBType
->
+export type AxiosResponseGameApiType<T> = Record<'databaseGameStatus', T>
 
 export type GameDBType = {
   id: number

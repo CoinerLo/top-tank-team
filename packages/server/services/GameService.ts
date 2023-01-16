@@ -6,21 +6,30 @@ class GameService {
     return result
   }
 
-  public async update({ game, id }: Game) {
+  public async update({ game, gamerId }: Omit<Game, 'id'>) {
     await Game.update(
       {
-        game: game,
+        game,
       },
       {
-        where: { id },
+        where: { gamerId },
       }
     )
   }
 
-  public async find(id: number) {
-    const game = await Game.findByPk(id)
+  public async find(gamerId: number) {
+    const game = await Game.findOne({
+      where: { gamerId },
+    })
 
     return game
+  }
+
+  public async findAll(gamerId: number) {
+    const games = await Game.findAll({
+      where: { gamerId },
+    })
+    return games
   }
 
   public async delete(id: number) {

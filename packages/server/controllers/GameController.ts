@@ -14,12 +14,13 @@ export class GameController {
   }
 
   public static updateGame = async (
-    req: TypedRequestBody<Game>,
+    req: TypedRequestBody<Omit<Game, 'id'>>,
     res: Express.Response
   ) => {
     const data = req.body
     await GameService.update(data)
-    res.end(JSON.stringify({ databaseGameStatus: data.id }))
+    const game = await GameService.find(data.gamerId)
+    res.end(JSON.stringify({ databaseGameStatus: game }))
   }
 
   public static findGame = async (
@@ -32,6 +33,19 @@ export class GameController {
       res.status(404).json({ databaseGameStatus: 'Not found' })
     } else {
       res.end(JSON.stringify({ databaseGameStatus: game.dataValues }))
+    }
+  }
+
+  public static findAllGames = async (
+    req: TypedRequestQuery<{ id: string }>,
+    res: Express.Response
+  ) => {
+    const { id } = req.query
+    const game = await GameService.findAll(Number(id))
+    if (!game) {
+      res.status(404).json({ databaseGameStatus: 'Not found' })
+    } else {
+      res.end(JSON.stringify({ databaseGameStatus: game }))
     }
   }
 

@@ -7,6 +7,7 @@ export const gamesRoutes = (router: Router) => {
   const gamesRouter: Router = Router()
 
   gamesRouter
+    .get('/game/all', GameController.findAllGames)
     .get('/game', GameController.findGame)
     .post('/game', GameController.createGame)
     .patch('/game', GameController.updateGame)

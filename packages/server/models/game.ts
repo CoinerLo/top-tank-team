@@ -23,7 +23,7 @@ class Game extends Model<Game> {
 
   @Index_dc
   @AllowNull_dc(false)
-  @Column_dc(DataType_dc.STRING)
+  @Column_dc(DataType_dc.STRING(15000))
   game!: string
 
   @ForeignKey_dc(() => User_dc)

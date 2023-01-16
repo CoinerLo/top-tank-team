@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom'
 import { GameDeskSegmentKeyType } from '../../gameCore/types'
 import { useAppDispatch } from '../../hooks'
 import { saveGame } from '../../store/slices/gameSlice/gameSlice'
+import { updateGameInDBThunk } from '../../store/api-thunks'
 
 const styles = {
   userLine: {
@@ -66,9 +67,10 @@ const styles = {
 
 interface IGameDesk {
   game: Game
+  databaseId: number
 }
 
-export const GameDesk: FC<IGameDesk> = ({ game }) => {
+export const GameDesk: FC<IGameDesk> = ({ game, databaseId }) => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -92,13 +94,6 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
 
   const endGame = () => {
     dispatch(saveGame({ data: game }))
-    const localGames = localStorage.getItem(userName)
-    if (localGames) {
-      const { id } = game
-      const games = JSON.parse(localGames)
-      delete games[id]
-      localStorage.setItem(userName, JSON.stringify(games))
-    }
     navigate(`/${AppRoute.Game}/${AppRoute.ResultGame}/${game.id}`, {
       replace: true,
     })
@@ -121,7 +116,9 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
     setOpponentState(game.getOpponentState())
     setUserState(game.getUserState())
     setCurrentGamer(nextGamer)
-    localStorage.setItem(userName, JSON.stringify({ [game.id]: game }))
+    dispatch(
+      updateGameInDBThunk({ game: JSON.stringify(game), gamerId: databaseId })
+    )
   }
 
   const handleClickFullscreen = () => {
