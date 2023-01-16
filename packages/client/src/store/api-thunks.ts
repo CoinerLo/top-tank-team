@@ -154,7 +154,7 @@ export const findUserInDBThunk = createAsyncThunk(
 
 export const addPostInDBThunk = createAsyncThunk(
   'database/addPost',
-  async ({ topic, comment, authorName }: PostDBType) => {
+  async ({ topic, comment, authorName, successCb }: PostDBType) => {
     const dataTopic = {
       title: topic,
       authorName,
@@ -172,6 +172,9 @@ export const addPostInDBThunk = createAsyncThunk(
       comment: comment,
     }
     const resComment = await DatabaseController.addCommentInDB(dataComment)
+
+    successCb && successCb()
+
     return { ...resTopic.data, ...resComment.data }
   }
 )

@@ -21,6 +21,11 @@ export const ForumPost: FC<ForumThemeProps> = ({
   dateTopic,
   id,
 }) => {
+  const correctDate = new Date(lastRepliedDate.replace(/"/g, ""))
+  // Временно оставлю так, чуть позже добавлю либу dateFns для нормального отображения дат.
+  const dateTime = correctDate.toLocaleTimeString()
+  const dateDay = correctDate.getDay()
+  const dateMonth = correctDate.getMonth()
   return (
     <Box display="flex" borderBottom="1px solid grey" padding="10px">
       <Box display="flex" flexDirection="column" width="100%">
@@ -55,7 +60,11 @@ export const ForumPost: FC<ForumThemeProps> = ({
           borderLeft: '1px solid grey',
         }}>
         <Typography>{lastReplied}</Typography>
-        <Typography>{lastRepliedDate}</Typography>
+        <Typography>
+          {
+            `${dateDay} ${dateMonth} - ${dateTime}`
+          }
+          </Typography>
       </Box>
     </Box>
   )

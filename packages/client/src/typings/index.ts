@@ -198,6 +198,7 @@ export type PostDBType = {
   topic: string
   comment: string
   authorName: string
+  successCb?: () => void
 }
 
 export interface IForumSlice {

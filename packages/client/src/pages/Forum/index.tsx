@@ -14,7 +14,7 @@ import {
 } from 'react-hook-form'
 import { ForumPost } from '../../components/Forum/Post/ForumPost'
 import { useAppDispatch, useAppselector } from '../../hooks'
-import { addPostInDBThunk } from '../../store/api-thunks'
+import { addPostInDBThunk, topicAllInDBThunk } from '../../store/api-thunks'
 
 const containerStyles = {
   display: 'flex',
@@ -23,37 +23,6 @@ const containerStyles = {
   maxHeight: '100vh',
   overflowY: 'scroll',
 }
-
-// const ForumPosts = [
-//   {
-//     id: 1,
-//     title: 'test',
-//     repliesCount: 0,
-//     authorName: 'VasyaUbivator',
-//     lastReplied: 'StalnoiVolk',
-//     lastRepliedDate: '10.01.2022',
-//     dateTopic: '',
-//   },
-//   {
-//     id: 2,
-//     title: 'test',
-//     repliesCount: 0,
-//     authorName: 'VasyaUbivator',
-//     lastReplied: 'StalnoiVolk',
-//     lastRepliedDate: '10.01.2022',
-//     dateTopic: '',
-//   },
-//   {
-//     id: 3,
-//     title: 'test',
-//     repliesCount: 0,
-//     authorName: 'VasyaUbivator',
-//     lastReplied: 'StalnoiVolk',
-//     lastRepliedDate: '10.01.2022',
-//     dateTopic: '',
-//   },
-// ]
-
 interface IPostData {
   topic: string
   comment: string
@@ -67,7 +36,7 @@ export const Forum = () => {
 
   const dispatch = useAppDispatch()
 
-  const { handleSubmit, control } = useForm<IPostData>({
+  const { handleSubmit, control, reset } = useForm<IPostData>({
     mode: 'onBlur',
     reValidateMode: 'onChange',
   })
@@ -78,9 +47,11 @@ export const Forum = () => {
   const handleSubmitCommentData: SubmitHandler<IPostData> = async data => {
     console.log(data)
     const { topic, comment } = data
-    dispatch(addPostInDBThunk({ topic, comment, authorName }))
-    // не получилось тут же обновить страницу: санка с добавлением поста обрабатывается дольше, чем запрос всех тем
-    // dispatch(topicAllInDBThunk())
+    const successCb = () => {
+      dispatch(topicAllInDBThunk())
+      reset()
+    }
+    dispatch(addPostInDBThunk({ topic, comment, authorName, successCb }))
   }
 
   return (
@@ -88,15 +59,6 @@ export const Forum = () => {
       <Typography variant="h1" margin="10px auto">
         Форум
       </Typography>
-      {/* <Box width="70%" padding="30px">
-        {ForumPosts.map(el => {
-          return (
-            <Box key={el.id} marginBottom="15px">
-              <ForumPost {...el} />
-            </Box>
-          )
-        })}
-      </Box> */}
       <Box width="70%" padding="30px">
         {forum.topic.map(el => {
           return (
