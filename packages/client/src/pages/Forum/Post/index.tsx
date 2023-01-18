@@ -16,6 +16,12 @@ import {
 import { comments } from './mockData'
 import { AppRoute } from '../../../utils/consts'
 import { NavLink } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useAppDispatch, useAppselector } from '../../../hooks'
+import {
+  addCommentInDBThunk,
+  commentsByTopicInDBThunk,
+} from '../../../store/api-thunks'
 
 const containerStyles = {
   display: 'flex',
@@ -30,7 +36,24 @@ interface ICommentData {
 }
 
 export const PostPage = () => {
-  const { handleSubmit, control } = useForm<ICommentData>({
+  const dispatch = useAppDispatch()
+
+  const forum = useAppselector(({ FORUM }) => FORUM)
+  const { currentUser } = useAppselector(({ USER }) => USER)
+  const { login } = currentUser
+  const authorName = login
+
+  // ВНИМАНИЕ требует исправления
+  // достать из useHistory URL номер страницы topic
+  const id = 1
+  // получать номер комментария родителя если комментарий комментария
+  const parentId = 0
+
+  useEffect(() => {
+    dispatch(commentsByTopicInDBThunk(id))
+  }, [])
+
+  const { handleSubmit, control, reset } = useForm<ICommentData>({
     mode: 'onBlur',
     reValidateMode: 'onChange',
   })
@@ -40,6 +63,14 @@ export const PostPage = () => {
 
   const handleSubmitCommentData: SubmitHandler<ICommentData> = async data => {
     console.log(data)
+    const { comment } = data
+    const successCb = () => {
+      dispatch(commentsByTopicInDBThunk(id))
+      reset()
+    }
+    dispatch(
+      addCommentInDBThunk({ id, comment, parentId, authorName, successCb })
+    )
   }
 
   return (
@@ -57,6 +88,17 @@ export const PostPage = () => {
       </Link>
       <Box width="90%" padding="30px" paddingTop={0}>
         {comments.map(el => (
+          <Box key={el.id} mb="10px">
+            <PostComment
+              {...el}
+              replyCb={commentId => {
+                console.log(commentId)
+              }}
+              comments={comments}
+            />
+          </Box>
+        ))}
+        {forum.comment.map(el => (
           <Box key={el.id} mb="10px">
             <PostComment
               {...el}

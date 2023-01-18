@@ -139,14 +139,11 @@ export type AxiosResponseUserThemeApiType = Record<
   string
 >
 
-export type AxiosResponseTopicApiType = Record<
-  'databaseTopicStatus',
-  Record<string, number | string>
->
+export type AxiosResponseTopicApiType = Record<'databaseTopicStatus', ITopic>
 
 export type AxiosResponseCommentApiType = Record<
   'databaseCommentStatus',
-  Record<string, number | string>
+  IComment
 >
 
 export type AxiosResponseTopicAllApiType = Record<
@@ -182,6 +179,11 @@ export interface ITopic extends TopicDBType {
   id: number
 }
 
+export type TopicUpdateDBType = {
+  id: number
+  topicData: TopicDBType
+}
+
 export type CommentDBType = {
   contextId: number
   parentId: number
@@ -190,14 +192,27 @@ export type CommentDBType = {
   comment: string
 }
 
-export interface IComment extends TopicDBType {
+export interface IComment extends CommentDBType {
   id: number
+}
+
+export type CommentUpdateDBType = {
+  id: number
+  commentData: CommentDBType
 }
 
 export type PostDBType = {
   topic: string
   comment: string
   authorName: string
+  successCb?: () => void
+}
+
+export type addCommentDBType = {
+  id: number
+  comment: string
+  authorName: string
+  parentId: number
   successCb?: () => void
 }
 

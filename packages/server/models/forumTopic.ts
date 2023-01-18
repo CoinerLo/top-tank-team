@@ -6,20 +6,22 @@ import {
   DataType as DataType_dc,
   PrimaryKey as PrimaryKey_dc,
   Table as Table_dc,
+  HasMany as HasMany_dc,
 } from 'sequelize-typescript'
 import type {
   CreationOptional,
   InferAttributes,
   InferCreationAttributes,
 } from 'sequelize/types/model'
+import ForumComment_dc from './forumComment'
 
 @Table_dc({
   timestamps: false,
   tableName: 'forum_topic',
 })
-class forumTopic extends Model<
-  InferAttributes<forumTopic>,
-  InferCreationAttributes<forumTopic>
+class ForumTopic extends Model<
+  InferAttributes<ForumTopic>,
+  InferCreationAttributes<ForumTopic>
 > {
   @AutoIncrement_dc
   @PrimaryKey_dc
@@ -49,6 +51,9 @@ class forumTopic extends Model<
   @AllowNull_dc(false)
   @Column_dc(DataType_dc.STRING)
   dateTopic!: string
+
+  @HasMany_dc(() => ForumComment_dc)
+  comments!: ForumComment_dc[]
 }
 
-export default forumTopic
+export default ForumTopic

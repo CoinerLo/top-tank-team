@@ -7,11 +7,13 @@ export const forumRoutes = (router: Router) => {
   const forumRouter: Router = Router()
 
   forumRouter
-    .get('/topic', ForumTopicController.findAllTopic)
-    .post('/addTopic', ForumTopicController.addTopic)
+    .get('/topics', ForumTopicController.findAllTopic)
+    .get('/topic', ForumTopicController.findOneTopic)
+    .post('/topic', ForumTopicController.addTopic)
     .patch('/topic', ForumTopicController.updateTopic)
-    .get('/comment', ForumCommentController.findAllComment)
-    .post('/addComment', ForumCommentController.addComment)
+    .get('/comments', ForumCommentController.findAllComment)
+    .get('/comment', ForumCommentController.findAllCommentByTopic)
+    .post('/comment', ForumCommentController.addComment)
     .patch('/comment', ForumCommentController.updateComment)
 
   router.use(API_URL, forumRouter)

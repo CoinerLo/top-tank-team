@@ -40,6 +40,7 @@ export type ForumTopicType = {
   lastReplied: string
   lastRepliedDate: string
   dateTopic: string
+  comments: any
 }
 
 export type ForumCommentType = {
@@ -48,6 +49,7 @@ export type ForumCommentType = {
   postAuthor: string
   postDate: string
   comment: string
+  topic: any
 }
 
 export type UpdateTopicType = {

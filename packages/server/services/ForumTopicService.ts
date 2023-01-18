@@ -12,6 +12,13 @@ class ForumTopicService {
     return result
   }
 
+  public async findOne(topicID: number) {
+    const result = await forumTopic.findOne({
+      where: { id: topicID },
+    })
+    return result
+  }
+
   public async update(
     topicID: number,
     {

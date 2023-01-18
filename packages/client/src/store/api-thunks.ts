@@ -9,9 +9,8 @@ import {
   IChangeDataUser,
   ILeaderAll,
   ILeaderAdd,
-  TopicDBType,
-  CommentDBType,
   PostDBType,
+  addCommentDBType,
 } from '../typings'
 import UserController from '../controllers/UserController'
 import { UserAPIUpdatePassword } from '../api/UserAPI'
@@ -179,10 +178,66 @@ export const addPostInDBThunk = createAsyncThunk(
   }
 )
 
+export const addCommentInDBThunk = createAsyncThunk(
+  'database/addComment',
+  async ({
+    id,
+    comment,
+    authorName,
+    parentId,
+    successCb,
+  }: addCommentDBType) => {
+    const resTopic = await DatabaseController.topicOneInDB(id)
+
+    const topicData = {
+      title: resTopic.data.databaseTopicStatus.title,
+      authorName: resTopic.data.databaseTopicStatus.authorName,
+      repliesCount: Number(resTopic.data.databaseTopicStatus.repliesCount) + 1,
+      lastReplied: authorName,
+      lastRepliedDate: JSON.stringify(new Date()),
+      dateTopic: resTopic.data.databaseTopicStatus.dateTopic,
+    }
+    const updateDateTopic = {
+      id: 1,
+      topicData,
+    }
+    const updTopic = await DatabaseController.updateTopicInDB(updateDateTopic)
+
+    const dataComment = {
+      contextId: resTopic.data.databaseTopicStatus.id as number,
+      parentId,
+      postAuthor: authorName,
+      postDate: JSON.stringify(new Date()) as string,
+      comment: comment,
+    }
+    const resComment = await DatabaseController.addCommentInDB(dataComment)
+
+    successCb && successCb()
+
+    return { ...updTopic.data, ...resComment.data }
+  }
+)
+
 export const topicAllInDBThunk = createAsyncThunk(
   'database/topicAll',
   async () => {
     const res = await DatabaseController.topicAllInDB()
+    return res.data
+  }
+)
+
+export const commentAllInDBThunk = createAsyncThunk(
+  'database/commentAll',
+  async () => {
+    const res = await DatabaseController.commentAllInDB()
+    return res.data
+  }
+)
+
+export const commentsByTopicInDBThunk = createAsyncThunk(
+  'database/commentsByTopic',
+  async (id: number) => {
+    const res = await DatabaseController.commentsByTopicInDB(id)
     return res.data
   }
 )

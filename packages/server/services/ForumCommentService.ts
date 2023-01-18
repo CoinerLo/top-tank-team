@@ -12,6 +12,13 @@ class ForumCommentService {
     return result
   }
 
+  public async findAllByTopic(topicID: number) {
+    const result = await forumComment.findAll({
+      where: { contextId: topicID },
+    })
+    return result
+  }
+
   public async update(
     topicID: number,
     { contextId, parentId, postAuthor, postDate, comment }: ForumCommentType

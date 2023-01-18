@@ -30,6 +30,20 @@ export class ForumCommentController {
     }
   }
 
+  public static findAllCommentByTopic = async (
+    req: TypedRequestQuery<FindRequest>,
+    res: Express.Response
+  ) => {
+    const data = req.query
+    const { id } = data
+    const result = await ForumCommentService.findAllByTopic(Number(id))
+    if (!result) {
+      res.status(404).json({ databaseCommentStatus: 'Not found' })
+    } else {
+      res.end(JSON.stringify({ databaseCommentStatus: result }))
+    }
+  }
+
   public static updateComment = async (
     req: TypedRequestBody<UpdateCommentType>,
     res: Express.Response

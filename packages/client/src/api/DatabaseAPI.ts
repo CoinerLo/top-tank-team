@@ -1,12 +1,15 @@
 import {
+  AxiosResponseCommentAllApiType,
   AxiosResponseCommentApiType,
   AxiosResponseTopicAllApiType,
   AxiosResponseTopicApiType,
   AxiosResponseUserApiType,
   AxiosResponseUserThemeApiType,
   CommentDBType,
+  CommentUpdateDBType,
   CreateThemeType,
   TopicDBType,
+  TopicUpdateDBType,
   UpdateUserDBType,
   UserDBType,
 } from '../typings'
@@ -63,17 +66,45 @@ export class DatabaseAPI {
   public addTopic(
     data: TopicDBType
   ): Promise<AxiosResponse<AxiosResponseTopicApiType>> {
-    return ServerClient.post(`${DatabaseAPI.API_URL}/addTopic`, data)
+    return ServerClient.post(`${DatabaseAPI.API_URL}/topic`, data)
   }
 
   public addComment(
     data: CommentDBType
   ): Promise<AxiosResponse<AxiosResponseCommentApiType>> {
-    return ServerClient.post(`${DatabaseAPI.API_URL}/addComment`, data)
+    return ServerClient.post(`${DatabaseAPI.API_URL}/comment`, data)
   }
 
   public topicAll(): Promise<AxiosResponse<AxiosResponseTopicAllApiType>> {
-    return ServerClient.get(`${DatabaseAPI.API_URL}/topic`)
+    return ServerClient.get(`${DatabaseAPI.API_URL}/topics`)
+  }
+
+  public commentAll(): Promise<AxiosResponse<AxiosResponseTopicAllApiType>> {
+    return ServerClient.get(`${DatabaseAPI.API_URL}/comments`)
+  }
+
+  public commentsByTopic(
+    id: number
+  ): Promise<AxiosResponse<AxiosResponseCommentAllApiType>> {
+    return ServerClient.get(`${DatabaseAPI.API_URL}/comment?id=${id}`)
+  }
+
+  public topicOne(
+    id: number
+  ): Promise<AxiosResponse<AxiosResponseTopicApiType>> {
+    return ServerClient.get(`${DatabaseAPI.API_URL}/topic?id=${id}`)
+  }
+
+  public updateTopic(
+    data: TopicUpdateDBType
+  ): Promise<AxiosResponse<AxiosResponseTopicApiType>> {
+    return ServerClient.patch(`${DatabaseAPI.API_URL}/topic`, data)
+  }
+
+  public updateComment(
+    data: CommentUpdateDBType
+  ): Promise<AxiosResponse<AxiosResponseCommentApiType>> {
+    return ServerClient.patch(`${DatabaseAPI.API_URL}/comment`, data)
   }
 }
 

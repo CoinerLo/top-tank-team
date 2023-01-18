@@ -30,6 +30,20 @@ export class ForumTopicController {
     }
   }
 
+  public static findOneTopic = async (
+    req: TypedRequestQuery<FindRequest>,
+    res: Express.Response
+  ) => {
+    const data = req.query
+    const { id } = data
+    const result = await ForumTopicService.findOne(Number(id))
+    if (!result) {
+      res.status(404).json({ databaseTopicStatus: 'Not found' })
+    } else {
+      res.end(JSON.stringify({ databaseTopicStatus: result }))
+    }
+  }
+
   public static updateTopic = async (
     req: TypedRequestBody<UpdateTopicType>,
     res: Express.Response
