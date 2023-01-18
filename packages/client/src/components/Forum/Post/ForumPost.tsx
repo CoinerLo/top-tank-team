@@ -1,6 +1,9 @@
 import { Box, Link, Typography } from '@mui/material'
 import { FC } from 'react'
 import { NavLink } from 'react-router-dom'
+import {format} from 'date-fns'
+import ru from 'date-fns/locale/ru'
+
 
 interface ForumThemeProps {
   id: number
@@ -18,14 +21,14 @@ export const ForumPost: FC<ForumThemeProps> = ({
   authorName,
   lastReplied,
   lastRepliedDate,
-  dateTopic,
   id,
 }) => {
   const correctDate = new Date(lastRepliedDate.replace(/"/g, ''))
+  
   // Временно оставлю так, чуть позже добавлю либу dateFns для нормального отображения дат.
-  const dateTime = correctDate.toLocaleTimeString()
-  const dateDay = correctDate.getDay()
-  const dateMonth = correctDate.getMonth()
+  const humanizedDate = format(new Date(correctDate), 'dd LLL - HH:mm', {
+    locale: ru
+  })
   return (
     <Box display="flex" borderBottom="1px solid grey" padding="10px">
       <Box display="flex" flexDirection="column" width="100%">
@@ -60,7 +63,7 @@ export const ForumPost: FC<ForumThemeProps> = ({
           borderLeft: '1px solid grey',
         }}>
         <Typography>{lastReplied}</Typography>
-        <Typography>{`${dateDay} ${dateMonth} - ${dateTime}`}</Typography>
+        <Typography>{humanizedDate}</Typography>
       </Box>
     </Box>
   )

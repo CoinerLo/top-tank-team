@@ -5,7 +5,10 @@ import {
   FormControl,
   Link,
   TextField,
+  Typography,
 } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
+import {useParams} from 'react-router-dom';
 import { PostComment } from '../../../components/Forum/Comment/PostComment'
 import {
   Controller,
@@ -13,10 +16,9 @@ import {
   useForm,
   useFormState,
 } from 'react-hook-form'
-import { comments } from './mockData'
 import { AppRoute } from '../../../utils/consts'
 import { NavLink } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppselector } from '../../../hooks'
 import {
   addCommentInDBThunk,
@@ -42,12 +44,10 @@ export const PostPage = () => {
   const { currentUser } = useAppselector(({ USER }) => USER)
   const { login } = currentUser
   const authorName = login
-
-  // ВНИМАНИЕ требует исправления
-  // достать из useHistory URL номер страницы topic
-  const id = 1
-  // получать номер комментария родителя если комментарий комментария
-  const parentId = 0
+  const [parentId, setParentId]  = useState(0)
+  const {postId} = useParams()
+  
+  const id = postId ? +postId : 0
 
   useEffect(() => {
     dispatch(commentsByTopicInDBThunk(id))
@@ -62,15 +62,16 @@ export const PostPage = () => {
   })
 
   const handleSubmitCommentData: SubmitHandler<ICommentData> = async data => {
-    console.log(data)
     const { comment } = data
     const successCb = () => {
-      dispatch(commentsByTopicInDBThunk(id))
+      dispatch(commentsByTopicInDBThunk(+id))
       reset()
     }
     dispatch(
       addCommentInDBThunk({ id, comment, parentId, authorName, successCb })
     )
+    setParentId(0)
+    reset()
   }
 
   return (
@@ -87,28 +88,34 @@ export const PostPage = () => {
         К списку постов
       </Link>
       <Box width="90%" padding="30px" paddingTop={0}>
-        {comments.map(el => (
-          <Box key={el.id} mb="10px">
-            <PostComment
-              {...el}
-              replyCb={commentId => {
-                console.log(commentId)
-              }}
-              comments={comments}
-            />
-          </Box>
-        ))}
         {forum.comment.map(el => (
           <Box key={el.id} mb="10px">
             <PostComment
               {...el}
               replyCb={commentId => {
-                console.log(commentId)
+                setParentId(commentId)
               }}
-              comments={comments}
+              comments={forum.comment}
             />
           </Box>
         ))}
+        {parentId > 0 && 
+        <Box display='flex' mb='-20px' border='1px solid #fff' borderBottom={0} width='max-content' ml='10px'>
+            <Typography>
+              {
+                `Ответ на комментарий: <<${forum.comment.find(el => el.id === parentId)?.comment.slice(0, 15)}>>`
+              }
+            </Typography>
+            <Button sx={{
+              background: 'transparent',
+              height: '20px',
+            }} size='small' variant='sub' onClick={() => {
+              setParentId(0)
+            }}>
+              <CloseIcon fontSize='small' />
+            </Button>
+        </Box>
+        }
         <FormControl
           component="form"
           onSubmit={handleSubmit(handleSubmitCommentData)}
@@ -128,7 +135,12 @@ export const PostPage = () => {
             render={({ field }) => (
               <TextField
                 label="Комменнтарий"
-                onChange={e => field.onChange(e)}
+                onChange={e => {
+                  field.onChange(e)
+                  if (parentId && (field.value.length === 0)) {
+                    setParentId(0)
+                  }
+                }}
                 onBlur={() => field.onBlur()}
                 value={field.value || ''}
                 sx={{
