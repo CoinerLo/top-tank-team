@@ -1,7 +1,7 @@
 import { UserState } from '../UserState'
 import { GameDeskSegmentKeyType, IGameSave, IUserData } from '../../types'
 import { Desk } from '../Desk'
-import { getRandomInt, nanoid } from '../../utils'
+import { getRandomInt } from '../../utils'
 import { Tank } from '../TanksDeck'
 import { operationConst, endGameMessage } from '../../consts'
 
@@ -13,11 +13,10 @@ export enum CurrentGamer {
 interface IGame {
   userData: IUserData
   opponentData: IUserData
-  id?: string
 }
 
 export class Game {
-  public id: string
+  public id!: number
   private UserState: UserState
   private OpponentState: UserState
   private isEndGame = false
@@ -41,8 +40,7 @@ export class Game {
       this.OpponentState = new UserState(opponentStateSave)
       this.Desk = new Desk(deskSave)
     } else {
-      const { userData, opponentData, id } = gameData as IGame
-      this.id = id ?? nanoid()
+      const { userData, opponentData } = gameData as IGame
       this.UserState = new UserState(userData)
       this.OpponentState = new UserState(opponentData)
       this.Desk = new Desk({
@@ -52,6 +50,10 @@ export class Game {
       this.currentGamer =
         getRandomInt(2) > 0 ? CurrentGamer.user : CurrentGamer.opponent
     }
+  }
+
+  public setId(id: number) {
+    this.id = id
   }
 
   public getFullState() {

@@ -1,27 +1,23 @@
-import type { CreateRequest, FindRequest } from '../typings'
+import type { CreateThemeRequest, FindRequest } from '../typings'
 import UserTheme from '../models/userTheme'
-import type { NullishPropertiesOf } from 'sequelize/types/utils'
 
 class ThemeService {
   public async find({ id }: FindRequest) {
-    const userTheme = UserTheme.findByPk(id)
+    const userTheme = await UserTheme.findByPk(id)
     return userTheme
   }
 
-  public async findOrCreate(data: CreateRequest) {
+  public async findOrCreate(data: UserTheme) {
     const [userTheme] = await UserTheme.findOrCreate({
       where: {
         ownerId: data.ownerId,
       },
-      defaults: {
-        ownerId: Number(data.ownerId),
-        theme: data.theme,
-      } as Omit<UserTheme, NullishPropertiesOf<UserTheme>>,
+      defaults: data,
     })
     return userTheme
   }
 
-  public async update(data: CreateRequest) {
+  public async update(data: CreateThemeRequest) {
     await UserTheme.update(
       {
         theme: data.theme,
@@ -31,7 +27,7 @@ class ThemeService {
       }
     )
 
-    const result = UserTheme.findOne({
+    const result = await UserTheme.findOne({
       where: { ownerId: data.ownerId },
     })
 
