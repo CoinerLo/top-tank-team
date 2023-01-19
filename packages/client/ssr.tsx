@@ -19,15 +19,13 @@ export function render(url: string) {
   })
 
   const html = renderToString(
-    <React.StrictMode>
-      <CacheProvider value={cache}>
-        <StaticRouter location={url}>
-          <Provider store={store}>
-            <App />
-          </Provider>
-        </StaticRouter>
-      </CacheProvider>
-    </React.StrictMode>
+    <CacheProvider value={cache}>
+      <StaticRouter location={url}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </StaticRouter>
+    </CacheProvider>
   )
 
   const preloadedState = store.getState()

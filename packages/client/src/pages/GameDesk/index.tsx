@@ -92,13 +92,6 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
 
   const endGame = () => {
     dispatch(saveGame({ data: game }))
-    const localGames = localStorage.getItem(userName)
-    if (localGames) {
-      const { id } = game
-      const games = JSON.parse(localGames)
-      delete games[id]
-      localStorage.setItem(userName, JSON.stringify(games))
-    }
     navigate(`/${AppRoute.Game}/${AppRoute.ResultGame}/${game.id}`, {
       replace: true,
     })
@@ -121,7 +114,6 @@ export const GameDesk: FC<IGameDesk> = ({ game }) => {
     setOpponentState(game.getOpponentState())
     setUserState(game.getUserState())
     setCurrentGamer(nextGamer)
-    localStorage.setItem(userName, JSON.stringify({ [game.id]: game }))
   }
 
   const handleClickFullscreen = () => {
