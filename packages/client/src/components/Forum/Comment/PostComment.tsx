@@ -51,7 +51,7 @@ export const PostComment: FC<PostCommentProps> = ({
           borderBottom="1px solid #e0e0e0">
           Опубликован: {humanizedDate}
         </Typography>
-        {parentId && reply?.length && (
+        {parentId > 0 && reply?.length && (
           <Box
             sx={{
               border: '1px solid #ED6204',

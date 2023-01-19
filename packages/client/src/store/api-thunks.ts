@@ -190,7 +190,7 @@ export const addCommentInDBThunk = createAsyncThunk(
       dateTopic: resTopic.data.databaseTopicStatus.dateTopic,
     }
     const updateDateTopic = {
-      id: 1,
+      id,
       topicData,
     }
     const updTopic = await DatabaseController.updateTopicInDB(updateDateTopic)
