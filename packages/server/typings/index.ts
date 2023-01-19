@@ -23,7 +23,7 @@ export type FindRequest = {
   id: string
 }
 
-export type CreateRequest = {
+export type CreateThemeRequest = {
   theme: string
   ownerId: string
 }
@@ -31,4 +31,9 @@ export type CreateRequest = {
 export type UpdateUserType = {
   userData: UserType
   id: string
+}
+
+export type CreateGameRequest = {
+  game: string
+  gamerId: string
 }

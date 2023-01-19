@@ -1,7 +1,7 @@
 import CssBaseline from '@mui/material/CssBaseline'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import { getMainTheme } from './assets/mainTheme'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { Headquarters } from './pages/Headquarters'
 import { Error404 } from './pages/Error404'
 import { Briefing } from './pages/Briefing'
@@ -98,6 +98,10 @@ function App() {
                     element={<GameResultContainer />}
                   />
                 </Route>
+                <Route
+                  index
+                  element={<Navigate to={AppRoute.Headquarters} />}
+                />
               </Route>
             </Route>
 

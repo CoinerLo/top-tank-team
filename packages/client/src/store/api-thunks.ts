@@ -9,6 +9,7 @@ import {
   IChangeDataUser,
   ILeaderAll,
   ILeaderAdd,
+  GameDBType,
 } from '../typings'
 import UserController from '../controllers/UserController'
 import { UserAPIUpdatePassword } from '../api/UserAPI'
@@ -16,6 +17,7 @@ import OAuthController from '../controllers/OAuthController'
 import DatabaseController from '../controllers/DatabaseController'
 import { Themes } from '../utils/consts'
 import LeaderController from '../controllers/LeaderController'
+import DatabaseGameController from '../controllers/DatabaseGameController'
 
 export const loginThunk = createAsyncThunk(
   'user/login',
@@ -49,19 +51,25 @@ export const signinYandexThunk = createAsyncThunk(
   }
 )
 
-export const getUserThunk = createAsyncThunk('user/getUser', async () => {
-  const res = await AuthController.fetchUser()
-  const resUserDB = await DatabaseController.findOrCreateUserInDB({
-    firstName: res.data.first_name,
-    lastName: res.data.second_name,
-    email: res.data.email,
-  })
-  const resThemeDB = await DatabaseController.findOrCreateUserThemeInDB({
-    ownerId: Number(resUserDB.data.databaseUserStatus),
-    theme: Themes.dark,
-  })
-  return { ...res.data, ...resUserDB.data, ...resThemeDB.data }
-})
+export const getUserThunk = createAsyncThunk(
+  'user/getUser',
+  async (_, thunkAPI) => {
+    const res = await AuthController.fetchUser()
+    const resUserDB = await DatabaseController.findOrCreateUserInDB({
+      firstName: res.data.first_name,
+      lastName: res.data.second_name,
+      email: res.data.email,
+    })
+    const resThemeDB = await DatabaseController.findOrCreateUserThemeInDB({
+      ownerId: Number(resUserDB.data.databaseUserStatus),
+      theme: Themes.dark,
+    })
+    thunkAPI.dispatch(
+      findAllGamesInDBThunk(Number(resUserDB.data.databaseUserStatus))
+    )
+    return { ...res.data, ...resUserDB.data, ...resThemeDB.data }
+  }
+)
 
 export const logoutThunk = createAsyncThunk('user/logout', async () => {
   await AuthController.logout()
@@ -145,6 +153,46 @@ export const findUserInDBThunk = createAsyncThunk(
   'database/findUser',
   async (data: UserDBType) => {
     const res = await DatabaseController.findUserInDB(data)
+    return res.data
+  }
+)
+
+export const createNewGameInDBThunk = createAsyncThunk(
+  'database/createNewGame',
+  async (data: Omit<GameDBType, 'id'>) => {
+    const res = await DatabaseGameController.createNewGame(data)
+    return res.data
+  }
+)
+
+export const findGameInDBThunk = createAsyncThunk(
+  'database/findGame',
+  async (id: number) => {
+    const res = await DatabaseGameController.findGame(id)
+    return res.data
+  }
+)
+
+export const updateGameInDBThunk = createAsyncThunk(
+  'database/updateGame',
+  async (data: Omit<GameDBType, 'id'>) => {
+    const res = await DatabaseGameController.updateGame(data)
+    return res.data
+  }
+)
+
+export const deleteGameInDBThunk = createAsyncThunk(
+  'database/deleteGame',
+  async (id: number) => {
+    const res = await DatabaseGameController.deleteGame(id)
+    return res.data
+  }
+)
+
+export const findAllGamesInDBThunk = createAsyncThunk(
+  'database/findAllGames',
+  async (id: number) => {
+    const res = await DatabaseGameController.findAllGames(id)
     return res.data
   }
 )

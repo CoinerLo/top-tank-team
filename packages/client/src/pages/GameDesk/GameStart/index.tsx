@@ -11,6 +11,8 @@ import { IUserData } from '../../../gameCore/types'
 import { Game } from '../../../gameCore/models/Game'
 import { useAppDispatch, useAppselector } from '../../../hooks'
 import { saveGame } from '../../../store/slices/gameSlice/gameSlice'
+import { createNewGameInDBThunk } from '../../../store/api-thunks'
+import { AxiosResponseGameApiType, GameDBType } from '../../../typings'
 
 export const GameStart = () => {
   const [valResetTimer, setvalResetTimer] = useState(false)
@@ -25,7 +27,7 @@ export const GameStart = () => {
     getHeadquartersPreview('')
   )
 
-  const { currentUser } = useAppselector(({ USER }) => USER)
+  const { currentUser, databaseId } = useAppselector(({ USER }) => USER)
   const { display_name } = currentUser
 
   const { decks } = useAppselector(({ DECKS }) => DECKS)
@@ -47,12 +49,31 @@ export const GameStart = () => {
         deck: second,
         headquartersName: opponentHeadquarters,
       }
+
       const newGame = new Game({ userData, opponentData })
-      const { id } = newGame
 
-      dispatch(saveGame({ data: newGame }))
+      // Продолжение установки костылей - т.к. ядро игры на клиенте
+      // а id мы хотим получать для игры из БД
+      // будет убрано когда ядро и создание игры переедет на сервер
+      const createNewGame = async () => {
+        const loadGameData = await dispatch(
+          createNewGameInDBThunk({
+            gamerId: databaseId,
+            game: JSON.stringify(newGame),
+          })
+        )
 
-      navigate(`/${AppRoute.Game}/${id}`, { replace: true })
+        const data = loadGameData.payload as
+          | AxiosResponseGameApiType<GameDBType>
+          | undefined
+
+        const id = data?.databaseGameStatus.id || 1
+        newGame.setId(id)
+        dispatch(saveGame({ data: newGame }))
+        navigate(`/${AppRoute.Game}/${id}`, { replace: true })
+      }
+
+      createNewGame()
     }
   })
 
