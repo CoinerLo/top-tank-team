@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom'
 import { PostComment } from '../../../components/Forum/Comment/PostComment'
 import {
   Controller,
@@ -44,9 +44,9 @@ export const PostPage = () => {
   const { currentUser } = useAppselector(({ USER }) => USER)
   const { login } = currentUser
   const authorName = login
-  const [parentId, setParentId]  = useState(0)
-  const {postId} = useParams()
-  
+  const [parentId, setParentId] = useState(0)
+  const { postId } = useParams()
+
   const id = postId ? +postId : 0
 
   useEffect(() => {
@@ -99,23 +99,33 @@ export const PostPage = () => {
             />
           </Box>
         ))}
-        {parentId > 0 && 
-        <Box display='flex' mb='-20px' border='1px solid #fff' borderBottom={0} width='max-content' ml='10px'>
+        {parentId > 0 && (
+          <Box
+            display="flex"
+            mb="-20px"
+            border="1px solid #fff"
+            borderBottom={0}
+            width="max-content"
+            ml="10px">
             <Typography>
-              {
-                `Ответ на комментарий: <<${forum.comment.find(el => el.id === parentId)?.comment.slice(0, 15)}>>`
-              }
+              {`Ответ на комментарий: <<${forum.comment
+                .find(el => el.id === parentId)
+                ?.comment.slice(0, 15)}>>`}
             </Typography>
-            <Button sx={{
-              background: 'transparent',
-              height: '20px',
-            }} size='small' variant='sub' onClick={() => {
-              setParentId(0)
-            }}>
-              <CloseIcon fontSize='small' />
+            <Button
+              sx={{
+                background: 'transparent',
+                height: '20px',
+              }}
+              size="small"
+              variant="sub"
+              onClick={() => {
+                setParentId(0)
+              }}>
+              <CloseIcon fontSize="small" />
             </Button>
-        </Box>
-        }
+          </Box>
+        )}
         <FormControl
           component="form"
           onSubmit={handleSubmit(handleSubmitCommentData)}
@@ -137,7 +147,7 @@ export const PostPage = () => {
                 label="Комменнтарий"
                 onChange={e => {
                   field.onChange(e)
-                  if (parentId && (field.value.length === 0)) {
+                  if (parentId && field.value.length === 0) {
                     setParentId(0)
                   }
                 }}
