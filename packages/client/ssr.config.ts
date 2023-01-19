@@ -17,11 +17,11 @@ export default defineConfig({
         dir: 'ssr-dist',
       },
     },
-    ssr: true
+    ssr: true,
   },
   ssr: {
     target: 'node',
-    noExternal: ['react-router-dom', 'swiper', 'ssr-window', 'dom7']
+    noExternal: ['react-router-dom', 'swiper', 'ssr-window', 'dom7'],
   },
   define: {
     __SERVER_PORT__: process.env.SERVER_PORT || 3001,
