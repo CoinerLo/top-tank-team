@@ -153,7 +153,7 @@ export const findUserInDBThunk = createAsyncThunk(
 
 export const addPostInDBThunk = createAsyncThunk(
   'database/addPost',
-  async ({ topic, comment, authorName, successCb }: PostDBType) => {
+  async ({ topic, comment, authorName }: PostDBType) => {
     const dataTopic = {
       title: topic,
       authorName,
@@ -164,15 +164,13 @@ export const addPostInDBThunk = createAsyncThunk(
     }
     const resTopic = await DatabaseController.addTopicInDB(dataTopic)
     const dataComment = {
-      contextId: resTopic.data.databaseTopicStatus.id as number,
+      contextId: resTopic.data.databaseTopicStatus.id,
       parentId: 0,
       postAuthor: authorName,
-      postDate: resTopic.data.databaseTopicStatus.dateTopic as string,
+      postDate: resTopic.data.databaseTopicStatus.dateTopic,
       comment: comment,
     }
     const resComment = await DatabaseController.addCommentInDB(dataComment)
-
-    successCb && successCb()
 
     return { ...resTopic.data, ...resComment.data }
   }
@@ -185,7 +183,6 @@ export const addCommentInDBThunk = createAsyncThunk(
     comment,
     authorName,
     parentId,
-    successCb,
   }: addCommentDBType) => {
     const resTopic = await DatabaseController.topicOneInDB(id)
 
@@ -212,8 +209,6 @@ export const addCommentInDBThunk = createAsyncThunk(
     }
     const resComment = await DatabaseController.addCommentInDB(dataComment)
 
-    successCb && successCb()
-
     return { ...updTopic.data, ...resComment.data }
   }
 )
@@ -222,14 +217,6 @@ export const topicAllInDBThunk = createAsyncThunk(
   'database/topicAll',
   async () => {
     const res = await DatabaseController.topicAllInDB()
-    return res.data
-  }
-)
-
-export const commentAllInDBThunk = createAsyncThunk(
-  'database/commentAll',
-  async () => {
-    const res = await DatabaseController.commentAllInDB()
     return res.data
   }
 )

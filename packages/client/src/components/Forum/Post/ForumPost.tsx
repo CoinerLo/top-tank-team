@@ -25,7 +25,6 @@ export const ForumPost: FC<ForumThemeProps> = ({
 }) => {
   const correctDate = new Date(lastRepliedDate.replace(/"/g, ''))
   
-  // Временно оставлю так, чуть позже добавлю либу dateFns для нормального отображения дат.
   const humanizedDate = format(new Date(correctDate), 'dd LLL - HH:mm', {
     locale: ru
   })

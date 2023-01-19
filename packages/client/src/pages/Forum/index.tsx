@@ -47,11 +47,9 @@ export const Forum = () => {
   const handleSubmitCommentData: SubmitHandler<IPostData> = async data => {
     console.log(data)
     const { topic, comment } = data
-    const successCb = () => {
-      dispatch(topicAllInDBThunk())
-      reset()
-    }
-    dispatch(addPostInDBThunk({ topic, comment, authorName, successCb }))
+    await dispatch(addPostInDBThunk({ topic, comment, authorName }))
+    dispatch(topicAllInDBThunk())
+    reset()
   }
 
   return (

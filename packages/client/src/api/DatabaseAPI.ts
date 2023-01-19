@@ -1,5 +1,4 @@
 import {
-  AxiosResponseCommentAllApiType,
   AxiosResponseCommentApiType,
   AxiosResponseTopicAllApiType,
   AxiosResponseTopicApiType,
@@ -8,6 +7,7 @@ import {
   CommentDBType,
   CommentUpdateDBType,
   CreateThemeType,
+  IComment,
   TopicDBType,
   TopicUpdateDBType,
   UpdateUserDBType,
@@ -71,7 +71,7 @@ export class DatabaseAPI {
 
   public addComment(
     data: CommentDBType
-  ): Promise<AxiosResponse<AxiosResponseCommentApiType>> {
+  ): Promise<AxiosResponse<AxiosResponseCommentApiType<IComment>>> {
     return ServerClient.post(`${DatabaseAPI.API_URL}/comment`, data)
   }
 
@@ -85,7 +85,7 @@ export class DatabaseAPI {
 
   public commentsByTopic(
     id: number
-  ): Promise<AxiosResponse<AxiosResponseCommentAllApiType>> {
+  ): Promise<AxiosResponse<AxiosResponseCommentApiType<IComment[]>>> {
     return ServerClient.get(`${DatabaseAPI.API_URL}/comment?id=${id}`)
   }
 
@@ -103,7 +103,7 @@ export class DatabaseAPI {
 
   public updateComment(
     data: CommentUpdateDBType
-  ): Promise<AxiosResponse<AxiosResponseCommentApiType>> {
+  ): Promise<AxiosResponse<AxiosResponseCommentApiType<IComment>>> {
     return ServerClient.patch(`${DatabaseAPI.API_URL}/comment`, data)
   }
 }

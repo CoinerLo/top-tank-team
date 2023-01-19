@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material'
 import ReplyIcon from '@mui/icons-material/Reply'
 import { FC } from 'react'
-import {format} from 'date-fns'
+import { format } from 'date-fns'
 import ru from 'date-fns/locale/ru'
 
 interface PostCommentProps {
@@ -26,9 +26,9 @@ export const PostComment: FC<PostCommentProps> = ({
 }) => {
   const reply = parentId ? comments?.filter(el => el.id === parentId) : []
   const correctDate = new Date(postDate.replace(/"/g, ''))
-  
+
   const humanizedDate = format(new Date(correctDate), 'dd LLL - HH:mm', {
-    locale: ru
+    locale: ru,
   })
   return (
     <Box

@@ -141,19 +141,14 @@ export type AxiosResponseUserThemeApiType = Record<
 
 export type AxiosResponseTopicApiType = Record<'databaseTopicStatus', ITopic>
 
-export type AxiosResponseCommentApiType = Record<
-  'databaseCommentStatus',
-  IComment
->
-
 export type AxiosResponseTopicAllApiType = Record<
   'databaseTopicStatus',
   Array<ITopic>
 >
 
-export type AxiosResponseCommentAllApiType = Record<
+export type AxiosResponseCommentApiType<T extends IComment | IComment[]> = Record<
   'databaseCommentStatus',
-  Array<IComment>
+  T
 >
 
 export type CreateThemeType = {
@@ -213,7 +208,6 @@ export type addCommentDBType = {
   comment: string
   authorName: string
   parentId: number
-  successCb?: () => void
 }
 
 export interface IForumSlice {
