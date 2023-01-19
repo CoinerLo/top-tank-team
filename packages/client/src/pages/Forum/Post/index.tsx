@@ -63,9 +63,7 @@ export const PostPage = () => {
 
   const handleSubmitCommentData: SubmitHandler<ICommentData> = async data => {
     const { comment } = data
-    await dispatch(
-      addCommentInDBThunk({ id, comment, parentId, authorName })
-    )
+    await dispatch(addCommentInDBThunk({ id, comment, parentId, authorName }))
     setParentId(0)
     dispatch(commentsByTopicInDBThunk(+id))
     reset()

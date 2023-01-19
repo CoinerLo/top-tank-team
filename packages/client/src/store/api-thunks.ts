@@ -178,12 +178,7 @@ export const addPostInDBThunk = createAsyncThunk(
 
 export const addCommentInDBThunk = createAsyncThunk(
   'database/addComment',
-  async ({
-    id,
-    comment,
-    authorName,
-    parentId,
-  }: addCommentDBType) => {
+  async ({ id, comment, authorName, parentId }: addCommentDBType) => {
     const resTopic = await DatabaseController.topicOneInDB(id)
 
     const topicData = {

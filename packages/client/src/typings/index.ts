@@ -146,10 +146,8 @@ export type AxiosResponseTopicAllApiType = Record<
   Array<ITopic>
 >
 
-export type AxiosResponseCommentApiType<T extends IComment | IComment[]> = Record<
-  'databaseCommentStatus',
-  T
->
+export type AxiosResponseCommentApiType<T extends IComment | IComment[]> =
+  Record<'databaseCommentStatus', T>
 
 export type CreateThemeType = {
   theme: string

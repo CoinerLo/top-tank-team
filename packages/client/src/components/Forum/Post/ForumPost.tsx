@@ -1,9 +1,8 @@
 import { Box, Link, Typography } from '@mui/material'
 import { FC } from 'react'
 import { NavLink } from 'react-router-dom'
-import {format} from 'date-fns'
+import { format } from 'date-fns'
 import ru from 'date-fns/locale/ru'
-
 
 interface ForumThemeProps {
   id: number
@@ -24,9 +23,9 @@ export const ForumPost: FC<ForumThemeProps> = ({
   id,
 }) => {
   const correctDate = new Date(lastRepliedDate.replace(/"/g, ''))
-  
+
   const humanizedDate = format(new Date(correctDate), 'dd LLL - HH:mm', {
-    locale: ru
+    locale: ru,
   })
   return (
     <Box display="flex" borderBottom="1px solid grey" padding="10px">
