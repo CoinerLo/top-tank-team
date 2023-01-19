@@ -1,15 +1,16 @@
 import type Express from 'express'
 import type {
-  CreateRequest,
+  CreateThemeRequest,
   FindRequest,
   TypedRequestBody,
   TypedRequestQuery,
 } from '../typings'
 import ThemeService from '../services/ThemeService'
+import type UserTheme from '../models/userTheme'
 
 export class ThemeController {
   public static findOrCreateUserTheme = async (
-    req: TypedRequestBody<CreateRequest>,
+    req: TypedRequestBody<UserTheme>,
     res: Express.Response
   ) => {
     const data = req.body
@@ -35,7 +36,7 @@ export class ThemeController {
   }
 
   public static updateUserTheme = async (
-    req: TypedRequestBody<CreateRequest>,
+    req: TypedRequestBody<CreateThemeRequest>,
     res: Express.Response
   ) => {
     const data = req.body

@@ -12,13 +12,11 @@ store.dispatch(getUserThunk())
 
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
-  <React.StrictMode>
-    <ErrorBoundary>
-      <HistoryRouter history={browserHistory}>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </HistoryRouter>
-    </ErrorBoundary>
-  </React.StrictMode>
+  <ErrorBoundary>
+    <HistoryRouter history={browserHistory}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </HistoryRouter>
+  </ErrorBoundary>
 )

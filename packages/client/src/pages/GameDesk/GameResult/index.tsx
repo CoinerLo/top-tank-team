@@ -8,12 +8,14 @@ import {
   TableContainer,
   TableRow,
 } from '@mui/material'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Game } from '../../../gameCore/models/Game'
 import { KeyDataGameResultType } from '../../../typings'
 import { resultGameDataCreator } from '../../../utils'
 import { AppRoute } from '../../../utils/consts'
+import { useAppDispatch } from '../../../hooks'
+import { deleteGameInDBThunk } from '../../../store/api-thunks'
 
 const styles = {
   backgroundMain: {
@@ -71,7 +73,15 @@ interface IGameResultDesk {
 }
 
 export const GameResult: FC<IGameResultDesk> = ({ game }) => {
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const { id } = game
+
+  useEffect(() => {
+    return () => {
+      dispatch(deleteGameInDBThunk(Number(id)))
+    }
+  }, [])
 
   const navigateToHeadquarters = () => {
     navigate(`/${AppRoute.Headquarters}`, { replace: true })

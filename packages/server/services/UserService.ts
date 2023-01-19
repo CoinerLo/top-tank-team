@@ -50,7 +50,7 @@ class UserService {
       }
     )
 
-    const result = User.findOne({
+    const result = await User.findOne({
       where: { id: Number(userID) },
     })
 
