@@ -6,6 +6,7 @@ import * as path from 'path'
 export default defineConfig({
   plugins: [react()],
   build: {
+    outDir: 'ssr-dist',
     lib: {
       entry: path.resolve(__dirname, 'ssr.tsx'),
       name: 'Client',
@@ -16,5 +17,13 @@ export default defineConfig({
         dir: 'ssr-dist',
       },
     },
+    ssr: true,
+  },
+  ssr: {
+    target: 'node',
+    noExternal: ['react-router-dom', 'swiper', 'ssr-window', 'dom7'],
+  },
+  define: {
+    __SERVER_PORT__: process.env.SERVER_PORT || 3001,
   },
 })

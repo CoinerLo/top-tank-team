@@ -155,7 +155,7 @@ export interface IGameUserStateSave {
 }
 
 export interface IGameSave {
-  id: string
+  id: number
   currentGamer: CurrentGamer
   UserState: IGameUserStateSave
   OpponentState: IGameUserStateSave

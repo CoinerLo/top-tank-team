@@ -24,7 +24,7 @@ async function startServer() {
   let vite: ViteDevServer | undefined
   const distPath = path.dirname(require.resolve('client/dist/index.html'))
   const srcPath = path.dirname(require.resolve('client'))
-  const ssrClientPath = require.resolve('client/ssr-dist/client.cjs')
+  const ssrClientPath = require.resolve('client/ssr-dist/ssr.cjs')
 
   if (isDev()) {
     vite = await createViteServer({
@@ -36,14 +36,11 @@ async function startServer() {
     app.use(vite.middlewares)
   }
 
-  app.get('/api', (_, res) => {
-    res.json('👋 Howdy from the server :)')
-  })
-
   app.use(router)
 
   if (!isDev()) {
     app.use('/assets', express.static(path.resolve(distPath, 'assets')))
+    app.use('/', express.static(path.resolve(distPath, '')))
   }
 
   app.use('*', async (req, res, next) => {
