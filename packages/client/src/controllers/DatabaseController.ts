@@ -65,13 +65,8 @@ export class DatabaseController {
     return response
   }
 
-  async topicAllInDB() {
-    const response = await this.api.topicAll()
-    return response
-  }
-
-  async commentAllInDB() {
-    const response = await this.api.commentAll()
+  async findAlltopicInDB() {
+    const response = await this.api.findAlltopic()
     return response
   }
 
@@ -80,8 +75,8 @@ export class DatabaseController {
     return response
   }
 
-  async topicOneInDB(id: number) {
-    const response = await this.api.topicOne(id)
+  async findOneTopicInDB(id: number) {
+    const response = await this.api.findOneTopic(id)
     return response
   }
 

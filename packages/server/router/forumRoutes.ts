@@ -11,7 +11,6 @@ export const forumRoutes = (router: Router) => {
     .get('/topic', ForumTopicController.findOneTopic)
     .post('/topic', ForumTopicController.addTopic)
     .patch('/topic', ForumTopicController.updateTopic)
-    .get('/comments', ForumCommentController.findAllComment)
     .get('/comment', ForumCommentController.findAllCommentByTopic)
     .post('/comment', ForumCommentController.addComment)
     .patch('/comment', ForumCommentController.updateComment)

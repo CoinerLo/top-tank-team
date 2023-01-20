@@ -201,7 +201,7 @@ export const findAllGamesInDBThunk = createAsyncThunk(
 
 export const addPostInDBThunk = createAsyncThunk(
   'database/addPost',
-  async ({ topic, comment, authorName, successCb }: PostDBType) => {
+  async ({ topic, comment, authorName }: PostDBType) => {
     const dataTopic = {
       title: topic,
       authorName,
@@ -212,15 +212,13 @@ export const addPostInDBThunk = createAsyncThunk(
     }
     const resTopic = await DatabaseController.addTopicInDB(dataTopic)
     const dataComment = {
-      contextId: resTopic.data.databaseTopicStatus.id as number,
+      contextId: resTopic.data.databaseTopicStatus.id,
       parentId: 0,
       postAuthor: authorName,
-      postDate: resTopic.data.databaseTopicStatus.dateTopic as string,
+      postDate: resTopic.data.databaseTopicStatus.dateTopic,
       comment: comment,
     }
     const resComment = await DatabaseController.addCommentInDB(dataComment)
-
-    successCb && successCb()
 
     return { ...resTopic.data, ...resComment.data }
   }
@@ -228,14 +226,8 @@ export const addPostInDBThunk = createAsyncThunk(
 
 export const addCommentInDBThunk = createAsyncThunk(
   'database/addComment',
-  async ({
-    id,
-    comment,
-    authorName,
-    parentId,
-    successCb,
-  }: addCommentDBType) => {
-    const resTopic = await DatabaseController.topicOneInDB(id)
+  async ({ id, comment, authorName, parentId }: addCommentDBType) => {
+    const resTopic = await DatabaseController.findOneTopicInDB(id)
 
     const topicData = {
       title: resTopic.data.databaseTopicStatus.title,
@@ -246,7 +238,7 @@ export const addCommentInDBThunk = createAsyncThunk(
       dateTopic: resTopic.data.databaseTopicStatus.dateTopic,
     }
     const updateDateTopic = {
-      id: 1,
+      id,
       topicData,
     }
     const updTopic = await DatabaseController.updateTopicInDB(updateDateTopic)
@@ -260,24 +252,14 @@ export const addCommentInDBThunk = createAsyncThunk(
     }
     const resComment = await DatabaseController.addCommentInDB(dataComment)
 
-    successCb && successCb()
-
     return { ...updTopic.data, ...resComment.data }
   }
 )
 
-export const topicAllInDBThunk = createAsyncThunk(
-  'database/topicAll',
+export const findAlltopicInDBThunk = createAsyncThunk(
+  'database/findAlltopic',
   async () => {
-    const res = await DatabaseController.topicAllInDB()
-    return res.data
-  }
-)
-
-export const commentAllInDBThunk = createAsyncThunk(
-  'database/commentAll',
-  async () => {
-    const res = await DatabaseController.commentAllInDB()
+    const res = await DatabaseController.findAlltopicInDB()
     return res.data
   }
 )

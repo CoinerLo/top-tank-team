@@ -14,7 +14,7 @@ import {
 } from 'react-hook-form'
 import { ForumPost } from '../../components/Forum/Post/ForumPost'
 import { useAppDispatch, useAppselector } from '../../hooks'
-import { addPostInDBThunk, topicAllInDBThunk } from '../../store/api-thunks'
+import { addPostInDBThunk, findAlltopicInDBThunk } from '../../store/api-thunks'
 
 const containerStyles = {
   display: 'flex',
@@ -47,11 +47,9 @@ export const Forum = () => {
   const handleSubmitCommentData: SubmitHandler<IPostData> = async data => {
     console.log(data)
     const { topic, comment } = data
-    const successCb = () => {
-      dispatch(topicAllInDBThunk())
-      reset()
-    }
-    dispatch(addPostInDBThunk({ topic, comment, authorName, successCb }))
+    await dispatch(addPostInDBThunk({ topic, comment, authorName }))
+    dispatch(findAlltopicInDBThunk())
+    reset()
   }
 
   return (

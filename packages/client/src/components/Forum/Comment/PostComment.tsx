@@ -1,6 +1,8 @@
 import { Box, Button, Typography } from '@mui/material'
 import ReplyIcon from '@mui/icons-material/Reply'
 import { FC } from 'react'
+import { format } from 'date-fns'
+import ru from 'date-fns/locale/ru'
 
 interface PostCommentProps {
   id: number
@@ -10,7 +12,7 @@ interface PostCommentProps {
   postDate: string
   comment: string
   replyCb?: (commentId: number) => void
-  comments?: Omit<PostCommentProps, 'replyCb'>[] // - временно, после добавления апи, будем получать не массив, а отдельно комментарий по parentId для размещения в блоке reply
+  comments?: Omit<PostCommentProps, 'replyCb'>[]
 }
 
 export const PostComment: FC<PostCommentProps> = ({
@@ -23,7 +25,11 @@ export const PostComment: FC<PostCommentProps> = ({
   comments,
 }) => {
   const reply = parentId ? comments?.filter(el => el.id === parentId) : []
+  const correctDate = new Date(postDate.replace(/"/g, ''))
 
+  const humanizedDate = format(new Date(correctDate), 'dd LLL - HH:mm', {
+    locale: ru,
+  })
   return (
     <Box
       sx={{
@@ -43,9 +49,9 @@ export const PostComment: FC<PostCommentProps> = ({
           marginBottom="15px"
           paddingBottom="5px"
           borderBottom="1px solid #e0e0e0">
-          Опубликован: {postDate}
+          Опубликован: {humanizedDate}
         </Typography>
-        {parentId && reply?.length && (
+        {parentId > 0 && reply?.length && (
           <Box
             sx={{
               border: '1px solid #ED6204',

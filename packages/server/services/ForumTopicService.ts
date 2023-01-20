@@ -1,19 +1,18 @@
-import forumTopic from '../models/forumTopic'
-import type { ForumTopicType } from '../typings'
+import ForumTopic from '../models/forumTopic'
 
 class ForumTopicService {
-  public async create(topicData: ForumTopicType) {
-    const result = await forumTopic.create(topicData)
+  public async create(topicData: ForumTopic) {
+    const result = await ForumTopic.create(topicData)
     return result
   }
 
   public async findAll() {
-    const result = await forumTopic.findAll()
+    const result = await ForumTopic.findAll()
     return result
   }
 
   public async findOne(topicID: number) {
-    const result = await forumTopic.findOne({
+    const result = await ForumTopic.findOne({
       where: { id: topicID },
     })
     return result
@@ -28,9 +27,9 @@ class ForumTopicService {
       lastReplied,
       lastRepliedDate,
       dateTopic,
-    }: ForumTopicType
+    }: ForumTopic
   ) {
-    await forumTopic.update(
+    await ForumTopic.update(
       {
         title,
         authorName,
@@ -44,7 +43,7 @@ class ForumTopicService {
       }
     )
 
-    const result = forumTopic.findOne({
+    const result = ForumTopic.findOne({
       where: { id: topicID },
     })
 

@@ -147,22 +147,13 @@ export type GameDBType = {
   gamerId: number
 }
 
-export type AxiosResponseTopicApiType = Record<'databaseTopicStatus', ITopic>
-
-export type AxiosResponseCommentApiType = Record<
-  'databaseCommentStatus',
-  IComment
->
-
-export type AxiosResponseTopicAllApiType = Record<
+export type AxiosResponseTopicApiType<T extends ITopic | ITopic[]> = Record<
   'databaseTopicStatus',
-  Array<ITopic>
+  T
 >
 
-export type AxiosResponseCommentAllApiType = Record<
-  'databaseCommentStatus',
-  Array<IComment>
->
+export type AxiosResponseCommentApiType<T extends IComment | IComment[]> =
+  Record<'databaseCommentStatus', T>
 
 export type CreateThemeType = {
   theme: string
@@ -221,7 +212,6 @@ export type addCommentDBType = {
   comment: string
   authorName: string
   parentId: number
-  successCb?: () => void
 }
 
 export interface IForumSlice {
