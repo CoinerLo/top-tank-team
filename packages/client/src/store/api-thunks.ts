@@ -179,7 +179,7 @@ export const addPostInDBThunk = createAsyncThunk(
 export const addCommentInDBThunk = createAsyncThunk(
   'database/addComment',
   async ({ id, comment, authorName, parentId }: addCommentDBType) => {
-    const resTopic = await DatabaseController.topicOneInDB(id)
+    const resTopic = await DatabaseController.findOneTopicInDB(id)
 
     const topicData = {
       title: resTopic.data.databaseTopicStatus.title,
@@ -208,10 +208,10 @@ export const addCommentInDBThunk = createAsyncThunk(
   }
 )
 
-export const topicAllInDBThunk = createAsyncThunk(
-  'database/topicAll',
+export const findAlltopicInDBThunk = createAsyncThunk(
+  'database/findAlltopic',
   async () => {
-    const res = await DatabaseController.topicAllInDB()
+    const res = await DatabaseController.findAlltopicInDB()
     return res.data
   }
 )

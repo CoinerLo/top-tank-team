@@ -1,4 +1,6 @@
 import type { Query } from 'express-serve-static-core'
+import type ForumComment from '../models/forumComment'
+import type ForumTopic from '../models/forumTopic'
 
 export interface TypedRequest<T extends Query, U> extends Express.Request {
   body: U
@@ -33,31 +35,12 @@ export type UpdateUserType = {
   id: string
 }
 
-export type ForumTopicType = {
-  title: string
-  authorName: string
-  repliesCount: number
-  lastReplied: string
-  lastRepliedDate: string
-  dateTopic: string
-  comments: any
-}
-
-export type ForumCommentType = {
-  contextId: number
-  parentId: number
-  postAuthor: string
-  postDate: string
-  comment: string
-  topic: any
-}
-
 export type UpdateTopicType = {
-  topicData: ForumTopicType
+  topicData: ForumTopic
   id: number
 }
 
 export type UpdateCommentType = {
-  commentData: ForumCommentType
+  commentData: ForumComment
   id: number
 }

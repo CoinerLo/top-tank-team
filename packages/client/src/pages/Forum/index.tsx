@@ -14,7 +14,7 @@ import {
 } from 'react-hook-form'
 import { ForumPost } from '../../components/Forum/Post/ForumPost'
 import { useAppDispatch, useAppselector } from '../../hooks'
-import { addPostInDBThunk, topicAllInDBThunk } from '../../store/api-thunks'
+import { addPostInDBThunk, findAlltopicInDBThunk } from '../../store/api-thunks'
 
 const containerStyles = {
   display: 'flex',
@@ -48,7 +48,7 @@ export const Forum = () => {
     console.log(data)
     const { topic, comment } = data
     await dispatch(addPostInDBThunk({ topic, comment, authorName }))
-    dispatch(topicAllInDBThunk())
+    dispatch(findAlltopicInDBThunk())
     reset()
   }
 

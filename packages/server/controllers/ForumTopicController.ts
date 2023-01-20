@@ -1,7 +1,7 @@
 import type Express from 'express'
+import type ForumTopic from '../models/forumTopic'
 import type {
   UpdateTopicType,
-  ForumTopicType,
   TypedRequestBody,
   TypedRequestQuery,
   FindRequest,
@@ -10,7 +10,7 @@ import ForumTopicService from '../services/ForumTopicService'
 
 export class ForumTopicController {
   public static addTopic = async (
-    req: TypedRequestBody<ForumTopicType>,
+    req: TypedRequestBody<ForumTopic>,
     res: Express.Response
   ) => {
     const data = req.body

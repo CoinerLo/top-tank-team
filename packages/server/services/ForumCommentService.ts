@@ -1,19 +1,13 @@
-import forumComment from '../models/forumComment'
-import type { ForumCommentType } from '../typings'
+import ForumComment from '../models/forumComment'
 
 class ForumCommentService {
-  public async create(commentData: ForumCommentType) {
-    const result = await forumComment.create(commentData)
-    return result
-  }
-
-  public async findAll() {
-    const result = await forumComment.findAll()
+  public async create(commentData: ForumComment) {
+    const result = await ForumComment.create(commentData)
     return result
   }
 
   public async findAllByTopic(topicID: number) {
-    const result = await forumComment.findAll({
+    const result = await ForumComment.findAll({
       where: { contextId: topicID },
     })
     return result
@@ -21,9 +15,9 @@ class ForumCommentService {
 
   public async update(
     topicID: number,
-    { contextId, parentId, postAuthor, postDate, comment }: ForumCommentType
+    { contextId, parentId, postAuthor, postDate, comment }: ForumComment
   ) {
-    await forumComment.update(
+    await ForumComment.update(
       {
         contextId,
         parentId,
@@ -36,7 +30,7 @@ class ForumCommentService {
       }
     )
 
-    const result = forumComment.findOne({
+    const result = ForumComment.findOne({
       where: { id: topicID },
     })
 

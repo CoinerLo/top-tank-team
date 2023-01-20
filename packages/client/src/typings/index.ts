@@ -139,11 +139,9 @@ export type AxiosResponseUserThemeApiType = Record<
   string
 >
 
-export type AxiosResponseTopicApiType = Record<'databaseTopicStatus', ITopic>
-
-export type AxiosResponseTopicAllApiType = Record<
+export type AxiosResponseTopicApiType<T extends ITopic | ITopic[]> = Record<
   'databaseTopicStatus',
-  Array<ITopic>
+  T
 >
 
 export type AxiosResponseCommentApiType<T extends IComment | IComment[]> =

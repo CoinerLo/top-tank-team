@@ -1,6 +1,5 @@
 import {
   AxiosResponseCommentApiType,
-  AxiosResponseTopicAllApiType,
   AxiosResponseTopicApiType,
   AxiosResponseUserApiType,
   AxiosResponseUserThemeApiType,
@@ -8,6 +7,7 @@ import {
   CommentUpdateDBType,
   CreateThemeType,
   IComment,
+  ITopic,
   TopicDBType,
   TopicUpdateDBType,
   UpdateUserDBType,
@@ -65,7 +65,7 @@ export class DatabaseAPI {
 
   public addTopic(
     data: TopicDBType
-  ): Promise<AxiosResponse<AxiosResponseTopicApiType>> {
+  ): Promise<AxiosResponse<AxiosResponseTopicApiType<ITopic>>> {
     return ServerClient.post(`${DatabaseAPI.API_URL}/topic`, data)
   }
 
@@ -75,12 +75,10 @@ export class DatabaseAPI {
     return ServerClient.post(`${DatabaseAPI.API_URL}/comment`, data)
   }
 
-  public topicAll(): Promise<AxiosResponse<AxiosResponseTopicAllApiType>> {
+  public findAlltopic(): Promise<
+    AxiosResponse<AxiosResponseTopicApiType<ITopic[]>>
+  > {
     return ServerClient.get(`${DatabaseAPI.API_URL}/topics`)
-  }
-
-  public commentAll(): Promise<AxiosResponse<AxiosResponseTopicAllApiType>> {
-    return ServerClient.get(`${DatabaseAPI.API_URL}/comments`)
   }
 
   public commentsByTopic(
@@ -89,15 +87,15 @@ export class DatabaseAPI {
     return ServerClient.get(`${DatabaseAPI.API_URL}/comment?id=${id}`)
   }
 
-  public topicOne(
+  public findOneTopic(
     id: number
-  ): Promise<AxiosResponse<AxiosResponseTopicApiType>> {
+  ): Promise<AxiosResponse<AxiosResponseTopicApiType<ITopic>>> {
     return ServerClient.get(`${DatabaseAPI.API_URL}/topic?id=${id}`)
   }
 
   public updateTopic(
     data: TopicUpdateDBType
-  ): Promise<AxiosResponse<AxiosResponseTopicApiType>> {
+  ): Promise<AxiosResponse<AxiosResponseTopicApiType<ITopic>>> {
     return ServerClient.patch(`${DatabaseAPI.API_URL}/topic`, data)
   }
 

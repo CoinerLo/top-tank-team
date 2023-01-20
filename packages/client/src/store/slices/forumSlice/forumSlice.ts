@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { IForumSlice } from '../../../typings'
 import { NameSpace } from '../../../utils/consts'
-import { commentsByTopicInDBThunk, topicAllInDBThunk } from '../../api-thunks'
+import {
+  commentsByTopicInDBThunk,
+  findAlltopicInDBThunk,
+} from '../../api-thunks'
 
 const initialState: IForumSlice = {
   topic: [],
@@ -13,10 +16,10 @@ export const forumSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(topicAllInDBThunk.fulfilled, (state, action) => {
+    builder.addCase(findAlltopicInDBThunk.fulfilled, (state, action) => {
       state.topic = [...action.payload.databaseTopicStatus]
     }),
-      builder.addCase(topicAllInDBThunk.rejected, (state, action) => {
+      builder.addCase(findAlltopicInDBThunk.rejected, (state, action) => {
         console.log(action.payload)
       })
     builder.addCase(commentsByTopicInDBThunk.fulfilled, (state, action) => {

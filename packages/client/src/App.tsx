@@ -107,11 +107,10 @@ function App() {
                   />
                 </Route>
               </Route>
-            </Route>
-
-            <Route path={AppRoute.Forum}>
-              <Route index element={<ForumContainer />} />
-              <Route path={AppRoute.ForumPost} element={<PostPage />} />
+              <Route path={AppRoute.Forum}>
+                <Route index element={<ForumContainer />} />
+                <Route path={AppRoute.ForumPost} element={<PostPage />} />
+              </Route>
             </Route>
 
             <Route path="*" element={<Error404 />} />
