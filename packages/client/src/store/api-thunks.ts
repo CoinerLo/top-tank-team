@@ -10,6 +10,8 @@ import {
   ILeaderAll,
   ILeaderAdd,
   GameDBType,
+  PostDBType,
+  addCommentDBType,
 } from '../typings'
 import UserController from '../controllers/UserController'
 import { UserAPIUpdatePassword } from '../api/UserAPI'
@@ -193,6 +195,97 @@ export const findAllGamesInDBThunk = createAsyncThunk(
   'database/findAllGames',
   async (id: number) => {
     const res = await DatabaseGameController.findAllGames(id)
+    return res.data
+  }
+)
+
+export const addPostInDBThunk = createAsyncThunk(
+  'database/addPost',
+  async ({ topic, comment, authorName, successCb }: PostDBType) => {
+    const dataTopic = {
+      title: topic,
+      authorName,
+      repliesCount: 0,
+      lastReplied: authorName,
+      lastRepliedDate: JSON.stringify(new Date()),
+      dateTopic: JSON.stringify(new Date()),
+    }
+    const resTopic = await DatabaseController.addTopicInDB(dataTopic)
+    const dataComment = {
+      contextId: resTopic.data.databaseTopicStatus.id as number,
+      parentId: 0,
+      postAuthor: authorName,
+      postDate: resTopic.data.databaseTopicStatus.dateTopic as string,
+      comment: comment,
+    }
+    const resComment = await DatabaseController.addCommentInDB(dataComment)
+
+    successCb && successCb()
+
+    return { ...resTopic.data, ...resComment.data }
+  }
+)
+
+export const addCommentInDBThunk = createAsyncThunk(
+  'database/addComment',
+  async ({
+    id,
+    comment,
+    authorName,
+    parentId,
+    successCb,
+  }: addCommentDBType) => {
+    const resTopic = await DatabaseController.topicOneInDB(id)
+
+    const topicData = {
+      title: resTopic.data.databaseTopicStatus.title,
+      authorName: resTopic.data.databaseTopicStatus.authorName,
+      repliesCount: Number(resTopic.data.databaseTopicStatus.repliesCount) + 1,
+      lastReplied: authorName,
+      lastRepliedDate: JSON.stringify(new Date()),
+      dateTopic: resTopic.data.databaseTopicStatus.dateTopic,
+    }
+    const updateDateTopic = {
+      id: 1,
+      topicData,
+    }
+    const updTopic = await DatabaseController.updateTopicInDB(updateDateTopic)
+
+    const dataComment = {
+      contextId: resTopic.data.databaseTopicStatus.id as number,
+      parentId,
+      postAuthor: authorName,
+      postDate: JSON.stringify(new Date()) as string,
+      comment: comment,
+    }
+    const resComment = await DatabaseController.addCommentInDB(dataComment)
+
+    successCb && successCb()
+
+    return { ...updTopic.data, ...resComment.data }
+  }
+)
+
+export const topicAllInDBThunk = createAsyncThunk(
+  'database/topicAll',
+  async () => {
+    const res = await DatabaseController.topicAllInDB()
+    return res.data
+  }
+)
+
+export const commentAllInDBThunk = createAsyncThunk(
+  'database/commentAll',
+  async () => {
+    const res = await DatabaseController.commentAllInDB()
+    return res.data
+  }
+)
+
+export const commentsByTopicInDBThunk = createAsyncThunk(
+  'database/commentsByTopic',
+  async (id: number) => {
+    const res = await DatabaseController.commentsByTopicInDB(id)
     return res.data
   }
 )

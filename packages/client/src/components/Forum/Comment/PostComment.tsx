@@ -3,12 +3,13 @@ import ReplyIcon from '@mui/icons-material/Reply'
 import { FC } from 'react'
 
 interface PostCommentProps {
-  id: string
-  comment: string
+  id: number
+  contextId: number
+  parentId: number
+  postAuthor: string
   postDate: string
-  author: string
-  parentId: string | null
-  replyCb: (commentId: string) => void
+  comment: string
+  replyCb?: (commentId: number) => void
   comments?: Omit<PostCommentProps, 'replyCb'>[] // - временно, после добавления апи, будем получать не массив, а отдельно комментарий по parentId для размещения в блоке reply
 }
 
@@ -16,7 +17,7 @@ export const PostComment: FC<PostCommentProps> = ({
   id,
   comment,
   postDate,
-  author,
+  postAuthor,
   parentId,
   replyCb,
   comments,
@@ -35,7 +36,7 @@ export const PostComment: FC<PostCommentProps> = ({
         borderRadius: '3px',
       }}>
       <Box paddingRight="15px" borderRight="1px solid #e0e0e0">
-        <Typography>{author}</Typography>
+        <Typography>{postAuthor}</Typography>
       </Box>
       <Box marginLeft="15px">
         <Typography
@@ -69,7 +70,9 @@ export const PostComment: FC<PostCommentProps> = ({
         }}>
         <Button
           onClick={() => {
-            replyCb(id)
+            if (replyCb) {
+              replyCb(id)
+            }
           }}
           sx={{
             padding: 0,

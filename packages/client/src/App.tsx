@@ -8,7 +8,6 @@ import { Briefing } from './pages/Briefing'
 import { Home } from './pages/Home'
 import { Upgrade } from './pages/Upgrade'
 import { Deck } from './pages/Deck'
-import { Forum } from './pages/Forum'
 import { GameStart } from './pages/GameDesk/GameStart'
 import { AppRoute, AuthorizationStatus, Themes } from './utils/consts'
 import { PostPage } from './pages/Forum/Post'
@@ -30,6 +29,7 @@ import {
   updateUserThemeInDBThunk,
 } from './store/api-thunks'
 import { LeaderboardContainer } from './containers/LeaderboardContainer'
+import { ForumContainer } from './containers/ForumContainer'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -106,7 +106,7 @@ function App() {
             </Route>
 
             <Route path={AppRoute.Forum}>
-              <Route index element={<Forum />} />
+              <Route index element={<ForumContainer />} />
               <Route path={AppRoute.ForumPost} element={<PostPage />} />
             </Route>
 

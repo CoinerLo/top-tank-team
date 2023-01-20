@@ -57,6 +57,7 @@ export enum NameSpace {
   Decks = 'DECKS',
   Game = 'GAME',
   Leaders = 'LEADERS',
+  Forum = 'FORUM',
 }
 
 const fieldsIconPath = '/cards/images/fields/'

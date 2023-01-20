@@ -1,6 +1,14 @@
 import API from '../api/DatabaseAPI'
 import type { DatabaseAPI } from '../api/DatabaseAPI'
-import { CreateThemeType, UpdateUserDBType, UserDBType } from '../typings'
+import {
+  CommentDBType,
+  CommentUpdateDBType,
+  CreateThemeType,
+  TopicDBType,
+  TopicUpdateDBType,
+  UpdateUserDBType,
+  UserDBType,
+} from '../typings'
 
 export class DatabaseController {
   private readonly api: DatabaseAPI
@@ -44,6 +52,46 @@ export class DatabaseController {
   // Пока не используется
   async findUserThemeInDB(id: number) {
     const response = await this.api.findTheme(id)
+    return response
+  }
+
+  async addTopicInDB(data: TopicDBType) {
+    const response = await this.api.addTopic(data)
+    return response
+  }
+
+  async addCommentInDB(data: CommentDBType) {
+    const response = await this.api.addComment(data)
+    return response
+  }
+
+  async topicAllInDB() {
+    const response = await this.api.topicAll()
+    return response
+  }
+
+  async commentAllInDB() {
+    const response = await this.api.commentAll()
+    return response
+  }
+
+  async commentsByTopicInDB(id: number) {
+    const response = await this.api.commentsByTopic(id)
+    return response
+  }
+
+  async topicOneInDB(id: number) {
+    const response = await this.api.topicOne(id)
+    return response
+  }
+
+  async updateTopicInDB(data: TopicUpdateDBType) {
+    const response = await this.api.updateTopic(data)
+    return response
+  }
+
+  async updateCommentInDB(data: CommentUpdateDBType) {
+    const response = await this.api.updateComment(data)
     return response
   }
 }

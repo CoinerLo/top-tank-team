@@ -147,6 +147,23 @@ export type GameDBType = {
   gamerId: number
 }
 
+export type AxiosResponseTopicApiType = Record<'databaseTopicStatus', ITopic>
+
+export type AxiosResponseCommentApiType = Record<
+  'databaseCommentStatus',
+  IComment
+>
+
+export type AxiosResponseTopicAllApiType = Record<
+  'databaseTopicStatus',
+  Array<ITopic>
+>
+
+export type AxiosResponseCommentAllApiType = Record<
+  'databaseCommentStatus',
+  Array<IComment>
+>
+
 export type CreateThemeType = {
   theme: string
   ownerId: number
@@ -155,4 +172,59 @@ export type CreateThemeType = {
 export type UpdateUserDBType = {
   userData: UserDBType
   id: number
+}
+
+export type TopicDBType = {
+  title: string
+  authorName: string
+  repliesCount: number
+  lastReplied: string
+  lastRepliedDate: string
+  dateTopic: string
+}
+
+export interface ITopic extends TopicDBType {
+  id: number
+}
+
+export type TopicUpdateDBType = {
+  id: number
+  topicData: TopicDBType
+}
+
+export type CommentDBType = {
+  contextId: number
+  parentId: number
+  postAuthor: string
+  postDate: string
+  comment: string
+}
+
+export interface IComment extends CommentDBType {
+  id: number
+}
+
+export type CommentUpdateDBType = {
+  id: number
+  commentData: CommentDBType
+}
+
+export type PostDBType = {
+  topic: string
+  comment: string
+  authorName: string
+  successCb?: () => void
+}
+
+export type addCommentDBType = {
+  id: number
+  comment: string
+  authorName: string
+  parentId: number
+  successCb?: () => void
+}
+
+export interface IForumSlice {
+  topic: Array<ITopic>
+  comment: Array<IComment>
 }

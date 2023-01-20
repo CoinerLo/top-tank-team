@@ -3,12 +3,13 @@ import { FC } from 'react'
 import { NavLink } from 'react-router-dom'
 
 interface ForumThemeProps {
-  id: string
+  id: number
   title: string
   repliesCount: number
   authorName: string
   lastReplied: string
   lastRepliedDate: string
+  dateTopic: string
 }
 
 export const ForumPost: FC<ForumThemeProps> = ({
@@ -17,14 +18,20 @@ export const ForumPost: FC<ForumThemeProps> = ({
   authorName,
   lastReplied,
   lastRepliedDate,
+  dateTopic,
   id,
 }) => {
+  const correctDate = new Date(lastRepliedDate.replace(/"/g, ''))
+  // Временно оставлю так, чуть позже добавлю либу dateFns для нормального отображения дат.
+  const dateTime = correctDate.toLocaleTimeString()
+  const dateDay = correctDate.getDay()
+  const dateMonth = correctDate.getMonth()
   return (
     <Box display="flex" borderBottom="1px solid grey" padding="10px">
       <Box display="flex" flexDirection="column" width="100%">
         <Link
           component={NavLink}
-          to={id}
+          to={id.toString()}
           marginBottom="5px"
           width="max-content"
           sx={{
@@ -53,7 +60,7 @@ export const ForumPost: FC<ForumThemeProps> = ({
           borderLeft: '1px solid grey',
         }}>
         <Typography>{lastReplied}</Typography>
-        <Typography>{lastRepliedDate}</Typography>
+        <Typography>{`${dateDay} ${dateMonth} - ${dateTime}`}</Typography>
       </Box>
     </Box>
   )

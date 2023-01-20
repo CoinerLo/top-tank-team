@@ -37,3 +37,32 @@ export type CreateGameRequest = {
   game: string
   gamerId: string
 }
+
+export type ForumTopicType = {
+  title: string
+  authorName: string
+  repliesCount: number
+  lastReplied: string
+  lastRepliedDate: string
+  dateTopic: string
+  comments: any
+}
+
+export type ForumCommentType = {
+  contextId: number
+  parentId: number
+  postAuthor: string
+  postDate: string
+  comment: string
+  topic: any
+}
+
+export type UpdateTopicType = {
+  topicData: ForumTopicType
+  id: number
+}
+
+export type UpdateCommentType = {
+  commentData: ForumCommentType
+  id: number
+}
