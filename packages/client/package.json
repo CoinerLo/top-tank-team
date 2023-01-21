@@ -29,6 +29,7 @@
     "prettier": "2.7.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "7.38.0",
     "react-redux": "8.0.5",
     "react-router-dom": "6.4.2",
     "react-timer-hook": "3.0.5",
@@ -50,7 +51,6 @@
     "jest-environment-jsdom": "29.2.2",
     "lefthook": "1.1.1",
     "prettier": "2.7.1",
-    "react-hook-form": "7.38.0",
     "ts-jest": "29.0.3",
     "typescript": "4.8.2",
     "vite": "3.2.4"
