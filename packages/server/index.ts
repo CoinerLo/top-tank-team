@@ -26,10 +26,6 @@ async function startServer() {
   const srcPath = path.dirname(require.resolve('client'))
   const ssrClientPath = require.resolve('client/ssr-dist/ssr.cjs')
 
-  // const distPath = path.dirname('../client/dist/index.html')
-  // const srcPath = path.dirname('../client')
-  // const ssrClientPath = '../client/ssr-dist/ssr.cjs'
-
   if (isDev()) {
     vite = await createViteServer({
       server: { middlewareMode: true },

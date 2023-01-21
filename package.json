@@ -13,7 +13,8 @@
     "format": "lerna run format",
     "preview": "lerna run preview",
     "precommit": "yarn format && yarn lint && yarn test",
-    "postgres": "docker compose up -d postgres"
+    "postgres": "docker compose up -d postgres",
+    "link:ssr": "cd packages/client && yarn link && cd ../server && yarn link \"client\""
   },
   "license": "MIT",
   "workspaces": [
