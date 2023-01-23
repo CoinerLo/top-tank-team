@@ -7,8 +7,8 @@ import {
 } from '../../api-thunks'
 
 const initialState: IForumSlice = {
-  topic: [],
-  comment: [],
+  topics: [],
+  comments: [],
 }
 
 export const forumSlice = createSlice({
@@ -17,13 +17,13 @@ export const forumSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(findAlltopicInDBThunk.fulfilled, (state, action) => {
-      state.topic = [...action.payload.databaseTopicStatus]
+      state.topics = [...action.payload.databaseTopicStatus]
     }),
       builder.addCase(findAlltopicInDBThunk.rejected, (state, action) => {
         console.log(action.payload)
       })
     builder.addCase(commentsByTopicInDBThunk.fulfilled, (state, action) => {
-      state.comment = [...action.payload.databaseCommentStatus]
+      state.comments = [...action.payload.databaseCommentStatus]
     }),
       builder.addCase(commentsByTopicInDBThunk.rejected, (state, action) => {
         console.log(action.payload)

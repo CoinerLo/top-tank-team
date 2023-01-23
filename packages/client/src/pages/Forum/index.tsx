@@ -13,8 +13,9 @@ import {
   useFormState,
 } from 'react-hook-form'
 import { ForumPost } from '../../components/Forum/Post/ForumPost'
-import { useAppDispatch, useAppselector } from '../../hooks'
-import { addPostInDBThunk, findAlltopicInDBThunk } from '../../store/api-thunks'
+import { FC } from 'react'
+import { IForumSlice } from '../../typings'
+import { IPostData } from '../../containers/ForumContainer'
 
 const containerStyles = {
   display: 'flex',
@@ -23,19 +24,18 @@ const containerStyles = {
   maxHeight: '100vh',
   overflowY: 'scroll',
 }
-interface IPostData {
-  topic: string
-  comment: string
+
+interface IForunProps {
+  authorName: string
+  forum: IForumSlice
+  submitCommentData: (data: Required<IPostData>) => void
 }
 
-export const Forum = () => {
-  const forum = useAppselector(({ FORUM }) => FORUM)
-  const { currentUser } = useAppselector(({ USER }) => USER)
-  const { login } = currentUser
-  const authorName = login
-
-  const dispatch = useAppDispatch()
-
+export const Forum: FC<IForunProps> = ({
+  authorName,
+  forum,
+  submitCommentData,
+}) => {
   const { handleSubmit, control, reset } = useForm<IPostData>({
     mode: 'onBlur',
     reValidateMode: 'onChange',
@@ -44,11 +44,9 @@ export const Forum = () => {
     control,
   })
 
-  const handleSubmitCommentData: SubmitHandler<IPostData> = async data => {
-    console.log(data)
+  const handleSubmitCommentData: SubmitHandler<IPostData> = data => {
     const { topic, comment } = data
-    await dispatch(addPostInDBThunk({ topic, comment, authorName }))
-    dispatch(findAlltopicInDBThunk())
+    submitCommentData({ topic, comment, authorName })
     reset()
   }
 
@@ -58,7 +56,7 @@ export const Forum = () => {
         Форум
       </Typography>
       <Box width="70%" padding="30px">
-        {forum.topic.map(el => {
+        {forum.topics.map(el => {
           return (
             <Box key={el.id} marginBottom="15px">
               <ForumPost {...el} />

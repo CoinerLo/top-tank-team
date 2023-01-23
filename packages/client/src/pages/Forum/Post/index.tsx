@@ -24,6 +24,7 @@ import {
   addCommentInDBThunk,
   commentsByTopicInDBThunk,
 } from '../../../store/api-thunks'
+import { IComment } from '../../../typings'
 
 const containerStyles = {
   display: 'flex',
@@ -41,9 +42,7 @@ export const PostPage = () => {
   const dispatch = useAppDispatch()
 
   const forum = useAppselector(({ FORUM }) => FORUM)
-  const { currentUser } = useAppselector(({ USER }) => USER)
-  const { login } = currentUser
-  const authorName = login
+  const { login: authorName } = useAppselector(({ USER }) => USER.currentUser)
   const [parentId, setParentId] = useState(0)
   const { postId } = useParams()
 
@@ -83,17 +82,29 @@ export const PostPage = () => {
         К списку постов
       </Link>
       <Box width="90%" padding="30px" paddingTop={0}>
-        {forum.comment.map(el => (
-          <Box key={el.id} mb="10px">
-            <PostComment
-              {...el}
-              replyCb={commentId => {
-                setParentId(commentId)
-              }}
-              comments={forum.comment}
-            />
-          </Box>
-        ))}
+        {forum.comments.map(
+          ({
+            comment,
+            contextId,
+            id,
+            parentId,
+            postAuthor,
+            postDate,
+          }: IComment) => (
+            <Box key={id} mb="10px">
+              <PostComment
+                id={id}
+                comment={comment}
+                contextId={contextId}
+                parentId={parentId}
+                postAuthor={postAuthor}
+                postDate={postDate}
+                replyCb={setParentId}
+                comments={forum.comments}
+              />
+            </Box>
+          )
+        )}
         {parentId > 0 && (
           <Box
             display="flex"
@@ -103,7 +114,7 @@ export const PostPage = () => {
             width="max-content"
             ml="10px">
             <Typography>
-              {`Ответ на комментарий: <<${forum.comment
+              {`Ответ на комментарий: <<${forum.comments
                 .find(el => el.id === parentId)
                 ?.comment.slice(0, 15)}>>`}
             </Typography>

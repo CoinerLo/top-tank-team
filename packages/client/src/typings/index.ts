@@ -215,6 +215,6 @@ export type addCommentDBType = {
 }
 
 export interface IForumSlice {
-  topic: Array<ITopic>
-  comment: Array<IComment>
+  topics: Array<ITopic>
+  comments: Array<IComment>
 }

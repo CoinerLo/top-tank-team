@@ -16,19 +16,14 @@ function createData(name: string, rating: RatingCellProps['rating']) {
 }
 
 export function BasicTable() {
-  const { leaders } = useAppselector(({ LEADERS }) => LEADERS)
-
-  const rows: Array<ICreateData> = []
-  if (leaders) {
-    leaders.map((val: ILeader) => {
-      rows.push(
-        createData(
-          val.data.name,
-          val.data.ratingTopTank1 as RatingCellProps['rating']
-        )
+  const rows: Array<ICreateData> = useAppselector(({ LEADERS }) =>
+    LEADERS.leaders.map(({ data }: ILeader) => {
+      return createData(
+        data.name,
+        data.ratingTopTank1 as RatingCellProps['rating']
       )
     })
-  }
+  )
 
   return (
     <TableContainer component={Paper}>

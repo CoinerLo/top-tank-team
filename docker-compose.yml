@@ -3,7 +3,7 @@ version: "3.9"
 services:
     one:
         container_name: prakticum-one
-        image: prackicum-one
+        image: "prackicum-one:${TAG}"
         build:
             context: .
             dockerfile: Dockerfile.one
