@@ -2,11 +2,11 @@ import { CacheProvider } from '@emotion/react'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom/server'
-import App from './App'
-import createEmotionCache from './createEmotionCache'
+import App from './src/App'
+import createEmotionCache from './src/createEmotionCache'
 import createEmotionServer from '@emotion/server/create-instance'
 import { Provider } from 'react-redux'
-import { rootReducer } from './store/root-reducer'
+import { rootReducer } from './src/store/root-reducer'
 import { configureStore } from '@reduxjs/toolkit'
 
 export function render(url: string) {
@@ -19,15 +19,13 @@ export function render(url: string) {
   })
 
   const html = renderToString(
-    <React.StrictMode>
-      <CacheProvider value={cache}>
-        <StaticRouter location={url}>
-          <Provider store={store}>
-            <App />
-          </Provider>
-        </StaticRouter>
-      </CacheProvider>
-    </React.StrictMode>
+    <CacheProvider value={cache}>
+      <StaticRouter location={url}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </StaticRouter>
+    </CacheProvider>
   )
 
   const preloadedState = store.getState()

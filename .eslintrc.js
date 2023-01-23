@@ -14,7 +14,10 @@ module.exports = {
     ecmaVersion: 11,
   },
   plugins: ['@typescript-eslint'],
+  ignorePatterns: ['**/dist/*'],
   rules: {
     '@typescript-eslint/ban-ts-comment': 1,
+    'no-unused-vars': "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { varsIgnorePattern: '[i_]dc' }]
   },
 }

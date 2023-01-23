@@ -1,4 +1,6 @@
-export const MuiContainer = {
+import type { PaletteMode } from '@mui/material'
+
+export const getMuiContainer = (mode: PaletteMode) => ({
   styleOverrides: {
     disableGutters: {
       height: '100vh',
@@ -8,10 +10,13 @@ export const MuiContainer = {
       marginRight: 0,
       marginLeft: 0,
       paddingTop: '37px',
-      backgroundImage: "url('/background.png')",
+      backgroundImage:
+        mode === 'dark'
+          ? "url('/background.png')"
+          : "url('/winterBackground.jpg')",
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
       backgroundPositionX: 'center',
     },
   },
-}
+})

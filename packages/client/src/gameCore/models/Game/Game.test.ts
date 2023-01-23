@@ -16,15 +16,18 @@ const opponentData = {
   deck: getRandomUserDeck(COUNT_CARDS_IN_PLAYER_DECK),
 }
 
-const id = '1'
+const id = 1
 
 let game: Game
 
-beforeEach(() => (game = new Game({ userData, opponentData, id })))
+beforeEach(() => {
+  game = new Game({ userData, opponentData })
+  game.setId(id)
+})
 
 test('Game start configuration', () => {
   const gameState = game.getFullState()
-  expect(gameState.id).toBe('1')
+  expect(gameState.id).toBe(1)
 })
 
 test('Game start getDesk', () => {

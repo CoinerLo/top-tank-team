@@ -1,4 +1,5 @@
 import { ElementsCreator } from '../utils/canvasEngine/canvasElement'
+import { CurrentGamer } from './models/Game'
 import { Headquarters } from './models/HeadquartersDeck'
 import { Order } from './models/OrdersDeck'
 import { Platoon } from './models/PlatoonsDeck'
@@ -120,6 +121,10 @@ export type IGamingDesk = {
   [key in GameDeskSegmentKeyType]: Vehicle | null
 }
 
+export type ISaveGamingDesk = {
+  gamingDesk: IGamingDesk
+}
+
 export type VehicleOwnerType = 'user' | 'opponent'
 export interface IVehicle {
   vehicle: Tank | Headquarters
@@ -133,4 +138,47 @@ export interface CardsBattleOnDesk {
   deletedTanks: (Vehicle | null)[]
   isResolveCounterattack: boolean
   isAllowCounterattackDeadTank?: boolean
+}
+
+export interface IGameUserStateSave {
+  name: string
+  headquarters: Headquarters
+  deck: CardsDeckType[]
+  hand: CardsDeckType[]
+  throw: CardsDeckType[]
+  currentCountResources: number
+  futureСountResources: number
+  resourcesSpent: number
+  vehiclesDestroyed: number
+  platoonsDestroyed: number
+  ordersPlayed: number
+}
+
+export interface IGameSave {
+  id: number
+  currentGamer: CurrentGamer
+  UserState: IGameUserStateSave
+  OpponentState: IGameUserStateSave
+  Desk: ISaveGamingDesk
+}
+
+export interface IBuildNewVehicle {
+  cell: GameDeskSegmentKeyType
+  vehicleOwner: VehicleOwnerType
+  vehicle: Headquarters | Tank
+}
+
+export interface ISaveDataVechicle {
+  currentAttackPoints: number
+  currentCounterattackPoints: number
+  currentDamage: number
+  currentHealth: number
+  currentMoves: number
+  maxAttackPoints: number
+  maxCounterattackPoints: number
+  maxHealth: number
+  maxMoves: number
+  skin: ElementsCreator
+  vehicle: Tank | Headquarters
+  vehicleOwner: VehicleOwnerType
 }

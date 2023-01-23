@@ -6,14 +6,15 @@
     "build": "lerna run build",
     "dev:client": "lerna run dev --scope=client",
     "host:client": "lerna run host --scope=client",
-    "build:client": "lerna run build:ssr --scope=client && lerna run build:client --scope=client",
-    "dev:server": "yarn build:client && cp -r packages/client/public packages/server/dist && cp -r packages/client/dist/client/assets packages/server/dist && lerna run dev --scope=server",
+    "build:client": "lerna run build:ssr --scope=client && lerna run build --scope=client",
     "dev": "lerna run dev",
     "test": "lerna run test",
     "lint": "lerna run lint",
     "format": "lerna run format",
     "preview": "lerna run preview",
-    "precommit": "yarn format && yarn lint && yarn test"
+    "precommit": "yarn format && yarn lint && yarn test",
+    "postgres": "docker compose up -d postgres",
+    "link:ssr": "cd packages/client && yarn link && cd ../server && yarn link \"client\""
   },
   "license": "MIT",
   "workspaces": [

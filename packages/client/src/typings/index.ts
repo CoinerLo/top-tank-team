@@ -1,4 +1,4 @@
-import { AuthorizationStatus } from '../utils/consts'
+import { AuthorizationStatus, Themes } from '../utils/consts'
 import { Tank } from '../gameCore/models/TanksDeck'
 import { Game } from '../gameCore/models/Game'
 
@@ -45,6 +45,11 @@ export interface IChangeDataForm {
   phone: string
 }
 
+export interface IChangeDataUser {
+  data: IChangeDataForm
+  databaseId: number
+}
+
 export interface ICardUpgrade {
   name: string
 }
@@ -57,6 +62,8 @@ export interface UserSlice {
     isLoading: boolean
   }
   yandexOAuthId: string
+  databaseId: number
+  theme: Themes
 }
 
 export interface DecksSlice {
@@ -84,4 +91,130 @@ export type DataGameResultType = {
   vehiclesDestroyed: KeyDataGameResultType<number>
   platoonsDestroyed: KeyDataGameResultType<number>
   ordersPlayed: KeyDataGameResultType<number>
+}
+
+export interface ILeaderAll {
+  ratingFieldName: string
+  cursor: number
+  limit: number
+}
+
+export interface ILeaderAdd {
+  data: {
+    name: string
+    ratingTopTank1: number
+  }
+  ratingFieldName: string
+  teamName: string
+}
+
+export type ILeader = Omit<ILeaderAdd, 'ratingFieldName' | 'teamName'>
+
+export interface ILeadersSlice {
+  leaders: Array<ILeader>
+}
+
+export interface RatingCellProps {
+  rating: 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5
+}
+
+export interface ICreateData {
+  name: string
+  rating: RatingCellProps['rating']
+}
+
+export type UserDBType = {
+  firstName: string
+  lastName: string
+  email: string
+}
+
+export type AxiosResponseUserApiType = Record<
+  'databaseUserStatus',
+  number | string
+>
+
+export type AxiosResponseUserThemeApiType = Record<
+  'databaseThemeStatus',
+  string
+>
+
+export type AxiosResponseGameApiType<T> = Record<'databaseGameStatus', T>
+
+export type GameDBType = {
+  id: number
+  game: string
+  gamerId: number
+}
+
+export type AxiosResponseTopicApiType<T extends ITopic | ITopic[]> = Record<
+  'databaseTopicStatus',
+  T
+>
+
+export type AxiosResponseCommentApiType<T extends IComment | IComment[]> =
+  Record<'databaseCommentStatus', T>
+
+export type CreateThemeType = {
+  theme: string
+  ownerId: number
+}
+
+export type UpdateUserDBType = {
+  userData: UserDBType
+  id: number
+}
+
+export type TopicDBType = {
+  title: string
+  authorName: string
+  repliesCount: number
+  lastReplied: string
+  lastRepliedDate: string
+  dateTopic: string
+}
+
+export interface ITopic extends TopicDBType {
+  id: number
+}
+
+export type TopicUpdateDBType = {
+  id: number
+  topicData: TopicDBType
+}
+
+export type CommentDBType = {
+  contextId: number
+  parentId: number
+  postAuthor: string
+  postDate: string
+  comment: string
+}
+
+export interface IComment extends CommentDBType {
+  id: number
+}
+
+export type CommentUpdateDBType = {
+  id: number
+  commentData: CommentDBType
+}
+
+export type PostDBType = {
+  topic: string
+  comment: string
+  authorName: string
+  successCb?: () => void
+}
+
+export type addCommentDBType = {
+  id: number
+  comment: string
+  authorName: string
+  parentId: number
+}
+
+export interface IForumSlice {
+  topics: Array<ITopic>
+  comments: Array<IComment>
 }

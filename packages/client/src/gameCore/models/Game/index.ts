@@ -1,7 +1,7 @@
 import { UserState } from '../UserState'
-import { GameDeskSegmentKeyType, IUserData } from '../../types'
+import { GameDeskSegmentKeyType, IGameSave, IUserData } from '../../types'
 import { Desk } from '../Desk'
-import { getRandomInt, nanoid } from '../../utils'
+import { getRandomInt } from '../../utils'
 import { Tank } from '../TanksDeck'
 import { operationConst, endGameMessage } from '../../consts'
 
@@ -13,11 +13,10 @@ export enum CurrentGamer {
 interface IGame {
   userData: IUserData
   opponentData: IUserData
-  id?: string
 }
 
 export class Game {
-  public id: string
+  public id!: number
   private UserState: UserState
   private OpponentState: UserState
   private isEndGame = false
@@ -26,16 +25,35 @@ export class Game {
   public Desk: Desk
   public currentGamer: CurrentGamer
 
-  constructor({ userData, opponentData, id }: IGame) {
-    this.id = id ?? nanoid()
-    this.UserState = new UserState(userData)
-    this.OpponentState = new UserState(opponentData)
-    this.Desk = new Desk({
-      userHeadquarters: this.UserState.getHeadquarters(),
-      opponentHeadquarters: this.OpponentState.getHeadquarters(),
-    })
-    this.currentGamer =
-      getRandomInt(2) > 0 ? CurrentGamer.user : CurrentGamer.opponent
+  constructor(gameData: IGame | IGameSave) {
+    if (Object.hasOwn(gameData, 'Desk')) {
+      const {
+        Desk: deskSave,
+        OpponentState: opponentStateSave,
+        UserState: userStateSave,
+        currentGamer,
+        id,
+      } = gameData as IGameSave
+      this.id = id
+      this.currentGamer = currentGamer
+      this.UserState = new UserState(userStateSave)
+      this.OpponentState = new UserState(opponentStateSave)
+      this.Desk = new Desk(deskSave)
+    } else {
+      const { userData, opponentData } = gameData as IGame
+      this.UserState = new UserState(userData)
+      this.OpponentState = new UserState(opponentData)
+      this.Desk = new Desk({
+        userHeadquarters: this.UserState.getHeadquarters(),
+        opponentHeadquarters: this.OpponentState.getHeadquarters(),
+      })
+      this.currentGamer =
+        getRandomInt(2) > 0 ? CurrentGamer.user : CurrentGamer.opponent
+    }
+  }
+
+  public setId(id: number) {
+    this.id = id
   }
 
   public getFullState() {
@@ -167,5 +185,15 @@ export class Game {
       this.currentGamer === CurrentGamer.user
         ? CurrentGamer.opponent
         : CurrentGamer.user
+  }
+
+  public saveGame(): IGameSave {
+    return {
+      id: this.id,
+      currentGamer: this.currentGamer,
+      UserState: this.UserState.saveGame(),
+      OpponentState: this.OpponentState.saveGame(),
+      Desk: { gamingDesk: this.Desk.gameSave() },
+    }
   }
 }

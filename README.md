@@ -103,3 +103,15 @@
 
 Если вам понадобится только один сервис, просто уточните какой в команде
 `docker compose up {sevice_name}`, например `docker compose up server`
+
+## Postgres
+Запуск:
+
+    docker compose up postgres
+
+Запуск pgadmin4:
+
+    docker compose up pgadmin
+
+Pgadmin4 запустится на [8080 порту](http://localhost:8080)
+

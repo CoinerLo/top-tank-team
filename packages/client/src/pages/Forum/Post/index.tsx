@@ -5,7 +5,10 @@ import {
   FormControl,
   Link,
   TextField,
+  Typography,
 } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
+import { useParams } from 'react-router-dom'
 import { PostComment } from '../../../components/Forum/Comment/PostComment'
 import {
   Controller,
@@ -13,9 +16,15 @@ import {
   useForm,
   useFormState,
 } from 'react-hook-form'
-import { comments } from './mockData'
 import { AppRoute } from '../../../utils/consts'
 import { NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useAppDispatch, useAppselector } from '../../../hooks'
+import {
+  addCommentInDBThunk,
+  commentsByTopicInDBThunk,
+} from '../../../store/api-thunks'
+import { IComment } from '../../../typings'
 
 const containerStyles = {
   display: 'flex',
@@ -30,7 +39,20 @@ interface ICommentData {
 }
 
 export const PostPage = () => {
-  const { handleSubmit, control } = useForm<ICommentData>({
+  const dispatch = useAppDispatch()
+
+  const forum = useAppselector(({ FORUM }) => FORUM)
+  const { login: authorName } = useAppselector(({ USER }) => USER.currentUser)
+  const [parentId, setParentId] = useState(0)
+  const { postId } = useParams()
+
+  const id = postId ? +postId : 0
+
+  useEffect(() => {
+    dispatch(commentsByTopicInDBThunk(id))
+  }, [])
+
+  const { handleSubmit, control, reset } = useForm<ICommentData>({
     mode: 'onBlur',
     reValidateMode: 'onChange',
   })
@@ -39,7 +61,11 @@ export const PostPage = () => {
   })
 
   const handleSubmitCommentData: SubmitHandler<ICommentData> = async data => {
-    console.log(data)
+    const { comment } = data
+    await dispatch(addCommentInDBThunk({ id, comment, parentId, authorName }))
+    setParentId(0)
+    dispatch(commentsByTopicInDBThunk(+id))
+    reset()
   }
 
   return (
@@ -56,17 +82,56 @@ export const PostPage = () => {
         К списку постов
       </Link>
       <Box width="90%" padding="30px" paddingTop={0}>
-        {comments.map(el => (
-          <Box key={el.id} mb="10px">
-            <PostComment
-              {...el}
-              replyCb={commentId => {
-                console.log(commentId)
+        {forum.comments.map(
+          ({
+            comment,
+            contextId,
+            id,
+            parentId,
+            postAuthor,
+            postDate,
+          }: IComment) => (
+            <Box key={id} mb="10px">
+              <PostComment
+                id={id}
+                comment={comment}
+                contextId={contextId}
+                parentId={parentId}
+                postAuthor={postAuthor}
+                postDate={postDate}
+                replyCb={setParentId}
+                comments={forum.comments}
+              />
+            </Box>
+          )
+        )}
+        {parentId > 0 && (
+          <Box
+            display="flex"
+            mb="-20px"
+            border="1px solid #fff"
+            borderBottom={0}
+            width="max-content"
+            ml="10px">
+            <Typography>
+              {`Ответ на комментарий: <<${forum.comments
+                .find(el => el.id === parentId)
+                ?.comment.slice(0, 15)}>>`}
+            </Typography>
+            <Button
+              sx={{
+                background: 'transparent',
+                height: '20px',
               }}
-              comments={comments}
-            />
+              size="small"
+              variant="sub"
+              onClick={() => {
+                setParentId(0)
+              }}>
+              <CloseIcon fontSize="small" />
+            </Button>
           </Box>
-        ))}
+        )}
         <FormControl
           component="form"
           onSubmit={handleSubmit(handleSubmitCommentData)}
@@ -86,7 +151,12 @@ export const PostPage = () => {
             render={({ field }) => (
               <TextField
                 label="Комменнтарий"
-                onChange={e => field.onChange(e)}
+                onChange={e => {
+                  field.onChange(e)
+                  if (parentId && field.value && field.value.length === 0) {
+                    setParentId(0)
+                  }
+                }}
                 onBlur={() => field.onBlur()}
                 value={field.value || ''}
                 sx={{

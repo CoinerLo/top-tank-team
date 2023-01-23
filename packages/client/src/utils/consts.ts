@@ -1,4 +1,5 @@
 export const BASE_URL = 'https://ya-praktikum.tech/api/v2/'
+export const SERVER_URL = `http://localhost:${__SERVER_PORT__}/`
 
 export enum AppRoute {
   Index = '/',
@@ -55,6 +56,8 @@ export enum NameSpace {
   User = 'USER',
   Decks = 'DECKS',
   Game = 'GAME',
+  Leaders = 'LEADERS',
+  Forum = 'FORUM',
 }
 
 const fieldsIconPath = '/cards/images/fields/'
@@ -168,4 +171,18 @@ export const rowsResultGameData = {
   vehiclesDestroyed: 'Уничтожено техники противника',
   platoonsDestroyed: 'Уничтожено взводов противника',
   ordersPlayed: 'Разыграно приказов',
+}
+
+// названия рейтинга и команды для таблицы лидеров для yandexAPI; тело запроса лидеров
+export const ratingFieldName = 'ratingTopTank1'
+export const teamName = 'topTank1'
+export const dataGetAllLeaderThunk = {
+  ratingFieldName,
+  cursor: 0,
+  limit: 10,
+}
+
+export enum Themes {
+  light = 'light',
+  dark = 'dark',
 }

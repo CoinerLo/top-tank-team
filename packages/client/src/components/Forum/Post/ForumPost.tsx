@@ -1,14 +1,16 @@
 import { Box, Link, Typography } from '@mui/material'
 import { FC } from 'react'
 import { NavLink } from 'react-router-dom'
+import { humanizeDate } from '../../../utils/dataFormat'
 
 interface ForumThemeProps {
-  id: string
+  id: number
   title: string
   repliesCount: number
   authorName: string
   lastReplied: string
   lastRepliedDate: string
+  dateTopic: string
 }
 
 export const ForumPost: FC<ForumThemeProps> = ({
@@ -19,12 +21,15 @@ export const ForumPost: FC<ForumThemeProps> = ({
   lastRepliedDate,
   id,
 }) => {
+  const correctDate = new Date(lastRepliedDate.replace(/"/g, ''))
+  const humanizedDate = humanizeDate(correctDate)
+
   return (
     <Box display="flex" borderBottom="1px solid grey" padding="10px">
       <Box display="flex" flexDirection="column" width="100%">
         <Link
           component={NavLink}
-          to={id}
+          to={id.toString()}
           marginBottom="5px"
           width="max-content"
           sx={{
@@ -53,7 +58,7 @@ export const ForumPost: FC<ForumThemeProps> = ({
           borderLeft: '1px solid grey',
         }}>
         <Typography>{lastReplied}</Typography>
-        <Typography>{lastRepliedDate}</Typography>
+        <Typography>{humanizedDate}</Typography>
       </Box>
     </Box>
   )
