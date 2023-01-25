@@ -1,5 +1,6 @@
 {
   "name": "top-tank-team",
+  "private": true,
   "scripts": {
     "bootstrap": "yarn && node init.js && lerna clean && yarn && lerna bootstrap",
     "build": "yarn build:client && yarn link:ssr && lerna run build --scope=server",
