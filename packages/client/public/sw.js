@@ -23,8 +23,9 @@ this.addEventListener('activate', event => {
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames
-          .filter(name => {
+          .filter(_name => {
             /* Нужно вернуть true, если хотите удалить этот файл из кеша совсем */
+            return false
           })
           .map(name => caches.delete(name))
       )
