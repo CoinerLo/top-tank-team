@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "bootstrap": "yarn && node init.js && lerna clean && yarn && lerna bootstrap",
-    "build": "lerna run build",
+    "build": "yarn build:client && yarn link:ssr && lerna run build --scope=server",
     "dev:client": "lerna run dev --scope=client",
     "host:client": "lerna run host --scope=client",
     "build:client": "lerna run build:ssr --scope=client && lerna run build --scope=client",
@@ -14,7 +14,8 @@
     "preview": "lerna run preview",
     "precommit": "yarn format && yarn lint && yarn test",
     "postgres": "docker compose up -d postgres",
-    "link:ssr": "cd packages/client && yarn link && cd ../server && yarn link \"client\""
+    "link:ssr": "cd packages/client && yarn link && cd ../server && yarn link \"client\"",
+    "start:dev": "yarn build && yarn postgres && lerna run dev --scope=server"
   },
   "license": "MIT",
   "workspaces": [

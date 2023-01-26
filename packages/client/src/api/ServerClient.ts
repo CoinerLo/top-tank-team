@@ -1,8 +1,7 @@
 import axios from 'axios'
-import { SERVER_URL } from '../utils/consts'
 
 export const ServerClient = axios.create({
-  baseURL: SERVER_URL,
+  baseURL: __SERVER_URL__,
   withCredentials: true,
   headers: {
     accept: 'application/json',
