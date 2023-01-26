@@ -28,11 +28,9 @@ export const SignInContainer = () => {
 
   useEffect(() => {
     const codeYandexOAuth = searchParams.get('code')
-    const redirect_uri =
-      window.location.protocol +
-      '//' +
-      window.location.host +
-      window.location.pathname
+    const { protocol, host, pathname, href } = window.location
+    const redirect_uri = `${protocol}//${host}${pathname}`
+
     if (codeYandexOAuth && !isAuthorized) {
       const data = {
         code: `${codeYandexOAuth}`,
@@ -41,7 +39,7 @@ export const SignInContainer = () => {
       dispatch(signinYandexThunk(data))
       setSearchParams('')
     } else if (!isAuthorized) {
-      dispatch(getYandexIdThunk(`${window.location.href}`))
+      dispatch(getYandexIdThunk(href))
     }
   }, [])
 
