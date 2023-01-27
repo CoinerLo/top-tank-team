@@ -11,7 +11,7 @@ import express from 'express'
 import { dbConnect } from './db'
 import router from './router'
 
-import helmet from 'helmet'
+// import helmet from 'helmet'
 // import { v4 as uuidv4} from 'uuid'
 
 const isDev = () => process.env.NODE_ENV === 'development'
@@ -25,23 +25,23 @@ async function startServer() {
   //   res.locals.styleNonce = Buffer.from(uuidv4()).toString('base64')
   //   next()
   // })
-  app.use(
-    helmet.contentSecurityPolicy({
-      useDefaults: false,
-      directives: {
-        'default-src': [
-          "'self'",
-          'https://ya-praktikum.tech',
-          'wss://ya-praktikum.tech',
-          'ws://localhost:*',
-          "'unsafe-inline'",
-          'http://localhost:*',
-        ],
-        'script-src': ["'self'", "'unsafe-eval'", "'unsafe-inline'"],
-        // styleSrc: ["'self'", (_req, res) => `'nonce-${(res as Response).locals.styleNonce}'`]
-      },
-    })
-  )
+  // app.use(
+  //   helmet.contentSecurityPolicy({
+  //     useDefaults: false,
+  //     directives: {
+  //       'default-src': [
+  //         "'self'",
+  //         'https://ya-praktikum.tech',
+  //         'wss://ya-praktikum.tech',
+  //         'ws://localhost:*',
+  //         "'unsafe-inline'",
+  //         'http://localhost:*',
+  //       ],
+  //       'script-src': ["'self'", "'unsafe-eval'", "'unsafe-inline'"],
+  //       // styleSrc: ["'self'", (_req, res) => `'nonce-${(res as Response).locals.styleNonce}'`]
+  //     },
+  //   })
+  // )
   app.use(express.urlencoded({ extended: false }))
   app.use(express.json())
   app.use(cors())
@@ -92,6 +92,7 @@ async function startServer() {
       let render: (url: string) => Promise<{
         html: string
         css: string
+        nonce: string
         // store: unknown
       }>
 
@@ -106,14 +107,19 @@ async function startServer() {
           .render
       }
 
-      const appHtml = await render(url)
+      const { html: appHtml, css, nonce } = await render(url)
 
       // const storeString = JSON.stringify(appHtml.store).replace(/</g, '\\u003c')
 
       const html = template
-        .replace(`<!--ssr-outlet-->`, appHtml.html)
-        .replace('<!--css-outlet-->', appHtml.css)
+        .replace(`<!--ssr-outlet-->`, appHtml)
+        .replace('<!--css-outlet-->', css)
       // .replace('ssr-store', storeString)
+
+      res.setHeader(
+        'Content-Security-Policy',
+        `default-src 'self'; style-src 'self' 'nonce-${nonce}';`
+      )
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {

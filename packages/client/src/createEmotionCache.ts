@@ -1,8 +1,10 @@
 import createCache from '@emotion/cache'
+import { v4 as uuidv4 } from 'uuid'
 
 const isBrowser = typeof document !== 'undefined'
 
 export default function createEmotionCache() {
+  const nonce = Buffer.alloc(64, uuidv4()).toString('base64')
   let insertionPoint
 
   if (isBrowser) {
@@ -12,5 +14,14 @@ export default function createEmotionCache() {
     insertionPoint = emotionInsertionPoint ?? undefined
   }
 
-  return createCache({ key: 'css', insertionPoint })
+  const cache = createCache({
+    key: 'css',
+    insertionPoint,
+    nonce,
+    prepend: true,
+  })
+
+  return { cache, nonce }
 }
+
+export const { cache, nonce } = createEmotionCache()
