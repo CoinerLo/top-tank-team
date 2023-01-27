@@ -119,12 +119,11 @@ async function startServer() {
               "'self'",
               // "'unsafe-eval'",
               // "'unsafe-inline'"
-          ],
-            styleSrc: ["'self'", (_req, _res) => `'nonce-${nonce}'`]
+            ],
+            styleSrc: ["'self'", (_req, _res) => `'nonce-${nonce}'`],
           },
         })
       )
-
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
