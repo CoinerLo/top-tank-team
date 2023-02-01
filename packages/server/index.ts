@@ -6,13 +6,9 @@ import path from 'path'
 import fs from 'fs'
 dotenv.config({ path: '../../.env' })
 
-// import express, { Response } from 'express'
 import express from 'express'
 import { dbConnect } from './db'
 import router from './router'
-
-// import helmet from 'helmet'
-// import { v4 as uuidv4} from 'uuid'
 
 const isDev = () => process.env.NODE_ENV === 'development'
 
@@ -20,28 +16,7 @@ async function startServer() {
   await dbConnect(isDev())
 
   const app = express()
-  // app.use((_req, res, next) => {
-  //   // nonce should be base64 encoded
-  //   res.locals.styleNonce = Buffer.from(uuidv4()).toString('base64')
-  //   next()
-  // })
-  // app.use(
-  //   helmet.contentSecurityPolicy({
-  //     useDefaults: false,
-  //     directives: {
-  //       'default-src': [
-  //         "'self'",
-  //         'https://ya-praktikum.tech',
-  //         'wss://ya-praktikum.tech',
-  //         'ws://localhost:*',
-  //         "'unsafe-inline'",
-  //         'http://localhost:*',
-  //       ],
-  //       'script-src': ["'self'", "'unsafe-eval'", "'unsafe-inline'"],
-  //       // styleSrc: ["'self'", (_req, res) => `'nonce-${(res as Response).locals.styleNonce}'`]
-  //     },
-  //   })
-  // )
+
   app.use(express.urlencoded({ extended: false }))
   app.use(express.json())
   app.use(cors())
@@ -93,7 +68,6 @@ async function startServer() {
         html: string
         css: string
         nonce: string
-        // store: unknown
       }>
 
       if (!isDev()) {
@@ -109,16 +83,17 @@ async function startServer() {
 
       const { html: appHtml, css, nonce } = await render(url)
 
-      // const storeString = JSON.stringify(appHtml.store).replace(/</g, '\\u003c')
-
       const html = template
         .replace(`<!--ssr-outlet-->`, appHtml)
         .replace('<!--css-outlet-->', css)
-      // .replace('ssr-store', storeString)
+        .replace(
+          '<script type="module">',
+          `<script type="module" nonce="${nonce}">`
+        )
 
       res.setHeader(
         'Content-Security-Policy',
-        `default-src 'self'; style-src 'self' 'nonce-${nonce}';`
+        `default-src 'self' http://localhost:* https://ya-praktikum.tech; script-src 'self' 'unsafe-eval' https://ya-praktikum.tech 'nonce-${nonce}'; style-src 'self' 'unsafe-inline'; connect-src ws://localhost:* https://ya-praktikum.tech http://localhost:*; font-src 'self' data:;`
       )
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
