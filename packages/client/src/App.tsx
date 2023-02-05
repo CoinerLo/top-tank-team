@@ -18,7 +18,7 @@ import { PrivateRoute } from './hocs/PrivateRoute/PrivateRoute'
 import { GameDeskContainer } from './containers/GameDeskContainer'
 import { LoadingScreen } from './components/LoadingScreen/LoadingScreen'
 import { useAppDispatch, useAppselector } from './hooks'
-import createEmotionCache from './createEmotionCache'
+import { cache } from './createEmotionCache'
 import { CacheProvider } from '@emotion/react'
 import { GameResultContainer } from './containers/GameResultContainer'
 import { useEffect, useMemo } from 'react'
@@ -67,8 +67,6 @@ function App() {
   )
 
   const mainTheme = useMemo(() => createTheme(getMainTheme(theme)), [theme])
-
-  const cache = createEmotionCache()
 
   return (
     <ColorModeContext.Provider value={colorMode}>

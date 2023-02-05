@@ -16,6 +16,7 @@ async function startServer() {
   await dbConnect(isDev())
 
   const app = express()
+
   app.use(express.urlencoded({ extended: false }))
   app.use(express.json())
   app.use(cors())
@@ -66,7 +67,7 @@ async function startServer() {
       let render: (url: string) => Promise<{
         html: string
         css: string
-        // store: unknown
+        nonce: string
       }>
 
       if (!isDev()) {
@@ -80,14 +81,20 @@ async function startServer() {
           .render
       }
 
-      const appHtml = await render(url)
-
-      // const storeString = JSON.stringify(appHtml.store).replace(/</g, '\\u003c')
+      const { html: appHtml, css, nonce } = await render(url)
 
       const html = template
-        .replace(`<!--ssr-outlet-->`, appHtml.html)
-        .replace('<!--css-outlet-->', appHtml.css)
-      // .replace('ssr-store', storeString)
+        .replace(`<!--ssr-outlet-->`, appHtml)
+        .replace('<!--css-outlet-->', css)
+        .replace(
+          '<script type="module">',
+          `<script type="module" nonce="${nonce}">`
+        )
+
+      res.setHeader(
+        'Content-Security-Policy',
+        `default-src 'self' ${process.env.SERVER_URL} https://ya-praktikum.tech; script-src 'self' 'unsafe-eval' https://ya-praktikum.tech 'nonce-${nonce}'; style-src 'self' 'unsafe-inline'; connect-src ws://localhost:* https://ya-praktikum.tech ${process.env.SERVER_URL}; font-src 'self' data:;`
+      )
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
