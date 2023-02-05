@@ -35,7 +35,7 @@ export const SignIn: FC<ISignIn> = ({ handleSubmitSignInData }) => {
   })
   const { isAuthorized } = useAuthorizationStatus()
   const { yandexOAuthId } = useAppselector(({ USER }) => USER)
-  const yandexOAuthUrl = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yandexOAuthId}&redirect_uri=http://localhost:3000/signin`
+  const yandexOAuthUrl = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yandexOAuthId}&redirect_uri=${__REDIRECT_URI__}/signin`
 
   if (isAuthorized) {
     return <Navigate to={`/${AppRoute.Headquarters}`} />

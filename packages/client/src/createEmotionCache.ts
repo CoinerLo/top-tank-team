@@ -4,8 +4,11 @@ import { Buffer } from 'buffer'
 
 const isBrowser = typeof document !== 'undefined'
 
+const isBrowser = typeof document !== 'undefined'
+
 export default function createEmotionCache() {
   const nonce = Buffer.alloc(64, uuidv4()).toString('base64')
+
   let insertionPoint
 
   if (isBrowser) {
