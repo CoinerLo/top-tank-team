@@ -19,7 +19,7 @@ import { useAuthorizationStatus } from '../../hooks/useAuthorizationStatus'
 import { ISignInData } from '../../typings'
 import { AppRoute } from '../../utils/consts'
 import { loginValidation, passwordValidation } from '../../utils/validation'
-import { useAppselector } from '../../hooks'
+// import { useAppselector } from '../../hooks'
 
 interface ISignIn {
   handleSubmitSignInData: SubmitHandler<ISignInData>
@@ -34,8 +34,13 @@ export const SignIn: FC<ISignIn> = ({ handleSubmitSignInData }) => {
     control,
   })
   const { isAuthorized } = useAuthorizationStatus()
-  const { yandexOAuthId } = useAppselector(({ USER }) => USER)
-  const yandexOAuthUrl = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yandexOAuthId}&redirect_uri=${__REDIRECT_URI__}/signin`
+
+  // Из-за переезда с облака Яндекса на свой арендованный vpn
+  // некоторые функции приложения пришлось программно отключить
+  // вернем их в работу при продолжении работ над приложением
+
+  // const { yandexOAuthId } = useAppselector(({ USER }) => USER)
+  //const yandexOAuthUrl = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${yandexOAuthId}&redirect_uri=${__REDIRECT_URI__}/signin`
 
   if (isAuthorized) {
     return <Navigate to={`/${AppRoute.Headquarters}`} />
@@ -54,7 +59,7 @@ export const SignIn: FC<ISignIn> = ({ handleSubmitSignInData }) => {
         sx={{ alignSelf: 'center', marginBottom: '25px' }}>
         Вход
       </Typography>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      {/* <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Typography sx={{ marginRight: '5px' }}>Авторизация через:</Typography>
         <Link href={yandexOAuthUrl} mt="6px">
           <Box
@@ -64,7 +69,7 @@ export const SignIn: FC<ISignIn> = ({ handleSubmitSignInData }) => {
             sx={{ height: '30px' }}
           />
         </Link>
-      </Box>
+      </Box> */}
       <FormControl
         component="form"
         onSubmit={handleSubmit(handleSubmitSignInData)}

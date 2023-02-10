@@ -21,22 +21,26 @@ ReactDOM.hydrateRoot(
   </ErrorBoundary>
 )
 
-function startServiceWorker() {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker
-        .register('./sw.js')
-        .then(registration => {
-          console.log(
-            'ServiceWorker registration successful with scope: ',
-            registration.scope
-          )
-        })
-        .catch((error: string) => {
-          console.log('ServiceWorker registration failed: ', error)
-        })
-    })
-  }
-}
+// Из-за переезда с облака Яндекса на свой арендованный vpn
+// некоторые функции приложения пришлось программно отключить
+// вернем их в работу при продолжении работ над приложением
 
-startServiceWorker()
+// function startServiceWorker() {
+//   if ('serviceWorker' in navigator) {
+//     window.addEventListener('load', () => {
+//       navigator.serviceWorker
+//         .register('./sw.js')
+//         .then(registration => {
+//           console.log(
+//             'ServiceWorker registration successful with scope: ',
+//             registration.scope
+//           )
+//         })
+//         .catch((error: string) => {
+//           console.log('ServiceWorker registration failed: ', error)
+//         })
+//     })
+//   }
+// }
+
+// startServiceWorker()
