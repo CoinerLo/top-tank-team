@@ -93,7 +93,7 @@ async function startServer() {
 
       res.setHeader(
         'Content-Security-Policy',
-        `default-src 'self' ${process.env.SERVER_URL} https://ya-praktikum.tech; script-src 'self' 'unsafe-eval' https://ya-praktikum.tech 'nonce-${nonce}'; style-src 'self' 'unsafe-inline'; connect-src http://localhost:* ws://localhost:* https://ya-praktikum.tech ${process.env.SERVER_URL}; font-src 'self' data:;`
+        `default-src 'self' ${process.env.SERVER_URL} https://ya-praktikum.tech data:; script-src 'self' 'unsafe-eval' https://ya-praktikum.tech 'nonce-${nonce}'; style-src 'self' 'unsafe-inline'; connect-src http://localhost:* ws://localhost:* https://ya-praktikum.tech ${process.env.SERVER_URL}; font-src 'self' data:;`
       )
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
